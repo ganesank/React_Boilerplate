@@ -9,6 +9,8 @@
     - [CSS/SASS](#csssass)
     - [Index.html](#indexhtml)
       - [Manifest](#manifest)
+    - [Components](#components)
+      - [Navbar](#navbar)
     - [Utils](#utils)
       - [Types](#types)
       - [Requests](#requests)
@@ -67,13 +69,14 @@
 - Create folder and files, remove files
 
   ```Bash
-    touch -n src/assets
+    touch -n src/assets/fonts
     touch -n src/css/styles.sass
-    touch -n src/css/1-base/_reset.sass
-    touch -n src/css/1-base/_variables.sass
-    touch -n src/css/2-helpers/_animations.sass
-    touch -n src/css/2-helpers/_functions.sass
-    touch -n src/css/2-helpers/_mixins.sass
+    touch -n src/css/1-helpers/_animations.sass
+    touch -n src/css/1-helpers/_functions.sass
+    touch -n src/css/1-helpers/_mixins.sass
+    touch -n src/css/2-base/_fonts.sass
+    touch -n src/css/2-base/_reset.sass
+    touch -n src/css/2-base/_variables.sass
     touch -n src/css/3-components/_form-login.sass
     touch -n src/css/3-components/_form-signup.sass
     touch -n src/css/3-components/_navbar.sass
@@ -82,7 +85,7 @@
     touch -n src/utils/api/apiService.ts + requestService.ts + tokenService.ts
     touch -n src/utils/@types/types.ts
     touch -n src/store.ts
-    touch -n src/components/Header.tsx + FormLogin.tsx + FormSignUp.tsx
+    touch -n src/components/Header.tsx + FormLogin.tsx + FormSignUp.tsx + Footer.tsx
     rm src/logo.svg src/setupTests.ts src/App.test.tsx src/index.css src/App.css public/logo192.png public/logo512.png
   ```
 
@@ -123,39 +126,44 @@
 
 [Go Back to Contents](#contents)
 
-- in `src/css/1-base/_reset.sass`
+- in `src/css/1-helpers/_mixins.sass`
 
   ```SCSS
-    *,
-    *::before,
-    *::after
-      margin: 0
-      padding: 0
-      box-sizing: border-box
+    @mixin abs-center($x: -50%, $y: -50%)
+      position: absolute
+      top: 50%
+      left: 50%
+      transform: translate($x, $y)
 
-    html
-      height: 100vh
-      width: 100vw
+    @mixin mq-manager($breakpoint)
+      @if $breakpoint == phone
+        @media (max-width: 37.5em) //! 600px
+          @content
 
-    body,
-    #root
-      height: 100%
-      width: 100%
-      font-family: sans-serif
-      font-weight: 400
-      font-size: 1.6rem
-      line-height: 1
-      font-size: 62.5%
+        @if $breakpoint == tab-port
+          @media (max-width: 56.25em) //! 900px
+            @content
+
+        @if $breakpoint == tab-land
+          @media (max-width: 75em) //! 1200px
+            @content
+
+        @if $breakpoint == desk
+          @media (max-width: 112.5em) //! 1800px
+            @content
+
+    @mixin google-font($family)
+      @import url("http://fonts.googleapis.com/css?family=#{$family}")
   ```
 
-- in `src/css/1-base/_variables.sass`
+- in `src/css/1-helpers/_functions.sass`
 
   ```SCSS
-    $color-black: rgb(0,0,0)
-    $color-white: rgb(255,255,255)
+    @function resize($original, $percent)
+      @return $original * $percent * 1rem
   ```
 
-- in `src/css/2-helpers/_animations.sass`
+- in `src/css/1-helpers/_animations.sass`
 
   ```SCSS
     @keyframes move-in-from-left
@@ -195,31 +203,67 @@
         transform: translate(0)
   ```
 
-- in `src/css/2-helpers/_mixins.sass`
+- in `src/css/2-base/_reset.sass`
 
   ```SCSS
-    @mixin abs-center($x: -50%, $y: -50%)
-      position: absolute
-      top: 50%
-      left: 50%
-      transform: translate($x, $y)
+    *,
+    *::before,
+    *::after
+      margin: 0
+      padding: 0
+      box-sizing: border-box
 
-    @mixin mq-manager($breakpoint)
-      @if $breakpoint == phone
-        @media (max-width: 37.5em) //! 600px
-          @content
+    html
+      height: 100vh
+      width: 100vw
 
-        @if $breakpoint == tab-port
-          @media (max-width: 56.25em) //! 900px
-            @content
+    body,
+    #root
+      height: 100%
+      width: 100%
+      font-family: sans-serif
+      font-weight: 400
+      line-height: 1
+      font-size: 62.5%
 
-        @if $breakpoint == tab-land
-          @media (max-width: 75em) //! 1200px
-            @content
+    .app
+      height: 100%
+      display: flex
+      flex-direction: column
+      align-items: center
+  ```
 
-        @if $breakpoint == desk
-          @media (max-width: 112.5em) //! 1800px
-            @content
+- in `src/css/2-base/_fonts.sass`
+
+  ```SCSS
+    //! Import from url
+    @include google-font("Pacifico")
+
+    //! Import from local
+    @font-face
+      font-family: 'PressStart2P-Regular'
+      font-weight: 400
+      src: url('../assets/fonts/PressStart2P-Regular.ttf') format('opentype')
+  ```
+
+- in `src/css/2-base/_variables.sass`
+
+  ```SCSS
+    $color-primary: rgb(55,90,128)
+    $color-primary-dark: rgb(37, 61, 87)
+    $color-secondary: rgb(48,48,48)
+    $color-secondary-dark: rgb(41, 41, 41)
+
+    $color-black: #0e0e0e
+    $color-white: rgb(255,255,255)
+
+    $colo-success: rgb(0,188,140)
+    $color-info: rgb(52,152,219)
+    $color-warning: rgb(243,156,18)
+    $color-danger: rgb(231,76,59)
+
+    $default-font-size: 1rem
+    $default-page-size: 110rem
   ```
 
 ### Index.html
@@ -274,6 +318,77 @@
       "theme_color": "#000000",
       "background_color": "#ffffff"
     }
+  ```
+
+### Components
+
+#### Navbar
+
+[Go Back to Contents](#contents)
+
+- in `src/components/Navbar.tsx`
+
+  ```TypeScript
+    import React, { MouseEvent } from 'react';
+    import { Link, useHistory } from 'react-router-dom';
+    import { useSelector, useDispatch, RootStateOrAny } from 'react-redux';
+
+    import { logoutUser } from '../redux/user';
+
+    const Navbar: React.FC = () => {
+        const user = useSelector((state: RootStateOrAny) => state.user);
+        const dispatch = useDispatch();
+        const history = useHistory();
+
+        const handleLogout = (e: MouseEvent) => {
+            e.preventDefault();
+            dispatch(logoutUser());
+            history.push('/');
+        };
+
+        const menu =
+            user && user.firstName ? (
+                <ul className="navbar__list">
+                    <li className="navbar__item">
+                        <Link className="navbar__link" to="/">
+                            Home
+                        </Link>
+                    </li>
+                    <li className="navbar__item">
+                        <a className="navbar__link" href="/" onClick={handleLogout}>
+                            Log Out
+                        </a>
+                    </li>
+                </ul>
+            ) : (
+                <ul className="navbar__list">
+                    <li className="navbar__item">
+                        <Link className="navbar__link" to="/">
+                            Home
+                        </Link>
+                    </li>
+                    <li className="navbar__item">
+                        <Link className="navbar__link" to="/login">
+                            Login
+                        </Link>
+                    </li>
+                    <li className="navbar__item">
+                        <Link className="navbar__link" to="/signup">
+                            Sign Up
+                        </Link>
+                    </li>
+                </ul>
+            );
+
+        return (
+            <div className="navbar">
+                <div className="navbar__logo">Roger Takeshita</div>
+                <div className="navbar__menu-container">{menu}</div>
+            </div>
+        );
+    };
+
+    export default Navbar;
   ```
 
 ### Utils
@@ -477,12 +592,12 @@
     import * as reqService from '../utils/api/requestService';
     import * as type from '../utils/@types/types';
 
-    const REMOVE_USER: string = 'REMOVE_USER';
+    const LOGOUT_USER: string = 'LOGOUT_USER';
     const LOGIN_USER: string = 'LOGIN_USER';
     const URL: string = 'http://localhost:3001/api/users';
 
-    export const removeUser = () => ({
-        type: REMOVE_USER,
+    export const logoutUser = () => ({
+        type: LOGOUT_USER,
     });
 
     export const loginUser = (data: type.LoginForm) => {
@@ -525,7 +640,7 @@
         switch (action.type) {
             case LOGIN_USER:
                 return tokenService.getUserFromToken();
-            case REMOVE_USER:
+            case LOGOUT_USER:
                 tokenService.removeToken();
                 return null;
             default:

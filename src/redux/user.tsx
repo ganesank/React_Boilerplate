@@ -5,12 +5,12 @@ import * as tokenService from '../utils/api/tokenService';
 import * as reqService from '../utils/api/requestService';
 import * as type from '../utils/@types/types';
 
-const REMOVE_USER: string = 'REMOVE_USER';
+const LOGOUT_USER: string = 'LOGOUT_USER';
 const LOGIN_USER: string = 'LOGIN_USER';
 const URL: string = 'http://localhost:3001/api/users';
 
-export const removeUser = () => ({
-    type: REMOVE_USER,
+export const logoutUser = () => ({
+    type: LOGOUT_USER,
 });
 
 export const loginUser = (data: type.LoginForm) => {
@@ -53,7 +53,7 @@ function userReducer(
     switch (action.type) {
         case LOGIN_USER:
             return tokenService.getUserFromToken();
-        case REMOVE_USER:
+        case LOGOUT_USER:
             tokenService.removeToken();
             return null;
         default:

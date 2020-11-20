@@ -20,3 +20,6 @@
     @if $breakpoint == desk
       @media (max-width: 112.5em) //! 1800px
         @content
+
+@mixin google-font($family)
+  @import url("http://fonts.googleapis.com/css?family=#{$family}")

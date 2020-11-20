@@ -1,0 +1,46 @@
+.navbar
+  display: flex
+  background-color: $color-primary
+  height: 3rem
+  width: 100%
+  max-width: $default-page-size
+  box-shadow: 0 0.5rem 1rem rgba($color-black, 0.5)
+
+  &__logo
+    height: 100%
+    font-size: 1.5rem
+    color: $color-white
+    font-weight: bolder
+    font-family: Pacifico, PressStart2P-Regular, sans-serif
+    display: flex
+    align-items: center
+    margin: 0 1rem
+    white-space: nowrap
+  &__menu-container
+    height: 100%
+    display: flex
+    flex: 1
+    justify-content: flex-end
+    margin: 0 1rem
+  &__list
+    height: 100%
+    display: flex
+    align-items: center
+  &__item
+    height: 100%
+    list-style: none
+    display: flex
+    align-items: center
+    cursor: pointer
+  &__link
+    height: 100%
+    display: flex
+    align-items: center
+    text-decoration: none
+    color: rgba($color-white, 0.5)
+    font-size: $default-font-size
+    white-space: nowrap
+    padding: 0 1.5rem
+    &:hover
+      background-color: $color-primary-dark
+      color: $color-white
