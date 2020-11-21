@@ -2,7 +2,7 @@ import React, { FormEvent, useState, ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
 import * as type from '../utils/@types/types';
 
-const FormLogin: React.FC<type.FormComponentProps> = ({ onSubmit }) => {
+const FormLogin: React.FC<type.FormLoginComponentProps> = ({ onSubmit }) => {
     const initialState: type.LoginForm = {
         email: '',
         password: '',
@@ -56,7 +56,7 @@ const FormLogin: React.FC<type.FormComponentProps> = ({ onSubmit }) => {
                         autoComplete="current-password"
                     />
                     <label
-                        htmlFor="Password"
+                        htmlFor="password"
                         className="form-login-signup__label"
                     >
                         Password

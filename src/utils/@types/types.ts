@@ -11,8 +11,12 @@ export type SignupForm = {
     confirmPassword: string;
 };
 
-export type FormComponentProps = {
+export type FormLoginComponentProps = {
     onSubmit: (data: LoginForm) => void;
+};
+
+export type FormSignUpComponentProps = {
+    onSubmit: (data: SignupForm) => void;
 };
 
 export type ErrorMsgComponentProps = {

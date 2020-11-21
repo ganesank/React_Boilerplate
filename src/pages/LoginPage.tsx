@@ -1,5 +1,5 @@
-import React, { MouseEvent, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import * as type from '../utils/@types/types';
 
 import { loginUser } from '../redux/user';
@@ -25,7 +25,6 @@ const LoginPage: React.FC = () => {
 
     return (
         <div>
-            <h1>LoginPage</h1>
             <FormLogin onSubmit={handleSubmit} />
             <ErrorMsg errorMsg={error} cleanErrorMsg={cleanErrorMsg} />
         </div>
