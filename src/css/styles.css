@@ -368,7 +368,6 @@ h3 {
 }
 
 .btn:hover {
-  background-color: rgba(52, 152, 219, 0.8);
   -webkit-transform: translateZ(1rem) scale(1.1);
           transform: translateZ(1rem) scale(1.1);
   -webkit-box-shadow: 0.3rem 0.3rem 0.3rem rgba(14, 14, 14, 0.3);
@@ -381,6 +380,11 @@ h3 {
 
 .btn--warning:hover {
   background-color: rgba(243, 156, 18, 0.8);
+}
+
+.btn--disabled {
+  cursor: not-allowed;
+  background-color: #cccccc;
 }
 
 .footer {

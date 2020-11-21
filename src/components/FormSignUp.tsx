@@ -28,6 +28,17 @@ const FormSignUp: React.FC<type.FormSignUpComponentProps> = ({ onSubmit }) => {
         });
     };
 
+    const isFormValid = (): boolean => {
+        return !(
+            form.firstName.trim() !== '' &&
+            form.lastName.trim() !== '' &&
+            form.email.trim() !== '' &&
+            form.password.trim() !== '' &&
+            form.confirmPassword.trim() !== '' &&
+            form.confirmPassword.trim() === form.password.trim()
+        );
+    };
+
     return (
         <div className="form-login-signup__container">
             <h2>Sign Up</h2>
@@ -121,7 +132,13 @@ const FormSignUp: React.FC<type.FormSignUpComponentProps> = ({ onSubmit }) => {
                     <Link className="btn btn--warning" to="/login">
                         Login
                     </Link>
-                    <button className="btn">Sign Up</button>
+                    <button
+                        className={isFormValid() ? 'btn btn--disabled ' : 'btn'}
+                        type="submit"
+                        disabled={isFormValid()}
+                    >
+                        Sign Up
+                    </button>
                 </div>
             </form>
         </div>

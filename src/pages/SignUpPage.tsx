@@ -13,7 +13,8 @@ const SignUpPage: React.FC = () => {
 
     const handleSubmit = async (data: type.SignupForm) => {
         try {
-            await dispatch(signUpUser(data));
+            const response = await dispatch(signUpUser(data));
+            console.log(response);
         } catch (error) {
             setError(error.message);
         }
