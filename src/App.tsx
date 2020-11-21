@@ -3,6 +3,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import { useSelector, RootStateOrAny } from 'react-redux';
 
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
@@ -10,6 +11,7 @@ import SignUpPage from './pages/SignUpPage';
 
 const App: React.FC = () => {
     const user = useSelector((state: RootStateOrAny) => state.user);
+
     const route =
         user && user.firstName ? (
             <Switch>
@@ -28,7 +30,8 @@ const App: React.FC = () => {
     return (
         <div className="app">
             <Navbar />
-            {route}
+            <main>{route}</main>
+            <Footer />
         </div>
     );
 };

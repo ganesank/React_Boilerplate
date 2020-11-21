@@ -51,8 +51,10 @@ const Navbar: React.FC = () => {
 
     return (
         <div className="navbar">
-            <div className="navbar__logo">Roger Takeshita</div>
-            <div className="navbar__menu-container">{menu}</div>
+            <div className="container">
+                <div className="navbar__logo">Roger Takeshita</div>
+                <div className="navbar__menu-container">{menu}</div>
+            </div>
         </div>
     );
 };

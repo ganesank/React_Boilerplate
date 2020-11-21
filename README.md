@@ -74,12 +74,13 @@
     touch -n src/css/1-helpers/_animations.sass
     touch -n src/css/1-helpers/_functions.sass
     touch -n src/css/1-helpers/_mixins.sass
+    touch -n src/css/2-base/_base.sass
     touch -n src/css/2-base/_fonts.sass
-    touch -n src/css/2-base/_reset.sass
     touch -n src/css/2-base/_variables.sass
+    touch -n src/css/3-components/_navbar.sass
     touch -n src/css/3-components/_form-login.sass
     touch -n src/css/3-components/_form-signup.sass
-    touch -n src/css/3-components/_navbar.sass
+    touch -n src/css/3-components/_footer.sass
     touch -n src/pages/HomePage.tsx + SignUpPage.tsx + LoginPage.tsx
     touch -n src/redux/user.tsx
     touch -n src/utils/api/apiService.ts + requestService.ts + tokenService.ts
