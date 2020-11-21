@@ -185,6 +185,18 @@ main {
   src: url("../assets/fonts/PressStart2P-Regular.ttf") format("opentype");
 }
 
+h1 {
+  font-size: 1.6rem;
+}
+
+h2 {
+  font-size: 1.4rem;
+}
+
+h3 {
+  font-size: 1.2rem;
+}
+
 .navbar {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -269,6 +281,106 @@ main {
 .navbar__link:hover {
   background-color: #253d57;
   color: white;
+}
+
+.form-login-signup__container {
+  padding: 0.5rem;
+  width: 25rem;
+  text-align: center;
+}
+
+.form-login-signup__container h2 {
+  margin-bottom: 1rem;
+}
+
+.form-login-signup__input-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin-bottom: 0.3rem;
+}
+
+.form-login-signup__input {
+  border-radius: 0.3rem;
+  font-size: 0.8rem;
+  height: 1.8rem;
+  padding: 0.5rem;
+}
+
+.form-login-signup__label {
+  margin: 0.3rem 0;
+  text-align: left;
+  padding-left: 0.3rem;
+  font-size: 0.7rem;
+}
+
+.form-login-signup__cta {
+  text-align: right;
+  padding: 0.5rem 0;
+}
+
+.form-login-signup__cta > :not(:last-child) {
+  margin-right: 0.3rem;
+}
+
+.error-msg {
+  height: 2rem;
+  font-size: 1rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  color: #3498db;
+}
+
+.error-msg__icon {
+  font-size: 1.7rem;
+  color: #e74c3b;
+}
+
+.btn {
+  background-color: #3498db;
+  font-size: 0.9rem;
+  padding: 0 0.7rem;
+  height: 2rem;
+  border-radius: 0.3rem;
+  border: none;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn:hover {
+  background-color: rgba(52, 152, 219, 0.8);
+  -webkit-transform: translateZ(1rem) scale(1.1);
+          transform: translateZ(1rem) scale(1.1);
+  -webkit-box-shadow: 0.3rem 0.3rem 0.3rem rgba(14, 14, 14, 0.3);
+          box-shadow: 0.3rem 0.3rem 0.3rem rgba(14, 14, 14, 0.3);
+}
+
+.btn--warning {
+  background-color: #f39c12;
+}
+
+.btn--warning:hover {
+  background-color: rgba(243, 156, 18, 0.8);
 }
 
 .footer {

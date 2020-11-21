@@ -77,16 +77,18 @@
     touch -n src/css/2-base/_base.sass
     touch -n src/css/2-base/_fonts.sass
     touch -n src/css/2-base/_variables.sass
+    touch -n src/css/2-base/_typography.sass
     touch -n src/css/3-components/_navbar.sass
-    touch -n src/css/3-components/_form-login.sass
-    touch -n src/css/3-components/_form-signup.sass
+    touch -n src/css/3-components/_button.sass
+    touch -n src/css/3-components/_error-msg.sass
+    touch -n src/css/3-components/_form-login-signup.sass
     touch -n src/css/3-components/_footer.sass
     touch -n src/pages/HomePage.tsx + SignUpPage.tsx + LoginPage.tsx
     touch -n src/redux/user.tsx
     touch -n src/utils/api/apiService.ts + requestService.ts + tokenService.ts
     touch -n src/utils/@types/types.ts
     touch -n src/store.ts
-    touch -n src/components/Header.tsx + FormLogin.tsx + FormSignUp.tsx + Footer.tsx
+    touch -n src/components/Header.tsx + FormLogin.tsx + FormSignUp.tsx + ErrorMsg.tsx + Footer.tsx
     rm src/logo.svg src/setupTests.ts src/App.test.tsx src/index.css src/App.css public/logo192.png public/logo512.png
   ```
 

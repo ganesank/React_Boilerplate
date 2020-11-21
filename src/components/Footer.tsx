@@ -9,6 +9,7 @@ const Footer: React.FC = () => {
                         href="https://www.linkedin.com/in/roger-takeshita/"
                         className="footer__link"
                         target="_blank"
+                        rel="noreferrer"
                     >
                         &copy; Roger Takeshita - 2020. All rights reserved.
                     </a>
@@ -18,6 +19,7 @@ const Footer: React.FC = () => {
                         href="https://github.com/Roger-Takeshita/React_Boilerplate"
                         className="footer__link"
                         target="_blank"
+                        rel="noreferrer"
                     >
                         REPO
                     </a>
