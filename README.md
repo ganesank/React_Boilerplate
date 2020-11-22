@@ -6,6 +6,7 @@
   - [Packages](#packages)
     - [Deploy Netlify](#deploy-netlify)
   - [Folder and Files](#folder-and-files)
+  - [Environment Variables](#environment-variables)
   - [tsconfig.json](#tsconfigjson)
   - [Project](#project)
     - [Public Folder](#public-folder)
@@ -106,42 +107,56 @@
 - Create folder and files, remove files
 
   ```Bash
-    touch -n src/assets/fonts
-    touch -n src/assets/data
-    touch -n src/assets/images/logos
-    touch -n src/css/1-helpers/_animations.sass
-    touch -n src/css/1-helpers/_functions.sass
-    touch -n src/css/1-helpers/_mixins.sass
-    touch -n src/css/1-helpers/_tooltip.sass
-    touch -n src/css/2-base/_base.sass
-    touch -n src/css/2-base/_fonts.sass
-    touch -n src/css/2-base/_typography.sass
-    touch -n src/css/2-base/_variables.sass
-    touch -n src/css/3-components/_button.sass
-    touch -n src/css/3-components/_error-msg.sass
-    touch -n src/css/3-components/_footer.sass
-    touch -n src/css/3-components/_form-login-signup.sass
-    touch -n src/css/3-components/_icon.sass
-    touch -n src/css/3-components/_navbar.sass
-    touch -n src/css/4-pages/_about-page.sass
-    touch -n src/css/styles.sass
-    touch -n src/components/ErrorMsg.tsx
-    touch -n src/components/Footer.tsx
-    touch -n src/components/FormLogin.tsx
-    touch -n src/components/FormSignUp.tsx
-    touch -n src/components/Navbar.tsx
-    touch -n src/pages/AboutPage.tsx
-    touch -n src/pages/HomePage.tsx
-    touch -n src/pages/LoginPage.tsx
-    touch -n src/pages/SignUpPage.tsx
-    touch -n src/redux/user.tsx
-    touch -n src/utils/@types/types.ts
-    touch -n src/utils/api/requestHelper.ts
-    touch -n src/utils/api/requestService.ts
-    touch -n src/utils/api/tokenService.ts
-    touch -n src/store.ts
+    touch .env.local
+    touch src/assets/fonts
+    touch src/assets/data
+    touch src/assets/images/logos
+    touch src/css/1-helpers/_animations.sass
+    touch src/css/1-helpers/_functions.sass
+    touch src/css/1-helpers/_mixins.sass
+    touch src/css/1-helpers/_tooltip.sass
+    touch src/css/2-base/_base.sass
+    touch src/css/2-base/_fonts.sass
+    touch src/css/2-base/_typography.sass
+    touch src/css/2-base/_variables.sass
+    touch src/css/3-components/_button.sass
+    touch src/css/3-components/_error-msg.sass
+    touch src/css/3-components/_footer.sass
+    touch src/css/3-components/_form-login-signup.sass
+    touch src/css/3-components/_icon.sass
+    touch src/css/3-components/_navbar.sass
+    touch src/css/4-pages/_about-page.sass
+    touch src/css/styles.sass
+    touch src/components/ErrorMsg.tsx
+    touch src/components/Footer.tsx
+    touch src/components/FormLogin.tsx
+    touch src/components/FormSignUp.tsx
+    touch src/components/Navbar.tsx
+    touch src/pages/AboutPage.tsx
+    touch src/pages/HomePage.tsx
+    touch src/pages/LoginPage.tsx
+    touch src/pages/SignUpPage.tsx
+    touch src/redux/user.tsx
+    touch src/utils/@types/types.ts
+    touch src/utils/api/requestHelper.ts
+    touch src/utils/api/requestService.ts
+    touch src/utils/api/tokenService.ts
+    touch src/store.ts
     rm src/logo.svg src/setupTests.ts src/App.test.tsx src/index.css src/App.css public/logo192.png public/logo512.png
   ```
+
+## Environment Variables
+
+[Go Back to Contents](#contents)
+
+- in `.env.local`
+
+  - With react the variables need to start with `REACT_APP_`
+
+    ```Bash
+      REACT_APP_BACKEND_URL="127.0.0.1:3001"
+      REACT_APP_BACKEND_PORT=3001
+    ```
 
 ## tsconfig.json
 
@@ -1328,7 +1343,11 @@
 
     const LOGOUT_USER: string = 'LOGOUT_USER';
     const LOGIN_USER: string = 'LOGIN_USER';
-    const URL: string = 'http://localhost:3001/api/users';
+    const PORT = +process.env.REACT_APP_BACKEND_PORT!;
+    const HTTP = PORT! === 3001 ? 'http://' : 'https://';
+    const URL = `${HTTP}${
+        process.env.REACT_APP_BACKEND_URL!.split(':')[0]
+    }:${PORT}/api/users`;
 
     export const logoutUser = () => ({
         type: LOGOUT_USER,

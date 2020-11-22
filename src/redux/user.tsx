@@ -7,7 +7,11 @@ import * as type from '../utils/@types/types';
 
 const LOGOUT_USER: string = 'LOGOUT_USER';
 const LOGIN_USER: string = 'LOGIN_USER';
-const URL: string = 'http://localhost:3001/api/users';
+const PORT = +process.env.REACT_APP_BACKEND_PORT!;
+const HTTP = PORT! === 3001 ? 'http://' : 'https://';
+const URL = `${HTTP}${
+    process.env.REACT_APP_BACKEND_URL!.split(':')[0]
+}:${PORT}/api/users`;
 
 export const logoutUser = () => ({
     type: LOGOUT_USER,
