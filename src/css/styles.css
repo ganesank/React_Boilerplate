@@ -118,6 +118,45 @@
   }
 }
 
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip__tooltip-text {
+  visibility: hidden;
+  background-color: #375a80;
+  color: white;
+  text-align: center;
+  width: 6rem;
+  border-radius: 0.6rem;
+  padding: 0.5rem 0;
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  z-index: 1;
+  margin-left: -3rem;
+  opacity: 0;
+  -webkit-transition: opacity 0.3s ease-in-out;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.tooltip__tooltip-text::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -0.5rem;
+  border-width: 0.5rem;
+  border-style: solid;
+  border-color: #cccccc transparent transparent transparent;
+}
+
+.tooltip:hover .tooltip__tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
 *,
 *::before,
 *::after {
@@ -205,7 +244,7 @@ h3 {
       -ms-flex-pack: center;
           justify-content: center;
   background-color: #375a80;
-  height: 3rem;
+  height: 5rem;
   width: 100%;
   -webkit-box-shadow: 0 0.5rem 1rem rgba(14, 14, 14, 0.5);
           box-shadow: 0 0.5rem 1rem rgba(14, 14, 14, 0.5);
@@ -387,6 +426,11 @@ h3 {
   background-color: #cccccc;
 }
 
+.icon__social-media {
+  height: 2rem;
+  margin: 0.3rem;
+}
+
 .footer {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -394,8 +438,8 @@ h3 {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  background-color: #303030;
-  height: 6rem;
+  background-color: #0e0e0e;
+  min-height: 10rem;
   width: 100%;
   padding: 1rem;
 }
@@ -425,6 +469,24 @@ h3 {
   padding: 0.5rem;
 }
 
+.footer__repo {
+  height: 2rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.footer__repo-text {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
 .footer__link {
   text-decoration: none;
   color: white;
@@ -435,9 +497,6 @@ h3 {
 }
 
 @media (max-width: 75rem) {
-  .footer {
-    height: 10rem;
-  }
   .footer__footer-container {
     -ms-grid-columns: (1fr)[2];
         grid-template-columns: repeat(2, 1fr);
