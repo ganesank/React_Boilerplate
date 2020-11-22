@@ -24,6 +24,11 @@ const Navbar: React.FC = () => {
                     </Link>
                 </li>
                 <li className="navbar__item">
+                    <Link className="navbar__link" to="/about">
+                        About
+                    </Link>
+                </li>
+                <li className="navbar__item">
                     <a className="navbar__link" href="/" onClick={handleLogout}>
                         Log Out
                     </a>
@@ -34,6 +39,11 @@ const Navbar: React.FC = () => {
                 <li className="navbar__item">
                     <Link className="navbar__link" to="/">
                         Home
+                    </Link>
+                </li>
+                <li className="navbar__item">
+                    <Link className="navbar__link" to="/about">
+                        About
                     </Link>
                 </li>
                 <li className="navbar__item">

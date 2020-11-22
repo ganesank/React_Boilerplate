@@ -12,13 +12,16 @@
     - [CSS/SASS](#csssass)
       - [Helpers](#helpers)
       - [Base](#base)
-    - [Components](#components)
-      - [Navbar](#navbar)
+      - [Components](#components)
+      - [Pages](#pages)
+    - [Components](#components-1)
+      - [ErrorMsg](#errormsg)
       - [Footer](#footer)
       - [FormLogin](#formlogin)
       - [FormSignUp](#formsignup)
-      - [Navbar](#navbar-1)
-    - [Pages](#pages)
+      - [Icon](#icon)
+      - [Navbar](#navbar)
+    - [Pages](#pages-1)
       - [HomePage](#homepage)
       - [LoginPage](#loginpage)
       - [SignUpPage](#signuppage)
@@ -97,6 +100,7 @@
     touch -n src/css/3-components/_form-login-signup.sass
     touch -n src/css/3-components/_icon.sass
     touch -n src/css/3-components/_navbar.sass
+    touch -n src/css/4-pages/_about-page.sass
     touch -n src/css/styles.sass
     touch -n src/components/ErrorMsg.tsx
     touch -n src/components/Footer.tsx
@@ -206,6 +210,35 @@
   ```
 
 ### CSS/SASS
+
+[Go Back to Contents](#contents)
+
+- in `src/css/styles.sass`
+
+  ```SCSS
+    // = Helpers
+    @import ./1-helpers/animations
+    @import ./1-helpers/functions
+    @import ./1-helpers/mixins
+    @import ./1-helpers/tooltip
+
+    // = Base
+    @import ./2-base/variables
+    @import ./2-base/base
+    @import ./2-base/fonts
+    @import ./2-base/typography
+
+    // = Components
+    @import ./3-components/navbar
+    @import ./3-components/form-login-signup
+    @import ./3-components/error-msg
+    @import ./3-components/button
+    @import ./3-components/icon
+    @import ./3-components/footer
+
+    // = Pages
+    @import ./4-pages/about-page
+  ```
 
 #### Helpers
 
@@ -398,6 +431,9 @@
 
     h3
       font-size: 1.2rem
+
+    h4
+      font-size: 1rem
   ```
 
 - in `src/css/2-base/_variables.sass`
@@ -424,9 +460,267 @@
     $border-radius: 0.3rem
   ```
 
+#### Components
+
+[Go Back to Contents](#contents)
+
+- in `src/css/3-components/_button.sass`
+
+  ```SCSS
+    .btn
+    background-color: $color-info
+    font-size: 0.9rem
+    padding: 0 0.7rem
+    height: 2rem
+    border-radius: $border-radius
+    border: none
+    display: inline-flex
+    align-items: center
+    color: $color-white
+    text-decoration: none
+    cursor: pointer
+    transition: all 0.2s ease-in-out
+
+    &:hover
+      transform: translateZ(1rem) scale(1.1)
+      box-shadow: 0.3rem 0.3rem 0.3rem rgba($color-black, 0.3)
+    &--warning
+      background-color: $color-warning
+
+      &:hover
+        background-color: rgba($color-warning, 0.8)
+    &--disabled
+      cursor: not-allowed
+      background-color: $color-grey
+  ```
+
+- in `src/css/3-components/_error-msg.sass`
+
+  ```SCSS
+    .error-msg
+    height: 2rem
+    font-size: $default-font-size
+    display: flex
+    justify-content: center
+    align-items: center
+    color: $color-info
+
+    &__icon
+      font-size: 1.7rem
+      color: $color-danger
+  ```
+
+- in `src/css/3-components/_footer.sass`
+
+  ```SCSS
+    .footer
+    display: flex
+    justify-content: center
+    background-color: $color-black
+    min-height: 10rem
+    width: 100%
+    padding: 1rem
+
+    &__footer-container
+      display: grid
+      grid-template-columns: 3fr 1fr 3fr
+      grid-gap: 2rem
+      color: $color-white
+    &__left,
+    &__middle,
+    &__right
+      display: flex
+      align-items: center
+      justify-content: center
+      text-align: center
+      height: 100%
+      font-size: 0.8rem
+      padding: 0.5rem
+    &__repo
+      height: 2rem
+      display: flex
+      align-items: center
+      justify-content: center
+    &__repo-text
+      font-size: 1.3rem
+      font-weight: bold
+    &__link
+      text-decoration: none
+      color: $color-white
+
+      &:hover
+        color: $color-primary
+    @include mq-manager(tab-land)
+      &__footer-container
+        grid-template-columns: repeat(2, 1fr)
+        grid-template-rows: repeat(2, 1fr)
+        grid-gap: 0rem
+      &__left
+        grid-column: 1 / span 1
+        grid-row: 2 / 3
+      &__right
+        grid-column: 2 / -1
+        grid-row: 2 / 3
+      &__middle
+        grid-column: 1 / -1
+        grid-row: 1 / 2
+
+    @include mq-manager(tab-port)
+      &__footer-container
+        grid-template-columns: 1fr
+        grid-template-rows: repeat(3, 1fr)
+        grid-gap: 0rem
+      &__left
+        grid-column: 1 / span 1
+        grid-row: 2 / 3
+      &__right
+        grid-column: 1 / span 1
+        grid-row: 3 / 4
+      &__middle
+        grid-column: 1 / span 1
+        grid-row: 1 / 2
+  ```
+
+- in `src/css/3-components/_form-login-signup.sass`
+
+  ```SCSS
+    .form-login-signup
+    &__container
+      padding: 0.5rem
+      width: 25rem
+      text-align: center
+
+      h2
+        margin-bottom: 1rem
+    &__input-container
+      display: flex
+      flex-direction: column
+      margin-bottom: 0.3rem
+    &__input
+      border-radius: $border-radius
+      font-size: 0.8rem
+      height: 1.8rem
+      padding: 0.5rem
+    &__label
+      margin: 0.3rem 0
+      text-align: left
+      padding-left: 0.3rem
+      font-size: 0.7rem
+    &__cta
+      text-align: right
+      padding: 0.5rem 0
+
+      & > :not(:last-child)
+        margin-right: 0.3rem
+  ```
+
+- in `src/css/3-components/_icon.sass`
+
+  ```SCSS
+    .icon
+    &__social-media
+      height: 2rem
+      margin: 0.3rem
+    &__technology
+      height: 3rem
+  ```
+
+- in `src/css/3-components/_navbar.sass`
+
+  ```SCSS
+    .navbar
+    display: flex
+    justify-content: center
+    background-color: $color-primary
+    height: 5rem
+    width: 100%
+    box-shadow: 0 0.5rem 1rem rgba($color-black, 0.5)
+
+    &__logo
+      height: 100%
+      font-size: 1.5rem
+      color: $color-white
+      font-weight: bolder
+      font-family: Pacifico, PressStart2P-Regular, sans-serif
+      display: flex
+      align-items: center
+      margin: 0 1rem
+      white-space: nowrap
+    &__menu-container
+      height: 100%
+      display: flex
+      flex: 1
+      justify-content: flex-end
+      margin: 0 1rem
+    &__list
+      height: 100%
+      display: flex
+      align-items: center
+    &__item
+      height: 100%
+      list-style: none
+      display: flex
+      align-items: center
+      cursor: pointer
+    &__link
+      height: 100%
+      display: flex
+      align-items: center
+      text-decoration: none
+      color: rgba($color-white, 0.5)
+      font-size: $default-font-size
+      white-space: nowrap
+      padding: 0 1.5rem
+
+      &:hover
+        background-color: $color-primary-dark
+        color: $color-white
+  ```
+
+#### Pages
+
+[Go Back to Contents](#contents)
+
+- in `src/css/4-pages/_about-page.sass`
+
+  ```SCSS
+    .about-page
+      display: flex
+      flex-direction: column
+      align-items: center
+
+    h2
+      margin: 0.5rem 0
+      white-space: nowrap
+    h4
+      color: $color-primary
+      white-space: nowrap
+    &__picture
+      border-radius: 100%
+      margin-top: 1rem
+      width: 13rem
+    &__technologies
+      display: flex
+      justify-content: center
+      flex-wrap: wrap
+      margin: 2rem 0
+    &__tech-container
+      display: flex
+      flex-direction: column
+      margin: 1rem
+      align-content: center
+      text-align: center
+      transition: all 0.2s ease-in-out
+
+      &:hover
+        transform: scale(1.5)
+    &__tech-label
+      margin-top: 0.5rem
+  ```
+
 ### Components
 
-#### Navbar
+#### ErrorMsg
 
 [Go Back to Contents](#contents)
 
@@ -788,6 +1082,21 @@
     export default FormSignUp;
   ```
 
+#### Icon
+
+[Go Back to Contents](#contents)
+
+- in `src/css/3-components/_icon.sass`
+
+  ```SCSS
+    .icon
+    &__social-media
+      height: 2rem
+      margin: 0.3rem
+    &__technology
+      height: 3rem
+  ```
+
 #### Navbar
 
 [Go Back to Contents](#contents)
@@ -821,6 +1130,11 @@
                         </Link>
                     </li>
                     <li className="navbar__item">
+                        <Link className="navbar__link" to="/about">
+                            About
+                        </Link>
+                    </li>
+                    <li className="navbar__item">
                         <a className="navbar__link" href="/" onClick={handleLogout}>
                             Log Out
                         </a>
@@ -831,6 +1145,11 @@
                     <li className="navbar__item">
                         <Link className="navbar__link" to="/">
                             Home
+                        </Link>
+                    </li>
+                    <li className="navbar__item">
+                        <Link className="navbar__link" to="/about">
+                            About
                         </Link>
                     </li>
                     <li className="navbar__item">
@@ -873,7 +1192,7 @@
     const HomePage: React.FC = () => {
         return (
             <div>
-                <h1>HomePage</h1>
+                <h1>HOME</h1>
             </div>
         );
     };
@@ -1278,6 +1597,7 @@
     import HomePage from './pages/HomePage';
     import LoginPage from './pages/LoginPage';
     import SignUpPage from './pages/SignUpPage';
+    import AboutPage from './pages/AboutPage';
 
     const App: React.FC = () => {
         const user = useSelector((state: RootStateOrAny) => state.user);
@@ -1286,11 +1606,13 @@
             user && user.firstName ? (
                 <Switch>
                     <Route exact path="/" component={HomePage} />
+                    <Route exact path="/about" component={AboutPage} />
                     <Route render={() => <Redirect to={{ pathname: '/' }} />} />
                 </Switch>
             ) : (
                 <Switch>
                     <Route exact path="/" component={HomePage} />
+                    <Route exact path="/about" component={AboutPage} />
                     <Route exact path="/login" component={LoginPage} />
                     <Route exact path="/signup" component={SignUpPage} />
                     <Route render={() => <Redirect to={{ pathname: '/' }} />} />

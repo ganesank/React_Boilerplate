@@ -236,6 +236,10 @@ h3 {
   font-size: 1.2rem;
 }
 
+h4 {
+  font-size: 1rem;
+}
+
 .navbar {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -431,6 +435,10 @@ h3 {
   margin: 0.3rem;
 }
 
+.icon__technology {
+  height: 3rem;
+}
+
 .footer {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -558,4 +566,70 @@ h3 {
     -ms-grid-row-span: 1;
     grid-row: 1 / 2;
   }
+}
+
+.about-page {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.about-page h2 {
+  margin: 0.5rem 0;
+  white-space: nowrap;
+}
+
+.about-page h4 {
+  color: #375a80;
+  white-space: nowrap;
+}
+
+.about-page__picture {
+  border-radius: 100%;
+  margin-top: 1rem;
+  width: 13rem;
+}
+
+.about-page__technologies {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin: 2rem 0;
+}
+
+.about-page__tech-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin: 1rem;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  text-align: center;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
+.about-page__tech-container:hover {
+  -webkit-transform: scale(1.5);
+          transform: scale(1.5);
+}
+
+.about-page__tech-label {
+  margin-top: 0.5rem;
 }

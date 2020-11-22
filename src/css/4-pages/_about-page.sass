@@ -1,0 +1,32 @@
+.about-page
+  display: flex
+  flex-direction: column
+  align-items: center
+
+  h2
+    margin: 0.5rem 0
+    white-space: nowrap
+  h4
+    color: $color-primary
+    white-space: nowrap
+  &__picture
+    border-radius: 100%
+    margin-top: 1rem
+    width: 13rem
+  &__technologies
+    display: flex
+    justify-content: center
+    flex-wrap: wrap
+    margin: 2rem 0
+  &__tech-container
+    display: flex
+    flex-direction: column
+    margin: 1rem
+    align-content: center
+    text-align: center
+    transition: all 0.2s ease-in-out
+
+    &:hover
+      transform: scale(1.5)
+  &__tech-label
+    margin-top: 0.5rem

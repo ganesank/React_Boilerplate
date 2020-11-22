@@ -19,32 +19,32 @@ const socialMedias: Technologies[] = [
         class: 'icon icon__technology',
     },
     {
-        name: 'GitHub',
+        name: 'TypeScript',
         src: typescriptSvg,
         class: 'icon icon__technology',
     },
     {
-        name: 'Repl.it',
+        name: 'React.js',
         src: reactSvg,
         class: 'icon icon__technology',
     },
     {
-        name: 'Twitter',
+        name: 'Redux',
         src: reduxSvg,
         class: 'icon icon__technology',
     },
     {
-        name: 'TinkerCad',
+        name: 'HTML5',
         src: htmlSvg,
         class: 'icon icon__technology',
     },
     {
-        name: 'TinkerCad',
+        name: 'SASS',
         src: sassSvg,
         class: 'icon icon__technology',
     },
     {
-        name: 'TinkerCad',
+        name: 'CSS3',
         src: cssSvg,
         class: 'icon icon__technology',
     },
