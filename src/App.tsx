@@ -17,15 +17,15 @@ const App: React.FC = () => {
         user && user.firstName ? (
             <Switch>
                 <Route exact path="/" component={HomePage} />
-                <Route exact path="/about" component={AboutPage} />
+                <Route path="/about" component={AboutPage} />
                 <Route render={() => <Redirect to={{ pathname: '/' }} />} />
             </Switch>
         ) : (
             <Switch>
                 <Route exact path="/" component={HomePage} />
-                <Route exact path="/about" component={AboutPage} />
-                <Route exact path="/login" component={LoginPage} />
-                <Route exact path="/signup" component={SignUpPage} />
+                <Route path="/about" component={AboutPage} />
+                <Route path="/login" component={LoginPage} />
+                <Route path="/signup" component={SignUpPage} />
                 <Route render={() => <Redirect to={{ pathname: '/' }} />} />
             </Switch>
         );

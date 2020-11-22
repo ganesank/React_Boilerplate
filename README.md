@@ -1,8 +1,10 @@
 <h1 id='contents'>Table of Contents</h1>
 
+- [LIVE LINK](#live-link)
 - [REACT BOILERPLATE](#react-boilerplate)
   - [Start New React App](#start-new-react-app)
   - [Packages](#packages)
+    - [Deploy Netlify](#deploy-netlify)
   - [Folder and Files](#folder-and-files)
   - [tsconfig.json](#tsconfigjson)
   - [Project](#project)
@@ -36,6 +38,10 @@
       - [Store](#store)
     - [App.tsx](#apptsx)
     - [Index.tsx](#indextsx)
+
+# LIVE LINK
+
+- [https://rogertakeshita-react-boilerplate.netlify.app/](https://rogertakeshita-react-boilerplate.netlify.app/)
 
 # REACT BOILERPLATE
 
@@ -75,6 +81,23 @@
     npm i -D @types/redux-logger
     npm i -D @types/redux-thunk
   ```
+
+### Deploy Netlify
+
+[Go Back to Contents](#contents)
+
+- in `package.json`
+
+  - Update the build script
+
+    ```JSON
+      "scripts": {
+          "start": "react-scripts start",
+          "build": "react-scripts build && echo '/* /index.html 200' | cat > build/_redirects",
+          "test": "react-scripts test",
+          "eject": "react-scripts eject"
+      },
+    ```
 
 ## Folder and Files
 
@@ -166,22 +189,22 @@
   ```HTML
     <!DOCTYPE html>
     <html lang="en">
-      <head>
-        <meta charset="utf-8" />
-        <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#000000" />
-        <meta
-          name="description"
-          content="Frontend"
-        />
-        <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-        <title>Frontend</title>
-      </head>
-      <body>
-        <noscript>You need to enable JavaScript to run this app.</noscript>
-        <div id="root"></div>
-      </body>
+
+    <head>
+      <meta charset="utf-8" />
+      <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="theme-color" content="#000000" />
+      <meta name="description" content="Roger Takeshita - Frontend Boilerplate" />
+      <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+      <title>Roger Takeshita - Frontend</title>
+    </head>
+
+    <body>
+      <noscript>You need to enable JavaScript to run this app.</noscript>
+      <div id="root"></div>
+    </body>
+
     </html>
   ```
 
@@ -1605,16 +1628,16 @@
         const route =
             user && user.firstName ? (
                 <Switch>
-                    <Route exact path="/" component={HomePage} />
-                    <Route exact path="/about" component={AboutPage} />
+                    <Route exact path="/" render={() => <HomePage />} />
+                    <Route exact path="/about" render={() => <AboutPage />} />
                     <Route render={() => <Redirect to={{ pathname: '/' }} />} />
                 </Switch>
             ) : (
                 <Switch>
-                    <Route exact path="/" component={HomePage} />
-                    <Route exact path="/about" component={AboutPage} />
-                    <Route exact path="/login" component={LoginPage} />
-                    <Route exact path="/signup" component={SignUpPage} />
+                    <Route exact path="/" render={() => <HomePage />} />
+                    <Route exact path="/about" render={() => <AboutPage />} />
+                    <Route exact path="/login" render={() => <LoginPage />} />
+                    <Route exact path="/signup" render={() => <SignUpPage />} />
                     <Route render={() => <Redirect to={{ pathname: '/' }} />} />
                 </Switch>
             );

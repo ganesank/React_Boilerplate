@@ -1,4 +1,4 @@
-@import url("http://fonts.googleapis.com/css?family=Pacifico");
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
 @-webkit-keyframes move-in-from-left {
   0% {
     opacity: 0;
@@ -259,7 +259,7 @@ h4 {
   font-size: 1.5rem;
   color: white;
   font-weight: bolder;
-  font-family: Pacifico, PressStart2P-Regular, sans-serif;
+  font-family: "Pacifico", PressStart2P-Regular, sans-serif;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
