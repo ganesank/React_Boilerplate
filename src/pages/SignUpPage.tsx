@@ -16,7 +16,8 @@ const SignUpPage: React.FC = () => {
             const response = await dispatch(signUpUser(data));
             console.log(response);
         } catch (error) {
-            setError(error.message);
+            const messageObj = JSON.parse(error.message);
+            setError(messageObj.message);
         }
     };
 

@@ -29,6 +29,11 @@ const Navbar: React.FC = () => {
                     </Link>
                 </li>
                 <li className="navbar__item">
+                    <Link className="navbar__link" to="/profile">
+                        Profile
+                    </Link>
+                </li>
+                <li className="navbar__item">
                     <a className="navbar__link" href="/" onClick={handleLogout}>
                         Log Out
                     </a>

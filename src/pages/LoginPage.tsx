@@ -15,7 +15,8 @@ const LoginPage: React.FC = () => {
         try {
             await dispatch(loginUser(data));
         } catch (error) {
-            setError(error.message);
+            const messageObj = JSON.parse(error.message);
+            setError(messageObj.message);
         }
     };
 

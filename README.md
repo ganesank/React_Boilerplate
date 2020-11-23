@@ -21,12 +21,14 @@
       - [ErrorMsg](#errormsg)
       - [Footer](#footer)
       - [FormLogin](#formlogin)
+      - [FormProfile](#formprofile)
       - [FormSignUp](#formsignup)
       - [Icon](#icon)
       - [Navbar](#navbar)
     - [Pages](#pages-1)
       - [HomePage](#homepage)
       - [LoginPage](#loginpage)
+      - [ProfilePage](#profilepage)
       - [SignUpPage](#signuppage)
     - [Redux](#redux)
       - [User's Redux](#users-redux)
@@ -130,11 +132,13 @@
     touch src/components/ErrorMsg.tsx
     touch src/components/Footer.tsx
     touch src/components/FormLogin.tsx
+    touch src/components/FormProfile.tsx
     touch src/components/FormSignUp.tsx
     touch src/components/Navbar.tsx
     touch src/pages/AboutPage.tsx
     touch src/pages/HomePage.tsx
     touch src/pages/LoginPage.tsx
+    touch src/pages/ProfilePage.tsx
     touch src/pages/SignUpPage.tsx
     touch src/redux/user.tsx
     touch src/utils/@types/types.ts
@@ -269,6 +273,7 @@
     // = Components
     @import ./3-components/navbar
     @import ./3-components/form-login-signup
+    @import ./3-components/form-profile
     @import ./3-components/error-msg
     @import ./3-components/button
     @import ./3-components/icon
@@ -652,6 +657,51 @@
         margin-right: 0.3rem
   ```
 
+- in `src/css/3-components/_form-profile.sass`
+
+  ```SCSS
+  .form-profile
+  &__container
+    padding: 0.5rem
+    width: 25rem
+    text-align: center
+
+    h2
+      margin-bottom: 1rem
+  &__split
+    display: flex
+    justify-content: space-around
+    & > *
+      width: 49%
+
+  &__input-container
+    display: flex
+    flex-direction: column
+    margin-bottom: 0.3rem
+  &__input
+    border-radius: $border-radius
+    font-size: 0.8rem
+    height: 1.8rem
+    padding: 0.5rem
+  &__label
+    margin: 0.3rem 0
+    text-align: left
+    padding-left: 0.3rem
+    font-size: 0.7rem
+  &__cta
+    display: flex
+    justify-content: flex-end
+    text-align: right
+    padding: 0.5rem 0
+
+    label
+      text-align: end
+      padding-right: 0.3rem
+
+    & > :not(:last-child)
+      margin-right: 0.3rem
+  ```
+
 - in `src/css/3-components/_icon.sass`
 
   ```SCSS
@@ -963,6 +1013,237 @@
     export default FormLogin;
   ```
 
+#### FormProfile
+
+[Go Back to Contents](#contents)
+
+- in `src/components/FormProfile.tsx`
+
+  ```TypeScript
+    import React, { useState, useEffect, FormEvent, ChangeEvent } from 'react';
+    import * as type from '../utils/@types/types';
+    import * as requestService from '../utils/api/requestService';
+
+    import ErrorMsg from '../components/ErrorMsg';
+
+    const PORT = +process.env.REACT_APP_BACKEND_PORT!;
+    const HTTP = PORT! === 3001 ? 'http://' : 'https://';
+    const URL = `${HTTP}${
+        process.env.REACT_APP_BACKEND_URL!.split(':')[0]
+    }:${PORT}/api/users`;
+
+    const FormProfile: React.FC = () => {
+        const [error, setError] = useState<string>('');
+        const initialState: type.ProfileForm = {
+            _id: '',
+            firstName: '',
+            lastName: '',
+            email: '',
+            password: '',
+            newPassword: '',
+            confirmNewPassword: '',
+        };
+        const [form, setForm] = useState(initialState);
+
+        useEffect(() => {
+            const fetchData = async () => {
+                try {
+                    const profile = await requestService.getData(`${URL}/profile`);
+                    setForm((prev) => {
+                        return {
+                            ...prev,
+                            _id: profile._id,
+                            firstName: profile.firstName,
+                            lastName: profile.lastName,
+                            email: profile.email,
+                        };
+                    });
+                } catch (error) {
+                    setError(error.message);
+                }
+            };
+            fetchData();
+        }, []);
+
+        const handleClick = async (e: FormEvent) => {
+            e.preventDefault();
+
+            try {
+                await requestService.updateData(`${URL}/profile`, form);
+                setForm((prev) => {
+                    return {
+                        ...prev,
+                        password: '',
+                        newPassword: '',
+                        confirmNewPassword: '',
+                    };
+                });
+                alert('Your profile has been updated!');
+            } catch (error) {
+                const errorObj = JSON.parse(error.message);
+                let errorMsg = '';
+                for (const key in errorObj) {
+                    errorMsg += `${key}: ${errorObj[key]} `;
+                }
+                setError(errorMsg);
+            }
+        };
+
+        const handleChange = ({
+            target: { name, value },
+        }: ChangeEvent<
+            HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+        >) => {
+            setForm({
+                ...form,
+                [name]: value,
+            });
+        };
+
+        const cleanErrorMsg = (): void => {
+            setError('');
+        };
+
+        const isFormValid = (): boolean => {
+            return !(
+                form.firstName.trim() !== '' &&
+                form.lastName.trim() !== '' &&
+                form.email.trim() !== '' &&
+                form.password.trim() !== '' &&
+                form.newPassword.trim() === form.confirmNewPassword.trim()
+            );
+        };
+
+        return (
+            <div className="form-profile__container">
+                <h2>PROFILE</h2>
+                <form onSubmit={handleClick}>
+                    <div className="form-profile__split">
+                        <div className="form-profile__input-container">
+                            <input
+                                type="text"
+                                name="firstName"
+                                placeholder="First Name"
+                                className="form-profile__input"
+                                required
+                                value={form.firstName}
+                                onChange={handleChange}
+                            />
+                            <label
+                                htmlFor="firstName"
+                                className="form-profile__label"
+                            >
+                                First Name
+                            </label>
+                        </div>
+                        <div className="form-profile__input-container">
+                            <input
+                                type="text"
+                                name="lastName"
+                                placeholder="Last Name"
+                                className="form-profile__input"
+                                required
+                                value={form.lastName}
+                                onChange={handleChange}
+                            />
+                            <label
+                                htmlFor="lastName"
+                                className="form-profile__label"
+                            >
+                                Last Name
+                            </label>
+                        </div>
+                    </div>
+                    <div className="form-profile__input-container">
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="Email"
+                            className="form-profile__input"
+                            required
+                            value={form.email}
+                            onChange={handleChange}
+                            autoComplete="username"
+                        />
+                        <label htmlFor="email" className="form-profile__label">
+                            Email
+                        </label>
+                    </div>
+                    <div className="form-profile__split">
+                        <div className="form-profile__input-container">
+                            <input
+                                type="password"
+                                name="newPassword"
+                                placeholder="New Password"
+                                className="form-profile__input"
+                                minLength={4}
+                                value={form.newPassword}
+                                onChange={handleChange}
+                                autoComplete="password"
+                            />
+                            <label
+                                htmlFor="newPassword"
+                                className="form-profile__label"
+                            >
+                                New Password
+                            </label>
+                        </div>
+                        <div className="form-profile__input-container">
+                            <input
+                                type="password"
+                                name="confirmNewPassword"
+                                placeholder="Confirm New Password"
+                                className="form-profile__input"
+                                minLength={4}
+                                value={form.confirmNewPassword}
+                                onChange={handleChange}
+                                autoComplete="password"
+                            />
+                            <label
+                                htmlFor="confirmNewPassword"
+                                className="form-profile__label"
+                            >
+                                Confirm New Password
+                            </label>
+                        </div>
+                    </div>
+                    <div className="form-profile__cta">
+                        <div className="form-profile__input-container">
+                            <input
+                                type="password"
+                                name="password"
+                                placeholder="Password"
+                                className="form-profile__input"
+                                minLength={4}
+                                required
+                                value={form.password}
+                                onChange={handleChange}
+                                autoComplete="current-password"
+                            />
+                            <label
+                                htmlFor="password"
+                                className="form-profile__label"
+                            >
+                                Password
+                            </label>
+                        </div>
+                        <button
+                            className={isFormValid() ? 'btn btn--disabled ' : 'btn'}
+                            type="submit"
+                            disabled={isFormValid()}
+                        >
+                            Update
+                        </button>
+                    </div>
+                </form>
+                <ErrorMsg errorMsg={error} cleanErrorMsg={cleanErrorMsg} />
+            </div>
+        );
+    };
+
+    export default FormProfile;
+  ```
+
 #### FormSignUp
 
 [Go Back to Contents](#contents)
@@ -1173,6 +1454,11 @@
                         </Link>
                     </li>
                     <li className="navbar__item">
+                        <Link className="navbar__link" to="/profile">
+                            Profile
+                        </Link>
+                    </li>
+                    <li className="navbar__item">
                         <a className="navbar__link" href="/" onClick={handleLogout}>
                             Log Out
                         </a>
@@ -1262,7 +1548,8 @@
             try {
                 await dispatch(loginUser(data));
             } catch (error) {
-                setError(error.message);
+                const messageObj = JSON.parse(error.message);
+                setError(messageObj.message);
             }
         };
 
@@ -1279,6 +1566,27 @@
     };
 
     export default LoginPage;
+  ```
+
+#### ProfilePage
+
+[Go Back to Contents](#contents)
+
+- in `src/pages/ProfilePage.tsx`
+
+  ```TypeScript
+    import React from 'react';
+    import FormProfile from '../components/FormProfile';
+
+    const ProfilePage: React.FC = () => {
+        return (
+            <div className="profile">
+                <FormProfile />
+            </div>
+        );
+    };
+
+    export default ProfilePage;
   ```
 
 #### SignUpPage
@@ -1306,7 +1614,8 @@
                 const response = await dispatch(signUpUser(data));
                 console.log(response);
             } catch (error) {
-                setError(error.message);
+                const messageObj = JSON.parse(error.message);
+                setError(messageObj.message);
             }
         };
 
@@ -1426,6 +1735,16 @@
         confirmPassword: string;
     };
 
+    export type ProfileForm = {
+        _id?: string;
+        firstName: string;
+        lastName: string;
+        email: string;
+        password: string;
+        newPassword: string;
+        confirmNewPassword: string;
+    };
+
     export type FormLoginComponentProps = {
         onSubmit: (data: LoginForm) => void;
     };
@@ -1488,7 +1807,7 @@
 - in `src/utils/api/requestHelper.ts`
 
   ```TypeScript
-    import * as tokenService from './tokenService';
+    iimport * as tokenService from './tokenService';
     import * as type from '../@types/types';
 
     const requestHelper: type.RequestHelper = async (type, url, data) => {
@@ -1503,7 +1822,7 @@
         const response = await fetch(url, option);
         const responseJSON = await response.json();
         if (response.ok) return responseJSON;
-        throw new Error(responseJSON.message);
+        throw new Error(JSON.stringify(responseJSON));
     };
 
     export default requestHelper;
@@ -1545,7 +1864,19 @@
         return await requestHelper('POST', url, data);
     };
 
-    export { getData, addData, updateData, deleteData, loginUser, signUpUser };
+    const deleteUser = async (url: string, data: type.LoginForm) => {
+        return await requestHelper('POST', url, data);
+    };
+
+    export {
+        getData,
+        addData,
+        updateData,
+        deleteData,
+        loginUser,
+        signUpUser,
+        deleteUser,
+    };
   ```
 
 ---
@@ -1640,6 +1971,7 @@
     import LoginPage from './pages/LoginPage';
     import SignUpPage from './pages/SignUpPage';
     import AboutPage from './pages/AboutPage';
+    import ProfilePage from './pages/ProfilePage';
 
     const App: React.FC = () => {
         const user = useSelector((state: RootStateOrAny) => state.user);
@@ -1647,16 +1979,17 @@
         const route =
             user && user.firstName ? (
                 <Switch>
-                    <Route exact path="/" render={() => <HomePage />} />
-                    <Route exact path="/about" render={() => <AboutPage />} />
+                    <Route exact path="/" component={HomePage} />
+                    <Route path="/about" component={AboutPage} />
+                    <Route path="/profile" component={ProfilePage} />
                     <Route render={() => <Redirect to={{ pathname: '/' }} />} />
                 </Switch>
             ) : (
                 <Switch>
-                    <Route exact path="/" render={() => <HomePage />} />
-                    <Route exact path="/about" render={() => <AboutPage />} />
-                    <Route exact path="/login" render={() => <LoginPage />} />
-                    <Route exact path="/signup" render={() => <SignUpPage />} />
+                    <Route exact path="/" component={HomePage} />
+                    <Route path="/about" component={AboutPage} />
+                    <Route path="/login" component={LoginPage} />
+                    <Route path="/signup" component={SignUpPage} />
                     <Route render={() => <Redirect to={{ pathname: '/' }} />} />
                 </Switch>
             );

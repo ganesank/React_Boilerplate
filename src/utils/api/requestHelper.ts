@@ -13,7 +13,7 @@ const requestHelper: type.RequestHelper = async (type, url, data) => {
     const response = await fetch(url, option);
     const responseJSON = await response.json();
     if (response.ok) return responseJSON;
-    throw new Error(responseJSON.message);
+    throw new Error(JSON.stringify(responseJSON));
 };
 
 export default requestHelper;

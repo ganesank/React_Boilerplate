@@ -9,6 +9,7 @@ import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import AboutPage from './pages/AboutPage';
+import ProfilePage from './pages/ProfilePage';
 
 const App: React.FC = () => {
     const user = useSelector((state: RootStateOrAny) => state.user);
@@ -18,6 +19,7 @@ const App: React.FC = () => {
             <Switch>
                 <Route exact path="/" component={HomePage} />
                 <Route path="/about" component={AboutPage} />
+                <Route path="/profile" component={ProfilePage} />
                 <Route render={() => <Redirect to={{ pathname: '/' }} />} />
             </Switch>
         ) : (
