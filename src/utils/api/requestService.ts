@@ -25,8 +25,8 @@ const signUpUser = async (url: string, data: type.SignupForm) => {
     return await requestHelper('POST', url, data);
 };
 
-const deleteUser = async (url: string, data: type.LoginForm) => {
-    return await requestHelper('POST', url, data);
+const deleteUser = async (url: string, data: type.DeleteUserForm) => {
+    return await requestHelper('DELETE', url, data);
 };
 
 export {

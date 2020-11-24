@@ -1,8 +1,17 @@
-import React, { useState, useEffect, FormEvent, ChangeEvent } from 'react';
+import React, {
+    useState,
+    useEffect,
+    FormEvent,
+    ChangeEvent,
+    MouseEvent,
+} from 'react';
 import * as type from '../utils/@types/types';
 import * as requestService from '../utils/api/requestService';
+import * as alertMsgHelper from '../utils/helpers/alertMsgHelper';
+import { useDispatch } from 'react-redux';
+import { setMsg } from '../redux/modal';
 
-import ErrorMsg from '../components/ErrorMsg';
+import AlertMsg from '../components/AlertMsg';
 
 const PORT = +process.env.REACT_APP_BACKEND_PORT!;
 const HTTP = PORT! === 3001 ? 'http://' : 'https://';
@@ -11,7 +20,7 @@ const URL = `${HTTP}${
 }:${PORT}/api/users`;
 
 const FormProfile: React.FC = () => {
-    const [error, setError] = useState<string>('');
+    const [alertMsg, setAlertMsg] = useState<string[]>([]);
     const initialState: type.ProfileForm = {
         _id: '',
         firstName: '',
@@ -22,6 +31,7 @@ const FormProfile: React.FC = () => {
         confirmNewPassword: '',
     };
     const [form, setForm] = useState(initialState);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -37,7 +47,7 @@ const FormProfile: React.FC = () => {
                     };
                 });
             } catch (error) {
-                setError(error.message);
+                setAlertMsg(alertMsgHelper.msgArray(await error.message));
             }
         };
         fetchData();
@@ -58,13 +68,13 @@ const FormProfile: React.FC = () => {
             });
             alert('Your profile has been updated!');
         } catch (error) {
-            const errorObj = JSON.parse(error.message);
-            let errorMsg = '';
-            for (const key in errorObj) {
-                errorMsg += `${key}: ${errorObj[key]} `;
-            }
-            setError(errorMsg);
+            setAlertMsg(alertMsgHelper.msgArray(await error.message));
         }
+    };
+
+    const handleDelete = (e: MouseEvent) => {
+        e.preventDefault();
+        dispatch(setMsg('Are you sure you want to delete your account?'));
     };
 
     const handleChange = ({
@@ -78,8 +88,8 @@ const FormProfile: React.FC = () => {
         });
     };
 
-    const cleanErrorMsg = (): void => {
-        setError('');
+    const cleanMsg = (): void => {
+        setAlertMsg([]);
     };
 
     const isFormValid = (): boolean => {
@@ -186,25 +196,17 @@ const FormProfile: React.FC = () => {
                     </div>
                 </div>
                 <div className="form-profile__cta">
-                    <div className="form-profile__input-container">
-                        <input
-                            type="password"
-                            name="password"
-                            placeholder="Password"
-                            className="form-profile__input"
-                            minLength={4}
-                            required
-                            value={form.password}
-                            onChange={handleChange}
-                            autoComplete="current-password"
-                        />
-                        <label
-                            htmlFor="password"
-                            className="form-profile__label"
-                        >
-                            Password
-                        </label>
-                    </div>
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        className="form-profile__input"
+                        minLength={4}
+                        required
+                        value={form.password}
+                        onChange={handleChange}
+                        autoComplete="current-password"
+                    />
                     <button
                         className={isFormValid() ? 'btn btn--disabled ' : 'btn'}
                         type="submit"
@@ -214,7 +216,22 @@ const FormProfile: React.FC = () => {
                     </button>
                 </div>
             </form>
-            <ErrorMsg errorMsg={error} cleanErrorMsg={cleanErrorMsg} />
+            <div className="form-profile__delete">
+                <a
+                    href="/"
+                    className="form-profile__delete-link"
+                    onClick={handleDelete}
+                >
+                    Delete Account
+                </a>
+            </div>
+            <AlertMsg
+                msgs={alertMsg}
+                msgColor={'danger'}
+                cleanMsg={cleanMsg}
+                icon={'⚠'}
+                iconColor={'danger'}
+            />
         </div>
     );
 };

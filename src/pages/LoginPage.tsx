@@ -1,33 +1,40 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { loginUser } from '../redux/user';
+import * as alertMsgHelper from '../utils/helpers/alertMsgHelper';
 import * as type from '../utils/@types/types';
 
-import { loginUser } from '../redux/user';
-
 import FormLogin from '../components/FormLogin';
-import ErrorMsg from '../components/ErrorMsg';
+import AlertMsg from '../components/AlertMsg';
 
 const LoginPage: React.FC = () => {
-    const [error, setError] = useState<string>('');
+    const [alertMsg, setAlertMsg] = useState<string[]>([]);
     const dispatch = useDispatch();
 
     const handleSubmit = async (data: type.LoginForm) => {
         try {
             await dispatch(loginUser(data));
         } catch (error) {
-            const messageObj = JSON.parse(error.message);
-            setError(messageObj.message);
+            setAlertMsg(alertMsgHelper.msgArray(await error.message));
         }
     };
 
-    const cleanErrorMsg = (): void => {
-        setError('');
+    const cleanMsg = (): void => {
+        setAlertMsg([]);
     };
 
     return (
-        <div>
-            <FormLogin onSubmit={handleSubmit} />
-            <ErrorMsg errorMsg={error} cleanErrorMsg={cleanErrorMsg} />
+        <div className="login-page">
+            <div className="login-page__form">
+                <FormLogin onSubmit={handleSubmit} />
+                <AlertMsg
+                    msgs={alertMsg}
+                    msgColor={'danger'}
+                    cleanMsg={cleanMsg}
+                    icon={'⚠'}
+                    iconColor={'danger'}
+                />
+            </div>
         </div>
     );
 };

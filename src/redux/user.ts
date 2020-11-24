@@ -33,16 +33,15 @@ export const loginUser = (data: type.LoginForm) => {
     };
 };
 
-export const signUpUser = (data: type.SignupForm) => {
-    const url = `${URL}/signup`;
+export const deleteUser = (data: type.DeleteUserForm) => {
+    const url = `${URL}/profile`;
 
     return async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
         try {
-            console.log(url);
-            const token = await reqService.signUpUser(url, data);
-            tokenService.setToken(token);
+            await reqService.deleteUser(url, data);
+
             dispatch({
-                type: LOGIN_USER,
+                type: LOGOUT_USER,
             });
         } catch (error) {
             throw new Error(error.message);

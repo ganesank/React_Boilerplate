@@ -30,7 +30,7 @@ const FormLogin: React.FC<type.FormLoginComponentProps> = ({ onSubmit }) => {
     };
 
     return (
-        <div className="form-login-signup__container">
+        <div className="form-login-signup">
             <h2>Login</h2>
             <form onSubmit={handleClick}>
                 <div className="form-login-signup__input-container">

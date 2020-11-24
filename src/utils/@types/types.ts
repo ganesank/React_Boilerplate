@@ -1,3 +1,5 @@
+// = Types
+
 export type LoginForm = {
     email: string;
     password: string;
@@ -21,33 +23,8 @@ export type ProfileForm = {
     confirmNewPassword: string;
 };
 
-export type FormLoginComponentProps = {
-    onSubmit: (data: LoginForm) => void;
-};
-
-export type FormSignUpComponentProps = {
-    onSubmit: (data: SignupForm) => void;
-};
-
-export type ErrorMsgComponentProps = {
-    errorMsg: string;
-    cleanErrorMsg: () => void;
-};
-
-export type SignUpPageProps = {
-    signUpUser: (data: SignupForm) => void;
-};
-
-export type LoginPageProps = {
-    loginUser: (data: LoginForm) => void;
-};
-
-export type FormLoginProps = {
-    onSubmit: (data: LoginForm) => void;
-};
-
-export type FormSignUpProps = {
-    onSubmit: (data: SignupForm) => void;
+export type DeleteUserForm = {
+    password: string;
 };
 
 export type UserRedux = {
@@ -70,3 +47,50 @@ export type RequestHelper = (
     url: string,
     data?: {}
 ) => Promise<any>;
+
+export type AlertMsg = {
+    (data: string): string[];
+};
+
+export type AlertMsgConfig = {
+    icon: string;
+    iconColor: string;
+    msgColor: string;
+};
+
+// = Form Component Props
+
+export type FormLoginComponentProps = {
+    onSubmit: (data: LoginForm) => void;
+};
+
+export type FormSignUpComponentProps = {
+    onSubmit: (data: SignupForm) => void;
+    onSuccessCleanForm: string;
+};
+
+export type AlertMsgProps = {
+    msgs: string[];
+    msgColor: string;
+    icon?: string;
+    iconColor?: string;
+    cleanMsg: () => void;
+};
+
+// = Page Props
+
+export type SignUpPageProps = {
+    signUpUser: (data: SignupForm) => void;
+};
+
+export type LoginPageProps = {
+    loginUser: (data: LoginForm) => void;
+};
+
+export type FormLoginProps = {
+    onSubmit: (data: LoginForm) => void;
+};
+
+export type FormSignUpProps = {
+    onSubmit: (data: SignupForm) => void;
+};

@@ -1,8 +1,11 @@
-import React, { useState, FormEvent, ChangeEvent } from 'react';
+import React, { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
 import * as type from '../utils/@types/types';
 
-const FormSignUp: React.FC<type.FormSignUpComponentProps> = ({ onSubmit }) => {
+const FormSignUp: React.FC<type.FormSignUpComponentProps> = ({
+    onSubmit,
+    onSuccessCleanForm,
+}) => {
     const initialState: type.SignupForm = {
         firstName: '',
         lastName: '',
@@ -28,6 +31,18 @@ const FormSignUp: React.FC<type.FormSignUpComponentProps> = ({ onSubmit }) => {
         });
     };
 
+    useEffect(() => {
+        if (onSuccessCleanForm === 'success') {
+            setForm({
+                firstName: '',
+                lastName: '',
+                email: '',
+                password: '',
+                confirmPassword: '',
+            });
+        }
+    }, [onSuccessCleanForm]);
+
     const isFormValid = (): boolean => {
         return !(
             form.firstName.trim() !== '' &&
@@ -40,7 +55,7 @@ const FormSignUp: React.FC<type.FormSignUpComponentProps> = ({ onSubmit }) => {
     };
 
     return (
-        <div className="form-login-signup__container">
+        <div className="form-login-signup">
             <h2>Sign Up</h2>
             <form onSubmit={handleClick}>
                 <div className="form-login-signup__input-container">
