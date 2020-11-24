@@ -167,6 +167,108 @@
     rm src/logo.svg src/setupTests.ts src/App.test.tsx src/index.css src/App.css public/logo192.png public/logo512.png
   ```
 
+- Final project structure
+
+  ```Bash
+    .
+    ├── public
+    │   ├── favicon.ico
+    │   ├── index.html
+    │   ├── manifest.json
+    │   └── robots.txt
+    ├── src
+    │   ├── assets
+    │   │   ├── data
+    │   │   │   ├── socialMedias.ts
+    │   │   │   └── technologies.ts
+    │   │   ├── fonts
+    │   │   │   └── PressStart2P-Regular.ttf
+    │   │   └── images
+    │   │       ├── logos
+    │   │       │   ├── languages
+    │   │       │   │   ├── css.svg
+    │   │       │   │   ├── html.svg
+    │   │       │   │   ├── javascript.svg
+    │   │       │   │   ├── react.svg
+    │   │       │   │   ├── redux.svg
+    │   │       │   │   ├── sass.svg
+    │   │       │   │   └── typescript.svg
+    │   │       │   ├── socialMedias
+    │   │       │   │   ├── github.svg
+    │   │       │   │   ├── linkedin.svg
+    │   │       │   │   ├── replit.svg
+    │   │       │   │   ├── tinkercad.svg
+    │   │       │   │   └── twitter.svg
+    │   │       │   └── .DS_Store
+    │   │       └── profile_pic.jpeg
+    │   ├── components
+    │   │   ├── AlertMsg.tsx
+    │   │   ├── Footer.tsx
+    │   │   ├── FormDelete.tsx
+    │   │   ├── FormLogin.tsx
+    │   │   ├── FormProfile.tsx
+    │   │   ├── FormSignUp.tsx
+    │   │   ├── Modal.tsx
+    │   │   └── Navbar.tsx
+    │   ├── css
+    │   │   ├── 1-helpers
+    │   │   │   ├── _animations.sass
+    │   │   │   ├── _functions.sass
+    │   │   │   ├── _mixins.sass
+    │   │   │   └── _tooltip.sass
+    │   │   ├── 2-base
+    │   │   │   ├── _base.sass
+    │   │   │   ├── _fonts.sass
+    │   │   │   ├── _typography.sass
+    │   │   │   └── _variables.sass
+    │   │   ├── 3-components
+    │   │   │   ├── _alert-msg.sass
+    │   │   │   ├── _button.sass
+    │   │   │   ├── _footer.sass
+    │   │   │   ├── _form-delete.sass
+    │   │   │   ├── _form-login-signup.sass
+    │   │   │   ├── _form-profile.sass
+    │   │   │   ├── _icon.sass
+    │   │   │   ├── _modal.sass
+    │   │   │   └── _navbar.sass
+    │   │   ├── 4-pages
+    │   │   │   ├── _about-page.sass
+    │   │   │   ├── _login-page.sass
+    │   │   │   └── _signup-page.sass
+    │   │   ├── styles.css
+    │   │   └── styles.sass
+    │   ├── pages
+    │   │   ├── AboutPage.tsx
+    │   │   ├── HomePage.tsx
+    │   │   ├── LoginPage.tsx
+    │   │   ├── ProfilePage.tsx
+    │   │   └── SignUpPage.tsx
+    │   ├── redux
+    │   │   ├── modal.ts
+    │   │   └── user.ts
+    │   ├── utils
+    │   │   ├── @types
+    │   │   │   └── types.ts
+    │   │   ├── api
+    │   │   │   ├── requestHelper.ts
+    │   │   │   ├── requestService.ts
+    │   │   │   └── tokenService.ts
+    │   │   └── helpers
+    │   │       └── alertMsgHelper.ts
+    │   ├── App.tsx
+    │   ├── index.tsx
+    │   ├── react-app-env.d.ts
+    │   ├── reportWebVitals.ts
+    │   └── store.ts
+    ├── .env.local
+    ├── .gitignore
+    ├── package-lock.json
+    ├── package.json
+    ├── README.md
+    ├── tsconfig.json
+    └── yarn.lock
+  ```
+
 ## Environment Variables
 
 [Go Back to Contents](#contents)
