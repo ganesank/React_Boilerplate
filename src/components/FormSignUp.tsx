@@ -1,12 +1,9 @@
-import React, { useState, useEffect, FormEvent, ChangeEvent } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import * as type from '../utils/@types/types';
+import * as Type from '../utils/@types/types';
 
-const FormSignUp: React.FC<type.FormSignUpComponentProps> = ({
-    onSubmit,
-    onSuccessCleanForm,
-}) => {
-    const initialState: type.SignupForm = {
+const FormSignUp: React.FC<Type.FormSignUpComponentProps> = ({ onSubmit, onSuccessCleanForm }) => {
+    const initialState: Type.SignUpForm = {
         firstName: '',
         lastName: '',
         email: '',
@@ -14,22 +11,6 @@ const FormSignUp: React.FC<type.FormSignUpComponentProps> = ({
         confirmPassword: '',
     };
     const [form, setForm] = useState(initialState);
-
-    const handleClick = (e: FormEvent) => {
-        e.preventDefault();
-        onSubmit(form);
-    };
-
-    const handleChange = ({
-        target: { name, value },
-    }: ChangeEvent<
-        HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >) => {
-        setForm({
-            ...form,
-            [name]: value,
-        });
-    };
 
     useEffect(() => {
         if (onSuccessCleanForm === 'success') {
@@ -43,7 +24,19 @@ const FormSignUp: React.FC<type.FormSignUpComponentProps> = ({
         }
     }, [onSuccessCleanForm]);
 
-    const isFormValid = (): boolean => {
+    const handleSubmit: Type.HandleSubmitFn<{}> = (e) => {
+        e.preventDefault();
+        onSubmit(form);
+    };
+
+    const handleChange: Type.HandleChangeFn = ({ target: { name, value } }) => {
+        setForm({
+            ...form,
+            [name]: value,
+        });
+    };
+
+    const isFormValid: Type.IsFormValidFn = () => {
         return !(
             form.firstName.trim() !== '' &&
             form.lastName.trim() !== '' &&
@@ -57,7 +50,7 @@ const FormSignUp: React.FC<type.FormSignUpComponentProps> = ({
     return (
         <div className="form-login-signup">
             <h2>Sign Up</h2>
-            <form onSubmit={handleClick}>
+            <form onSubmit={handleSubmit}>
                 <div className="form-login-signup__input-container">
                     <input
                         type="text"
@@ -68,10 +61,7 @@ const FormSignUp: React.FC<type.FormSignUpComponentProps> = ({
                         value={form.firstName}
                         onChange={handleChange}
                     />
-                    <label
-                        htmlFor="firstName"
-                        className="form-login-signup__label"
-                    >
+                    <label htmlFor="firstName" className="form-login-signup__label">
                         First Name
                     </label>
                 </div>
@@ -85,10 +75,7 @@ const FormSignUp: React.FC<type.FormSignUpComponentProps> = ({
                         value={form.lastName}
                         onChange={handleChange}
                     />
-                    <label
-                        htmlFor="lastName"
-                        className="form-login-signup__label"
-                    >
+                    <label htmlFor="lastName" className="form-login-signup__label">
                         Last Name
                     </label>
                 </div>
@@ -118,10 +105,7 @@ const FormSignUp: React.FC<type.FormSignUpComponentProps> = ({
                         onChange={handleChange}
                         autoComplete="current-password"
                     />
-                    <label
-                        htmlFor="Password"
-                        className="form-login-signup__label"
-                    >
+                    <label htmlFor="Password" className="form-login-signup__label">
                         Password
                     </label>
                 </div>
@@ -136,10 +120,7 @@ const FormSignUp: React.FC<type.FormSignUpComponentProps> = ({
                         onChange={handleChange}
                         autoComplete="current-password"
                     />
-                    <label
-                        htmlFor="confirmPassword"
-                        className="form-login-signup__label"
-                    >
+                    <label htmlFor="confirmPassword" className="form-login-signup__label">
                         Confirm Password
                     </label>
                 </div>

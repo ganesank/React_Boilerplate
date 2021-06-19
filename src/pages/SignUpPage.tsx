@@ -1,43 +1,40 @@
 import React, { useState } from 'react';
-import * as requestService from '../utils/api/requestService';
+import * as requestHelper from '../utils/helpers/requestHelper';
 import * as alertMsgHelper from '../utils/helpers/alertMsgHelper';
-import * as type from '../utils/@types/types';
+import * as Type from '../utils/@types/types';
 
 import FormSignUp from '../components/FormSignUp';
 import AlertMsg from '../components/AlertMsg';
 
-const PORT = +process.env.REACT_APP_BACKEND_PORT!;
-const HTTP = PORT! === 3001 ? 'http://' : 'https://';
-const URL = `${HTTP}${
-    process.env.REACT_APP_BACKEND_URL!.split(':')[0]
-}:${PORT}/api/users/signup`;
+const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
+const HTTP: string = PORT === 3001 ? 'http://' : 'https://';
+const URL: string = `${HTTP}${process.env.REACT_APP_BACKEND_URL!}:${PORT}/api/users`;
 
 const SignUpPage: React.FC = () => {
     const [alertMsg, setAlertMsg] = useState<string[]>([]);
-    const [alertConfig, setAlertConfig] = useState<type.AlertMsgConfig>({
+    const [alertConfig, setAlertConfig] = useState<Type.AlertMsgConfig>({
         icon: '',
         iconColor: '',
         msgColor: '',
     });
 
-    const handleSubmit = async (data: type.SignupForm) => {
+    const handleSubmitSignUp: Type.HandleSubmitDataFn<Type.SignUpForm> = async (data) => {
         try {
-            const response = await requestService.signUpUser(URL, data);
+            const response = await requestHelper.signUpUser(URL, data);
+
             setAlertConfig({
-                icon: '¡',
-                iconColor: 'success',
-                msgColor: 'success',
+                icon: !response.data ? '⚠' : '✓',
+                iconColor: !response.data ? 'danger' : 'success',
+                msgColor: !response.data ? 'danger' : 'success',
             });
-            setAlertMsg(
-                alertMsgHelper.msgArray(await JSON.stringify(response))
-            );
+            setAlertMsg(alertMsgHelper.msgArray(response));
         } catch (error) {
             setAlertConfig({
                 icon: '⚠',
                 iconColor: 'danger',
                 msgColor: 'danger',
             });
-            setAlertMsg(alertMsgHelper.msgArray(await error.message));
+            setAlertMsg(alertMsgHelper.msgArray(error.message));
         }
     };
 
@@ -48,10 +45,7 @@ const SignUpPage: React.FC = () => {
     return (
         <div className="signup-page">
             <div className="signup-page__form">
-                <FormSignUp
-                    onSubmit={handleSubmit}
-                    onSuccessCleanForm={alertConfig.msgColor}
-                />
+                <FormSignUp onSubmit={handleSubmitSignUp} onSuccessCleanForm={alertConfig.msgColor} />
                 <AlertMsg
                     msgs={alertMsg}
                     msgColor={alertConfig.msgColor}

@@ -1,15 +1,15 @@
-import React, { useState, FormEvent, ChangeEvent, MouseEvent } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { clearMsg } from '../redux/modal';
 import { deleteUser } from '../redux/user';
 import * as alertMsgHelper from '../utils/helpers/alertMsgHelper';
-import * as type from '../utils/@types/types';
+import * as Type from '../utils/@types/types';
 
 import AlertMsg from './AlertMsg';
 
 const FormDelete: React.FC = () => {
-    const initialState: type.DeleteUserForm = {
+    const initialState: Type.DeleteUserForm = {
         password: '',
     };
     const [form, setForm] = useState(initialState);
@@ -18,13 +18,13 @@ const FormDelete: React.FC = () => {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const handleSubmit = async (e: FormEvent) => {
+    const handleSubmit: Type.HandleSubmitFn<{}> = (e) => {
         e.preventDefault();
         try {
-            await dispatch(deleteUser(form));
+            dispatch(deleteUser(form));
             history.push('/');
         } catch (error) {
-            setAlertMsg(alertMsgHelper.msgArray(await error.message));
+            setAlertMsg(alertMsgHelper.msgArray(error.message));
         }
     };
 
@@ -32,23 +32,19 @@ const FormDelete: React.FC = () => {
         setAlertMsg([]);
     };
 
-    const handleClick = (e: MouseEvent) => {
+    const handleClick: Type.HandleClickFn = (e) => {
         e.preventDefault();
         dispatch(clearMsg());
     };
 
-    const handleChange = ({
-        target: { name, value },
-    }: ChangeEvent<
-        HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >) => {
+    const handleChange: Type.HandleChangeFn = ({ target: { name, value } }) => {
         setForm({
             ...form,
             [name]: value,
         });
     };
 
-    const isFormValid = () => {
+    const isFormValid: Type.IsFormValidFn = () => {
         return !(form.password !== '');
     };
 
@@ -72,11 +68,7 @@ const FormDelete: React.FC = () => {
                         autoComplete="password"
                     />
                     <button
-                        className={
-                            isFormValid()
-                                ? 'btn btn--disabled '
-                                : 'btn btn--danger'
-                        }
+                        className={isFormValid() ? 'btn btn--disabled ' : 'btn btn--danger'}
                         type="submit"
                         disabled={isFormValid()}
                     >
@@ -85,13 +77,7 @@ const FormDelete: React.FC = () => {
                 </div>
             </form>
             {alertMsg.length > 0 && (
-                <AlertMsg
-                    msgs={alertMsg}
-                    msgColor={'danger'}
-                    cleanMsg={cleanMsg}
-                    icon={'⚠'}
-                    iconColor={'danger'}
-                />
+                <AlertMsg msgs={alertMsg} msgColor={'danger'} cleanMsg={cleanMsg} icon={'⚠'} iconColor={'danger'} />
             )}
         </div>
     );

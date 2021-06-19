@@ -1,27 +1,19 @@
-import React, {
-    useState,
-    useEffect,
-    FormEvent,
-    ChangeEvent,
-    MouseEvent,
-} from 'react';
-import * as type from '../utils/@types/types';
-import * as requestService from '../utils/api/requestService';
-import * as alertMsgHelper from '../utils/helpers/alertMsgHelper';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import * as requestHelper from '../utils/helpers/requestHelper';
+import * as alertMsgHelper from '../utils/helpers/alertMsgHelper';
+import * as Type from '../utils/@types/types';
 import { setMsg } from '../redux/modal';
 
 import AlertMsg from '../components/AlertMsg';
 
-const PORT = +process.env.REACT_APP_BACKEND_PORT!;
-const HTTP = PORT! === 3001 ? 'http://' : 'https://';
-const URL = `${HTTP}${
-    process.env.REACT_APP_BACKEND_URL!.split(':')[0]
-}:${PORT}/api/users`;
+const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
+const HTTP: string = PORT === 3001 ? 'http://' : 'https://';
+const URL: string = `${HTTP}${process.env.REACT_APP_BACKEND_URL!}:${PORT}/api/users`;
 
 const FormProfile: React.FC = () => {
     const [alertMsg, setAlertMsg] = useState<string[]>([]);
-    const initialState: type.ProfileForm = {
+    const initialState: Type.ProfileForm = {
         _id: '',
         firstName: '',
         lastName: '',
@@ -34,9 +26,9 @@ const FormProfile: React.FC = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const fetchData = async () => {
+        (async () => {
             try {
-                const profile = await requestService.getData(`${URL}/profile`);
+                const profile = await requestHelper.getData(`${URL}/profile`);
                 setForm((prev) => {
                     return {
                         ...prev,
@@ -47,17 +39,16 @@ const FormProfile: React.FC = () => {
                     };
                 });
             } catch (error) {
-                setAlertMsg(alertMsgHelper.msgArray(await error.message));
+                setAlertMsg(alertMsgHelper.msgArray(error.message));
             }
-        };
-        fetchData();
+        })();
     }, []);
 
-    const handleClick = async (e: FormEvent) => {
+    const handleSubmit: Type.HandleSubmitFn<{}> = async (e) => {
         e.preventDefault();
 
         try {
-            await requestService.updateData(`${URL}/profile`, form);
+            await requestHelper.updateData(`${URL}/profile`, form);
             setForm((prev) => {
                 return {
                     ...prev,
@@ -68,20 +59,16 @@ const FormProfile: React.FC = () => {
             });
             alert('Your profile has been updated!');
         } catch (error) {
-            setAlertMsg(alertMsgHelper.msgArray(await error.message));
+            setAlertMsg(alertMsgHelper.msgArray(error.message));
         }
     };
 
-    const handleDelete = (e: MouseEvent) => {
+    const handleDelete: Type.HandleClickFn = (e) => {
         e.preventDefault();
         dispatch(setMsg('Are you sure you want to delete your account?'));
     };
 
-    const handleChange = ({
-        target: { name, value },
-    }: ChangeEvent<
-        HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >) => {
+    const handleChange: Type.HandleChangeFn = ({ target: { name, value } }) => {
         setForm({
             ...form,
             [name]: value,
@@ -92,7 +79,7 @@ const FormProfile: React.FC = () => {
         setAlertMsg([]);
     };
 
-    const isFormValid = (): boolean => {
+    const isFormValid: Type.IsFormValidFn = () => {
         return !(
             form.firstName.trim() !== '' &&
             form.lastName.trim() !== '' &&
@@ -105,7 +92,7 @@ const FormProfile: React.FC = () => {
     return (
         <div className="form-profile__container">
             <h2>PROFILE</h2>
-            <form onSubmit={handleClick}>
+            <form onSubmit={handleSubmit}>
                 <div className="form-profile__split">
                     <div className="form-profile__input-container">
                         <input
@@ -117,10 +104,7 @@ const FormProfile: React.FC = () => {
                             value={form.firstName}
                             onChange={handleChange}
                         />
-                        <label
-                            htmlFor="firstName"
-                            className="form-profile__label"
-                        >
+                        <label htmlFor="firstName" className="form-profile__label">
                             First Name
                         </label>
                     </div>
@@ -134,10 +118,7 @@ const FormProfile: React.FC = () => {
                             value={form.lastName}
                             onChange={handleChange}
                         />
-                        <label
-                            htmlFor="lastName"
-                            className="form-profile__label"
-                        >
+                        <label htmlFor="lastName" className="form-profile__label">
                             Last Name
                         </label>
                     </div>
@@ -169,10 +150,7 @@ const FormProfile: React.FC = () => {
                             onChange={handleChange}
                             autoComplete="password"
                         />
-                        <label
-                            htmlFor="newPassword"
-                            className="form-profile__label"
-                        >
+                        <label htmlFor="newPassword" className="form-profile__label">
                             New Password
                         </label>
                     </div>
@@ -187,10 +165,7 @@ const FormProfile: React.FC = () => {
                             onChange={handleChange}
                             autoComplete="password"
                         />
-                        <label
-                            htmlFor="confirmNewPassword"
-                            className="form-profile__label"
-                        >
+                        <label htmlFor="confirmNewPassword" className="form-profile__label">
                             Confirm New Password
                         </label>
                     </div>
@@ -217,21 +192,11 @@ const FormProfile: React.FC = () => {
                 </div>
             </form>
             <div className="form-profile__delete">
-                <a
-                    href="/"
-                    className="form-profile__delete-link"
-                    onClick={handleDelete}
-                >
+                <a href="/" className="form-profile__delete-link" onClick={handleDelete}>
                     Delete Account
                 </a>
             </div>
-            <AlertMsg
-                msgs={alertMsg}
-                msgColor={'danger'}
-                cleanMsg={cleanMsg}
-                icon={'⚠'}
-                iconColor={'danger'}
-            />
+            <AlertMsg msgs={alertMsg} msgColor={'danger'} cleanMsg={cleanMsg} icon={'⚠'} iconColor={'danger'} />
         </div>
     );
 };

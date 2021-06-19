@@ -1,6 +1,7 @@
-import React, { MouseEvent } from 'react';
+import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch, RootStateOrAny } from 'react-redux';
+import * as Type from '../utils/@types/types';
 
 import { logoutUser } from '../redux/user';
 
@@ -9,7 +10,7 @@ const Navbar: React.FC = () => {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const handleLogout = (e: MouseEvent) => {
+    const handleLogout: Type.HandleClickFn = (e) => {
         e.preventDefault();
         dispatch(logoutUser());
         history.push('/');
@@ -67,7 +68,9 @@ const Navbar: React.FC = () => {
     return (
         <div className="navbar">
             <div className="container">
-                <div className="navbar__logo">Roger Takeshita</div>
+                <Link className="navbar__logo" to="/">
+                    Roger Takeshita
+                </Link>
                 <div className="navbar__menu-container">{menu}</div>
             </div>
         </div>

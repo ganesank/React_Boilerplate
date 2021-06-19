@@ -1,38 +1,34 @@
-import React, { FormEvent, useState, ChangeEvent } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import * as type from '../utils/@types/types';
+import * as Type from '../utils/@types/types';
 
-const FormLogin: React.FC<type.FormLoginComponentProps> = ({ onSubmit }) => {
-    const initialState: type.LoginForm = {
+const FormLogin: React.FC<Type.FormLoginComponentProps> = ({ onSubmit }) => {
+    const initialState: Type.LoginForm = {
         email: '',
         password: '',
     };
     const [form, setForm] = useState(initialState);
 
-    const handleClick = (e: FormEvent) => {
+    const handleSubmit: Type.HandleSubmitFn<Type.LoginForm> = (e) => {
         e.preventDefault();
         onSubmit(form);
     };
 
-    const handleChange = ({
-        target: { name, value },
-    }: ChangeEvent<
-        HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >) => {
+    const handleChange: Type.HandleChangeFn = ({ target: { name, value } }) => {
         setForm({
             ...form,
             [name]: value,
         });
     };
 
-    const isFormValid = (): boolean => {
+    const isFormValid: Type.IsFormValidFn = () => {
         return !(form.email.trim() !== '' && form.password.trim() !== '');
     };
 
     return (
         <div className="form-login-signup">
             <h2>Login</h2>
-            <form onSubmit={handleClick}>
+            <form onSubmit={handleSubmit}>
                 <div className="form-login-signup__input-container">
                     <input
                         type="email"
@@ -59,10 +55,7 @@ const FormLogin: React.FC<type.FormLoginComponentProps> = ({ onSubmit }) => {
                         onChange={handleChange}
                         autoComplete="current-password"
                     />
-                    <label
-                        htmlFor="password"
-                        className="form-login-signup__label"
-                    >
+                    <label htmlFor="password" className="form-login-signup__label">
                         Password
                     </label>
                 </div>

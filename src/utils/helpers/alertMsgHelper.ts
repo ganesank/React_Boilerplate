@@ -1,21 +1,18 @@
-import * as type from '../@types/types';
+import * as Type from '../@types/types';
 
-export const msgArray: type.AlertMsg = (data) => {
-    if (data === 'Failed to fetch') {
-        return [data];
-    } else {
-        const array: string[] = [];
-        const dataObj = JSON.parse(data);
-        if (data.includes('message')) {
-            for (const key in dataObj) {
-                array.push(dataObj[key]);
-            }
-        } else {
-            for (const key in dataObj) {
-                array.push(`${key}: ${dataObj[key]}`);
-            }
+export const msgArray: Type.MsgArrayFn = (res) => {
+    const array: string[] = [];
+    const response = JSON.parse(res);
+
+    if (response.error) {
+        for (const key in response.error) {
+            array.push(`${key}: ${response.error[key]}`);
         }
-
-        return array;
+    } else {
+        for (const key in response.data) {
+            array.push(response.data[key]!);
+        }
     }
+
+    return array;
 };

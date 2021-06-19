@@ -5,7 +5,7 @@ import { clearMsg } from '../redux/modal';
 const Modal: React.FC = ({ children }) => {
     const dispatch = useDispatch();
 
-    const handleClose = () => {
+    const handleClose = (): void => {
         dispatch(clearMsg());
     };
 

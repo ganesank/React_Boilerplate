@@ -296,8 +296,8 @@ h4 {
   background-color: #375a80;
   height: 5rem;
   width: 100%;
-  -webkit-box-shadow: 0 0.5rem 1rem rgba(14, 14, 14, 0.5);
-          box-shadow: 0 0.5rem 1rem rgba(14, 14, 14, 0.5);
+  -webkit-box-shadow: 0 0.3rem 0.5rem rgba(14, 14, 14, 0.5);
+          box-shadow: 0 0.3rem 0.5rem rgba(14, 14, 14, 0.5);
 }
 
 .navbar__logo {
@@ -314,6 +314,7 @@ h4 {
           align-items: center;
   margin: 0 1rem;
   white-space: nowrap;
+  text-decoration: none;
 }
 
 .navbar__menu-container {

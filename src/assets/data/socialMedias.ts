@@ -1,8 +1,8 @@
-import linkedinSvg from '../../assets/images/logos/socialMedias/linkedin.svg';
-import replitSvg from '../../assets/images/logos/socialMedias/replit.svg';
-import tinkercadSvg from '../../assets/images/logos/socialMedias/tinkercad.svg';
-import twitterSvg from '../../assets/images/logos/socialMedias/twitter.svg';
-import githubSvg from '../../assets/images/logos/socialMedias/github.svg';
+import linkedinSvg from '../images/logos/socialMedias/linkedin.svg';
+import replitSvg from '../images/logos/socialMedias/replit.svg';
+import tinkercadSvg from '../images/logos/socialMedias/tinkercad.svg';
+import twitterSvg from '../images/logos/socialMedias/twitter.svg';
+import githubSvg from '../images/logos/socialMedias/github.svg';
 
 type SocialMedia = {
     name: string;
@@ -40,8 +40,7 @@ const socialMedias: SocialMedia[] = [
         name: 'TinkerCad',
         src: tinkercadSvg,
         class: 'icon__social-media',
-        url:
-            'https://www.tinkercad.com/users/6isX9On4Qd0-roger-takeshita?category=circuits&sort=likes&view_mode=default',
+        url: 'https://www.tinkercad.com/users/6isX9On4Qd0-roger-takeshita?category=circuits&sort=likes&view_mode=default',
     },
 ];
 

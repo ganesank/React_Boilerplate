@@ -1,10 +1,10 @@
-import javascriptSvg from '../../assets/images/logos/languages/javascript.svg';
-import typescriptSvg from '../../assets/images/logos/languages/typescript.svg';
-import reactSvg from '../../assets/images/logos/languages/react.svg';
-import reduxSvg from '../../assets/images/logos/languages/redux.svg';
-import htmlSvg from '../../assets/images/logos/languages/html.svg';
-import sassSvg from '../../assets/images/logos/languages/sass.svg';
-import cssSvg from '../../assets/images/logos/languages/css.svg';
+import javascriptSvg from '../images/logos/languages/javascript.svg';
+import typescriptSvg from '../images/logos/languages/typescript.svg';
+import reactSvg from '../images/logos/languages/react.svg';
+import reduxSvg from '../images/logos/languages/redux.svg';
+import htmlSvg from '../images/logos/languages/html.svg';
+import sassSvg from '../images/logos/languages/sass.svg';
+import cssSvg from '../images/logos/languages/css.svg';
 
 type Technologies = {
     name: string;
