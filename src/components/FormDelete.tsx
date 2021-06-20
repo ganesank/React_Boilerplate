@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { clearMsg } from '../redux/modal';
+import { setModalMsg } from '../redux/modal';
 import { deleteUser } from '../redux/user';
 import * as alertMsgHelper from '../utils/helpers/alertMsgHelper';
 import * as Type from '../utils/@types/types';
@@ -28,13 +28,9 @@ const FormDelete: React.FC = () => {
         }
     };
 
-    const cleanMsg = (): void => {
-        setAlertMsg([]);
-    };
-
     const handleClick: Type.HandleClickFn = (e) => {
         e.preventDefault();
-        dispatch(clearMsg());
+        dispatch(setModalMsg(''));
     };
 
     const handleChange: Type.HandleChangeFn = ({ target: { name, value } }) => {
@@ -50,7 +46,7 @@ const FormDelete: React.FC = () => {
 
     return (
         <div className="form-delete" onClick={(e) => e.stopPropagation()}>
-            <h2>DELETE ACC</h2>
+            <h3>DELETE ACC</h3>
             <a href="/" className="form-delete__close" onClick={handleClick}>
                 X
             </a>
@@ -76,9 +72,7 @@ const FormDelete: React.FC = () => {
                     </button>
                 </div>
             </form>
-            {alertMsg.length > 0 && (
-                <AlertMsg msgs={alertMsg} msgColor={'danger'} cleanMsg={cleanMsg} icon={'⚠'} iconColor={'danger'} />
-            )}
+            {alertMsg.length > 0 && <AlertMsg />}
         </div>
     );
 };

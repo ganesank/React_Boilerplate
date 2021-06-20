@@ -1,7 +1,7 @@
 import * as token from '../token/tokenService';
 import * as Type from '../@types/types';
 
-const request: Type.Request = async (type, url, attrs, reqToken = false, throwError = false) => {
+const request: Type.Request = async (type, url, attrs, reqToken = false, throwError) => {
     const option: Type.RequestOptions = {
         method: type,
         headers: {
@@ -12,24 +12,34 @@ const request: Type.Request = async (type, url, attrs, reqToken = false, throwEr
     if (reqToken) option.headers.Authorization = `Bearer ${token.getToken()}`;
     if (attrs && type !== 'GET') option.body = JSON.stringify(attrs);
 
-    return await fetch(url, option).then(async (response) => {
+    try {
+        const response = await fetch(url, option);
         const data = await response.json();
         const res: Type.Response = {
-            data: null,
-            status: null,
-            error: null,
+            data: response.ok ? data : null,
+            ok: response.ok,
+            status: response.status,
+            error: response.ok ? null : data,
         };
 
         if (throwError) {
-            if (response.ok) return (res.data = data);
-            res.status = response.status;
-            res.error = res.data;
-            return res;
+            if (response.ok) return data;
+            throw new Error(JSON.stringify(data));
         }
 
-        if (response.ok) return { data, error: null };
-        return { data: null, error: data };
-    });
+        return res;
+    } catch (error) {
+        if (throwError) {
+            throw new Error(error);
+        }
+
+        return {
+            data: null,
+            ok: false,
+            status: 503,
+            error,
+        };
+    }
 };
 
 export default request;

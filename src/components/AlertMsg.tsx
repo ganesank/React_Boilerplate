@@ -1,35 +1,39 @@
 import React, { useEffect } from 'react';
-import * as Type from '../utils/@types/types';
+import { useSelector, useDispatch, RootStateOrAny } from 'react-redux';
+import { removeMsgs } from '../redux/messages';
 
-const AlertMsg: React.FC<Type.AlertMsgProps> = ({ msgs, icon, iconColor, msgColor, cleanMsg }) => {
+const AlertMsg: React.FC = () => {
+    const msgs = useSelector((state: RootStateOrAny) => state.msgs);
+    const dispatch = useDispatch();
+
     useEffect(() => {
         const timer = setTimeout(() => {
-            cleanMsg();
+            dispatch(removeMsgs());
         }, 10000);
-
         return () => {
             clearTimeout(timer);
+            dispatch(removeMsgs());
         };
-    }, [msgs, cleanMsg]);
+    }, [dispatch]);
 
-    const el =
-        msgs.length > 0 &&
-        msgs.map((item, idx) => {
-            return (
-                <div key={idx} className={`alert-msg__msg alert-msg__msg--${msgColor}`}>
-                    {item}
-                </div>
-            );
-        });
+    const icon = (
+        <div className={msgs.iconColor ? `alert-msg__icon alert-msg__icon--${msgs.iconColor}` : `alert-msg__icon`}>
+            {msgs.icon}
+        </div>
+    );
+
+    const messages = msgs.msgs.map((item: string, idx: number) => {
+        return (
+            <div key={idx} className={`alert-msg__msg alert-msg__msg--${msgs.msgColor}`}>
+                {item}
+            </div>
+        );
+    });
 
     return (
         <div className="alert-msg">
-            {msgs.length > 0 && icon && (
-                <div className={iconColor ? `alert-msg__icon alert-msg__icon--${iconColor}` : `alert-msg__icon`}>
-                    {icon}
-                </div>
-            )}
-            <div className="alert-msg__msg-container">{el}</div>
+            {msgs.msgs.length > 0 && msgs.icon && icon}
+            <div className="alert-msg__msg-container">{messages}</div>
         </div>
     );
 };

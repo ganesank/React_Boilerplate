@@ -11,58 +11,78 @@ const URL: string = `${HTTP}${process.env.REACT_APP_BACKEND_URL!}:${PORT}/api/us
 
 const LOGOUT_USER: string = 'LOGOUT_USER';
 const LOGIN_USER: string = 'LOGIN_USER';
-const LOGIN_ERROR: string = 'LOGIN_ERROR';
+const SET_MSGS: string = 'SET_MSGS';
 
 export const loginUser: Type.ReduxAction<Type.LoginForm> = (data) => {
-    const url = `${URL}/login`;
-
     return async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
         try {
-            const response = await requestHelper.loginUser(url, data);
-            console.log(response);
-            tokenService.setToken(response);
+            const response = await requestHelper.loginUser(`${URL}/login`, data);
 
-            dispatch({
-                type: LOGIN_USER,
-            });
+            if (!response.ok)
+                return dispatch({
+                    type: SET_MSGS,
+                    payload: {
+                        msgs: [response.error.message],
+                        msgColor: 'danger',
+                        icon: '⚠',
+                        iconColor: 'danger',
+                    },
+                });
+
+            tokenService.setToken(response.data);
+            dispatch({ type: LOGIN_USER });
         } catch (error) {
-            console.log(error.message);
-            throw new Error(error.message);
+            dispatch({
+                type: SET_MSGS,
+                payload: {
+                    msgs: [error.message],
+                    msgColor: 'danger',
+                    icon: '⚠',
+                    iconColor: 'danger',
+                },
+            });
         }
     };
 };
-
-export const loginError: Type.ReduxActionPayload<Type.ErrorI> = (data) => ({
-    type: LOGIN_ERROR,
-    payload: data,
-});
 
 export const logoutUser: Type.ReduxActionPayload<null> = () => ({
     type: LOGOUT_USER,
 });
 
 export const deleteUser: Type.ReduxAction<Type.DeleteUserForm> = (data) => {
-    const url = `${URL}/profile`;
-
     return async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
         try {
-            await requestHelper.deleteUser(url, data);
+            const response = await requestHelper.deleteUser(`${URL}/profile`, data);
+
+            if (!response.ok)
+                return dispatch({
+                    type: SET_MSGS,
+                    payload: {
+                        msgs: [response.error.message],
+                        msgColor: 'danger',
+                        icon: '⚠',
+                        iconColor: 'danger',
+                    },
+                });
 
             dispatch({
                 type: LOGOUT_USER,
             });
         } catch (error) {
-            throw new Error(error.message);
+            dispatch({
+                type: SET_MSGS,
+                payload: {
+                    msgs: [error.message],
+                    msgColor: 'danger',
+                    icon: '⚠',
+                    iconColor: 'danger',
+                },
+            });
         }
     };
 };
 
-const initialState: Type.UserReduxInitialState = {
-    state: tokenService.getUserFromToken(),
-    error: {},
-};
-
-function userReducer(state = initialState, action: Type.UserReduxAction) {
+function userReducer(state = tokenService.getUserFromToken(), action: Type.UserReduxAction) {
     switch (action.type) {
         case LOGIN_USER:
             return tokenService.getUserFromToken();

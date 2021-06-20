@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import * as requestHelper from '../utils/helpers/requestHelper';
-import * as alertMsgHelper from '../utils/helpers/alertMsgHelper';
 import * as Type from '../utils/@types/types';
-import { setMsg } from '../redux/modal';
-
-import AlertMsg from '../components/AlertMsg';
+import { setModalMsg } from '../redux/modal';
+import { setMsgs } from '../redux/messages';
 
 const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
 const HTTP: string = PORT === 3001 ? 'http://' : 'https://';
 const URL: string = `${HTTP}${process.env.REACT_APP_BACKEND_URL!}:${PORT}/api/users`;
 
 const FormProfile: React.FC = () => {
-    const [alertMsg, setAlertMsg] = useState<string[]>([]);
     const initialState: Type.ProfileForm = {
         _id: '',
         firstName: '',
@@ -28,44 +25,81 @@ const FormProfile: React.FC = () => {
     useEffect(() => {
         (async () => {
             try {
-                const profile = await requestHelper.getData(`${URL}/profile`);
+                const response = await requestHelper.getData(`${URL}/profile`);
+                if (!response.ok)
+                    return dispatch(
+                        setMsgs({
+                            msgs: [response.error.message],
+                            msgColor: 'danger',
+                            icon: '⚠',
+                            iconColor: 'danger',
+                        })
+                    );
+
                 setForm((prev) => {
                     return {
                         ...prev,
-                        _id: profile._id,
-                        firstName: profile.firstName,
-                        lastName: profile.lastName,
-                        email: profile.email,
+                        _id: response.data._id,
+                        firstName: response.data.firstName,
+                        lastName: response.data.lastName,
+                        email: response.data.email,
                     };
                 });
             } catch (error) {
-                setAlertMsg(alertMsgHelper.msgArray(error.message));
+                dispatch(
+                    setMsgs({
+                        msgs: [error.message],
+                        msgColor: 'danger',
+                        icon: '⚠',
+                        iconColor: 'danger',
+                    })
+                );
             }
         })();
-    }, []);
+    }, [dispatch, setForm]);
 
     const handleSubmit: Type.HandleSubmitFn<{}> = async (e) => {
         e.preventDefault();
 
         try {
-            await requestHelper.updateData(`${URL}/profile`, form);
+            const response = await requestHelper.updateData(`${URL}/profile`, form);
+            if (!response.ok) {
+                const errors = Object.keys(response.error).map((key) => {
+                    return response.error[key];
+                });
+                return dispatch(
+                    setMsgs({
+                        msgs: errors,
+                        msgColor: 'danger',
+                        icon: '⚠',
+                        iconColor: 'danger',
+                    })
+                );
+            }
+
             setForm((prev) => {
                 return {
                     ...prev,
-                    password: '',
                     newPassword: '',
                     confirmNewPassword: '',
                 };
             });
             alert('Your profile has been updated!');
         } catch (error) {
-            setAlertMsg(alertMsgHelper.msgArray(error.message));
+            dispatch(
+                setMsgs({
+                    msgs: [error.message],
+                    msgColor: 'danger',
+                    icon: '⚠',
+                    iconColor: 'danger',
+                })
+            );
         }
     };
 
     const handleDelete: Type.HandleClickFn = (e) => {
         e.preventDefault();
-        dispatch(setMsg('Are you sure you want to delete your account?'));
+        dispatch(setModalMsg('Are you sure you want to delete your account?'));
     };
 
     const handleChange: Type.HandleChangeFn = ({ target: { name, value } }) => {
@@ -73,10 +107,6 @@ const FormProfile: React.FC = () => {
             ...form,
             [name]: value,
         });
-    };
-
-    const cleanMsg = (): void => {
-        setAlertMsg([]);
     };
 
     const isFormValid: Type.IsFormValidFn = () => {
@@ -148,7 +178,7 @@ const FormProfile: React.FC = () => {
                             minLength={4}
                             value={form.newPassword}
                             onChange={handleChange}
-                            autoComplete="password"
+                            autoComplete="new-password"
                         />
                         <label htmlFor="newPassword" className="form-profile__label">
                             New Password
@@ -163,7 +193,7 @@ const FormProfile: React.FC = () => {
                             minLength={4}
                             value={form.confirmNewPassword}
                             onChange={handleChange}
-                            autoComplete="password"
+                            autoComplete="new-password"
                         />
                         <label htmlFor="confirmNewPassword" className="form-profile__label">
                             Confirm New Password
@@ -180,7 +210,7 @@ const FormProfile: React.FC = () => {
                         required
                         value={form.password}
                         onChange={handleChange}
-                        autoComplete="current-password"
+                        autoComplete="password"
                     />
                     <button
                         className={isFormValid() ? 'btn btn--disabled ' : 'btn'}
@@ -196,7 +226,6 @@ const FormProfile: React.FC = () => {
                     Delete Account
                 </a>
             </div>
-            <AlertMsg msgs={alertMsg} msgColor={'danger'} cleanMsg={cleanMsg} icon={'⚠'} iconColor={'danger'} />
         </div>
     );
 };

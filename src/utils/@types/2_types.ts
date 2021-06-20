@@ -1,9 +1,18 @@
-import { ErrorI } from './3_interfaces';
-
 // _ Request
-export type Response = { data: object | null; status: number | null; error: object | null };
+export type Response = {
+    data: object | null;
+    status: number | null;
+    error: object | null;
+    ok: boolean;
+};
 
-export type Request = (type: string, url: string, data?: {}, reqToken?: boolean, throwError?: boolean) => Promise<any>;
+export type Request = (
+    type: string,
+    url: string,
+    data?: {} | null,
+    reqToken?: boolean,
+    throwError?: boolean
+) => Promise<any>;
 
 export type RequestOptions = {
     method: string;
@@ -14,16 +23,12 @@ export type RequestOptions = {
     body?: string;
 };
 
-// _ User Redux
+// _ Redux
+// + User
 export type UserReduxPayload = {
     _id: string;
     firstName: string;
     lastName: string;
-};
-
-export type UserReduxInitialState = {
-    state: string | null;
-    error: ErrorI;
 };
 
 export type UserReduxAction = {
@@ -31,6 +36,7 @@ export type UserReduxAction = {
     payload?: UserReduxPayload;
 };
 
+// + Modal
 export type ModalReduxPayload = {
     message?: string;
 };
@@ -38,6 +44,19 @@ export type ModalReduxPayload = {
 export type ModalReduxAction = {
     type: string;
     payload?: ModalReduxPayload;
+};
+
+// + Messages
+export type MsgsReduxPayload = {
+    msgs: string[];
+    msgColor: string;
+    icon?: string;
+    iconColor?: string;
+};
+
+export type MsgsReduxAction = {
+    type: string;
+    payload: MsgsReduxPayload;
 };
 
 // _ Alert

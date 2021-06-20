@@ -22,14 +22,15 @@ export type HandleSubmitDataFn<T> = {
     (data: T): void;
 };
 
+export type MsgArrayFn = {
+    (res: string): string[];
+};
+
+// _ Redux
 export type ReduxAction<T> = {
     (data: T): void;
 };
 
 export type ReduxActionPayload<T> = {
     (data?: T): { type: string; payload?: T };
-};
-
-export type MsgArrayFn = {
-    (res: string): string[];
 };

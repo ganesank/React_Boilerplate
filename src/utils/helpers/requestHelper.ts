@@ -1,32 +1,32 @@
 import request from '../api/request';
 import * as Type from '../@types/types';
 
-const getData = async (url: string) => {
-    return await request('GET', url, true, true);
+const getData = async (url: string, throwError: boolean = false) => {
+    return await request('GET', url, null, true, throwError);
 };
 
-const addData = async (url: string, data: {}) => {
-    return await request('POST', url, data, true, true);
+const addData = async (url: string, data: {}, throwError: boolean = false) => {
+    return await request('POST', url, data, true, throwError);
 };
 
-const updateData = async (url: string, data: {}) => {
-    return await request('PUT', url, data, true, true);
+const updateData = async (url: string, data: {}, throwError: boolean = false) => {
+    return await request('PUT', url, data, true, throwError);
 };
 
-const deleteData = async (url: string, data: {}) => {
-    return await request('DELETE', url, data, true, true);
+const deleteData = async (url: string, data: {}, throwError: boolean = false) => {
+    return await request('DELETE', url, data, true, throwError);
 };
 
-const loginUser = async (url: string, data: Type.LoginForm) => {
-    return await request('POST', url, data, false, true);
+const loginUser = async (url: string, data: Type.LoginForm, throwError: boolean = false) => {
+    return await request('POST', url, data, false, throwError);
 };
 
-const signUpUser = async (url: string, data: Type.SignUpForm) => {
-    return await request('POST', url, data, false, true);
+const signUpUser = async (url: string, data: Type.SignUpForm, throwError: boolean = false) => {
+    return await request('POST', url, data, false, throwError);
 };
 
-const deleteUser = async (url: string, data: Type.DeleteUserForm) => {
-    return await request('DELETE', url, data, true, true);
+const deleteUser = async (url: string, data: Type.DeleteUserForm, throwError: boolean = false) => {
+    return await request('DELETE', url, data, true, throwError);
 };
 
 export { getData, addData, updateData, deleteData, loginUser, signUpUser, deleteUser };
