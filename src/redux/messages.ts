@@ -3,23 +3,23 @@ import * as Type from '../utils/@types/types';
 const SET_MSGS: string = 'SET_MSGS';
 const REMOVE_MSGS: string = 'REMOVE_MSGS';
 
-export const setMsgs: Type.ReduxActionPayload<Type.MsgsReduxPayload> = (data) => ({
+export const setMsgs: Type.ActionPayload<Type.MsgsPayload> = (data) => ({
     type: SET_MSGS,
     payload: data,
 });
 
-export const removeMsgs: Type.ReduxActionPayload<null> = () => ({
+export const removeMsgs: Type.ActionPayload<null> = () => ({
     type: REMOVE_MSGS,
 });
 
-const initialState: Type.MsgsReduxPayload = {
+const initialState: Type.MsgsState = {
     msgs: [],
     msgColor: '',
     icon: '',
     iconColor: '',
 };
 
-function msgsReducer(state = initialState, action: Type.MsgsReduxAction) {
+const msgsReducer: Type.Reducer<Type.MsgsState, Type.MsgsAction> = (state = initialState, action) => {
     switch (action.type) {
         case SET_MSGS:
             return {
@@ -33,6 +33,6 @@ function msgsReducer(state = initialState, action: Type.MsgsReduxAction) {
         default:
             return state;
     }
-}
+};
 
 export default msgsReducer;

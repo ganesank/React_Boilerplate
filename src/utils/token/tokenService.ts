@@ -1,3 +1,5 @@
+import * as Type from '../@types/types';
+
 const setToken = (token: string): void => {
     if (token && typeof token === 'string') {
         localStorage.setItem('token', token);
@@ -25,7 +27,7 @@ const getToken = (): string | null => {
     return token;
 };
 
-const getUserFromToken = (): string | null => {
+const getUserFromToken = (): Type.UserState | null => {
     const token: string | null = getToken();
 
     return token ? JSON.parse(atob(token.split('.')[1]!)) : null;

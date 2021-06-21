@@ -1,11 +1,12 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { setModalMsg } from '../redux/modal';
+import * as Type from '../utils/@types/types';
 
 const Modal: React.FC = ({ children }) => {
     const dispatch = useDispatch();
 
-    const handleClose = (): void => {
+    const handleClose: Type.HandleClickFn = () => {
         dispatch(setModalMsg(''));
     };
 

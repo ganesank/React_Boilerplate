@@ -22,15 +22,20 @@ export type HandleSubmitDataFn<T> = {
     (data: T): void;
 };
 
-export type MsgArrayFn = {
-    (res: string): string[];
-};
-
-// _ Redux
-export type ReduxAction<T> = {
+// = Redux =====================================================================
+export type ActionThunk<T> = {
     (data: T): void;
 };
 
-export type ReduxActionPayload<T> = {
+export type ActionPayload<T> = {
     (data?: T): { type: string; payload?: T };
+};
+
+export type Reducer<S, A> = {
+    (state: S, action: A): void;
+};
+
+// = Other =====================================================================
+export type MsgArrayFn = {
+    (res: string): string[];
 };

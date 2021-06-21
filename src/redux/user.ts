@@ -13,7 +13,7 @@ const LOGOUT_USER: string = 'LOGOUT_USER';
 const LOGIN_USER: string = 'LOGIN_USER';
 const SET_MSGS: string = 'SET_MSGS';
 
-export const loginUser: Type.ReduxAction<Type.LoginForm> = (data) => {
+export const loginUser: Type.ActionThunk<Type.LoginForm> = (data) => {
     return async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
         try {
             const response = await requestHelper.loginUser(`${URL}/login`, data);
@@ -45,11 +45,11 @@ export const loginUser: Type.ReduxAction<Type.LoginForm> = (data) => {
     };
 };
 
-export const logoutUser: Type.ReduxActionPayload<null> = () => ({
+export const logoutUser: Type.ActionPayload<null> = () => ({
     type: LOGOUT_USER,
 });
 
-export const deleteUser: Type.ReduxAction<Type.DeleteUserForm> = (data) => {
+export const deleteUser: Type.ActionThunk<Type.DeleteUserForm> = (data) => {
     return async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
         try {
             const response = await requestHelper.deleteUser(`${URL}/profile`, data);
@@ -82,7 +82,9 @@ export const deleteUser: Type.ReduxAction<Type.DeleteUserForm> = (data) => {
     };
 };
 
-function userReducer(state = tokenService.getUserFromToken(), action: Type.UserReduxAction) {
+const initialState: Type.UserState = tokenService.getUserFromToken();
+
+const userReducer: Type.Reducer<Type.UserState, Type.UserAction> = (state = initialState, action) => {
     switch (action.type) {
         case LOGIN_USER:
             return tokenService.getUserFromToken();
@@ -92,6 +94,6 @@ function userReducer(state = tokenService.getUserFromToken(), action: Type.UserR
         default:
             return state;
     }
-}
+};
 
 export default userReducer;

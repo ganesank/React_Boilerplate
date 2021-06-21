@@ -1,4 +1,4 @@
-// _ Request
+// = Request ===================================================================
 export type Response = {
     data: object | null;
     status: number | null;
@@ -23,54 +23,57 @@ export type RequestOptions = {
     body?: string;
 };
 
-// _ Redux
+// = Redux =====================================================================
+// _ Payload
 // + User
-export type UserReduxPayload = {
+export type UserPayload = {
     _id: string;
     firstName: string;
     lastName: string;
+    exp: number;
+    iat: number;
 };
 
-export type UserReduxAction = {
-    type: string;
-    payload?: UserReduxPayload;
-};
+export type UserState = UserPayload | null;
 
 // + Modal
-export type ModalReduxPayload = {
+export type ModalPayload = {
+    visible: boolean;
     message?: string;
 };
 
-export type ModalReduxAction = {
-    type: string;
-    payload?: ModalReduxPayload;
-};
+export type ModalState = ModalPayload;
 
 // + Messages
-export type MsgsReduxPayload = {
+export type MsgsPayload = {
     msgs: string[];
     msgColor: string;
     icon?: string;
     iconColor?: string;
 };
 
-export type MsgsReduxAction = {
+export type MsgsState = MsgsPayload;
+
+// _ Action
+// + User
+export type UserAction = {
     type: string;
-    payload: MsgsReduxPayload;
+    payload?: UserPayload;
 };
 
-// _ Alert
-export type AlertMsg = {
-    (res: string): string[];
+// + Modal
+export type ModalAction = {
+    type: string;
+    payload?: ModalPayload;
 };
 
-export type AlertMsgConfig = {
-    icon: string;
-    iconColor: string;
-    msgColor: string;
+// + Messages
+export type MsgsAction = {
+    type: string;
+    payload: MsgsPayload;
 };
 
-// _ Forms
+// = Forms =====================================================================
 export type LoginForm = {
     email: string;
     password: string;
@@ -97,3 +100,5 @@ export type ProfileForm = {
 export type DeleteUserForm = {
     password: string;
 };
+
+// = Other =====================================================================

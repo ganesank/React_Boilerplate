@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import * as Type from '../utils/@types/types';
 
-const FormSignUp: React.FC<Type.FormSignUpComponentProps> = ({ onSubmit, onSuccessCleanForm }) => {
+const FormSignUp: React.FC<Type.FormSignUpComponent> = ({ onSubmit, onSuccessCleanForm }) => {
     const initialState: Type.SignUpForm = {
         firstName: '',
         lastName: '',

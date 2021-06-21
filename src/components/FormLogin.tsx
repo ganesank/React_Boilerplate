@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import * as Type from '../utils/@types/types';
 
-const FormLogin: React.FC<Type.FormLoginComponentProps> = ({ onSubmit }) => {
+const FormLogin: React.FC<Type.FormLoginComponent> = ({ onSubmit }) => {
     const initialState: Type.LoginForm = {
         email: '',
         password: '',
