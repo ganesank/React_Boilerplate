@@ -13,7 +13,7 @@ const ProfilePage: React.FC = () => {
     return (
         <div className="profile">
             <FormProfile />
-            {modal !== '' && (
+            {modal.visible && (
                 <Modal>
                     <FormDelete />
                 </Modal>

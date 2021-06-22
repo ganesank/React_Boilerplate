@@ -54,16 +54,21 @@ export const deleteUser: Type.ActionThunk<Type.DeleteUserForm> = (data) => {
         try {
             const response = await requestHelper.deleteUser(`${URL}/profile`, data);
 
-            if (!response.ok)
+            if (!response.ok) {
+                const errors: string[] = [];
+                Object.keys(response.error).forEach((key) => {
+                    errors.push(response.error[key]);
+                });
                 return dispatch({
                     type: SET_MSGS,
                     payload: {
-                        msgs: [response.error.message],
+                        msgs: errors,
                         msgColor: 'danger',
                         icon: '⚠',
                         iconColor: 'danger',
                     },
                 });
+            }
 
             dispatch({
                 type: LOGOUT_USER,

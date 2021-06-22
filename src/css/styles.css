@@ -294,7 +294,7 @@ h4 {
       -ms-flex-pack: center;
           justify-content: center;
   background-color: #375a80;
-  height: 5rem;
+  min-height: 5rem;
   width: 100%;
   -webkit-box-shadow: 0 0.3rem 0.5rem rgba(14, 14, 14, 0.5);
           box-shadow: 0 0.3rem 0.5rem rgba(14, 14, 14, 0.5);
@@ -699,7 +699,6 @@ h4 {
 }
 
 .form-delete {
-  position: absolute;
   background-color: white;
   min-width: 30rem;
   max-width: 50rem;
@@ -720,7 +719,7 @@ h4 {
           transform: translate(-50%, -50%);
 }
 
-.form-delete h3 {
+.form-delete h2 {
   text-align: center;
   margin: 0.5rem 0;
 }
@@ -747,6 +746,7 @@ h4 {
   cursor: pointer;
   text-decoration: none;
   color: #0e0e0e;
+  z-index: 10;
 }
 
 .form-delete__close:hover {
@@ -854,6 +854,7 @@ h4 {
 .about-page__tech-container:hover {
   -webkit-transform: scale(1.5);
           transform: scale(1.5);
+  cursor: crosshair;
 }
 
 .about-page__tech-label {

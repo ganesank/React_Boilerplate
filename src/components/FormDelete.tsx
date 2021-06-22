@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { setModalMsg } from '../redux/modal';
 import { deleteUser } from '../redux/user';
-import * as alertMsgHelper from '../utils/helpers/alertMsgHelper';
+import { hideModal } from '../redux/modal';
 import * as Type from '../utils/@types/types';
 
 import AlertMsg from './AlertMsg';
@@ -13,24 +12,23 @@ const FormDelete: React.FC = () => {
         password: '',
     };
     const [form, setForm] = useState(initialState);
-    const msg = useSelector((state: RootStateOrAny) => state.modal);
-    const [alertMsg, setAlertMsg] = useState<string[]>([]);
+    const msgs = useSelector((state: RootStateOrAny) => state.msgs);
+    const user = useSelector((state: RootStateOrAny) => state.user);
     const dispatch = useDispatch();
     const history = useHistory();
 
     const handleSubmit: Type.HandleSubmitFn<{}> = (e) => {
         e.preventDefault();
-        try {
-            dispatch(deleteUser(form));
+        dispatch(deleteUser(form));
+        if (!user) {
             history.push('/');
-        } catch (error) {
-            setAlertMsg(alertMsgHelper.msgArray(error.message));
+            dispatch(hideModal());
         }
     };
 
-    const handleClick: Type.HandleClickFn = (e) => {
+    const handleClose: Type.HandleClickFn = (e) => {
         e.preventDefault();
-        dispatch(setModalMsg(''));
+        dispatch(hideModal());
     };
 
     const handleChange: Type.HandleChangeFn = ({ target: { name, value } }) => {
@@ -46,12 +44,12 @@ const FormDelete: React.FC = () => {
 
     return (
         <div className="form-delete" onClick={(e) => e.stopPropagation()}>
-            <h3>DELETE ACC</h3>
-            <a href="/" className="form-delete__close" onClick={handleClick}>
+            <h2>DELETE ACC</h2>
+            <a href="/" className="form-delete__close" onClick={handleClose}>
                 X
             </a>
             <form className="form-delete__form" onSubmit={handleSubmit}>
-                <div className="form-delete__msg">{msg}</div>
+                <div className="form-delete__msg">Are you sure you want to delete your account?</div>
                 <div className="form-delete__cta">
                     <input
                         type="password"
@@ -72,7 +70,7 @@ const FormDelete: React.FC = () => {
                     </button>
                 </div>
             </form>
-            {alertMsg.length > 0 && <AlertMsg />}
+            {msgs.msgs.length > 0 && <AlertMsg />}
         </div>
     );
 };

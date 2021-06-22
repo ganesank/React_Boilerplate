@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import * as requestHelper from '../utils/helpers/requestHelper';
 import * as Type from '../utils/@types/types';
-import { setModalMsg } from '../redux/modal';
+import { showModal } from '../redux/modal';
 import { setMsgs } from '../redux/messages';
 
 const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
@@ -99,7 +99,7 @@ const FormProfile: React.FC = () => {
 
     const handleDelete: Type.HandleClickFn = (e) => {
         e.preventDefault();
-        dispatch(setModalMsg('Are you sure you want to delete your account?'));
+        dispatch(showModal());
     };
 
     const handleChange: Type.HandleChangeFn = ({ target: { name, value } }) => {

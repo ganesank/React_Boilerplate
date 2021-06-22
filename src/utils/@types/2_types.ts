@@ -38,7 +38,8 @@ export type UserState = UserPayload | null;
 
 // + Modal
 export type ModalPayload = {
-    visible: boolean;
+    visible?: boolean;
+    title?: string;
     message?: string;
 };
 

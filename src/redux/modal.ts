@@ -1,21 +1,36 @@
 import * as Type from '../utils/@types/types';
 
-const SET_MODAL_MSG: string = 'SET_MODAL_MSG';
+const SHOW_MODAL: string = 'SHOW_MODAL';
+const HIDE_MODAL: string = 'HIDE_MODAL';
 
-export const setModalMsg: Type.ActionPayload<string> = (data) => ({
-    type: SET_MODAL_MSG,
-    payload: data,
+export const showModal: Type.ActionPayload<null> = () => ({
+    type: SHOW_MODAL,
 });
 
-// const initialState: Type.ModalState = {
-//     visible: false,
-//     message: '',
-// };
+export const hideModal: Type.ActionPayload<null> = () => ({
+    type: HIDE_MODAL,
+});
 
-const modalReducer: Type.Reducer<string, Type.ModalAction> = (state = '', action) => {
+const initialState: Type.ModalState = {
+    visible: false,
+    title: '',
+    message: '',
+};
+
+const modalReducer: Type.Reducer<Type.ModalState, Type.ModalAction> = (state = initialState, action) => {
     switch (action.type) {
-        case SET_MODAL_MSG:
-            return action.payload;
+        case SHOW_MODAL:
+            return {
+                visible: true,
+                title: action.payload?.title,
+                message: action.payload?.message,
+            };
+        case HIDE_MODAL:
+            return {
+                visible: false,
+                title: '',
+                message: '',
+            };
         default:
             return state;
     }

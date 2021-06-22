@@ -1,5 +1,4 @@
 .form-delete
-  position: absolute
   background-color: $color-white
   min-width: 30rem
   max-width: 50rem
@@ -10,7 +9,7 @@
   z-index: 2
   @include abs-center
 
-  h3
+  h2
     text-align: center
     margin: 0.5rem 0
   &__close
@@ -29,6 +28,7 @@
     cursor: pointer
     text-decoration: none
     color: $color-black
+    z-index: 10
 
     &:hover
       background-color: $color-grey-dark

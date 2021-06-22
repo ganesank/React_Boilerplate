@@ -36,6 +36,3 @@ export type Reducer<S, A> = {
 };
 
 // = Other =====================================================================
-export type MsgArrayFn = {
-    (res: string): string[];
-};
