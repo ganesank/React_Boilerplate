@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { loginUser } from '../redux/user';
 import * as Type from '../utils/@types/types';
 
-const FormLogin: React.FC<Type.FormLoginComponent> = ({ onSubmit }) => {
+const FormLogin: React.FC = () => {
     const initialState: Type.LoginForm = {
         email: '',
         password: '',
     };
     const [form, setForm] = useState(initialState);
+    const dispatch = useDispatch();
 
     const handleSubmit: Type.HandleSubmitFn<Type.LoginForm> = (e) => {
         e.preventDefault();
-        onSubmit(form);
+        dispatch(loginUser(form));
     };
 
     const handleChange: Type.HandleChangeFn = ({ target: { name, value } }) => {

@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { useSelector, RootStateOrAny } from 'react-redux';
 import * as requestHelper from '../utils/helpers/requestHelper';
 import * as Type from '../utils/@types/types';
 import { showModal } from '../redux/modal';
 import { setMsgs } from '../redux/messages';
 
+import AlertMsg from '../components/shared/AlertMsg';
+
 const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
-const HTTP: string = PORT === 3001 ? 'http://' : 'https://';
-const URL: string = `${HTTP}${process.env.REACT_APP_BACKEND_URL!}:${PORT}/api/users`;
+const URL: string =
+    process.env.ENV! === 'production'
+        ? `${process.env.REACT_APP_BACKEND_URL!}/api/users`
+        : `${process.env.REACT_APP_BACKEND_URL!}:${PORT}/api/users`;
 
 const FormProfile: React.FC = () => {
     const initialState: Type.ProfileForm = {
@@ -20,6 +25,7 @@ const FormProfile: React.FC = () => {
         confirmNewPassword: '',
     };
     const [form, setForm] = useState(initialState);
+    const msgs = useSelector((state: RootStateOrAny) => state.msgs);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -63,10 +69,12 @@ const FormProfile: React.FC = () => {
 
         try {
             const response = await requestHelper.updateData(`${URL}/profile`, form);
+
             if (!response.ok) {
                 const errors = Object.keys(response.error).map((key) => {
                     return response.error[key];
                 });
+
                 return dispatch(
                     setMsgs({
                         msgs: errors,
@@ -76,6 +84,8 @@ const FormProfile: React.FC = () => {
                     })
                 );
             }
+
+            if (response.data && response.data.verifyToken) console.log(`${URL}/email/${response.data.verifyToken}`);
 
             setForm((prev) => {
                 return {
@@ -226,6 +236,7 @@ const FormProfile: React.FC = () => {
                     Delete Account
                 </a>
             </div>
+            {msgs.msgs.length > 0 && <AlertMsg />}
         </div>
     );
 };

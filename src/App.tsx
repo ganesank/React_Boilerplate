@@ -2,8 +2,8 @@ import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { useSelector, RootStateOrAny } from 'react-redux';
 
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
+import Navbar from './components/base/Navbar';
+import Footer from './components/base/Footer';
 
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';

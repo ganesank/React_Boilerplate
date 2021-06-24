@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { hideModal } from '../redux/modal';
-import * as Type from '../utils/@types/types';
+import { hideModal } from '../../redux/modal';
+import * as Type from '../../utils/@types/types';
 
 const Modal: React.FC = ({ children }) => {
     const dispatch = useDispatch();

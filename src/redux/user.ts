@@ -6,8 +6,10 @@ import * as requestHelper from '../utils/helpers/requestHelper';
 import * as Type from '../utils/@types/types';
 
 const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
-const HTTP: string = PORT === 3001 ? 'http://' : 'https://';
-const URL: string = `${HTTP}${process.env.REACT_APP_BACKEND_URL!}:${PORT}/api/users`;
+const URL: string =
+    process.env.ENV! === 'production'
+        ? `${process.env.REACT_APP_BACKEND_URL!}/api/users`
+        : `${process.env.REACT_APP_BACKEND_URL!}:${PORT}/api/users`;
 
 const LOGOUT_USER: string = 'LOGOUT_USER';
 const LOGIN_USER: string = 'LOGIN_USER';
@@ -18,7 +20,8 @@ export const loginUser: Type.ActionThunk<Type.LoginForm> = (data) => {
         try {
             const response = await requestHelper.loginUser(`${URL}/login`, data);
 
-            if (!response.ok)
+            if (!response.ok) {
+                console.log(`${URL}/email/${response.error.verifyToken}`);
                 return dispatch({
                     type: SET_MSGS,
                     payload: {
@@ -28,6 +31,7 @@ export const loginUser: Type.ActionThunk<Type.LoginForm> = (data) => {
                         iconColor: 'danger',
                     },
                 });
+            }
 
             tokenService.setToken(response.data);
             dispatch({ type: LOGIN_USER });

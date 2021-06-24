@@ -5,7 +5,7 @@ import { deleteUser } from '../redux/user';
 import { hideModal } from '../redux/modal';
 import * as Type from '../utils/@types/types';
 
-import AlertMsg from './AlertMsg';
+import AlertMsg from './shared/AlertMsg';
 
 const FormDelete: React.FC = () => {
     const initialState: Type.DeleteUserForm = {
@@ -21,8 +21,8 @@ const FormDelete: React.FC = () => {
         e.preventDefault();
         dispatch(deleteUser(form));
         if (!user) {
-            history.push('/');
             dispatch(hideModal());
+            history.push('/');
         }
     };
 
@@ -44,7 +44,7 @@ const FormDelete: React.FC = () => {
 
     return (
         <div className="form-delete" onClick={(e) => e.stopPropagation()}>
-            <h2>DELETE ACC</h2>
+            <h3>DELETE ACC</h3>
             <a href="/" className="form-delete__close" onClick={handleClose}>
                 X
             </a>

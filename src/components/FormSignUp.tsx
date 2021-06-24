@@ -1,8 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useSelector, useDispatch, RootStateOrAny } from 'react-redux';
+import * as requestHelper from '../utils/helpers/requestHelper';
 import { Link } from 'react-router-dom';
 import * as Type from '../utils/@types/types';
 
-const FormSignUp: React.FC<Type.FormSignUpComponent> = ({ onSubmit, onSuccessCleanForm }) => {
+import AlertMsg from '../components/shared/AlertMsg';
+import { setMsgs } from '../redux/messages';
+
+const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
+const URL: string =
+    process.env.ENV! === 'production'
+        ? `${process.env.REACT_APP_BACKEND_URL!}/api/users`
+        : `${process.env.REACT_APP_BACKEND_URL!}:${PORT}/api/users`;
+
+const FormSignUp: React.FC = () => {
     const initialState: Type.SignUpForm = {
         firstName: '',
         lastName: '',
@@ -11,9 +22,33 @@ const FormSignUp: React.FC<Type.FormSignUpComponent> = ({ onSubmit, onSuccessCle
         confirmPassword: '',
     };
     const [form, setForm] = useState(initialState);
+    const msgs = useSelector((state: RootStateOrAny) => state.msgs);
+    const dispatch = useDispatch();
 
-    useEffect(() => {
-        if (onSuccessCleanForm === 'success') {
+    const handleSubmit: Type.HandleSubmitFn<{}> = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await requestHelper.signUpUser(`${URL}/signup`, form);
+            if (!response.ok)
+                return dispatch(
+                    setMsgs({
+                        msgs: [response.error.message],
+                        msgColor: 'danger',
+                        icon: '⚠',
+                        iconColor: 'danger',
+                    })
+                );
+
+            if (response.data && response.data.verifyToken) console.log(`${URL}/email/${response.data.verifyToken}`);
+
+            dispatch(
+                setMsgs({
+                    msgs: [response.data.message],
+                    msgColor: 'success',
+                    icon: '✓',
+                    iconColor: 'success',
+                })
+            );
             setForm({
                 firstName: '',
                 lastName: '',
@@ -21,12 +56,16 @@ const FormSignUp: React.FC<Type.FormSignUpComponent> = ({ onSubmit, onSuccessCle
                 password: '',
                 confirmPassword: '',
             });
+        } catch (error) {
+            dispatch(
+                setMsgs({
+                    msgs: [error.message],
+                    msgColor: 'danger',
+                    icon: '⚠',
+                    iconColor: 'danger',
+                })
+            );
         }
-    }, [onSuccessCleanForm]);
-
-    const handleSubmit: Type.HandleSubmitFn<{}> = (e) => {
-        e.preventDefault();
-        onSubmit(form);
     };
 
     const handleChange: Type.HandleChangeFn = ({ target: { name, value } }) => {
@@ -137,6 +176,7 @@ const FormSignUp: React.FC<Type.FormSignUpComponent> = ({ onSubmit, onSuccessCle
                     </button>
                 </div>
             </form>
+            {msgs.msgs.length > 0 && <AlertMsg />}
         </div>
     );
 };

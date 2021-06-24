@@ -1,5 +1,5 @@
 import React from 'react';
-import socialMedias from '../assets/data/socialMedias';
+import socialMedias from '../../assets/data/socialMedias';
 
 const Footer: React.FC = () => {
     return (

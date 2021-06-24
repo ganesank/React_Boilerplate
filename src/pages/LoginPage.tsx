@@ -1,23 +1,16 @@
 import React from 'react';
-import { useSelector, useDispatch, RootStateOrAny } from 'react-redux';
-import { loginUser } from '../redux/user';
-import * as Type from '../utils/@types/types';
+import { useSelector, RootStateOrAny } from 'react-redux';
 
 import FormLogin from '../components/FormLogin';
-import AlertMsg from '../components/AlertMsg';
+import AlertMsg from '../components/shared/AlertMsg';
 
 const LoginPage: React.FC = () => {
     const msgs = useSelector((state: RootStateOrAny) => state.msgs);
-    const dispatch = useDispatch();
-
-    const handleSubmitLogin: Type.HandleSubmitDataFn<Type.LoginForm> = (data) => {
-        dispatch(loginUser(data));
-    };
 
     return (
         <div className="login-page">
             <div className="login-page__form">
-                <FormLogin onSubmit={handleSubmitLogin} />
+                <FormLogin />
                 {msgs.msgs.length > 0 && <AlertMsg />}
             </div>
         </div>

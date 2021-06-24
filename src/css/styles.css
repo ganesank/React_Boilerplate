@@ -125,7 +125,7 @@
 
 .tooltip__tooltip-text {
   visibility: hidden;
-  background-color: #375a80;
+  background-color: #175782;
   color: white;
   text-align: center;
   width: 6rem;
@@ -149,7 +149,7 @@
   margin-left: -0.5rem;
   border-width: 0.5rem;
   border-style: solid;
-  border-color: #cccccc transparent transparent transparent;
+  border-color: #b3b3b3 transparent transparent transparent;
 }
 
 .tooltip:hover .tooltip__tooltip-text {
@@ -271,19 +271,19 @@ h4 {
 }
 
 .alert-msg__icon--info, .alert-msg__msg--info {
-  color: #3498db;
+  color: #2691d9;
 }
 
 .alert-msg__icon--danger, .alert-msg__msg--danger {
-  color: #e74c3b;
+  color: #ff3333;
 }
 
 .alert-msg__icon--success, .alert-msg__msg--success {
-  color: #00bc8c;
+  color: #009973;
 }
 
 .alert-msg__icon--warning, .alert-msg__msg--warning {
-  color: #f39c12;
+  color: #f29a0d;
 }
 
 .navbar {
@@ -293,11 +293,11 @@ h4 {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  background-color: #375a80;
+  background-color: #175782;
   min-height: 5rem;
   width: 100%;
-  -webkit-box-shadow: 0 0.3rem 0.5rem rgba(14, 14, 14, 0.5);
-          box-shadow: 0 0.3rem 0.5rem rgba(14, 14, 14, 0.5);
+  -webkit-box-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.5);
+          box-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.5);
 }
 
 .navbar__logo {
@@ -369,7 +369,7 @@ h4 {
 }
 
 .navbar__link:hover {
-  background-color: #253d57;
+  background-color: #1f74ad;
   color: white;
 }
 
@@ -491,16 +491,16 @@ h4 {
 }
 
 .form-profile__delete-link {
-  color: #616161;
+  color: #4d4d4d;
   font-size: 0.6rem;
 }
 
 .form-profile__delete-link:hover {
-  color: #e74c3b;
+  color: #ff3333;
 }
 
 .btn {
-  background-color: #3498db;
+  background-color: #2691d9;
   font-size: 0.9rem;
   padding: 0 0.7rem;
   height: 2rem;
@@ -522,25 +522,25 @@ h4 {
 .btn:hover {
   -webkit-transform: translateZ(1rem) scale(1.1);
           transform: translateZ(1rem) scale(1.1);
-  -webkit-box-shadow: 0.3rem 0.3rem 0.3rem rgba(14, 14, 14, 0.3);
-          box-shadow: 0.3rem 0.3rem 0.3rem rgba(14, 14, 14, 0.3);
+  -webkit-box-shadow: 0.3rem 0.3rem 0.3rem rgba(0, 0, 0, 0.3);
+          box-shadow: 0.3rem 0.3rem 0.3rem rgba(0, 0, 0, 0.3);
 }
 
 .btn--danger {
-  background-color: #e74c3b;
+  background-color: #ff3333;
 }
 
 .btn--warning {
-  background-color: #f39c12;
+  background-color: #f29a0d;
 }
 
 .btn--warning:hover {
-  background-color: rgba(243, 156, 18, 0.8);
+  background-color: rgba(242, 154, 13, 0.8);
 }
 
 .btn--disabled {
   cursor: not-allowed;
-  background-color: #cccccc;
+  background-color: #b3b3b3;
 }
 
 .btn--disabled:hover {
@@ -563,7 +563,7 @@ h4 {
   position: fixed;
   top: 0;
   left: 0;
-  background-color: rgba(14, 14, 14, 0.8);
+  background-color: rgba(0, 0, 0, 0.8);
   width: 100%;
   height: 100%;
   z-index: 1;
@@ -576,7 +576,7 @@ h4 {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  background-color: #0e0e0e;
+  background-color: black;
   min-height: 10rem;
   width: 100%;
   padding: 1rem;
@@ -631,7 +631,7 @@ h4 {
 }
 
 .footer__link:hover {
-  color: #375a80;
+  color: #175782;
 }
 
 @media (max-width: 75rem) {
@@ -719,7 +719,7 @@ h4 {
           transform: translate(-50%, -50%);
 }
 
-.form-delete h2 {
+.form-delete h3 {
   text-align: center;
   margin: 0.5rem 0;
 }
@@ -742,15 +742,15 @@ h4 {
   border-radius: 0.3rem;
   font-size: 0.8rem;
   font-weight: bolder;
-  background-color: #cccccc;
+  background-color: #b3b3b3;
   cursor: pointer;
   text-decoration: none;
-  color: #0e0e0e;
+  color: black;
   z-index: 10;
 }
 
 .form-delete__close:hover {
-  background-color: #616161;
+  background-color: #4d4d4d;
   color: white;
 }
 
@@ -813,7 +813,7 @@ h4 {
 }
 
 .about-page h4 {
-  color: #375a80;
+  color: #175782;
   white-space: nowrap;
 }
 
