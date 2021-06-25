@@ -36,14 +36,14 @@ export type UserPayload = {
 
 export type UserState = UserPayload | null;
 
-// + Modal
-export type ModalPayload = {
+// + Popup
+export type PopupPayload = {
     visible?: boolean;
     title?: string;
     message?: string;
 };
 
-export type ModalState = ModalPayload;
+export type PopupState = PopupPayload;
 
 // + Messages
 export type MsgsPayload = {
@@ -62,10 +62,10 @@ export type UserAction = {
     payload?: UserPayload;
 };
 
-// + Modal
-export type ModalAction = {
+// + Popup
+export type PopupAction = {
     type: string;
-    payload?: ModalPayload;
+    payload?: PopupPayload;
 };
 
 // + Messages

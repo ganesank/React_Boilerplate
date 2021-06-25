@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector, RootStateOrAny } from 'react-redux';
 import * as requestHelper from '../utils/helpers/requestHelper';
 import * as Type from '../utils/@types/types';
-import { showModal } from '../redux/modal';
+import { showPopup } from '../redux/popup';
 import { setMsgs } from '../redux/messages';
 
 import AlertMsg from '../components/shared/AlertMsg';
@@ -109,7 +109,7 @@ const FormProfile: React.FC = () => {
 
     const handleDelete: Type.HandleClickFn = (e) => {
         e.preventDefault();
-        dispatch(showModal());
+        dispatch(showPopup());
     };
 
     const handleChange: Type.HandleChangeFn = ({ target: { name, value } }) => {

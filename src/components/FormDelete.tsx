@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { deleteUser } from '../redux/user';
-import { hideModal } from '../redux/modal';
+import { hidePopup } from '../redux/popup';
 import * as Type from '../utils/@types/types';
 
 import AlertMsg from './shared/AlertMsg';
@@ -21,14 +21,14 @@ const FormDelete: React.FC = () => {
         e.preventDefault();
         dispatch(deleteUser(form));
         if (!user) {
-            dispatch(hideModal());
+            dispatch(hidePopup());
             history.push('/');
         }
     };
 
     const handleClose: Type.HandleClickFn = (e) => {
         e.preventDefault();
-        dispatch(hideModal());
+        dispatch(hidePopup());
     };
 
     const handleChange: Type.HandleChangeFn = ({ target: { name, value } }) => {

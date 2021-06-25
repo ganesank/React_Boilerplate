@@ -1,20 +1,20 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { hideModal } from '../../redux/modal';
+import { hidePopup } from '../../redux/popup';
 import * as Type from '../../utils/@types/types';
 
-const Modal: React.FC = ({ children }) => {
+const Popup: React.FC = ({ children }) => {
     const dispatch = useDispatch();
 
     const handleClose: Type.HandleClickFn = () => {
-        dispatch(hideModal());
+        dispatch(hidePopup());
     };
 
     return (
-        <div className="modal" onClick={handleClose}>
+        <div className="popup" onClick={handleClose}>
             {children}
         </div>
     );
 };
 
-export default Modal;
+export default Popup;

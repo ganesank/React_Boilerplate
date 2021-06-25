@@ -1,31 +1,31 @@
 import * as Type from '../utils/@types/types';
 
-const SHOW_MODAL: string = 'SHOW_MODAL';
-const HIDE_MODAL: string = 'HIDE_MODAL';
+const SHOW_POPUP: string = 'SHOW_POPUP';
+const HIDE_POPUP: string = 'HIDE_POPUP';
 
-export const showModal: Type.ActionPayload<null> = () => ({
-    type: SHOW_MODAL,
+export const showPopup: Type.ActionPayload<null> = () => ({
+    type: SHOW_POPUP,
 });
 
-export const hideModal: Type.ActionPayload<null> = () => ({
-    type: HIDE_MODAL,
+export const hidePopup: Type.ActionPayload<null> = () => ({
+    type: HIDE_POPUP,
 });
 
-const initialState: Type.ModalState = {
+const initialState: Type.PopupState = {
     visible: false,
     title: '',
     message: '',
 };
 
-const modalReducer: Type.Reducer<Type.ModalState, Type.ModalAction> = (state = initialState, action) => {
+const popupReducer: Type.Reducer<Type.PopupState, Type.PopupAction> = (state = initialState, action) => {
     switch (action.type) {
-        case SHOW_MODAL:
+        case SHOW_POPUP:
             return {
                 visible: true,
                 title: action.payload?.title,
                 message: action.payload?.message,
             };
-        case HIDE_MODAL:
+        case HIDE_POPUP:
             return {
                 visible: false,
                 title: '',
@@ -36,4 +36,4 @@ const modalReducer: Type.Reducer<Type.ModalState, Type.ModalAction> = (state = i
     }
 };
 
-export default modalReducer;
+export default popupReducer;
