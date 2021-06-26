@@ -3,8 +3,9 @@ import * as Type from '../utils/@types/types';
 const SHOW_POPUP: string = 'SHOW_POPUP';
 const HIDE_POPUP: string = 'HIDE_POPUP';
 
-export const showPopup: Type.ActionPayload<null> = () => ({
+export const showPopup: Type.ActionPayload<Type.PopupPayload> = (data) => ({
     type: SHOW_POPUP,
+    payload: data,
 });
 
 export const hidePopup: Type.ActionPayload<null> = () => ({

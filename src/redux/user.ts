@@ -14,6 +14,7 @@ const URL: string =
 const LOGOUT_USER: string = 'LOGOUT_USER';
 const LOGIN_USER: string = 'LOGIN_USER';
 const SET_MSGS: string = 'SET_MSGS';
+const SHOW_POPUP: string = 'SHOW_POPUP';
 
 export const loginUser: Type.ActionThunk<Type.LoginForm> = (data) => {
     return async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
@@ -21,7 +22,15 @@ export const loginUser: Type.ActionThunk<Type.LoginForm> = (data) => {
             const response = await requestHelper.loginUser(`${URL}/login`, data);
 
             if (!response.ok) {
-                console.log(`${URL}/email/${response.error.verifyToken}`);
+                if (response.error.verifyToken) {
+                    dispatch({
+                        type: SHOW_POPUP,
+                        payload: {
+                            title: 'Verify Email',
+                            message: `${URL}/email/${response.error.verifyToken}`,
+                        },
+                    });
+                }
                 return dispatch({
                     type: SET_MSGS,
                     payload: {

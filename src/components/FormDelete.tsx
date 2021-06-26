@@ -26,11 +26,6 @@ const FormDelete: React.FC = () => {
         }
     };
 
-    const handleClose: Type.HandleClickFn = (e) => {
-        e.preventDefault();
-        dispatch(hidePopup());
-    };
-
     const handleChange: Type.HandleChangeFn = ({ target: { name, value } }) => {
         setForm({
             ...form,
@@ -44,10 +39,6 @@ const FormDelete: React.FC = () => {
 
     return (
         <div className="form-delete" onClick={(e) => e.stopPropagation()}>
-            <h3>DELETE ACC</h3>
-            <a href="/" className="form-delete__close" onClick={handleClose}>
-                X
-            </a>
             <form className="form-delete__form" onSubmit={handleSubmit}>
                 <div className="form-delete__msg">Are you sure you want to delete your account?</div>
                 <div className="form-delete__cta">

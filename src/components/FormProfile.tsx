@@ -109,7 +109,7 @@ const FormProfile: React.FC = () => {
 
     const handleDelete: Type.HandleClickFn = (e) => {
         e.preventDefault();
-        dispatch(showPopup());
+        dispatch(showPopup({ visible: true, title: 'Delete Acc' }));
     };
 
     const handleChange: Type.HandleChangeFn = ({ target: { name, value } }) => {
