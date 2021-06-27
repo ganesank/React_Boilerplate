@@ -652,228 +652,7 @@ h4 {
           box-shadow: none;
 }
 
-.form-login-signup {
-  text-align: center;
-}
-
-.form-login-signup h2 {
-  margin-bottom: 1rem;
-}
-
-.form-login-signup__input-container {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  margin-bottom: 0.3rem;
-}
-
-.form-login-signup__input-container input {
-  border-radius: 0.3rem;
-  font-size: 0.8rem;
-  height: 1.8rem;
-  padding: 0.5rem;
-}
-
-.form-login-signup__input-container label {
-  margin: 0.3rem 0;
-  text-align: left;
-  padding-left: 0.3rem;
-  font-size: 0.7rem;
-}
-
-.form-login-signup__cta {
-  text-align: right;
-}
-
-.form-login-signup__cta > :not(:last-child) {
-  margin-right: 0.3rem;
-}
-
-.form-login-signup__reset-password {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.form-login-signup__reset-password__link {
-  color: #4d4d4d;
-  font-size: 0.6rem;
-}
-
-.form-login-signup__reset-password__link:hover {
-  color: #ff3333;
-}
-
-.form-profile__container {
-  padding: 0.5rem;
-  width: 25rem;
-  text-align: center;
-}
-
-.form-profile__container h2 {
-  margin-bottom: 1rem;
-}
-
-.form-profile__split {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
-}
-
-.form-profile__split > * {
-  width: 49%;
-}
-
-.form-profile__input-container {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  margin-bottom: 0.3rem;
-}
-
-.form-profile__input-container input {
-  border-radius: 0.3rem;
-  font-size: 0.8rem;
-  height: 1.8rem;
-  padding: 0.5rem;
-}
-
-.form-profile__input-container label {
-  margin: 0.3rem 0;
-  text-align: left;
-  padding-left: 0.3rem;
-  font-size: 0.7rem;
-}
-
-.form-profile__cta {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
-  text-align: right;
-}
-
-.form-profile__cta input {
-  border-radius: 0.3rem;
-  font-size: 0.8rem;
-  height: 1.8rem;
-  padding: 0.5rem;
-}
-
-.form-profile__cta label {
-  text-align: end;
-  padding-right: 0.3rem;
-}
-
-.form-profile__cta > :not(:last-child) {
-  margin-right: 0.3rem;
-}
-
-.form-profile__delete {
-  height: 0.8rem;
-  text-align: start;
-}
-
-.form-profile__delete-link {
-  color: #4d4d4d;
-  font-size: 0.6rem;
-}
-
-.form-profile__delete-link:hover {
-  color: #ff3333;
-}
-
-.form-reset-password__input-container {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  margin-bottom: 0.3rem;
-}
-
-.form-reset-password__input-container input {
-  border-radius: 0.3rem;
-  font-size: 0.8rem;
-  height: 1.8rem;
-  padding: 0.5rem;
-}
-
-.form-reset-password__cta {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  margin-top: 0.5rem;
-}
-
-.form-reset-password__cta > :not(:last-child) {
-  margin-right: 0.3rem;
-}
-
-.form-delete {
-  background-color: white;
-  border-radius: 0.3rem;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  z-index: 2;
-}
-
-.form-delete h3 {
-  text-align: center;
-  margin: 0.5rem 0;
-}
-
-.form-delete__form {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-}
-
-.form-delete__msg {
-  font-size: 1rem;
-  line-height: 1.3;
-}
-
-.form-delete__input {
-  border-radius: 0.3rem;
-  font-size: 0.8rem;
-  height: 1.8rem;
-  padding: 0.5rem;
-}
-
-.form-delete__cta {
+.user-delete-form__cta {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -886,7 +665,237 @@ h4 {
   margin-top: 1rem;
 }
 
-.form-delete__cta > :not(:last-child) {
+.user-delete-form__cta input {
+  border-radius: 0.3rem;
+  font-size: 0.8rem;
+  height: 1.8rem;
+  padding: 0.5rem;
+}
+
+.user-delete-form__cta > :not(:last-child) {
+  margin-right: 0.3rem;
+}
+
+.user-login-signup-form {
+  padding: 0.5rem;
+  width: 25rem;
+  text-align: center;
+}
+
+.user-login-signup-form__input-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin-bottom: 0.3rem;
+}
+
+.user-login-signup-form__input-container input {
+  border-radius: 0.3rem;
+  font-size: 0.8rem;
+  height: 1.8rem;
+  padding: 0.5rem;
+}
+
+.user-login-signup-form__input-container label {
+  margin: 0.3rem 0;
+  text-align: left;
+  padding-left: 0.3rem;
+  font-size: 0.7rem;
+}
+
+.user-login-signup-form__cta {
+  text-align: right;
+}
+
+.user-login-signup-form__cta > :not(:last-child) {
+  margin-right: 0.3rem;
+}
+
+.user-login-signup-form__reset-password {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.user-login-signup-form__reset-password__link {
+  color: #4d4d4d;
+  font-size: 0.6rem;
+}
+
+.user-login-signup-form__reset-password__link:hover {
+  color: #ff3333;
+}
+
+.user-profile-form {
+  padding: 0.5rem;
+  width: 25rem;
+  text-align: center;
+}
+
+.user-profile-form__split {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+.user-profile-form__split > * {
+  width: 49%;
+}
+
+.user-profile-form__input-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin-bottom: 0.3rem;
+}
+
+.user-profile-form__input-container input {
+  border-radius: 0.3rem;
+  font-size: 0.8rem;
+  height: 1.8rem;
+  padding: 0.5rem;
+}
+
+.user-profile-form__input-container label {
+  margin: 0.3rem 0;
+  text-align: left;
+  padding-left: 0.3rem;
+  font-size: 0.7rem;
+}
+
+.user-profile-form__cta {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  text-align: right;
+}
+
+.user-profile-form__cta input {
+  border-radius: 0.3rem;
+  font-size: 0.8rem;
+  height: 1.8rem;
+  padding: 0.5rem;
+}
+
+.user-profile-form__cta label {
+  text-align: end;
+  padding-right: 0.3rem;
+}
+
+.user-profile-form__cta > :not(:last-child) {
+  margin-right: 0.3rem;
+}
+
+.user-profile-form__delete {
+  height: 0.8rem;
+  text-align: start;
+}
+
+.user-profile-form__delete-link {
+  color: #4d4d4d;
+  font-size: 0.6rem;
+}
+
+.user-profile-form__delete-link:hover {
+  color: #ff3333;
+}
+
+.user-reset-password-form__input-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin-bottom: 0.3rem;
+}
+
+.user-reset-password-form__input-container input {
+  border-radius: 0.3rem;
+  font-size: 0.8rem;
+  height: 1.8rem;
+  padding: 0.5rem;
+}
+
+.user-reset-password-form__cta {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-top: 0.5rem;
+}
+
+.user-reset-password-form__cta > :not(:last-child) {
+  margin-right: 0.3rem;
+}
+
+.user-update-password-form {
+  padding: 0.5rem;
+  width: 25rem;
+  text-align: center;
+}
+
+.user-update-password-form__input-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin-bottom: 0.3rem;
+}
+
+.user-update-password-form__input-container input {
+  border-radius: 0.3rem;
+  font-size: 0.8rem;
+  height: 1.8rem;
+  padding: 0.5rem;
+}
+
+.user-update-password-form__input-container label {
+  margin: 0.3rem 0;
+  text-align: left;
+  padding-left: 0.3rem;
+  font-size: 0.7rem;
+}
+
+.user-update-password-form__cta {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-top: 0.5rem;
+}
+
+.user-update-password-form__cta > :not(:last-child) {
   margin-right: 0.3rem;
 }
 
@@ -966,6 +975,15 @@ h4 {
 }
 
 .profile-page__form {
+  padding: 0.5rem;
+  width: 25rem;
+}
+
+.reset-password-page > h1 {
+  margin-bottom: 2rem;
+}
+
+.reset-password-page__form {
   padding: 0.5rem;
   width: 25rem;
 }

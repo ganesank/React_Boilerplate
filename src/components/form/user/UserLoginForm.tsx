@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { loginUser } from '../../redux/user';
-import { showPopup } from '../../redux/popup';
-import * as Type from '../../utils/@types/types';
+import { showPopup } from '../../../redux/popup';
+import { loginUser } from '../../../redux/user';
+import * as Type from '../../../utils/@types/types';
 
-const FormLogin: React.FC = () => {
+const UserLoginForm: React.FC = () => {
     const initialState: Type.LoginForm = {
         email: '',
         password: '',
@@ -40,39 +40,37 @@ const FormLogin: React.FC = () => {
     };
 
     return (
-        <div className="form-login-signup">
+        <div className="user-login-signup-form">
             <form onSubmit={handleSubmit}>
-                <div className="form-login-signup__input-container">
+                <div className="user-login-signup-form__input-container">
                     <input
                         type="email"
                         name="email"
                         placeholder="Email"
-                        className="form-login-signup__input"
                         required
                         value={form.email}
                         onChange={handleChange}
                         autoComplete="username"
                     />
-                    <label htmlFor="email" className="form-login-signup__label">
+                    <label htmlFor="email" className="user-login-signup-form__label">
                         Email
                     </label>
                 </div>
-                <div className="form-login-signup__input-container">
+                <div className="user-login-signup-form__input-container">
                     <input
                         type="password"
                         name="password"
                         placeholder="Password"
-                        className="form-login-signup__input"
                         required
                         value={form.password}
                         onChange={handleChange}
                         autoComplete="current-password"
                     />
-                    <label htmlFor="password" className="form-login-signup__label">
+                    <label htmlFor="password" className="user-login-signup-form__label">
                         Password
                     </label>
                 </div>
-                <div className="form-login-signup__cta">
+                <div className="user-login-signup-form__cta">
                     <Link className="btn btn--warning" to="/signup">
                         Sign Up
                     </Link>
@@ -85,8 +83,8 @@ const FormLogin: React.FC = () => {
                     </button>
                 </div>
             </form>
-            <div className="form-login-signup__reset-password">
-                <a href="/" className="form-login-signup__reset-password__link" onClick={handleResetPassword}>
+            <div className="user-login-signup-form__reset-password">
+                <a href="/" className="user-login-signup-form__reset-password__link" onClick={handleResetPassword}>
                     Forgot your password?
                 </a>
             </div>
@@ -94,4 +92,4 @@ const FormLogin: React.FC = () => {
     );
 };
 
-export default FormLogin;
+export default UserLoginForm;

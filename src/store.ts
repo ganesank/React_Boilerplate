@@ -1,9 +1,9 @@
-import { combineReducers, applyMiddleware, createStore } from 'redux';
-import ReduxThunk from 'redux-thunk';
+import { applyMiddleware, combineReducers, createStore } from 'redux';
 import logger from 'redux-logger';
-import userReducer from './redux/user';
-import popupReducer from './redux/popup';
+import ReduxThunk from 'redux-thunk';
 import msgsReducer from './redux/messages';
+import popupReducer from './redux/popup';
+import userReducer from './redux/user';
 
 const reducers = combineReducers({
     user: userReducer,

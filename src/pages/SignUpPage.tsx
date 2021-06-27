@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch, RootStateOrAny } from 'react-redux';
-import { hidePopup } from '../redux/popup';
-
-import FormSignUp from '../components/form/FormSignUp';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+import UserSignUpForm from '../components/form/user/UserSignUpForm';
 import Alert from '../components/shared/Alert';
 import Popup from '../components/shared/Popup';
+import { removeMsgs } from '../redux/messages';
+import { hidePopup } from '../redux/popup';
 
 const SignUpPage: React.FC = () => {
     const msgs = useSelector((state: RootStateOrAny) => state.msgs);
@@ -14,6 +14,7 @@ const SignUpPage: React.FC = () => {
     useEffect(() => {
         return () => {
             dispatch(hidePopup());
+            dispatch(removeMsgs());
         };
     }, [dispatch]);
 
@@ -21,7 +22,7 @@ const SignUpPage: React.FC = () => {
         <div className="signup-page container">
             <h1>SIGN UP</h1>
             <div className="signup-page__form">
-                <FormSignUp />
+                <UserSignUpForm />
                 {!popup.visible && msgs.msgs.length > 0 && <Alert />}
                 {popup.visible && popup.custom && (
                     <Popup>

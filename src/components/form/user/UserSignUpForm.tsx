@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setMsgs } from '../../redux/messages';
-import { showPopup } from '../../redux/popup';
-import * as requestHelper from '../../utils/helpers/requestHelper';
 import { Link } from 'react-router-dom';
-import * as Type from '../../utils/@types/types';
+import { setMsgs } from '../../../redux/messages';
+import { showPopup } from '../../../redux/popup';
+import * as Type from '../../../utils/@types/types';
+import * as requestHelper from '../../../utils/helpers/requestHelper';
 
 const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
 const URL: string =
@@ -12,7 +12,7 @@ const URL: string =
         ? `${process.env.REACT_APP_BACKEND_URL!}/api/users`
         : `${process.env.REACT_APP_BACKEND_URL!}:${PORT}/api/users`;
 
-const FormSignUp: React.FC = () => {
+const UserSignUpForm: React.FC = () => {
     const initialState: Type.SignUpForm = {
         firstName: '',
         lastName: '',
@@ -86,9 +86,9 @@ const FormSignUp: React.FC = () => {
     };
 
     return (
-        <div className="form-login-signup">
+        <div className="user-login-signup-form">
             <form onSubmit={handleSubmit}>
-                <div className="form-login-signup__input-container">
+                <div className="user-login-signup-form__input-container">
                     <input
                         type="text"
                         name="firstName"
@@ -99,7 +99,7 @@ const FormSignUp: React.FC = () => {
                     />
                     <label htmlFor="firstName">First Name</label>
                 </div>
-                <div className="form-login-signup__input-container">
+                <div className="user-login-signup-form__input-container">
                     <input
                         type="text"
                         name="lastName"
@@ -110,7 +110,7 @@ const FormSignUp: React.FC = () => {
                     />
                     <label htmlFor="lastName">Last Name</label>
                 </div>
-                <div className="form-login-signup__input-container">
+                <div className="user-login-signup-form__input-container">
                     <input
                         type="email"
                         name="email"
@@ -122,7 +122,7 @@ const FormSignUp: React.FC = () => {
                     />
                     <label htmlFor="email">Email</label>
                 </div>
-                <div className="form-login-signup__input-container">
+                <div className="user-login-signup-form__input-container">
                     <input
                         type="password"
                         name="password"
@@ -134,7 +134,7 @@ const FormSignUp: React.FC = () => {
                     />
                     <label htmlFor="Password">Password</label>
                 </div>
-                <div className="form-login-signup__input-container">
+                <div className="user-login-signup-form__input-container">
                     <input
                         type="password"
                         name="confirmPassword"
@@ -146,7 +146,7 @@ const FormSignUp: React.FC = () => {
                     />
                     <label htmlFor="confirmPassword">Confirm Password</label>
                 </div>
-                <div className="form-login-signup__cta">
+                <div className="user-login-signup-form__cta">
                     <Link className="btn btn--warning" to="/login">
                         Login
                     </Link>
@@ -163,4 +163,4 @@ const FormSignUp: React.FC = () => {
     );
 };
 
-export default FormSignUp;
+export default UserSignUpForm;

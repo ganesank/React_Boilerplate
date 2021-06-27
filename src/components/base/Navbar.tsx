@@ -1,9 +1,8 @@
 import React from 'react';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
-import { useSelector, useDispatch, RootStateOrAny } from 'react-redux';
-import * as Type from '../../utils/@types/types';
-
 import { logoutUser } from '../../redux/user';
+import * as Type from '../../utils/@types/types';
 
 const Navbar: React.FC = () => {
     const user = useSelector((state: RootStateOrAny) => state.user);

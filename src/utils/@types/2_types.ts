@@ -85,6 +85,11 @@ export type LoginForm = {
     password: string;
 };
 
+export type UpdatePasswordForm = {
+    password: string;
+    confirmPassword: string;
+};
+
 export type SignUpForm = {
     firstName: string;
     lastName: string;

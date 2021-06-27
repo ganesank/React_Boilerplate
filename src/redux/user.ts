@@ -1,9 +1,8 @@
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
-
-import * as tokenService from '../utils/token/tokenService';
-import * as requestHelper from '../utils/helpers/requestHelper';
 import * as Type from '../utils/@types/types';
+import * as requestHelper from '../utils/helpers/requestHelper';
+import * as tokenService from '../utils/token/tokenService';
 
 const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
 const URL: string =

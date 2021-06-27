@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { deleteUser } from '../../redux/user';
-import { hidePopup } from '../../redux/popup';
-import * as Type from '../../utils/@types/types';
+import { removeMsgs } from '../../../redux/messages';
+import { hidePopup } from '../../../redux/popup';
+import { deleteUser } from '../../../redux/user';
+import * as Type from '../../../utils/@types/types';
+import Alert from '../../shared/Alert';
 
-import Alert from '../shared/Alert';
-
-const FormDelete: React.FC = () => {
+const UserDeleteForm: React.FC = () => {
     const initialState: Type.DeleteUserForm = {
         password: '',
     };
@@ -16,6 +16,12 @@ const FormDelete: React.FC = () => {
     const user = useSelector((state: RootStateOrAny) => state.user);
     const dispatch = useDispatch();
     const history = useHistory();
+
+    useEffect(() => {
+        return () => {
+            dispatch(removeMsgs());
+        };
+    }, [dispatch]);
 
     const handleSubmit: Type.HandleSubmitFn<{}> = (e) => {
         e.preventDefault();
@@ -38,15 +44,13 @@ const FormDelete: React.FC = () => {
     };
 
     return (
-        <div className="form-delete" onClick={(e) => e.stopPropagation()}>
-            <form className="form-delete__form" onSubmit={handleSubmit}>
-                <div className="form-delete__msg">Are you sure you want to delete your account?</div>
-                <div className="form-delete__cta">
+        <div className="user-delete-form" onClick={(e) => e.stopPropagation()}>
+            <form onSubmit={handleSubmit}>
+                <div className="user-delete-form__cta">
                     <input
                         type="password"
                         name="password"
                         placeholder="Password"
-                        className="form-delete__input"
                         required
                         value={form.password}
                         onChange={handleChange}
@@ -66,4 +70,4 @@ const FormDelete: React.FC = () => {
     );
 };
 
-export default FormDelete;
+export default UserDeleteForm;

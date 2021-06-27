@@ -1,5 +1,5 @@
-import * as token from '../token/tokenService';
 import * as Type from '../@types/types';
+import * as token from '../token/tokenService';
 
 const request: Type.Request = async (type, url, attrs, reqToken = false, throwError) => {
     const option: Type.RequestOptions = {

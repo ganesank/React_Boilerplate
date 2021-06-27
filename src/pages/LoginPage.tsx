@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch, RootStateOrAny } from 'react-redux';
-import { hidePopup } from '../redux/popup';
-
-import FormLogin from '../components/form/FormLogin';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+import UserLoginForm from '../components/form/user/UserLoginForm';
+import UserResetPasswordForm from '../components/form/user/UserResetPasswordForm';
 import Alert from '../components/shared/Alert';
 import Popup from '../components/shared/Popup';
-import FormResetPassword from '../components/form/FormResetPassword';
+import { removeMsgs } from '../redux/messages';
+import { hidePopup } from '../redux/popup';
 
 const LoginPage: React.FC = () => {
     const msgs = useSelector((state: RootStateOrAny) => state.msgs);
@@ -15,6 +15,7 @@ const LoginPage: React.FC = () => {
     useEffect(() => {
         return () => {
             dispatch(hidePopup());
+            dispatch(removeMsgs());
         };
     }, [dispatch]);
 
@@ -22,7 +23,7 @@ const LoginPage: React.FC = () => {
         <div className="login-page container">
             <h1>LOGIN</h1>
             <div className="login-page__form">
-                <FormLogin />
+                <UserLoginForm />
                 {!popup.visible && msgs.msgs.length > 0 && <Alert />}
                 {popup.visible && popup.custom && (
                     <Popup>
@@ -33,7 +34,7 @@ const LoginPage: React.FC = () => {
                 )}
                 {popup.visible && !popup.custom && (
                     <Popup>
-                        <FormResetPassword />
+                        <UserResetPasswordForm />
                     </Popup>
                 )}
             </div>

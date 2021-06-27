@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
-import * as requestHelper from '../../utils/helpers/requestHelper';
-import { setMsgs } from '../../redux/messages';
-import * as Type from '../../utils/@types/types';
-
-import Alert from '../shared/Alert';
+import { useDispatch } from 'react-redux';
+import { setMsgs } from '../../../redux/messages';
+import * as Type from '../../../utils/@types/types';
+import * as requestHelper from '../../../utils/helpers/requestHelper';
 
 const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
 const URL: string =
@@ -12,18 +10,20 @@ const URL: string =
         ? `${process.env.REACT_APP_BACKEND_URL!}/api/users`
         : `${process.env.REACT_APP_BACKEND_URL!}:${PORT}/api/users`;
 
-const FormResetPassword: React.FC = () => {
-    const initialState: Type.ResetPasswordForm = {
-        email: '',
+const UserUpdatePasswordForm: React.FC<Type.ResetPassword2FormComponent> = ({ token }) => {
+    const initialState: Type.UpdatePasswordForm = {
+        password: '',
+        confirmPassword: '',
     };
     const [form, setForm] = useState(initialState);
-    const msgs = useSelector((state: RootStateOrAny) => state.msgs);
     const dispatch = useDispatch();
 
     const handleSubmit: Type.HandleSubmitFn<{}> = async (e) => {
         e.preventDefault();
         try {
-            const response = await requestHelper.resetPassword(`${URL}/password`, form);
+            const response = await requestHelper.updatePassword(`${URL}/password/${token}`, form);
+
+            console.log(response);
             if (!response.ok)
                 return dispatch(
                     setMsgs({
@@ -34,8 +34,6 @@ const FormResetPassword: React.FC = () => {
                     })
                 );
 
-            if (response.data.verifyToken) console.log(`${URL}/email/${response.data.verifyToken}`);
-
             dispatch(
                 setMsgs({
                     msgs: [response.data.message],
@@ -45,7 +43,8 @@ const FormResetPassword: React.FC = () => {
                 })
             );
             setForm({
-                email: '',
+                password: '',
+                confirmPassword: '',
             });
         } catch (error) {
             dispatch(
@@ -67,27 +66,39 @@ const FormResetPassword: React.FC = () => {
     };
 
     const isFormValid: Type.IsFormValidFn = () => {
-        return !(form.email !== '');
+        return !(form.password.trim() !== '' && form.confirmPassword.trim() !== '');
     };
 
     return (
-        <div className="form-reset-password" onClick={(e) => e.stopPropagation()}>
-            <form className="form-reset-password__form" onSubmit={handleSubmit}>
-                <div className="form-reset-password__input-container">
+        <div className="user-update-password-form">
+            <form onSubmit={handleSubmit}>
+                <div className="user-update-password-form__input-container">
                     <input
-                        type="email"
-                        name="email"
-                        placeholder="Email"
-                        className="form-reset-password__input"
+                        type="password"
+                        name="password"
+                        placeholder="Password"
                         required
-                        value={form.email}
+                        value={form.password}
                         onChange={handleChange}
-                        autoComplete="username"
+                        autoComplete="new-password"
                     />
+                    <label htmlFor="password">New Password</label>
                 </div>
-                <div className="form-reset-password__cta">
+                <div className="user-update-password-form__input-container">
+                    <input
+                        type="password"
+                        name="confirmPassword"
+                        placeholder="Confirm Password"
+                        required
+                        value={form.confirmPassword}
+                        onChange={handleChange}
+                        autoComplete="new-password"
+                    />
+                    <label htmlFor="confirmPassword">Confirm New Password</label>
+                </div>
+                <div className="user-update-password-form__cta">
                     <button
-                        className={isFormValid() ? 'btn btn--disabled ' : 'btn btn--primary'}
+                        className={isFormValid() ? 'btn btn--disabled ' : 'btn'}
                         type="submit"
                         disabled={isFormValid()}
                     >
@@ -95,9 +106,8 @@ const FormResetPassword: React.FC = () => {
                     </button>
                 </div>
             </form>
-            {msgs.msgs.length > 0 && <Alert />}
         </div>
     );
 };
 
-export default FormResetPassword;
+export default UserUpdatePasswordForm;

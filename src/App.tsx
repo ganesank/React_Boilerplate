@@ -1,15 +1,14 @@
 import React from 'react';
+import { RootStateOrAny, useSelector } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { useSelector, RootStateOrAny } from 'react-redux';
-
-import Navbar from './components/base/Navbar';
 import Footer from './components/base/Footer';
-
+import Navbar from './components/base/Navbar';
+import AboutPage from './pages/AboutPage';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
-import SignUpPage from './pages/SignUpPage';
-import AboutPage from './pages/AboutPage';
 import ProfilePage from './pages/ProfilePage';
+import ResetPasswordPage from './pages/ResetPasswordPage';
+import SignUpPage from './pages/SignUpPage';
 
 const App: React.FC = () => {
     const user = useSelector((state: RootStateOrAny) => state.user);
@@ -28,6 +27,7 @@ const App: React.FC = () => {
                 <Route path="/about" component={AboutPage} />
                 <Route path="/login" component={LoginPage} />
                 <Route path="/signup" component={SignUpPage} />
+                <Route path="/reset-password/:token" component={ResetPasswordPage} />
                 <Route render={() => <Redirect to={{ pathname: '/' }} />} />
             </Switch>
         );

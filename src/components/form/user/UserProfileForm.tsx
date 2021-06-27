@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import * as requestHelper from '../../utils/helpers/requestHelper';
-import * as Type from '../../utils/@types/types';
-import { showPopup } from '../../redux/popup';
-import { setMsgs } from '../../redux/messages';
+import { setMsgs } from '../../../redux/messages';
+import { showPopup } from '../../../redux/popup';
+import * as Type from '../../../utils/@types/types';
+import * as requestHelper from '../../../utils/helpers/requestHelper';
 
 const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
 const URL: string =
@@ -11,7 +11,7 @@ const URL: string =
         ? `${process.env.REACT_APP_BACKEND_URL!}/api/users`
         : `${process.env.REACT_APP_BACKEND_URL!}:${PORT}/api/users`;
 
-const FormProfile: React.FC = () => {
+const UserProfileForm: React.FC = () => {
     const initialState: Type.ProfileForm = {
         _id: '',
         firstName: '',
@@ -105,7 +105,9 @@ const FormProfile: React.FC = () => {
 
     const handleDelete: Type.HandleClickFn = (e) => {
         e.preventDefault();
-        dispatch(showPopup({ visible: true, title: 'Delete Acc' }));
+        dispatch(
+            showPopup({ visible: true, title: 'Delete Acc', message: 'Are you sure you want to delete your account?' })
+        );
     };
 
     const handleChange: Type.HandleChangeFn = ({ target: { name, value } }) => {
@@ -126,10 +128,10 @@ const FormProfile: React.FC = () => {
     };
 
     return (
-        <div className="form-profile__container">
+        <div className="user-profile-form">
             <form onSubmit={handleSubmit}>
-                <div className="form-profile__split">
-                    <div className="form-profile__input-container">
+                <div className="user-profile-form__split">
+                    <div className="user-profile-form__input-container">
                         <input
                             type="text"
                             name="firstName"
@@ -140,7 +142,7 @@ const FormProfile: React.FC = () => {
                         />
                         <label htmlFor="firstName">First Name</label>
                     </div>
-                    <div className="form-profile__input-container">
+                    <div className="user-profile-form__input-container">
                         <input
                             type="text"
                             name="lastName"
@@ -152,7 +154,7 @@ const FormProfile: React.FC = () => {
                         <label htmlFor="lastName">Last Name</label>
                     </div>
                 </div>
-                <div className="form-profile__input-container">
+                <div className="user-profile-form__input-container">
                     <input
                         type="email"
                         name="email"
@@ -164,8 +166,8 @@ const FormProfile: React.FC = () => {
                     />
                     <label htmlFor="email">Email</label>
                 </div>
-                <div className="form-profile__split">
-                    <div className="form-profile__input-container">
+                <div className="user-profile-form__split">
+                    <div className="user-profile-form__input-container">
                         <input
                             type="password"
                             name="newPassword"
@@ -177,7 +179,7 @@ const FormProfile: React.FC = () => {
                         />
                         <label htmlFor="newPassword">New Password</label>
                     </div>
-                    <div className="form-profile__input-container">
+                    <div className="user-profile-form__input-container">
                         <input
                             type="password"
                             name="confirmNewPassword"
@@ -190,7 +192,7 @@ const FormProfile: React.FC = () => {
                         <label htmlFor="confirmNewPassword">Confirm New Password</label>
                     </div>
                 </div>
-                <div className="form-profile__cta">
+                <div className="user-profile-form__cta">
                     <input
                         type="password"
                         name="password"
@@ -210,8 +212,8 @@ const FormProfile: React.FC = () => {
                     </button>
                 </div>
             </form>
-            <div className="form-profile__delete">
-                <a href="/" className="form-profile__delete-link" onClick={handleDelete}>
+            <div className="user-profile-form__delete">
+                <a href="/" className="user-profile-form__delete-link" onClick={handleDelete}>
                     Delete Account
                 </a>
             </div>
@@ -219,4 +221,4 @@ const FormProfile: React.FC = () => {
     );
 };
 
-export default FormProfile;
+export default UserProfileForm;
