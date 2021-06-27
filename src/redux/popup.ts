@@ -16,6 +16,7 @@ const initialState: Type.PopupState = {
     visible: false,
     title: '',
     message: '',
+    custom: '',
 };
 
 const popupReducer: Type.Reducer<Type.PopupState, Type.PopupAction> = (state = initialState, action) => {
@@ -25,12 +26,14 @@ const popupReducer: Type.Reducer<Type.PopupState, Type.PopupAction> = (state = i
                 visible: true,
                 title: action.payload?.title,
                 message: action.payload?.message,
+                custom: action.payload?.custom,
             };
         case HIDE_POPUP:
             return {
                 visible: false,
                 title: '',
                 message: '',
+                custom: '',
             };
         default:
             return state;

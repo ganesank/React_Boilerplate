@@ -41,6 +41,7 @@ export type PopupPayload = {
     visible?: boolean;
     title?: string;
     message?: string;
+    custom?: string;
 };
 
 export type PopupState = PopupPayload;

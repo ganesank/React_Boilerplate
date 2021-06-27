@@ -9,6 +9,7 @@
 
   &__container
     @include abs-center
+    top: 30%
     background-color: $cwt
     min-width: 30rem
     min-height: 5rem
@@ -45,3 +46,11 @@
       text-transform: uppercase
   &__body
     font-size: $default-font-size
+
+  &__custom
+    &__link
+      display: flex
+      justify-content: center
+
+      a
+        font-size: $default-font-size

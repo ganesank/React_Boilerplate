@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch, RootStateOrAny } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import * as requestHelper from '../utils/helpers/requestHelper';
 import { Link } from 'react-router-dom';
 import * as Type from '../utils/@types/types';
 
-import AlertMsg from '../components/shared/AlertMsg';
 import { setMsgs } from '../redux/messages';
+import { showPopup } from '../redux/popup';
 
 const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
 const URL: string =
@@ -22,7 +22,6 @@ const FormSignUp: React.FC = () => {
         confirmPassword: '',
     };
     const [form, setForm] = useState(initialState);
-    const msgs = useSelector((state: RootStateOrAny) => state.msgs);
     const dispatch = useDispatch();
 
     const handleSubmit: Type.HandleSubmitFn<{}> = async (e) => {
@@ -39,7 +38,8 @@ const FormSignUp: React.FC = () => {
                     })
                 );
 
-            if (response.data && response.data.verifyToken) console.log(`${URL}/email/${response.data.verifyToken}`);
+            if (response.data && response.data.verifyToken)
+                dispatch(showPopup({ title: 'Verify Email', custom: `${URL}/email/${response.data.verifyToken}` }));
 
             dispatch(
                 setMsgs({
@@ -176,7 +176,6 @@ const FormSignUp: React.FC = () => {
                     </button>
                 </div>
             </form>
-            {msgs.msgs.length > 0 && <AlertMsg />}
         </div>
     );
 };

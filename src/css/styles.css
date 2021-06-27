@@ -575,6 +575,7 @@ h4 {
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
+  top: 30%;
   background-color: white;
   min-width: 30rem;
   min-height: 5rem;
@@ -624,6 +625,19 @@ h4 {
 }
 
 .popup__body {
+  font-size: 1rem;
+}
+
+.popup__custom__link {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.popup__custom__link a {
   font-size: 1rem;
 }
 

@@ -27,7 +27,7 @@ export const loginUser: Type.ActionThunk<Type.LoginForm> = (data) => {
                         type: SHOW_POPUP,
                         payload: {
                             title: 'Verify Email',
-                            message: `${URL}/email/${response.error.verifyToken}`,
+                            custom: `${URL}/email/${response.error.verifyToken}`,
                         },
                     });
                 }
