@@ -1,28 +1,28 @@
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch, RootStateOrAny } from 'react-redux';
-import { removeMsgs } from '../../redux/messages';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+import { removeMsg } from '../../redux/msg';
 
 const Alert: React.FC = () => {
-    const msgs = useSelector((state: RootStateOrAny) => state.msgs);
+    const msg = useSelector((state: RootStateOrAny) => state.msg);
     const dispatch = useDispatch();
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            dispatch(removeMsgs());
+            dispatch(removeMsg());
         }, 10000);
         return () => {
             clearTimeout(timer);
-            dispatch(removeMsgs());
+            dispatch(removeMsg());
         };
     }, [dispatch]);
 
     const icon = (
-        <div className={msgs.iconColor ? `alert__icon alert__icon--${msgs.iconColor}` : `alert__icon`}>{msgs.icon}</div>
+        <div className={msg.iconColor ? `alert__icon alert__icon--${msg.iconColor}` : `alert__icon`}>{msg.icon}</div>
     );
 
-    const messages = msgs.msgs.map((item: string, idx: number) => {
+    const messages = msg.msgs.map((item: string, idx: number) => {
         return (
-            <div key={idx} className={`alert__msg alert__msg--${msgs.msgColor}`}>
+            <div key={idx} className={`alert__msg alert__msg--${msg.msgColor}`}>
                 {item}
             </div>
         );
@@ -30,7 +30,7 @@ const Alert: React.FC = () => {
 
     return (
         <div className="alert">
-            {msgs.msgs.length > 0 && msgs.icon && icon}
+            {msg.msgs.length > 0 && msg.icon && icon}
             <div className="alert__msg-container">{messages}</div>
         </div>
     );

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { removeMsgs, setMsgs } from '../../../redux/messages';
+import { removeMsg, setMsg } from '../../../redux/msg';
 import * as Type from '../../../utils/@types/types';
 import * as requestHelper from '../../../utils/helpers/requestHelper';
 import Alert from '../../shared/Alert';
@@ -17,13 +17,13 @@ const UserResetPasswordForm: React.FC = () => {
         email: '',
     };
     const [form, setForm] = useState(initialState);
-    const msgs = useSelector((state: RootStateOrAny) => state.msgs);
+    const msg = useSelector((state: RootStateOrAny) => state.msg);
     const dispatch = useDispatch();
     const history = useHistory();
 
     useEffect(() => {
         return () => {
-            dispatch(removeMsgs());
+            dispatch(removeMsg());
         };
     }, [dispatch]);
 
@@ -33,7 +33,7 @@ const UserResetPasswordForm: React.FC = () => {
             const response = await requestHelper.resetPassword(`${URL}/password`, form);
             if (!response.ok)
                 return dispatch(
-                    setMsgs({
+                    setMsg({
                         msgs: [response.error.message],
                         msgColor: 'danger',
                         icon: '⚠',
@@ -42,7 +42,7 @@ const UserResetPasswordForm: React.FC = () => {
                 );
 
             dispatch(
-                setMsgs({
+                setMsg({
                     msgs: [response.data.message],
                     msgColor: 'success',
                     icon: '✓',
@@ -56,7 +56,7 @@ const UserResetPasswordForm: React.FC = () => {
             if (response.data.verifyToken) history.push(`/reset-password/${response.data.verifyToken}`);
         } catch (error) {
             dispatch(
-                setMsgs({
+                setMsg({
                     msgs: [error.message],
                     msgColor: 'danger',
                     icon: '⚠',
@@ -101,7 +101,7 @@ const UserResetPasswordForm: React.FC = () => {
                     </button>
                 </div>
             </form>
-            {msgs.msgs.length > 0 && <Alert />}
+            {msg.msgs.length > 0 && <Alert />}
         </div>
     );
 };

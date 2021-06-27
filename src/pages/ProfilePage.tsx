@@ -4,16 +4,16 @@ import UserDeleteForm from '../components/form/user/UserDeleteForm';
 import UserProfileForm from '../components/form/user/UserProfileForm';
 import Alert from '../components/shared/Alert';
 import Popup from '../components/shared/Popup';
-import { removeMsgs } from '../redux/messages';
+import { removeMsg } from '../redux/msg';
 
 const ProfilePage: React.FC = () => {
     const popup = useSelector((state: RootStateOrAny) => state.popup);
-    const msgs = useSelector((state: RootStateOrAny) => state.msgs);
+    const msg = useSelector((state: RootStateOrAny) => state.msg);
     const dispatch = useDispatch();
 
     useEffect(() => {
         return () => {
-            dispatch(removeMsgs());
+            dispatch(removeMsg());
         };
     }, [dispatch]);
 
@@ -21,12 +21,13 @@ const ProfilePage: React.FC = () => {
         <div className="profile-page container">
             <h1>PROFILE</h1>
             <UserProfileForm />
-            {!popup.visible && msgs.msgs.length > 0 && <Alert />}
-            {popup.visible && (
+            {!popup.visible && msg.msgs.length > 0 && <Alert />}
+            {popup.visible && popup.message === '' && (
                 <Popup>
                     <UserDeleteForm />
                 </Popup>
             )}
+            {popup.visible && popup.message !== '' && <Popup />}
         </div>
     );
 };

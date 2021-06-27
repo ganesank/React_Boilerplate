@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setMsgs } from '../../../redux/messages';
-import { showPopup } from '../../../redux/popup';
+import { setMsg } from '../../../redux/msg';
+import { hidePopup, showPopup } from '../../../redux/popup';
 import * as Type from '../../../utils/@types/types';
 import * as requestHelper from '../../../utils/helpers/requestHelper';
 
@@ -30,7 +30,7 @@ const UserProfileForm: React.FC = () => {
                 const response = await requestHelper.getData(`${URL}/profile`);
                 if (!response.ok)
                     return dispatch(
-                        setMsgs({
+                        setMsg({
                             msgs: [response.error.message],
                             msgColor: 'danger',
                             icon: '⚠',
@@ -49,7 +49,7 @@ const UserProfileForm: React.FC = () => {
                 });
             } catch (error) {
                 dispatch(
-                    setMsgs({
+                    setMsg({
                         msgs: [error.message],
                         msgColor: 'danger',
                         icon: '⚠',
@@ -58,6 +58,10 @@ const UserProfileForm: React.FC = () => {
                 );
             }
         })();
+
+        return () => {
+            dispatch(hidePopup());
+        };
     }, [dispatch, setForm]);
 
     const handleSubmit: Type.HandleSubmitFn<{}> = async (e) => {
@@ -72,7 +76,7 @@ const UserProfileForm: React.FC = () => {
                 });
 
                 return dispatch(
-                    setMsgs({
+                    setMsg({
                         msgs: errors,
                         msgColor: 'danger',
                         icon: '⚠',
@@ -90,10 +94,11 @@ const UserProfileForm: React.FC = () => {
                     confirmNewPassword: '',
                 };
             });
-            alert('Your profile has been updated!');
+
+            dispatch(showPopup({ title: 'Profile Updated', message: 'Your profile has been updated successfully' }));
         } catch (error) {
             dispatch(
-                setMsgs({
+                setMsg({
                     msgs: [error.message],
                     msgColor: 'danger',
                     icon: '⚠',

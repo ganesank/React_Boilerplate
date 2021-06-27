@@ -10,9 +10,9 @@ const URL: string =
         ? `${process.env.REACT_APP_BACKEND_URL!}/api/users`
         : `${process.env.REACT_APP_BACKEND_URL!}:${PORT}/api/users`;
 
-const LOGOUT_USER: string = 'LOGOUT_USER';
+const SET_MSG: string = 'SET_MSG';
 const LOGIN_USER: string = 'LOGIN_USER';
-const SET_MSGS: string = 'SET_MSGS';
+const LOGOUT_USER: string = 'LOGOUT_USER';
 const SHOW_POPUP: string = 'SHOW_POPUP';
 
 export const loginUser: Type.ActionThunk<Type.LoginForm> = (data) => {
@@ -31,7 +31,7 @@ export const loginUser: Type.ActionThunk<Type.LoginForm> = (data) => {
                     });
                 }
                 return dispatch({
-                    type: SET_MSGS,
+                    type: SET_MSG,
                     payload: {
                         msgs: [response.error.message],
                         msgColor: 'danger',
@@ -45,7 +45,7 @@ export const loginUser: Type.ActionThunk<Type.LoginForm> = (data) => {
             dispatch({ type: LOGIN_USER });
         } catch (error) {
             dispatch({
-                type: SET_MSGS,
+                type: SET_MSG,
                 payload: {
                     msgs: [error.message],
                     msgColor: 'danger',
@@ -72,7 +72,7 @@ export const deleteUser: Type.ActionThunk<Type.DeleteUserForm> = (data) => {
                     errors.push(response.error[key]);
                 });
                 return dispatch({
-                    type: SET_MSGS,
+                    type: SET_MSG,
                     payload: {
                         msgs: errors,
                         msgColor: 'danger',
@@ -87,7 +87,7 @@ export const deleteUser: Type.ActionThunk<Type.DeleteUserForm> = (data) => {
             });
         } catch (error) {
             dispatch({
-                type: SET_MSGS,
+                type: SET_MSG,
                 payload: {
                     msgs: [error.message],
                     msgColor: 'danger',

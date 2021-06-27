@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { removeMsgs } from '../../../redux/messages';
+import { removeMsg } from '../../../redux/msg';
 import { hidePopup } from '../../../redux/popup';
 import { deleteUser } from '../../../redux/user';
 import * as Type from '../../../utils/@types/types';
@@ -12,14 +12,14 @@ const UserDeleteForm: React.FC = () => {
         password: '',
     };
     const [form, setForm] = useState(initialState);
-    const msgs = useSelector((state: RootStateOrAny) => state.msgs);
+    const msg = useSelector((state: RootStateOrAny) => state.msg);
     const user = useSelector((state: RootStateOrAny) => state.user);
     const dispatch = useDispatch();
     const history = useHistory();
 
     useEffect(() => {
         return () => {
-            dispatch(removeMsgs());
+            dispatch(removeMsg());
         };
     }, [dispatch]);
 
@@ -65,7 +65,7 @@ const UserDeleteForm: React.FC = () => {
                     </button>
                 </div>
             </form>
-            {msgs.msgs.length > 0 && <Alert />}
+            {msg.msgs.length > 0 && <Alert />}
         </div>
     );
 };

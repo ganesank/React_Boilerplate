@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { setMsgs } from '../../../redux/messages';
+import { setMsg } from '../../../redux/msg';
 import { showPopup } from '../../../redux/popup';
 import * as Type from '../../../utils/@types/types';
 import * as requestHelper from '../../../utils/helpers/requestHelper';
@@ -29,7 +29,7 @@ const UserSignUpForm: React.FC = () => {
             const response = await requestHelper.signUpUser(`${URL}/signup`, form);
             if (!response.ok)
                 return dispatch(
-                    setMsgs({
+                    setMsg({
                         msgs: [response.error.message],
                         msgColor: 'danger',
                         icon: '⚠',
@@ -41,7 +41,7 @@ const UserSignUpForm: React.FC = () => {
                 dispatch(showPopup({ title: 'Verify Email', custom: `${URL}/email/${response.data.verifyToken}` }));
 
             dispatch(
-                setMsgs({
+                setMsg({
                     msgs: [response.data.message],
                     msgColor: 'success',
                     icon: '✓',
@@ -57,7 +57,7 @@ const UserSignUpForm: React.FC = () => {
             });
         } catch (error) {
             dispatch(
-                setMsgs({
+                setMsg({
                     msgs: [error.message],
                     msgColor: 'danger',
                     icon: '⚠',

@@ -46,15 +46,15 @@ export type PopupPayload = {
 
 export type PopupState = PopupPayload;
 
-// + Messages
-export type MsgsPayload = {
+// + Message
+export type MsgPayload = {
     msgs: string[];
     msgColor: string;
     icon?: string;
     iconColor?: string;
 };
 
-export type MsgsState = MsgsPayload;
+export type MsgState = MsgPayload;
 
 // _ Action
 // + User
@@ -69,10 +69,10 @@ export type PopupAction = {
     payload?: PopupPayload;
 };
 
-// + Messages
-export type MsgsAction = {
+// + Message
+export type MsgAction = {
     type: string;
-    payload: MsgsPayload;
+    payload: MsgPayload;
 };
 
 // = Forms =====================================================================

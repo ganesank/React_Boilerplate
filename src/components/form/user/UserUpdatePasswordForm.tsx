@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setMsgs } from '../../../redux/messages';
+import { setMsg } from '../../../redux/msg';
 import * as Type from '../../../utils/@types/types';
 import * as requestHelper from '../../../utils/helpers/requestHelper';
 
@@ -26,7 +26,7 @@ const UserUpdatePasswordForm: React.FC<Type.ResetPassword2FormComponent> = ({ to
             console.log(response);
             if (!response.ok)
                 return dispatch(
-                    setMsgs({
+                    setMsg({
                         msgs: [response.error.message],
                         msgColor: 'danger',
                         icon: '⚠',
@@ -35,7 +35,7 @@ const UserUpdatePasswordForm: React.FC<Type.ResetPassword2FormComponent> = ({ to
                 );
 
             dispatch(
-                setMsgs({
+                setMsg({
                     msgs: [response.data.message],
                     msgColor: 'success',
                     icon: '✓',
@@ -48,7 +48,7 @@ const UserUpdatePasswordForm: React.FC<Type.ResetPassword2FormComponent> = ({ to
             });
         } catch (error) {
             dispatch(
-                setMsgs({
+                setMsg({
                     msgs: [error.message],
                     msgColor: 'danger',
                     icon: '⚠',
