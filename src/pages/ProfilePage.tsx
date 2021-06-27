@@ -22,12 +22,11 @@ const ProfilePage: React.FC = () => {
             <h1>PROFILE</h1>
             <UserProfileForm />
             {!popup.visible && msg.msgs.length > 0 && <Alert />}
-            {popup.visible && popup.message === '' && (
+            {popup.visible && (
                 <Popup>
                     <UserDeleteForm />
                 </Popup>
             )}
-            {popup.visible && popup.message !== '' && <Popup />}
         </div>
     );
 };

@@ -38,7 +38,13 @@ const UserSignUpForm: React.FC = () => {
                 );
 
             if (response.data && response.data.verifyToken)
-                dispatch(showPopup({ title: 'Verify Email', custom: `${URL}/email/${response.data.verifyToken}` }));
+                dispatch(
+                    showPopup({
+                        title: 'Verify Email',
+                        custom: `${URL}/email/${response.data.verifyToken}`,
+                        children: false,
+                    })
+                );
 
             dispatch(
                 setMsg({

@@ -24,7 +24,7 @@ const Popup: React.FC = ({ children }) => {
                     </div>
                 )}
                 {popup.message !== '' && <div className="popup__body">{popup.message}</div>}
-                <div className="popup__custom">{children}</div>
+                {popup.children && <div className="popup__custom">{children}</div>}
             </div>
         </div>
     );

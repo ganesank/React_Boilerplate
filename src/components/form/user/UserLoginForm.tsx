@@ -31,6 +31,7 @@ const UserLoginForm: React.FC = () => {
             showPopup({
                 title: 'Reset Password',
                 message: 'Enter your email to reset your password.',
+                children: true,
             })
         );
     };

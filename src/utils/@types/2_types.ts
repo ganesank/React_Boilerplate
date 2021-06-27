@@ -41,6 +41,7 @@ export type PopupPayload = {
     visible?: boolean;
     title?: string;
     message?: string;
+    children: boolean;
     custom?: string;
 };
 

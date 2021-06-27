@@ -95,7 +95,13 @@ const UserProfileForm: React.FC = () => {
                 };
             });
 
-            dispatch(showPopup({ title: 'Profile Updated', message: 'Your profile has been updated successfully' }));
+            dispatch(
+                showPopup({
+                    title: 'Profile Updated',
+                    message: 'Your profile has been updated successfully',
+                    children: false,
+                })
+            );
         } catch (error) {
             dispatch(
                 setMsg({
@@ -111,7 +117,12 @@ const UserProfileForm: React.FC = () => {
     const handleDelete: Type.HandleClickFn = (e) => {
         e.preventDefault();
         dispatch(
-            showPopup({ visible: true, title: 'Delete Acc', message: 'Are you sure you want to delete your account?' })
+            showPopup({
+                visible: true,
+                title: 'Delete Acc',
+                message: 'Are you sure you want to delete your account?',
+                children: true,
+            })
         );
     };
 
