@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { loginUser } from '../redux/user';
+import { showPopup } from '../redux/popup';
 import * as Type from '../utils/@types/types';
 
 const FormLogin: React.FC = () => {
@@ -24,13 +25,22 @@ const FormLogin: React.FC = () => {
         });
     };
 
+    const handleResetPassword: Type.HandleClickFn = (e) => {
+        e.preventDefault();
+        dispatch(
+            showPopup({
+                title: 'Reset Password',
+                message: 'Enter your email to reset your password.',
+            })
+        );
+    };
+
     const isFormValid: Type.IsFormValidFn = () => {
         return !(form.email.trim() !== '' && form.password.trim() !== '');
     };
 
     return (
         <div className="form-login-signup">
-            <h2>Login</h2>
             <form onSubmit={handleSubmit}>
                 <div className="form-login-signup__input-container">
                     <input
@@ -75,6 +85,11 @@ const FormLogin: React.FC = () => {
                     </button>
                 </div>
             </form>
+            <div className="form-login-signup__reset-password">
+                <a href="/" className="form-login-signup__reset-password__link" onClick={handleResetPassword}>
+                    Forgot your password?
+                </a>
+            </div>
         </div>
     );
 };

@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useSelector, RootStateOrAny } from 'react-redux';
 import * as requestHelper from '../utils/helpers/requestHelper';
 import * as Type from '../utils/@types/types';
 import { showPopup } from '../redux/popup';
 import { setMsgs } from '../redux/messages';
-
-import AlertMsg from '../components/shared/AlertMsg';
 
 const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
 const URL: string =
@@ -25,7 +22,6 @@ const FormProfile: React.FC = () => {
         confirmNewPassword: '',
     };
     const [form, setForm] = useState(initialState);
-    const msgs = useSelector((state: RootStateOrAny) => state.msgs);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -131,7 +127,6 @@ const FormProfile: React.FC = () => {
 
     return (
         <div className="form-profile__container">
-            <h2>PROFILE</h2>
             <form onSubmit={handleSubmit}>
                 <div className="form-profile__split">
                     <div className="form-profile__input-container">
@@ -139,28 +134,22 @@ const FormProfile: React.FC = () => {
                             type="text"
                             name="firstName"
                             placeholder="First Name"
-                            className="form-profile__input"
                             required
                             value={form.firstName}
                             onChange={handleChange}
                         />
-                        <label htmlFor="firstName" className="form-profile__label">
-                            First Name
-                        </label>
+                        <label htmlFor="firstName">First Name</label>
                     </div>
                     <div className="form-profile__input-container">
                         <input
                             type="text"
                             name="lastName"
                             placeholder="Last Name"
-                            className="form-profile__input"
                             required
                             value={form.lastName}
                             onChange={handleChange}
                         />
-                        <label htmlFor="lastName" className="form-profile__label">
-                            Last Name
-                        </label>
+                        <label htmlFor="lastName">Last Name</label>
                     </div>
                 </div>
                 <div className="form-profile__input-container">
@@ -168,15 +157,12 @@ const FormProfile: React.FC = () => {
                         type="email"
                         name="email"
                         placeholder="Email"
-                        className="form-profile__input"
                         required
                         value={form.email}
                         onChange={handleChange}
                         autoComplete="username"
                     />
-                    <label htmlFor="email" className="form-profile__label">
-                        Email
-                    </label>
+                    <label htmlFor="email">Email</label>
                 </div>
                 <div className="form-profile__split">
                     <div className="form-profile__input-container">
@@ -184,30 +170,24 @@ const FormProfile: React.FC = () => {
                             type="password"
                             name="newPassword"
                             placeholder="New Password"
-                            className="form-profile__input"
                             minLength={4}
                             value={form.newPassword}
                             onChange={handleChange}
                             autoComplete="new-password"
                         />
-                        <label htmlFor="newPassword" className="form-profile__label">
-                            New Password
-                        </label>
+                        <label htmlFor="newPassword">New Password</label>
                     </div>
                     <div className="form-profile__input-container">
                         <input
                             type="password"
                             name="confirmNewPassword"
                             placeholder="Confirm New Password"
-                            className="form-profile__input"
                             minLength={4}
                             value={form.confirmNewPassword}
                             onChange={handleChange}
                             autoComplete="new-password"
                         />
-                        <label htmlFor="confirmNewPassword" className="form-profile__label">
-                            Confirm New Password
-                        </label>
+                        <label htmlFor="confirmNewPassword">Confirm New Password</label>
                     </div>
                 </div>
                 <div className="form-profile__cta">
@@ -215,7 +195,6 @@ const FormProfile: React.FC = () => {
                         type="password"
                         name="password"
                         placeholder="Password"
-                        className="form-profile__input"
                         minLength={4}
                         required
                         value={form.password}
@@ -236,7 +215,6 @@ const FormProfile: React.FC = () => {
                     Delete Account
                 </a>
             </div>
-            {msgs.msgs.length > 0 && <AlertMsg />}
         </div>
     );
 };

@@ -76,6 +76,10 @@ export type MsgsAction = {
 };
 
 // = Forms =====================================================================
+export type ResetPasswordForm = {
+    email: string;
+};
+
 export type LoginForm = {
     email: string;
     password: string;

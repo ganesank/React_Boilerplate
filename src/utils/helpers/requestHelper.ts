@@ -25,8 +25,12 @@ const signUpUser = async (url: string, data: Type.SignUpForm, throwError: boolea
     return await request('POST', url, data, false, throwError);
 };
 
+const resetPassword = async (url: string, data: Type.ResetPasswordForm, throwError: boolean = false) => {
+    return await request('POST', url, data, false, throwError);
+};
+
 const deleteUser = async (url: string, data: Type.DeleteUserForm, throwError: boolean = false) => {
     return await request('DELETE', url, data, true, throwError);
 };
 
-export { getData, addData, updateData, deleteData, loginUser, signUpUser, deleteUser };
+export { getData, addData, updateData, deleteData, loginUser, signUpUser, resetPassword, deleteUser };
