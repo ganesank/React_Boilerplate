@@ -1,8 +1,8 @@
 import React from 'react';
 import { useSelector, RootStateOrAny } from 'react-redux';
 
-import FormProfile from '../components/FormProfile';
-import FormDelete from '../components/FormDelete';
+import FormProfile from '../components/form/FormProfile';
+import FormDelete from '../components/form/FormDelete';
 import Popup from '../components/shared/Popup';
 import Alert from '../components/shared/Alert';
 

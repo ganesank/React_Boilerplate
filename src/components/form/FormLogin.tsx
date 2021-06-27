@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { loginUser } from '../redux/user';
-import { showPopup } from '../redux/popup';
-import * as Type from '../utils/@types/types';
+import { loginUser } from '../../redux/user';
+import { showPopup } from '../../redux/popup';
+import * as Type from '../../utils/@types/types';
 
 const FormLogin: React.FC = () => {
     const initialState: Type.LoginForm = {

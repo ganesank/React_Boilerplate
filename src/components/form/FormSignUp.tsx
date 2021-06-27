@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setMsgs } from '../redux/messages';
-import { showPopup } from '../redux/popup';
-import * as requestHelper from '../utils/helpers/requestHelper';
+import { setMsgs } from '../../redux/messages';
+import { showPopup } from '../../redux/popup';
+import * as requestHelper from '../../utils/helpers/requestHelper';
 import { Link } from 'react-router-dom';
-import * as Type from '../utils/@types/types';
+import * as Type from '../../utils/@types/types';
 
 const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
 const URL: string =

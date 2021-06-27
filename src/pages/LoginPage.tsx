@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch, RootStateOrAny } from 'react-redux';
 import { hidePopup } from '../redux/popup';
 
-import FormLogin from '../components/FormLogin';
+import FormLogin from '../components/form/FormLogin';
 import Alert from '../components/shared/Alert';
 import Popup from '../components/shared/Popup';
-import FormResetPassword from '../components/FormResetPassword';
+import FormResetPassword from '../components/form/FormResetPassword';
 
 const LoginPage: React.FC = () => {
     const msgs = useSelector((state: RootStateOrAny) => state.msgs);

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { deleteUser } from '../redux/user';
-import { hidePopup } from '../redux/popup';
-import * as Type from '../utils/@types/types';
+import { deleteUser } from '../../redux/user';
+import { hidePopup } from '../../redux/popup';
+import * as Type from '../../utils/@types/types';
 
-import Alert from './shared/Alert';
+import Alert from '../shared/Alert';
 
 const FormDelete: React.FC = () => {
     const initialState: Type.DeleteUserForm = {

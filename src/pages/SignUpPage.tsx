@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch, RootStateOrAny } from 'react-redux';
 import { hidePopup } from '../redux/popup';
 
-import FormSignUp from '../components/FormSignUp';
+import FormSignUp from '../components/form/FormSignUp';
 import Alert from '../components/shared/Alert';
 import Popup from '../components/shared/Popup';
 

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import * as requestHelper from '../utils/helpers/requestHelper';
-import * as Type from '../utils/@types/types';
-import { showPopup } from '../redux/popup';
-import { setMsgs } from '../redux/messages';
+import * as requestHelper from '../../utils/helpers/requestHelper';
+import * as Type from '../../utils/@types/types';
+import { showPopup } from '../../redux/popup';
+import { setMsgs } from '../../redux/messages';
 
 const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
 const URL: string =
