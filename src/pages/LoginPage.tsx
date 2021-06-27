@@ -3,7 +3,7 @@ import { useSelector, useDispatch, RootStateOrAny } from 'react-redux';
 import { hidePopup } from '../redux/popup';
 
 import FormLogin from '../components/FormLogin';
-import AlertMsg from '../components/shared/AlertMsg';
+import Alert from '../components/shared/Alert';
 import Popup from '../components/shared/Popup';
 import FormResetPassword from '../components/FormResetPassword';
 
@@ -23,7 +23,7 @@ const LoginPage: React.FC = () => {
             <h1>LOGIN</h1>
             <div className="login-page__form">
                 <FormLogin />
-                {!popup.visible && msgs.msgs.length > 0 && <AlertMsg />}
+                {!popup.visible && msgs.msgs.length > 0 && <Alert />}
                 {popup.visible && popup.custom && (
                     <Popup>
                         <div className="popup__custom__link">

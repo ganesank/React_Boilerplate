@@ -4,7 +4,7 @@ import * as requestHelper from '../utils/helpers/requestHelper';
 import { setMsgs } from '../redux/messages';
 import * as Type from '../utils/@types/types';
 
-import AlertMsg from './shared/AlertMsg';
+import Alert from './shared/Alert';
 
 const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
 const URL: string =
@@ -95,7 +95,7 @@ const FormResetPassword: React.FC = () => {
                     </button>
                 </div>
             </form>
-            {msgs.msgs.length > 0 && <AlertMsg />}
+            {msgs.msgs.length > 0 && <Alert />}
         </div>
     );
 };

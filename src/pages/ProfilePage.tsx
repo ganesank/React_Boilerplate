@@ -4,7 +4,7 @@ import { useSelector, RootStateOrAny } from 'react-redux';
 import FormProfile from '../components/FormProfile';
 import FormDelete from '../components/FormDelete';
 import Popup from '../components/shared/Popup';
-import AlertMsg from '../components/shared/AlertMsg';
+import Alert from '../components/shared/Alert';
 
 const ProfilePage: React.FC = () => {
     const popup = useSelector((state: RootStateOrAny) => state.popup);
@@ -14,7 +14,7 @@ const ProfilePage: React.FC = () => {
         <div className="profile-page container">
             <h1>PROFILE</h1>
             <FormProfile />
-            {!popup.visible && msgs.msgs.length > 0 && <AlertMsg />}
+            {!popup.visible && msgs.msgs.length > 0 && <Alert />}
             {popup.visible && (
                 <Popup>
                     <FormDelete />

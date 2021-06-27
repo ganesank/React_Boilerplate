@@ -5,7 +5,7 @@ import { deleteUser } from '../redux/user';
 import { hidePopup } from '../redux/popup';
 import * as Type from '../utils/@types/types';
 
-import AlertMsg from './shared/AlertMsg';
+import Alert from './shared/Alert';
 
 const FormDelete: React.FC = () => {
     const initialState: Type.DeleteUserForm = {
@@ -61,7 +61,7 @@ const FormDelete: React.FC = () => {
                     </button>
                 </div>
             </form>
-            {msgs.msgs.length > 0 && <AlertMsg />}
+            {msgs.msgs.length > 0 && <Alert />}
         </div>
     );
 };

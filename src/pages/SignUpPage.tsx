@@ -3,7 +3,7 @@ import { useSelector, useDispatch, RootStateOrAny } from 'react-redux';
 import { hidePopup } from '../redux/popup';
 
 import FormSignUp from '../components/FormSignUp';
-import AlertMsg from '../components/shared/AlertMsg';
+import Alert from '../components/shared/Alert';
 import Popup from '../components/shared/Popup';
 
 const SignUpPage: React.FC = () => {
@@ -22,7 +22,7 @@ const SignUpPage: React.FC = () => {
             <h1>SIGN UP</h1>
             <div className="signup-page__form">
                 <FormSignUp />
-                {!popup.visible && msgs.msgs.length > 0 && <AlertMsg />}
+                {!popup.visible && msgs.msgs.length > 0 && <Alert />}
                 {popup.visible && popup.custom && (
                     <Popup>
                         <div className="popup__custom__link">
