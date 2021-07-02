@@ -7,7 +7,7 @@ const HomePage: React.FC = () => {
         <div className="home-page container">
             <h1>HOME PAGE</h1>
             <br />
-            <h2>Hello {user ? `${user.firstName} ${user.lastName}` : 'World'}</h2>
+            <h2>Welcome {user ? `${user.firstName} ${user.lastName}` : 'Guest'}</h2>
         </div>
     );
 };

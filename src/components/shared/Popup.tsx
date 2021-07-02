@@ -16,7 +16,7 @@ const Popup: React.FC = ({ children }) => {
         <div className="popup" onClick={handleClose}>
             <div className="popup__container" onClick={(e) => e.stopPropagation()}>
                 <a href="/" className="popup__close" onClick={handleClose}>
-                    X
+                    x
                 </a>
                 {popup.title !== '' && (
                     <div className="popup__header">

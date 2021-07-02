@@ -560,7 +560,7 @@ h4 {
       -ms-flex-align: center;
           align-items: center;
   border-radius: 0.3rem;
-  font-size: 0.8rem;
+  font-size: 1rem;
   font-weight: bolder;
   background-color: #b3b3b3;
   cursor: pointer;
@@ -622,10 +622,10 @@ h4 {
 }
 
 .btn:hover {
-  -webkit-transform: translateZ(1rem) scale(1.1);
-          transform: translateZ(1rem) scale(1.1);
-  -webkit-box-shadow: 0.3rem 0.3rem 0.3rem rgba(0, 0, 0, 0.3);
-          box-shadow: 0.3rem 0.3rem 0.3rem rgba(0, 0, 0, 0.3);
+  -webkit-transform: translateZ(0.1rem) scale(1.05);
+          transform: translateZ(0.1rem) scale(1.05);
+  -webkit-box-shadow: 0.25rem 0.25rem 0.25rem rgba(0, 0, 0, 0.2);
+          box-shadow: 0.25rem 0.25rem 0.25rem rgba(0, 0, 0, 0.2);
 }
 
 .btn--danger {
@@ -673,7 +673,7 @@ h4 {
 }
 
 .user-delete-form__cta > :not(:last-child) {
-  margin-right: 0.3rem;
+  margin-right: 0.5rem;
 }
 
 .user-login-signup-form {
@@ -712,7 +712,7 @@ h4 {
 }
 
 .user-login-signup-form__cta > :not(:last-child) {
-  margin-right: 0.3rem;
+  margin-right: 0.5rem;
 }
 
 .user-login-signup-form__reset-password {
@@ -799,7 +799,7 @@ h4 {
 }
 
 .user-profile-form__cta > :not(:last-child) {
-  margin-right: 0.3rem;
+  margin-right: 0.5rem;
 }
 
 .user-profile-form__delete {
@@ -847,10 +847,6 @@ h4 {
   margin-top: 0.5rem;
 }
 
-.user-reset-password-form__cta > :not(:last-child) {
-  margin-right: 0.3rem;
-}
-
 .user-update-password-form {
   padding: 0.5rem;
   width: 25rem;
@@ -893,10 +889,6 @@ h4 {
       -ms-flex-align: center;
           align-items: center;
   margin-top: 0.5rem;
-}
-
-.user-update-password-form__cta > :not(:last-child) {
-  margin-right: 0.3rem;
 }
 
 .about-page > h1 {
@@ -959,6 +951,10 @@ h4 {
 
 .home-page > h1 {
   margin-bottom: 2rem;
+}
+
+.home-page > h2 {
+  color: #175782;
 }
 
 .login-page > h1 {
