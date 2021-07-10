@@ -759,6 +759,17 @@ h4 {
   margin-bottom: 0.3rem;
 }
 
+.user-profile-form__input-container--telegram {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.user-profile-form__input-container--telegram input {
+  margin-right: 0.5rem;
+}
+
 .user-profile-form__input-container input {
   border-radius: 0.3rem;
   font-size: 0.8rem;
@@ -771,6 +782,30 @@ h4 {
   text-align: left;
   padding-left: 0.3rem;
   font-size: 0.7rem;
+}
+
+.user-profile-form__input-container__icon {
+  font-size: 1.3rem;
+  color: #ff6666;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding-top: 0.3rem;
+}
+
+.user-profile-form__input-container__icon--activated {
+  font-size: 1.3rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding-top: 0.3rem;
+  color: #7dbde8;
+}
+
+.user-profile-form__telegram-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .user-profile-form__cta {

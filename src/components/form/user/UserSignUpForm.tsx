@@ -42,7 +42,7 @@ const UserSignUpForm: React.FC = () => {
                     showPopup({
                         title: 'Verify Email',
                         custom: `${URL}/email/${response.data.verifyToken}`,
-                        children: false,
+                        children: true,
                     })
                 );
 

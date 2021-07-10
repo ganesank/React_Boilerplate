@@ -1,3 +1,5 @@
+import { faLocationArrow } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setMsg } from '../../../redux/msg';
@@ -17,6 +19,8 @@ const UserProfileForm: React.FC = () => {
         firstName: '',
         lastName: '',
         email: '',
+        telegramId: '',
+        isTelegramVerified: false,
         password: '',
         newPassword: '',
         confirmNewPassword: '',
@@ -45,6 +49,8 @@ const UserProfileForm: React.FC = () => {
                         firstName: response.data.firstName,
                         lastName: response.data.lastName,
                         email: response.data.email,
+                        telegramId: response.data.telegramId,
+                        isTelegramVerified: response.data.isTelegramVerified,
                     };
                 });
             } catch (error) {
@@ -181,6 +187,28 @@ const UserProfileForm: React.FC = () => {
                         autoComplete="username"
                     />
                     <label htmlFor="email">Email</label>
+                </div>
+                <div className="user-profile-form__telegram-container">
+                    <div className="user-profile-form__input-container user-profile-form__input-container--telegram">
+                        <input
+                            type="text"
+                            name="telegramId"
+                            placeholder="Telegram ID"
+                            minLength={4}
+                            value={form.telegramId}
+                            onChange={handleChange}
+                        />
+                        <label htmlFor="telegramId">Telegram ID</label>
+                    </div>
+                    <div
+                        className={
+                            form.isTelegramVerified
+                                ? 'user-profile-form__input-container__icon--activated'
+                                : 'user-profile-form__input-container__icon'
+                        }
+                    >
+                        <FontAwesomeIcon icon={faLocationArrow} />
+                    </div>
                 </div>
                 <div className="user-profile-form__split">
                     <div className="user-profile-form__input-container">

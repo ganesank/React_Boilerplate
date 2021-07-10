@@ -104,6 +104,8 @@ export type ProfileForm = {
     firstName: string;
     lastName: string;
     email: string;
+    telegramId: string;
+    isTelegramVerified: boolean;
     password: string;
     newPassword: string;
     confirmNewPassword: string;
