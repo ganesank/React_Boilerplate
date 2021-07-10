@@ -7,12 +7,17 @@ const Select: React.FC<Type.Select> = ({
     options,
     onChange,
     label,
+    labelPosition = 'bottom',
     handle,
     required = false,
     disabled = false,
 }) => {
+    const labelClass: string = label ? `select-container--${labelPosition} ` : '';
+    const handleClass: string = handle ? handle : '';
+    const customClass: string = `select-container ${labelClass}${handleClass}`;
+
     return (
-        <div className={`select-container ${handle}`}>
+        <div className={customClass}>
             <select name={name} value={value} onChange={onChange} required={required} disabled={disabled}>
                 {options.map((option) => {
                     return (

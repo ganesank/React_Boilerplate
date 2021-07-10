@@ -18,6 +18,7 @@ export type Input = {
     required?: boolean;
     disabled?: boolean;
     autoComplete?: string;
+    labelPosition?: string;
 };
 
 export type Textarea = {
@@ -29,6 +30,7 @@ export type Textarea = {
     placeholder?: string;
     required?: boolean;
     disabled?: boolean;
+    labelPosition?: string;
 };
 
 export type Select = {
@@ -40,4 +42,5 @@ export type Select = {
     handle?: string;
     required?: boolean;
     disabled?: boolean;
+    labelPosition?: string;
 };

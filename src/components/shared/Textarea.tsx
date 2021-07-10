@@ -6,18 +6,23 @@ const Textarea: React.FC<Type.Textarea> = ({
     value,
     onChange,
     label,
+    labelPosition = 'bottom',
     handle,
     placeholder,
     required = false,
     disabled = false,
 }) => {
+    const labelClass: string = label ? `textarea-container--${labelPosition} ` : '';
+    const handleClass: string = handle ? handle : '';
+    const customClass: string = `textarea-container ${labelClass}${handleClass}`;
+
     return (
-        <div className={`textarea-container ${handle}`}>
+        <div className={customClass}>
             <textarea
                 name={name}
                 value={value}
                 onChange={onChange}
-                placeholder={placeholder}
+                placeholder={placeholder ? placeholder : ''}
                 required={required}
                 disabled={disabled}
             />

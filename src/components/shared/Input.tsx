@@ -6,20 +6,25 @@ const Input: React.FC<Type.Input> = ({
     value,
     onChange,
     label,
+    labelPosition = 'bottom',
     handle,
     placeholder,
     type = 'text',
     required = false,
     disabled = false,
 }) => {
+    const labelClass: string = label ? `input-container--${labelPosition} ` : '';
+    const handleClass: string = handle ? handle : '';
+    const customClass: string = `input-container ${labelClass}${handleClass}`;
+
     return (
-        <div className={`input-container ${handle}`}>
+        <div className={customClass}>
             <input
                 type={type}
                 name={name}
                 value={value}
                 onChange={onChange}
-                placeholder={placeholder}
+                placeholder={placeholder ? placeholder : ''}
                 required={required}
                 disabled={disabled}
             />
