@@ -5,6 +5,7 @@ import { removeMsg, setMsg } from '../../../redux/msg';
 import * as Type from '../../../utils/@types/types';
 import * as requestHelper from '../../../utils/helpers/requestHelper';
 import Alert from '../../shared/Alert';
+import Button from '../../shared/Button';
 import CTA from '../../shared/CTA';
 import Input from '../../shared/Input';
 
@@ -91,13 +92,7 @@ const UserResetPasswordForm: React.FC = () => {
                     required={true}
                 />
                 <CTA justify="right" handle="user-reset-password-form__cta">
-                    <button
-                        className={isFormValid() ? 'btn btn--disabled ' : 'btn btn--primary'}
-                        type="submit"
-                        disabled={isFormValid()}
-                    >
-                        Reset
-                    </button>
+                    <Button value="Reset" type="submit" disabled={isFormValid()} />
                 </CTA>
             </form>
             {msg.msgs.length > 0 && <Alert />}

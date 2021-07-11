@@ -550,8 +550,8 @@ h4 {
 
 .btn-container a:hover,
 .btn-container button:hover {
-  -webkit-transform: translateZ(0.1rem) scale(1.15);
-          transform: translateZ(0.1rem) scale(1.15);
+  -webkit-transform: translateZ(0.1rem) scale(1.1);
+          transform: translateZ(0.1rem) scale(1.1);
   -webkit-box-shadow: 0.25rem 0.25rem 0.25rem rgba(0, 0, 0, 0.2);
           box-shadow: 0.25rem 0.25rem 0.25rem rgba(0, 0, 0, 0.2);
 }

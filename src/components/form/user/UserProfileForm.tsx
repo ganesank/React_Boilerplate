@@ -6,6 +6,7 @@ import { setMsg } from '../../../redux/msg';
 import { hidePopup, showPopup } from '../../../redux/popup';
 import * as Type from '../../../utils/@types/types';
 import * as requestHelper from '../../../utils/helpers/requestHelper';
+import Button from '../../shared/Button';
 import CTA from '../../shared/CTA';
 import Input from '../../shared/Input';
 
@@ -232,13 +233,7 @@ const UserProfileForm: React.FC = () => {
                         minLength={PASSWORD_LEN}
                         type="new-password"
                     />
-                    <button
-                        className={isFormValid() ? 'btn btn--disabled ' : 'btn'}
-                        type="submit"
-                        disabled={isFormValid()}
-                    >
-                        Update
-                    </button>
+                    <Button value="Update" type="submit" disabled={isFormValid()} />
                 </CTA>
             </form>
             <CTA>

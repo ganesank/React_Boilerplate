@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import * as Type from '../../utils/@types/types';
 
 const Button: React.FC<Type.Button> = ({
@@ -15,6 +16,7 @@ const Button: React.FC<Type.Button> = ({
     href = '/',
 }) => {
     if (direction === 'column' && (iconDirection === 'left' || iconDirection === 'right')) iconDirection = 'top';
+    if (disabled) btnColor = 'disabled';
 
     const handleClass: string = handle ? `${handle}` : '';
     const directionClass: string = `btn-container__${direction} `;
@@ -37,10 +39,10 @@ const Button: React.FC<Type.Button> = ({
                 </button>
             )}
             {btnType === 'link' && (
-                <a href={href} className={customClass} onClick={onClick}>
+                <Link className={customClass} to={href} onClick={onClick}>
                     {value && <div className={valueClass}>{value}</div>}
                     {children && <div className="btn-container__icon">{children}</div>}
-                </a>
+                </Link>
             )}
         </div>
     );

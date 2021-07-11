@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { showPopup } from '../../../redux/popup';
 import { loginUser } from '../../../redux/user';
 import * as Type from '../../../utils/@types/types';
+import Button from '../../shared/Button';
 import CTA from '../../shared/CTA';
 import Input from '../../shared/Input';
 
@@ -68,16 +68,8 @@ const UserLoginForm: React.FC = () => {
                     type="password"
                 />
                 <CTA justify="right">
-                    <Link className="btn btn--warning" to="/signup">
-                        Sign Up
-                    </Link>
-                    <button
-                        className={isFormValid() ? 'btn btn--disabled ' : 'btn'}
-                        type="submit"
-                        disabled={isFormValid()}
-                    >
-                        Login
-                    </button>
+                    <Button value="Sign Up" btnType="link" href="/signup" btnColor="warning" />
+                    <Button value="Login" btnColor="success" type="submit" disabled={isFormValid()} />
                 </CTA>
             </form>
             <CTA>
