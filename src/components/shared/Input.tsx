@@ -12,6 +12,7 @@ const Input: React.FC<Type.Input> = ({
     type = 'text',
     required = false,
     disabled = false,
+    minLength,
 }) => {
     const labelClass: string = label ? `input-container--${labelPosition} ` : '';
     const handleClass: string = handle ? handle : '';
@@ -27,6 +28,7 @@ const Input: React.FC<Type.Input> = ({
                 placeholder={placeholder ? placeholder : ''}
                 required={required}
                 disabled={disabled}
+                minLength={minLength ? minLength : 0}
             />
             {label && <label htmlFor={name}>{label}</label>}
         </div>

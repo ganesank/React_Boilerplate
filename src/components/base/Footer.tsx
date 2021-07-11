@@ -25,7 +25,7 @@ const Footer: React.FC = () => {
                     </ul>
                 </div>
                 <div className="footer__middle"></div>
-                <div className="footer__right">&copy; Roger Takeshita - 2020. All rights reserved.</div>
+                <div className="footer__right">&copy; Roger Takeshita - 2021. All rights reserved.</div>
             </div>
         </div>
     );

@@ -19,6 +19,7 @@ export type Input = {
     disabled?: boolean;
     autoComplete?: string;
     labelPosition?: string;
+    minLength?: number;
 };
 
 export type Textarea = {

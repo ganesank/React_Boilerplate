@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom';
 import { showPopup } from '../../../redux/popup';
 import { loginUser } from '../../../redux/user';
 import * as Type from '../../../utils/@types/types';
+import Input from '../../shared/Input';
+
+const PASSWORD_LEN: number = +process.env.REACT_APP_PASSWORD_LEN!;
 
 const UserLoginForm: React.FC = () => {
     const initialState: Type.LoginForm = {
@@ -41,37 +44,29 @@ const UserLoginForm: React.FC = () => {
     };
 
     return (
-        <div className="user-login-signup-form">
+        <div className="user-login-form">
             <form onSubmit={handleSubmit}>
-                <div className="user-login-signup-form__input-container">
-                    <input
-                        type="email"
-                        name="email"
-                        placeholder="Email"
-                        required
-                        value={form.email}
-                        onChange={handleChange}
-                        autoComplete="username"
-                    />
-                    <label htmlFor="email" className="user-login-signup-form__label">
-                        Email
-                    </label>
-                </div>
-                <div className="user-login-signup-form__input-container">
-                    <input
-                        type="password"
-                        name="password"
-                        placeholder="Password"
-                        required
-                        value={form.password}
-                        onChange={handleChange}
-                        autoComplete="current-password"
-                    />
-                    <label htmlFor="password" className="user-login-signup-form__label">
-                        Password
-                    </label>
-                </div>
-                <div className="user-login-signup-form__cta">
+                <Input
+                    placeholder="Email"
+                    label="Email"
+                    name="email"
+                    value={form.email}
+                    onChange={handleChange}
+                    autoComplete="username"
+                    required={true}
+                />
+                <Input
+                    placeholder="Password"
+                    label="Password"
+                    name="password"
+                    value={form.password}
+                    onChange={handleChange}
+                    autoComplete="password"
+                    required={true}
+                    minLength={PASSWORD_LEN}
+                    type="password"
+                />
+                <div className="user-login-form__cta">
                     <Link className="btn btn--warning" to="/signup">
                         Sign Up
                     </Link>
@@ -84,8 +79,8 @@ const UserLoginForm: React.FC = () => {
                     </button>
                 </div>
             </form>
-            <div className="user-login-signup-form__reset-password">
-                <a href="/" className="user-login-signup-form__reset-password__link" onClick={handleResetPassword}>
+            <div className="user-login-form__reset-password">
+                <a href="/" className="user-login-form__reset-password__link" onClick={handleResetPassword}>
                     Forgot your password?
                 </a>
             </div>

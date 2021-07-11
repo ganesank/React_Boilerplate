@@ -6,10 +6,12 @@ import { setMsg } from '../../../redux/msg';
 import { hidePopup, showPopup } from '../../../redux/popup';
 import * as Type from '../../../utils/@types/types';
 import * as requestHelper from '../../../utils/helpers/requestHelper';
+import Input from '../../shared/Input';
 
+const PASSWORD_LEN: number = +process.env.REACT_APP_PASSWORD_LEN!;
 const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
 const URL: string =
-    process.env.ENV! === 'production'
+    process.env.REACT_APP_ENV! === 'production'
         ? `${process.env.REACT_APP_BACKEND_URL!}/api/users`
         : `${process.env.REACT_APP_BACKEND_URL!}:${PORT}/api/users`;
 
@@ -153,99 +155,81 @@ const UserProfileForm: React.FC = () => {
         <div className="user-profile-form">
             <form onSubmit={handleSubmit}>
                 <div className="user-profile-form__split">
-                    <div className="user-profile-form__input-container">
-                        <input
-                            type="text"
-                            name="firstName"
-                            placeholder="First Name"
-                            required
-                            value={form.firstName}
-                            onChange={handleChange}
-                        />
-                        <label htmlFor="firstName">First Name</label>
-                    </div>
-                    <div className="user-profile-form__input-container">
-                        <input
-                            type="text"
-                            name="lastName"
-                            placeholder="Last Name"
-                            required
-                            value={form.lastName}
-                            onChange={handleChange}
-                        />
-                        <label htmlFor="lastName">Last Name</label>
-                    </div>
-                </div>
-                <div className="user-profile-form__input-container">
-                    <input
-                        type="email"
-                        name="email"
-                        placeholder="Email"
-                        required
-                        value={form.email}
+                    <Input
+                        placeholder="First Name"
+                        label="First Name"
+                        name="firstName"
+                        value={form.firstName}
                         onChange={handleChange}
-                        autoComplete="username"
+                        required={true}
                     />
-                    <label htmlFor="email">Email</label>
+                    <Input
+                        placeholder="Last Name"
+                        label="Last Name"
+                        name="lastName"
+                        value={form.lastName}
+                        onChange={handleChange}
+                        required={true}
+                    />
                 </div>
+                <Input
+                    placeholder="Email"
+                    label="Email"
+                    name="email"
+                    value={form.email}
+                    onChange={handleChange}
+                    autoComplete="username"
+                    required={true}
+                />
                 <div className="user-profile-form__telegram-container">
-                    <div className="user-profile-form__input-container user-profile-form__input-container--telegram">
-                        <input
-                            type="text"
-                            name="telegramId"
-                            placeholder="Telegram ID"
-                            minLength={4}
-                            value={form.telegramId}
-                            onChange={handleChange}
-                        />
-                        <label htmlFor="telegramId">Telegram ID</label>
-                    </div>
+                    <Input
+                        placeholder="Telegram ID"
+                        label="Telegram ID"
+                        name="telegramId"
+                        value={form.telegramId}
+                        onChange={handleChange}
+                        handle="user-profile-form__input-container__telegram"
+                    />
                     <div
                         className={
                             form.isTelegramVerified
-                                ? 'user-profile-form__input-container__icon--activated'
-                                : 'user-profile-form__input-container__icon'
+                                ? 'user-profile-form__icon user-profile-form__icon--activated'
+                                : 'user-profile-form__icon'
                         }
                     >
                         <FontAwesomeIcon icon={faLocationArrow} />
                     </div>
                 </div>
                 <div className="user-profile-form__split">
-                    <div className="user-profile-form__input-container">
-                        <input
-                            type="password"
-                            name="newPassword"
-                            placeholder="New Password"
-                            minLength={4}
-                            value={form.newPassword}
-                            onChange={handleChange}
-                            autoComplete="new-password"
-                        />
-                        <label htmlFor="newPassword">New Password</label>
-                    </div>
-                    <div className="user-profile-form__input-container">
-                        <input
-                            type="password"
-                            name="confirmNewPassword"
-                            placeholder="Confirm New Password"
-                            minLength={4}
-                            value={form.confirmNewPassword}
-                            onChange={handleChange}
-                            autoComplete="new-password"
-                        />
-                        <label htmlFor="confirmNewPassword">Confirm New Password</label>
-                    </div>
+                    <Input
+                        placeholder="New Password"
+                        label="New Password"
+                        name="newPassword"
+                        value={form.newPassword}
+                        onChange={handleChange}
+                        autoComplete="new-password"
+                        minLength={PASSWORD_LEN}
+                    />
+                    <Input
+                        placeholder="Confirm New Password"
+                        label="Confirm New Password"
+                        name="confirmNewPassword"
+                        value={form.confirmNewPassword}
+                        onChange={handleChange}
+                        autoComplete="new-password"
+                        minLength={PASSWORD_LEN}
+                    />
                 </div>
                 <div className="user-profile-form__cta">
-                    <input
-                        type="password"
-                        name="password"
+                    <Input
                         placeholder="Password"
-                        minLength={4}
-                        required
+                        name="password"
                         value={form.password}
                         onChange={handleChange}
                         autoComplete="password"
+                        required={true}
+                        minLength={PASSWORD_LEN}
+                        type="new-password"
                     />
                     <button
                         className={isFormValid() ? 'btn btn--disabled ' : 'btn'}

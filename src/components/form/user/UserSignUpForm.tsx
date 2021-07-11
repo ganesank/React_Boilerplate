@@ -5,10 +5,12 @@ import { setMsg } from '../../../redux/msg';
 import { showPopup } from '../../../redux/popup';
 import * as Type from '../../../utils/@types/types';
 import * as requestHelper from '../../../utils/helpers/requestHelper';
+import Input from '../../shared/Input';
 
+const PASSWORD_LEN: number = +process.env.REACT_APP_PASSWORD_LEN!;
 const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
 const URL: string =
-    process.env.ENV! === 'production'
+    process.env.REACT_APP_ENV! === 'production'
         ? `${process.env.REACT_APP_BACKEND_URL!}/api/users`
         : `${process.env.REACT_APP_BACKEND_URL!}:${PORT}/api/users`;
 
@@ -92,67 +94,58 @@ const UserSignUpForm: React.FC = () => {
     };
 
     return (
-        <div className="user-login-signup-form">
+        <div className="user-signup-form">
             <form onSubmit={handleSubmit}>
-                <div className="user-login-signup-form__input-container">
-                    <input
-                        type="text"
-                        name="firstName"
+                <div className="user-signup-form__split">
+                    <Input
                         placeholder="First Name"
-                        required
+                        label="First Name"
+                        name="firstName"
                         value={form.firstName}
                         onChange={handleChange}
+                        required={true}
                     />
-                    <label htmlFor="firstName">First Name</label>
-                </div>
-                <div className="user-login-signup-form__input-container">
-                    <input
-                        type="text"
-                        name="lastName"
+                    <Input
                         placeholder="Last Name"
-                        required
+                        label="Last Name"
+                        name="lastName"
                         value={form.lastName}
                         onChange={handleChange}
+                        required={true}
                     />
-                    <label htmlFor="lastName">Last Name</label>
                 </div>
-                <div className="user-login-signup-form__input-container">
-                    <input
-                        type="email"
-                        name="email"
-                        placeholder="Email"
-                        required
-                        value={form.email}
-                        onChange={handleChange}
-                        autoComplete="username"
-                    />
-                    <label htmlFor="email">Email</label>
-                </div>
-                <div className="user-login-signup-form__input-container">
-                    <input
-                        type="password"
-                        name="password"
+                <Input
+                    placeholder="Email"
+                    label="Email"
+                    name="email"
+                    value={form.email}
+                    onChange={handleChange}
+                    autoComplete="username"
+                    required={true}
+                />
+                <div className="user-signup-form__split">
+                    <Input
                         placeholder="Password"
-                        required
+                        label="Password"
+                        name="password"
                         value={form.password}
                         onChange={handleChange}
-                        autoComplete="current-password"
-                    />
-                    <label htmlFor="Password">Password</label>
-                </div>
-                <div className="user-login-signup-form__input-container">
-                    <input
+                        autoComplete="new-password"
+                        minLength={PASSWORD_LEN}
                         type="password"
+                    />
+                    <Input
+                        placeholder="New Password"
+                        label="New Password"
                         name="confirmPassword"
-                        placeholder="Confirm Password"
-                        required
                         value={form.confirmPassword}
                         onChange={handleChange}
-                        autoComplete="current-password"
+                        autoComplete="new-password"
+                        minLength={PASSWORD_LEN}
+                        type="password"
                     />
-                    <label htmlFor="confirmPassword">Confirm Password</label>
                 </div>
-                <div className="user-login-signup-form__cta">
+                <div className="user-signup-form__cta">
                     <Link className="btn btn--warning" to="/login">
                         Login
                     </Link>

@@ -5,10 +5,11 @@ import { removeMsg, setMsg } from '../../../redux/msg';
 import * as Type from '../../../utils/@types/types';
 import * as requestHelper from '../../../utils/helpers/requestHelper';
 import Alert from '../../shared/Alert';
+import Input from '../../shared/Input';
 
 const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
 const URL: string =
-    process.env.ENV! === 'production'
+    process.env.REACT_APP_ENV! === 'production'
         ? `${process.env.REACT_APP_BACKEND_URL!}/api/users`
         : `${process.env.REACT_APP_BACKEND_URL!}:${PORT}/api/users`;
 
@@ -80,17 +81,14 @@ const UserResetPasswordForm: React.FC = () => {
     return (
         <div className="user-reset-password-form" onClick={(e) => e.stopPropagation()}>
             <form onSubmit={handleSubmit}>
-                <div className="user-reset-password-form__input-container">
-                    <input
-                        type="email"
-                        name="email"
-                        placeholder="Email"
-                        required
-                        value={form.email}
-                        onChange={handleChange}
-                        autoComplete="username"
-                    />
-                </div>
+                <Input
+                    placeholder="Email"
+                    name="email"
+                    value={form.email}
+                    onChange={handleChange}
+                    autoComplete="username"
+                    required={true}
+                />
                 <div className="user-reset-password-form__cta">
                     <button
                         className={isFormValid() ? 'btn btn--disabled ' : 'btn btn--primary'}

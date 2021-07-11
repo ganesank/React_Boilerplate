@@ -1,23 +1,15 @@
-.user-login-signup-form
-  padding: 0.5rem
-  width: 25rem
+.user-login-form,
+.user-signup-form
+  padding: $form-padding
+  width: $form-width
   text-align: center
 
-  &__input-container
+  &__split
     display: flex
-    flex-direction: column
-    margin-bottom: 0.3rem
+    justify-content: space-around
 
-    input
-      border-radius: $border-radius
-      font-size: 0.8rem
-      height: 1.8rem
-      padding: 0.5rem
-    label
-      margin: 0.3rem 0
-      text-align: left
-      padding-left: 0.3rem
-      font-size: 0.7rem
+    & > *
+      width: 49%
   &__cta
     text-align: right
 

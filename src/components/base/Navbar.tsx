@@ -20,22 +20,27 @@ const Navbar: React.FC = () => {
             <ul className="navbar__list">
                 <li className="navbar__item">
                     <Link className="navbar__link" to="/">
-                        Home
+                        HOME
                     </Link>
                 </li>
                 <li className="navbar__item">
                     <Link className="navbar__link" to="/about">
-                        About
+                        ABOUT
+                    </Link>
+                </li>
+                <li className="navbar__item">
+                    <Link className="navbar__link" to="/api">
+                        API
                     </Link>
                 </li>
                 <li className="navbar__item">
                     <Link className="navbar__link" to="/profile">
-                        Profile
+                        PROFILE
                     </Link>
                 </li>
                 <li className="navbar__item">
                     <a className="navbar__link" href="/" onClick={handleLogout}>
-                        Log Out
+                        LOG OUT
                     </a>
                 </li>
             </ul>
@@ -43,22 +48,22 @@ const Navbar: React.FC = () => {
             <ul className="navbar__list">
                 <li className="navbar__item">
                     <Link className="navbar__link" to="/">
-                        Home
+                        HOME
                     </Link>
                 </li>
                 <li className="navbar__item">
                     <Link className="navbar__link" to="/about">
-                        About
+                        ABOUT
                     </Link>
                 </li>
                 <li className="navbar__item">
                     <Link className="navbar__link" to="/login">
-                        Login
+                        LOGIN
                     </Link>
                 </li>
                 <li className="navbar__item">
                     <Link className="navbar__link" to="/signup">
-                        Sign Up
+                        SIGN UP
                     </Link>
                 </li>
             </ul>

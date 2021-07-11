@@ -6,7 +6,7 @@ import * as tokenService from '../utils/token/tokenService';
 
 const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
 const URL: string =
-    process.env.ENV! === 'production'
+    process.env.REACT_APP_ENV! === 'production'
         ? `${process.env.REACT_APP_BACKEND_URL!}/api/users`
         : `${process.env.REACT_APP_BACKEND_URL!}:${PORT}/api/users`;
 

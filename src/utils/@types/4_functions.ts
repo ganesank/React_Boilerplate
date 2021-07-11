@@ -1,4 +1,4 @@
-import { ChangeEvent, MouseEvent, FormEvent } from 'react';
+import { ChangeEvent, FormEvent, MouseEvent } from 'react';
 
 type HandleChange = ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>;
 

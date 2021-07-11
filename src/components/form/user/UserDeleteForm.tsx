@@ -6,6 +6,7 @@ import { hidePopup } from '../../../redux/popup';
 import { deleteUser } from '../../../redux/user';
 import * as Type from '../../../utils/@types/types';
 import Alert from '../../shared/Alert';
+import Input from '../../shared/Input';
 
 const UserDeleteForm: React.FC = () => {
     const initialState: Type.DeleteUserForm = {
@@ -47,14 +48,14 @@ const UserDeleteForm: React.FC = () => {
         <div className="user-delete-form" onClick={(e) => e.stopPropagation()}>
             <form onSubmit={handleSubmit}>
                 <div className="user-delete-form__cta">
-                    <input
-                        type="password"
-                        name="password"
+                    <Input
                         placeholder="Password"
-                        required
+                        name="password"
                         value={form.password}
-                        onChange={handleChange}
+                        type="password"
                         autoComplete="password"
+                        onChange={handleChange}
+                        required={true}
                     />
                     <button
                         className={isFormValid() ? 'btn btn--disabled ' : 'btn btn--danger'}

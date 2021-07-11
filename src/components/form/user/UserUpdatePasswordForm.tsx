@@ -3,10 +3,12 @@ import { useDispatch } from 'react-redux';
 import { setMsg } from '../../../redux/msg';
 import * as Type from '../../../utils/@types/types';
 import * as requestHelper from '../../../utils/helpers/requestHelper';
+import Input from '../../shared/Input';
 
+const PASSWORD_LEN: number = +process.env.REACT_APP_PASSWORD_LEN!;
 const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
 const URL: string =
-    process.env.ENV! === 'production'
+    process.env.REACT_APP_ENV! === 'production'
         ? `${process.env.REACT_APP_BACKEND_URL!}/api/users`
         : `${process.env.REACT_APP_BACKEND_URL!}:${PORT}/api/users`;
 
@@ -72,30 +74,26 @@ const UserUpdatePasswordForm: React.FC<Type.ResetPassword2FormComponent> = ({ to
     return (
         <div className="user-update-password-form">
             <form onSubmit={handleSubmit}>
-                <div className="user-update-password-form__input-container">
-                    <input
-                        type="password"
-                        name="password"
-                        placeholder="Password"
-                        required
-                        value={form.password}
-                        onChange={handleChange}
-                        autoComplete="new-password"
-                    />
-                    <label htmlFor="password">New Password</label>
-                </div>
-                <div className="user-update-password-form__input-container">
-                    <input
-                        type="password"
-                        name="confirmPassword"
-                        placeholder="Confirm Password"
-                        required
-                        value={form.confirmPassword}
-                        onChange={handleChange}
-                        autoComplete="new-password"
-                    />
-                    <label htmlFor="confirmPassword">Confirm New Password</label>
-                </div>
+                <Input
+                    placeholder="New Password"
+                    label="New Password"
+                    name="password"
+                    value={form.password}
+                    onChange={handleChange}
+                    autoComplete="new-password"
+                    type="password"
+                    minLength={PASSWORD_LEN}
+                />
+                <Input
+                    placeholder="Confirm New Password"
+                    label="Confirm New Password"
+                    name="confirmPassword"
+                    value={form.confirmPassword}
+                    onChange={handleChange}
+                    autoComplete="new-password"
+                    type="password"
+                    minLength={PASSWORD_LEN}
+                />
                 <div className="user-update-password-form__cta">
                     <button
                         className={isFormValid() ? 'btn btn--disabled ' : 'btn'}
