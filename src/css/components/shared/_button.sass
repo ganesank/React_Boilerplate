@@ -1,31 +1,98 @@
-.btn
-  background-color: $color-info
-  font-size: 0.9rem
-  padding: 0 0.7rem
-  height: $button-height
-  border-radius: $border-radius
-  border: none
-  display: inline-flex
-  align-items: center
-  color: $cwt
-  text-decoration: none
-  cursor: pointer
-  transition: all 0.2s ease-in-out
+.btn-container
+  a,
+  button
+    background-color: $color-info
+    color: $cwt
+    min-height: $button-height
+    font-size: resize($default-font-size, 0.9)
+    padding: 0.3rem 0.7rem
+    border-radius: $border-radius
+    border: none
+    text-decoration: none
+    cursor: pointer
+    transition: all 0.2s ease-in-out
 
-  &:hover
-    transform: translateZ(0.1rem) scale(1.05)
-    box-shadow: 0.25rem 0.25rem 0.25rem rgba($cbk, 0.2)
+    &:hover
+      transform: translateZ(0.1rem) scale(1.15)
+      box-shadow: 0.25rem 0.25rem 0.25rem rgba($cbk, 0.2)
+  &__row
+    display: grid
+    grid-template-columns: repeat(2, auto)
+    grid-template-rows: 1fr
+    align-items: center
+
+    &__icon
+
+      &--left
+        grid-column: 1 / span 1
+        grid-row: 1 / -1
+        margin-right: $margin-3
+      &--right
+        grid-column: 2 / -1
+        grid-row: 1 / -1
+    &__value
+      white-space: nowrap
+
+      &--left
+        grid-column: 2 / -1
+        grid-row: 1 / -1
+      &--right
+        grid-column: 1 / span 1
+        grid-row: 1 / -1
+        margin-right: $margin-3
+  &__column
+    display: grid
+    grid-template-columns: 1fr
+    grid-template-rows: repeat(2, auto)
+
+    &__icon
+
+      &--top
+        grid-column: 1 / -1
+        grid-row: 1 / span 1
+        margin-bottom: $margin-3
+      &--bottom
+        grid-column: 1 / -1
+        grid-row: 2 / -1
+    &__value
+      white-space: nowrap
+
+      &--top
+        grid-column: 1 / -1
+        grid-row: 2 / -1
+      &--bottom
+        grid-column: 1 / -1
+        grid-row: 1 / span 1
+        margin-bottom: $margin-3
   &--danger
-    background-color: $color-danger
+    a,
+    button
+      background-color: $color-danger
+
+      &:hover
+        background-color: rgba($color-danger, 0.8)
+  &--success
+    a,
+    button
+      background-color: $color-success
+
+      &:hover
+        background-color: rgba($color-success, 0.8)
   &--warning
-    background-color: $color-warning
+    a,
+    button
+      background-color: $color-warning
 
-    &:hover
-      background-color: rgba($color-warning, 0.8)
+      &:hover
+        background-color: rgba($color-warning, 0.8)
   &--disabled
-    cursor: not-allowed
-    background-color: $cgy-70
+    a,
+    button
+      cursor: not-allowed
+      background-color: $cgy-70
 
-    &:hover
-      transform: translateZ(0rem) scale(1)
-      box-shadow: none
+      &:hover
+        transform: translateZ(0rem) scale(1)
+        box-shadow: none
+    a
+      pointer-events: none

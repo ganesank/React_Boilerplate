@@ -1,4 +1,4 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, MouseEvent } from 'react';
 import { Obj } from './1_shared';
 
 type HandleChange = ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>;
@@ -46,13 +46,22 @@ export type Select = {
     labelPosition?: string;
 };
 
+export type Button = {
+    value?: string;
+    iconDirection?: string;
+    handle?: string;
+    direction?: string;
+    disabled?: boolean;
+    type?: 'button' | 'submit' | 'reset' | undefined;
+    btnType?: string;
+    btnColor?: string;
+    onClick?(e: MouseEvent<HTMLElement>): void;
+    href?: string;
+};
+
 export type CTA = {
     handle?: string;
     direction?: string;
     justify?: string;
-    align?: string;
-};
-    handle?: string;
-    direction?: string;
     align?: string;
 };

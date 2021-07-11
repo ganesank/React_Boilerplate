@@ -5,29 +5,35 @@
   &__row
     flex-direction: row
 
-    &--left
+    &--justify-left
       justify-content: flex-start
 
       & > :not(:last-child)
         margin-right: $margin-5
-    &--right
+    &--justify-right
       justify-content: flex-end
 
       & > :not(:first-child)
         margin-left: $margin-5
-    &--top
+    &--justify-center
+      justify-content: center
+
+      & > :not(:first-child)
+        margin-left: $margin-5
+    &--align-top
       align-items: flex-start
-    &--center
+    &--align-center
       align-items: center
-    &--bottom
+    &--align-bottom
       align-items: flex-end
   &__column
     flex-direction: column
 
     & > :not(:last-child)
       margin-bottom: $margin-5
-    &--left
+    &--align-left
       align-items: flex-start
-
-    &--right
+    &--align-right
       align-items: flex-end
+    &--align-center
+      align-items: center
