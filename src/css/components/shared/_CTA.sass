@@ -1,0 +1,27 @@
+.cta-container
+  display: flex
+  margin-bottom: $margin-3
+
+  &__row
+    flex-direction: row
+
+    &--left
+      justify-content: flex-start
+
+      & > :not(:last-child)
+        margin-right: $margin-5
+    &--right
+      justify-content: flex-end
+
+      & > :not(:first-child)
+        margin-left: $margin-5
+  &__column
+    flex-direction: column
+
+    & > :not(:last-child)
+      margin-bottom: $margin-5
+    &--left
+      align-items: flex-start
+
+    &--right
+      align-items: flex-end

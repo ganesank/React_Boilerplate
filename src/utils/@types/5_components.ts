@@ -45,3 +45,9 @@ export type Select = {
     disabled?: boolean;
     labelPosition?: string;
 };
+
+export type CTA = {
+    handle?: string;
+    direction?: string;
+    align?: string;
+};

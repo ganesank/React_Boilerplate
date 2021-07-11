@@ -1,0 +1,25 @@
+.user-signup-form
+  padding: $form-padding
+  width: $form-width
+  text-align: center
+
+  &__split
+    display: flex
+    justify-content: space-around
+
+    & > *
+      width: 49%
+  &__cta
+    text-align: right
+
+    & > :not(:last-child)
+      margin-right: $button-margin
+  &__reset-password
+    display: flex
+
+    &__link
+      color: $cgy-30
+      font-size: 0.6rem
+
+      &:hover
+        color: $color-danger

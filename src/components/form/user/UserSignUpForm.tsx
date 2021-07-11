@@ -5,6 +5,7 @@ import { setMsg } from '../../../redux/msg';
 import { showPopup } from '../../../redux/popup';
 import * as Type from '../../../utils/@types/types';
 import * as requestHelper from '../../../utils/helpers/requestHelper';
+import CTA from '../../shared/CTA';
 import Input from '../../shared/Input';
 
 const PASSWORD_LEN: number = +process.env.REACT_APP_PASSWORD_LEN!;
@@ -145,7 +146,7 @@ const UserSignUpForm: React.FC = () => {
                         type="password"
                     />
                 </div>
-                <div className="user-signup-form__cta">
+                <CTA align="right">
                     <Link className="btn btn--warning" to="/login">
                         Login
                     </Link>
@@ -156,7 +157,7 @@ const UserSignUpForm: React.FC = () => {
                     >
                         Sign Up
                     </button>
-                </div>
+                </CTA>
             </form>
         </div>
     );
