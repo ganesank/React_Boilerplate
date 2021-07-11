@@ -123,6 +123,7 @@ const UserSignUpForm: React.FC = () => {
                     onChange={handleChange}
                     autoComplete="username"
                     required={true}
+                    type="email"
                 />
                 <div className="split-2">
                     <Input

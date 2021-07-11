@@ -55,6 +55,7 @@ const UserLoginForm: React.FC = () => {
                     onChange={handleChange}
                     autoComplete="username"
                     required={true}
+                    type="email"
                 />
                 <Input
                     placeholder="Password"

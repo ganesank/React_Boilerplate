@@ -212,6 +212,7 @@ const UserProfileForm: React.FC = () => {
                         onChange={handleChange}
                         autoComplete="new-password"
                         minLength={PASSWORD_LEN}
+                        type="password"
                     />
                     <Input
                         placeholder="Confirm New Password"
@@ -221,6 +222,7 @@ const UserProfileForm: React.FC = () => {
                         onChange={handleChange}
                         autoComplete="new-password"
                         minLength={PASSWORD_LEN}
+                        type="password"
                     />
                 </div>
                 <CTA justify="right">
@@ -229,10 +231,10 @@ const UserProfileForm: React.FC = () => {
                         name="password"
                         value={form.password}
                         onChange={handleChange}
-                        autoComplete="password"
                         required={true}
                         minLength={PASSWORD_LEN}
-                        type="new-password"
+                        autoComplete="new-password"
+                        type="password"
                     />
                     <Button value="Update" type="submit" disabled={isFormValid()} />
                 </CTA>
