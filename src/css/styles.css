@@ -123,7 +123,8 @@
   display: inline-block;
 }
 
-.tooltip__tooltip-text {
+.tooltip__text {
+  font-size: 0.8rem;
   visibility: hidden;
   background-color: #175782;
   color: white;
@@ -141,7 +142,7 @@
   transition: opacity 0.3s ease-in-out;
 }
 
-.tooltip__tooltip-text::after {
+.tooltip__text::after {
   content: '';
   position: absolute;
   top: 100%;
@@ -152,7 +153,7 @@
   border-color: #b3b3b3 transparent transparent transparent;
 }
 
-.tooltip:hover .tooltip__tooltip-text {
+.tooltip:hover .tooltip__text {
   visibility: visible;
   opacity: 1;
 }
@@ -289,7 +290,8 @@ h4 {
   display: grid;
   -ms-grid-columns: 3fr 1fr 3fr;
       grid-template-columns: 3fr 1fr 3fr;
-  grid-gap: 2rem;
+  -webkit-column-gap: 2rem;
+          column-gap: 2rem;
   color: white;
 }
 
@@ -342,7 +344,8 @@ h4 {
         grid-template-columns: repeat(2, 1fr);
     -ms-grid-rows: (1fr)[2];
         grid-template-rows: repeat(2, 1fr);
-    grid-gap: 0rem;
+    -webkit-column-gap: 0rem;
+            column-gap: 0rem;
   }
   .footer__left {
     -ms-grid-column: 1;
@@ -372,7 +375,8 @@ h4 {
         grid-template-columns: 1fr;
     -ms-grid-rows: (1fr)[3];
         grid-template-rows: repeat(3, 1fr);
-    grid-gap: 0rem;
+    -webkit-column-gap: 0rem;
+            column-gap: 0rem;
   }
   .footer__left {
     -ms-grid-column: 1;

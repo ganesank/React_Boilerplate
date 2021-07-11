@@ -18,7 +18,7 @@ const Footer: React.FC = () => {
                                     >
                                         <img src={media.src} alt={media.name} className={media.class} />
                                     </a>
-                                    <span className="tooltip__tooltip-text">{media.name}</span>
+                                    <span className="tooltip__text">{media.name}</span>
                                 </li>
                             );
                         })}

@@ -4,7 +4,8 @@
   position: relative
   display: inline-block
 
-  &__tooltip-text
+  &__text
+    font-size: resize($default-font-size, 0.8)
     visibility: hidden
     background-color: $color-primary
     color: $cwt
@@ -29,6 +30,6 @@
       border-width: 0.5rem
       border-style: solid
       border-color: $cgy-70 transparent transparent transparent
-  &:hover &__tooltip-text
+  &:hover &__text
     visibility: visible
     opacity: 1
