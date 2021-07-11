@@ -97,7 +97,7 @@ const UserSignUpForm: React.FC = () => {
     return (
         <div className="user-signup-form">
             <form onSubmit={handleSubmit}>
-                <div className="user-signup-form__split">
+                <div className="split-2">
                     <Input
                         placeholder="First Name"
                         label="First Name"
@@ -124,7 +124,7 @@ const UserSignUpForm: React.FC = () => {
                     autoComplete="username"
                     required={true}
                 />
-                <div className="user-signup-form__split">
+                <div className="split-2">
                     <Input
                         placeholder="Password"
                         label="Password"
@@ -146,12 +146,12 @@ const UserSignUpForm: React.FC = () => {
                         type="password"
                     />
                 </div>
-                <CTA align="right">
+                <CTA justify="right">
                     <Link className="btn btn--warning" to="/login">
                         Login
                     </Link>
                     <button
-                        className={isFormValid() ? 'btn btn--disabled ' : 'btn'}
+                        className={isFormValid() ? 'btn btn--disabled' : 'btn'}
                         type="submit"
                         disabled={isFormValid()}
                     >

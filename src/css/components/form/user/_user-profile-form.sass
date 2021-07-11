@@ -3,27 +3,9 @@
   width: 25rem
   text-align: center
 
-  &__split
+  &__telegram-container
     display: flex
-    justify-content: space-around
-
-    & > *
-      width: 49%
-  &__input-container
-    display: flex
-    flex-direction: column
-    margin-bottom: 0.3rem
-
-    input
-      border-radius: $border-radius
-      font-size: 0.8rem
-      height: 1.8rem
-      padding: 0.5rem
-    label
-      margin: 0.3rem 0
-      text-align: left
-      padding-left: 0.3rem
-      font-size: 0.7rem
+    flex-grow: 1
     &__telegram
       width: 100%
   &__icon
@@ -37,28 +19,6 @@
       display: flex
       padding-top: 0.3rem
       color: $cbl-70
-  &__telegram-container
-    display: flex
-    flex-grow: 1
-  &__cta
-    display: flex
-    align-items: center
-    justify-content: flex-end
-    text-align: right
-
-    input
-      border-radius: $border-radius
-      font-size: 0.8rem
-      height: 1.8rem
-      padding: 0.5rem
-    label
-      text-align: end
-      padding-right: 0.3rem
-    & > :not(:last-child)
-      margin-right: $button-margin
-  &__delete
-    height: 0.8rem
-    text-align: start
   &__delete-link
     color: $cgy-30
     font-size: 0.6rem

@@ -5,6 +5,7 @@ import { removeMsg, setMsg } from '../../../redux/msg';
 import * as Type from '../../../utils/@types/types';
 import * as requestHelper from '../../../utils/helpers/requestHelper';
 import Alert from '../../shared/Alert';
+import CTA from '../../shared/CTA';
 import Input from '../../shared/Input';
 
 const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
@@ -89,7 +90,7 @@ const UserResetPasswordForm: React.FC = () => {
                     autoComplete="username"
                     required={true}
                 />
-                <div className="user-reset-password-form__cta">
+                <CTA justify="right" handle="user-reset-password-form__cta">
                     <button
                         className={isFormValid() ? 'btn btn--disabled ' : 'btn btn--primary'}
                         type="submit"
@@ -97,7 +98,7 @@ const UserResetPasswordForm: React.FC = () => {
                     >
                         Reset
                     </button>
-                </div>
+                </CTA>
             </form>
             {msg.msgs.length > 0 && <Alert />}
         </div>

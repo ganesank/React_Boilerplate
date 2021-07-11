@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { showPopup } from '../../../redux/popup';
 import { loginUser } from '../../../redux/user';
 import * as Type from '../../../utils/@types/types';
+import CTA from '../../shared/CTA';
 import Input from '../../shared/Input';
 
 const PASSWORD_LEN: number = +process.env.REACT_APP_PASSWORD_LEN!;
@@ -66,7 +67,7 @@ const UserLoginForm: React.FC = () => {
                     minLength={PASSWORD_LEN}
                     type="password"
                 />
-                <div className="user-login-form__cta">
+                <CTA justify="right">
                     <Link className="btn btn--warning" to="/signup">
                         Sign Up
                     </Link>
@@ -77,13 +78,13 @@ const UserLoginForm: React.FC = () => {
                     >
                         Login
                     </button>
-                </div>
+                </CTA>
             </form>
-            <div className="user-login-form__reset-password">
-                <a href="/" className="user-login-form__reset-password__link" onClick={handleResetPassword}>
+            <CTA>
+                <a href="/" className="user-login-form__reset-password-link" onClick={handleResetPassword}>
                     Forgot your password?
                 </a>
-            </div>
+            </CTA>
         </div>
     );
 };

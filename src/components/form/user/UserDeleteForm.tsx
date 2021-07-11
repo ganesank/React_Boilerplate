@@ -6,6 +6,7 @@ import { hidePopup } from '../../../redux/popup';
 import { deleteUser } from '../../../redux/user';
 import * as Type from '../../../utils/@types/types';
 import Alert from '../../shared/Alert';
+import CTA from '../../shared/CTA';
 import Input from '../../shared/Input';
 
 const UserDeleteForm: React.FC = () => {
@@ -47,7 +48,7 @@ const UserDeleteForm: React.FC = () => {
     return (
         <div className="user-delete-form" onClick={(e) => e.stopPropagation()}>
             <form onSubmit={handleSubmit}>
-                <div className="user-delete-form__cta">
+                <CTA justify="right">
                     <Input
                         placeholder="Password"
                         name="password"
@@ -64,7 +65,7 @@ const UserDeleteForm: React.FC = () => {
                     >
                         Delete
                     </button>
-                </div>
+                </CTA>
             </form>
             {msg.msgs.length > 0 && <Alert />}
         </div>

@@ -49,5 +49,10 @@ export type Select = {
 export type CTA = {
     handle?: string;
     direction?: string;
+    justify?: string;
+    align?: string;
+};
+    handle?: string;
+    direction?: string;
     align?: string;
 };

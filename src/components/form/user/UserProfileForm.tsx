@@ -6,6 +6,7 @@ import { setMsg } from '../../../redux/msg';
 import { hidePopup, showPopup } from '../../../redux/popup';
 import * as Type from '../../../utils/@types/types';
 import * as requestHelper from '../../../utils/helpers/requestHelper';
+import CTA from '../../shared/CTA';
 import Input from '../../shared/Input';
 
 const PASSWORD_LEN: number = +process.env.REACT_APP_PASSWORD_LEN!;
@@ -154,7 +155,7 @@ const UserProfileForm: React.FC = () => {
     return (
         <div className="user-profile-form">
             <form onSubmit={handleSubmit}>
-                <div className="user-profile-form__split">
+                <div className="split-2">
                     <Input
                         placeholder="First Name"
                         label="First Name"
@@ -188,7 +189,7 @@ const UserProfileForm: React.FC = () => {
                         name="telegramId"
                         value={form.telegramId}
                         onChange={handleChange}
-                        handle="user-profile-form__input-container__telegram"
+                        handle="user-profile-form__telegram-container__telegram"
                     />
                     <div
                         className={
@@ -200,7 +201,7 @@ const UserProfileForm: React.FC = () => {
                         <FontAwesomeIcon icon={faLocationArrow} />
                     </div>
                 </div>
-                <div className="user-profile-form__split">
+                <div className="split-2">
                     <Input
                         placeholder="New Password"
                         label="New Password"
@@ -220,7 +221,7 @@ const UserProfileForm: React.FC = () => {
                         minLength={PASSWORD_LEN}
                     />
                 </div>
-                <div className="user-profile-form__cta">
+                <CTA justify="right">
                     <Input
                         placeholder="Password"
                         name="password"
@@ -238,13 +239,13 @@ const UserProfileForm: React.FC = () => {
                     >
                         Update
                     </button>
-                </div>
+                </CTA>
             </form>
-            <div className="user-profile-form__delete">
+            <CTA>
                 <a href="/" className="user-profile-form__delete-link" onClick={handleDelete}>
                     Delete Account
                 </a>
-            </div>
+            </CTA>
         </div>
     );
 };

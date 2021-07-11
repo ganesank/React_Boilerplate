@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { setMsg } from '../../../redux/msg';
 import * as Type from '../../../utils/@types/types';
 import * as requestHelper from '../../../utils/helpers/requestHelper';
+import CTA from '../../shared/CTA';
 import Input from '../../shared/Input';
 
 const PASSWORD_LEN: number = +process.env.REACT_APP_PASSWORD_LEN!;
@@ -94,7 +95,7 @@ const UserUpdatePasswordForm: React.FC<Type.ResetPassword2FormComponent> = ({ to
                     type="password"
                     minLength={PASSWORD_LEN}
                 />
-                <div className="user-update-password-form__cta">
+                <CTA justify="right">
                     <button
                         className={isFormValid() ? 'btn btn--disabled ' : 'btn'}
                         type="submit"
@@ -102,7 +103,7 @@ const UserUpdatePasswordForm: React.FC<Type.ResetPassword2FormComponent> = ({ to
                     >
                         Reset
                     </button>
-                </div>
+                </CTA>
             </form>
         </div>
     );
