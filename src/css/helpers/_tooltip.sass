@@ -20,6 +20,7 @@
     margin-left: -3rem
     opacity: 0
     transition: opacity 0.3s ease-in-out
+    height: 1.7rem
 
     &::after
       content: ''
@@ -30,6 +31,37 @@
       border-width: 0.5rem
       border-style: solid
       border-color: $cgy-70 transparent transparent transparent
+
+    &--left
+      top: -15%
+      left: -300%
+
+      &::after
+        top: 18%
+        left: 91%
+        margin-left: 0.5rem
+        border-width: 0.5rem
+        border-color: transparent transparent transparent $cgy-70
+    &--right
+      top: -15%
+      left: 380%
+
+      &::after
+        top: 18%
+        left: -24%
+        margin-left: 0.5rem
+        border-width: 0.5rem
+        border-color: transparent $cgy-70 transparent transparent
+    &--bottom
+    &--top
+      top: 80%
+
+      &::after
+        top: -64%
+        left: 50%
+        margin-left: -0.5rem
+        border-width: 0.5rem
+        border-color: transparent transparent $cgy-70 transparent
   &:hover &__text
     visibility: visible
     opacity: 1

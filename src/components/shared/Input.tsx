@@ -12,6 +12,7 @@ const Input: React.FC<Type.Input> = ({
     type = 'text',
     required = false,
     disabled = false,
+    autoComplete,
     minLength,
 }) => {
     const labelClass: string = label ? `input-container--${labelPosition} ` : '';
@@ -28,6 +29,7 @@ const Input: React.FC<Type.Input> = ({
                 placeholder={placeholder ? placeholder : ''}
                 required={required}
                 disabled={disabled}
+                autoComplete={autoComplete ? autoComplete : ''}
                 minLength={minLength ? minLength : 0}
             />
             {label && <label htmlFor={name}>{label}</label>}

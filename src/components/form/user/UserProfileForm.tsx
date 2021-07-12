@@ -195,12 +195,16 @@ const UserProfileForm: React.FC = () => {
                     <div
                         className={
                             form.isTelegramVerified
-                                ? 'user-profile-form__icon user-profile-form__icon--activated tooltip'
-                                : 'user-profile-form__icon tooltip'
+                                ? 'user-profile-form__icon user-profile-form__icon--activated'
+                                : 'user-profile-form__icon'
                         }
                     >
-                        <FontAwesomeIcon icon={faLocationArrow} />
-                        <span className="tooltip__text">{form.isTelegramVerified ? 'Verified' : 'Not Verified'}</span>
+                        <div className="tooltip">
+                            <FontAwesomeIcon icon={faLocationArrow} />
+                            <span className="tooltip__text tooltip__text--right">
+                                {form.isTelegramVerified ? 'Verified' : 'Not Verified'}
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div className="split-2">
@@ -232,8 +236,8 @@ const UserProfileForm: React.FC = () => {
                         value={form.password}
                         onChange={handleChange}
                         required={true}
-                        minLength={PASSWORD_LEN}
                         autoComplete="new-password"
+                        minLength={PASSWORD_LEN}
                         type="password"
                     />
                     <Button value="Update" type="submit" disabled={isFormValid()} />

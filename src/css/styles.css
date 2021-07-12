@@ -140,6 +140,7 @@
   opacity: 0;
   -webkit-transition: opacity 0.3s ease-in-out;
   transition: opacity 0.3s ease-in-out;
+  height: 1.7rem;
 }
 
 .tooltip__text::after {
@@ -151,6 +152,44 @@
   border-width: 0.5rem;
   border-style: solid;
   border-color: #b3b3b3 transparent transparent transparent;
+}
+
+.tooltip__text--left {
+  top: -15%;
+  left: -300%;
+}
+
+.tooltip__text--left::after {
+  top: 18%;
+  left: 91%;
+  margin-left: 0.5rem;
+  border-width: 0.5rem;
+  border-color: transparent transparent transparent #b3b3b3;
+}
+
+.tooltip__text--right {
+  top: -15%;
+  left: 380%;
+}
+
+.tooltip__text--right::after {
+  top: 18%;
+  left: -24%;
+  margin-left: 0.5rem;
+  border-width: 0.5rem;
+  border-color: transparent #b3b3b3 transparent transparent;
+}
+
+.tooltip__text--top {
+  top: 80%;
+}
+
+.tooltip__text--top::after {
+  top: -64%;
+  left: 50%;
+  margin-left: -0.5rem;
+  border-width: 0.5rem;
+  border-color: transparent transparent #b3b3b3 transparent;
 }
 
 .tooltip:hover .tooltip__text {
