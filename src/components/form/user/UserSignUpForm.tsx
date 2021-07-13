@@ -147,7 +147,7 @@ const UserSignUpForm: React.FC = () => {
                         type="password"
                     />
                 </div>
-                <CTA justify="right">
+                <CTA>
                     <Button value="Login" btnType="link" href="/login" btnColor="warning" />
                     <Button value="Sign Up" btnColor="success" type="submit" disabled={isFormValid()} />
                 </CTA>

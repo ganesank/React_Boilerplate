@@ -91,7 +91,7 @@ const UserResetPasswordForm: React.FC = () => {
                     autoComplete="username"
                     required={true}
                 />
-                <CTA justify="right" handle="user-reset-password-form__cta">
+                <CTA handle="user-reset-password-form__cta">
                     <Button value="Reset" type="submit" disabled={isFormValid()} />
                 </CTA>
             </form>

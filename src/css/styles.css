@@ -436,6 +436,7 @@ h4 {
           justify-content: center;
   -webkit-box-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.5);
           box-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.5);
+  z-index: 1;
 }
 
 .navbar__navbar-container {
@@ -827,24 +828,14 @@ h4 {
           flex-direction: row;
 }
 
-.cta-container__row--justify-left {
+.cta-container__row--justify-flex-start {
   -webkit-box-pack: start;
       -ms-flex-pack: start;
           justify-content: flex-start;
 }
 
-.cta-container__row--justify-left > :not(:last-child) {
+.cta-container__row--justify-flex-start > :not(:last-child) {
   margin-right: 0.5rem;
-}
-
-.cta-container__row--justify-right {
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
-}
-
-.cta-container__row--justify-right > :not(:first-child) {
-  margin-left: 0.5rem;
 }
 
 .cta-container__row--justify-center {
@@ -857,7 +848,17 @@ h4 {
   margin-left: 0.5rem;
 }
 
-.cta-container__row--align-top {
+.cta-container__row--justify-flex-end {
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+
+.cta-container__row--justify-flex-end > :not(:first-child) {
+  margin-left: 0.5rem;
+}
+
+.cta-container__row--align-flex-start {
   -webkit-box-align: start;
       -ms-flex-align: start;
           align-items: flex-start;
@@ -869,7 +870,7 @@ h4 {
           align-items: center;
 }
 
-.cta-container__row--align-bottom {
+.cta-container__row--align-flex-end {
   -webkit-box-align: end;
       -ms-flex-align: end;
           align-items: flex-end;
@@ -886,22 +887,22 @@ h4 {
   margin-bottom: 0.5rem;
 }
 
-.cta-container__column--align-left {
+.cta-container__column--align-flex-start {
   -webkit-box-align: start;
       -ms-flex-align: start;
           align-items: flex-start;
-}
-
-.cta-container__column--align-right {
-  -webkit-box-align: end;
-      -ms-flex-align: end;
-          align-items: flex-end;
 }
 
 .cta-container__column--align-center {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+}
+
+.cta-container__column--align-flex-end {
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
 }
 
 .icon__social-media {
@@ -1511,6 +1512,20 @@ h4 {
 
 .about-page__tech-label {
   margin-top: 0.5rem;
+}
+
+.api-page {
+  margin-top: 7rem;
+  max-width: 114rem;
+}
+
+.api-page > h1 {
+  margin-bottom: 2rem;
+}
+
+.api-page__form {
+  padding: 0.5rem;
+  width: 25rem;
 }
 
 .home-page {

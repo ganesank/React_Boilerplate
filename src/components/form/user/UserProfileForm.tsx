@@ -229,7 +229,7 @@ const UserProfileForm: React.FC = () => {
                         type="password"
                     />
                 </div>
-                <CTA justify="right">
+                <CTA>
                     <Input
                         placeholder="Password"
                         name="password"
@@ -243,7 +243,7 @@ const UserProfileForm: React.FC = () => {
                     <Button value="Update" type="submit" disabled={isFormValid()} />
                 </CTA>
             </form>
-            <CTA>
+            <CTA justify="flex-start">
                 <a href="/" className="user-profile-form__delete-link" onClick={handleDelete}>
                     Delete Account
                 </a>

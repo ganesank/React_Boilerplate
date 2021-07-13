@@ -49,7 +49,7 @@ const UserDeleteForm: React.FC = () => {
     return (
         <div className="user-delete-form" onClick={(e) => e.stopPropagation()}>
             <form onSubmit={handleSubmit}>
-                <CTA justify="right">
+                <CTA>
                     <Input
                         placeholder="Password"
                         name="password"

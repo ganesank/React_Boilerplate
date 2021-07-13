@@ -68,12 +68,12 @@ const UserLoginForm: React.FC = () => {
                     minLength={PASSWORD_LEN}
                     type="password"
                 />
-                <CTA justify="right">
+                <CTA>
                     <Button value="Sign Up" btnType="link" href="/signup" btnColor="warning" />
                     <Button value="Login" btnColor="success" type="submit" disabled={isFormValid()} />
                 </CTA>
             </form>
-            <CTA>
+            <CTA justify="flex-start">
                 <a href="/" className="user-login-form__reset-password-link" onClick={handleResetPassword}>
                     Forgot your password?
                 </a>

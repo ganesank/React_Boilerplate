@@ -96,7 +96,7 @@ const UserUpdatePasswordForm: React.FC<Type.ResetPassword2FormComponent> = ({ to
                     type="password"
                     minLength={PASSWORD_LEN}
                 />
-                <CTA justify="right">
+                <CTA>
                     <Button value="Reset" type="submit" disabled={isFormValid()} />
                 </CTA>
             </form>
