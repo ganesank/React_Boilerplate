@@ -155,7 +155,7 @@
 }
 
 .tooltip__text--left {
-  top: -15%;
+  top: -10%;
   left: -300%;
 }
 
@@ -168,7 +168,7 @@
 }
 
 .tooltip__text--right {
-  top: -15%;
+  top: -10%;
   left: 380%;
 }
 
@@ -238,14 +238,14 @@ body,
 }
 
 main {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
   -webkit-box-flex: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;
   width: 100%;
   max-width: 110rem;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
@@ -440,7 +440,7 @@ h4 {
 }
 
 .navbar__navbar-container {
-  max-width: 114rem;
+  max-width: 110rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1377,9 +1377,21 @@ h4 {
           align-items: flex-start;
 }
 
-.user-login-form {
+.api-form {
   padding: 0.5rem;
-  width: 25rem;
+  width: 30rem;
+}
+
+.api-form__description textarea {
+  min-height: 4rem;
+}
+
+.user-delete-form {
+  width: 30rem;
+}
+
+.user-login-form {
+  width: 30rem;
 }
 
 .user-login-form__reset-password-link {
@@ -1392,9 +1404,7 @@ h4 {
 }
 
 .user-profile-form {
-  padding: 0.5rem;
-  width: 25rem;
-  text-align: center;
+  width: 30rem;
 }
 
 .user-profile-form__telegram-container {
@@ -1437,23 +1447,25 @@ h4 {
   color: #ff3333;
 }
 
+.user-reset-password-form {
+  width: 30rem;
+}
+
 .user-reset-password-form__cta {
   margin-top: 0.5rem;
 }
 
 .user-signup-form {
-  padding: 0.5rem;
-  width: 25rem;
+  width: 30rem;
 }
 
 .user-update-password-form {
-  padding: 0.5rem;
-  width: 25rem;
+  width: 30rem;
 }
 
 .about-page {
   margin-top: 7rem;
-  max-width: 114rem;
+  max-width: 110rem;
 }
 
 .about-page > h1 {
@@ -1516,7 +1528,7 @@ h4 {
 
 .api-page {
   margin-top: 7rem;
-  max-width: 114rem;
+  max-width: 110rem;
 }
 
 .api-page > h1 {
@@ -1530,7 +1542,7 @@ h4 {
 
 .home-page {
   margin-top: 7rem;
-  max-width: 114rem;
+  max-width: 110rem;
 }
 
 .home-page > h1 {
@@ -1543,56 +1555,36 @@ h4 {
 
 .login-page {
   margin-top: 7rem;
-  max-width: 114rem;
+  max-width: 110rem;
 }
 
 .login-page > h1 {
   margin-bottom: 2rem;
 }
 
-.login-page__form {
-  padding: 0.5rem;
-  width: 25rem;
-}
-
 .profile-page {
   margin-top: 7rem;
-  max-width: 114rem;
+  max-width: 110rem;
 }
 
 .profile-page > h1 {
   margin-bottom: 2rem;
 }
 
-.profile-page__form {
-  padding: 0.5rem;
-  width: 25rem;
-}
-
 .reset-password-page {
   margin-top: 7rem;
-  max-width: 114rem;
+  max-width: 110rem;
 }
 
 .reset-password-page > h1 {
   margin-bottom: 2rem;
 }
 
-.reset-password-page__form {
-  padding: 0.5rem;
-  width: 25rem;
-}
-
 .signup-page {
   margin-top: 7rem;
-  max-width: 114rem;
+  max-width: 110rem;
 }
 
 .signup-page > h1 {
   margin-bottom: 2rem;
-}
-
-.signup-page__form {
-  padding: 0.5rem;
-  width: 25rem;
 }
