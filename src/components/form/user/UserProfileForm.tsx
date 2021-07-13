@@ -201,7 +201,7 @@ const UserProfileForm: React.FC = () => {
                     >
                         <div className="tooltip">
                             <FontAwesomeIcon icon={faLocationArrow} />
-                            <span className="tooltip__text tooltip__text--right">
+                            <span className="tooltip__text">
                                 {form.isTelegramVerified ? 'Verified' : 'Not Verified'}
                             </span>
                         </div>
