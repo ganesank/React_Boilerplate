@@ -6,8 +6,9 @@
   box-sizing: border-box
 
 html
-  height: 100vh
-  width: 100vw
+  height: 100%
+  width: 100%
+  min-width: 25rem
 
 body,
 #root
@@ -20,6 +21,7 @@ body,
 
 .app
   height: 100%
+  width: 100%
   display: flex
   flex-direction: column
   align-items: center
@@ -28,7 +30,6 @@ main
   flex-grow: 1
   width: 100%
   max-width: $default-page-size
-  padding: 2rem
   display: flex
   justify-content: center
 

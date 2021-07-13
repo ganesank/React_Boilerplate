@@ -3,6 +3,7 @@
   justify-content: center
   background-color: $cbk
   min-height: 10rem
+  max-height: 10rem
   width: 100%
   padding: 1rem
 
@@ -35,22 +36,10 @@
 
     &:hover
       color: $color-primary
-  @include mq-manager(tab-land)
-    &__footer-container
-      grid-template-columns: repeat(2, 1fr)
-      grid-template-rows: repeat(2, 1fr)
-      column-gap: 0rem
-    &__left
-      grid-column: 1 / span 1
-      grid-row: 2 / 3
-    &__right
-      grid-column: 2 / -1
-      grid-row: 2 / 3
-    &__middle
-      grid-column: 1 / -1
-      grid-row: 1 / 2
-
   @include mq-manager(tab-port)
+    min-height: 15rem
+    max-height: 15rem
+
     &__footer-container
       grid-template-columns: 1fr
       grid-template-rows: repeat(3, 1fr)
