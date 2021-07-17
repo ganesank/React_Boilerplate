@@ -18,6 +18,9 @@
     &:active
       transform: translateZ(0.07rem) scale(1.07)
       box-shadow: 0.15rem 0.15rem 0.15rem rgba($cbk, 0.4)
+    img
+      height: resize($font-size, 0.9)
+      width: resize($font-size, 0.9)
   &__row
     display: grid
     grid-template-columns: repeat(2, auto)
@@ -25,6 +28,7 @@
     align-items: center
 
     &__icon
+      width: resize($font-size, 0.9)
 
       &--left
         grid-column: 1 / span 1
@@ -49,8 +53,10 @@
     display: grid
     grid-template-columns: 1fr
     grid-template-rows: repeat(2, auto)
+    justify-items: center
 
     &__icon
+      width: resize($font-size, 0.9)
 
       &--top
         grid-column: 1 / -1

@@ -1,3 +1,4 @@
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { ChangeEvent, MouseEvent } from 'react';
 import { Obj } from './1_shared';
 
@@ -48,6 +49,8 @@ export type Select = {
 
 export type Button = {
     value?: string;
+    icon?: string;
+    faIcon?: IconProp;
     iconDirection?: string;
     handle?: string;
     direction?: string;

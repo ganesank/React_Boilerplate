@@ -1,3 +1,4 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import * as Type from '../../utils/@types/types';
@@ -11,12 +12,14 @@ const Button: React.FC<Type.Button> = ({
     btnType = 'btn',
     btnColor,
     disabled = false,
-    children,
     onClick,
     href = '/',
+    icon,
+    faIcon,
 }) => {
     if (direction === 'column' && (iconDirection === 'left' || iconDirection === 'right')) iconDirection = 'top';
     if (disabled) btnColor = 'disabled';
+    if (icon && faIcon) faIcon = undefined;
 
     const handleClass: string = handle ? `${handle}` : '';
     const directionClass: string = `btn-container__${direction} `;
@@ -26,22 +29,27 @@ const Button: React.FC<Type.Button> = ({
     const valueClass: string = value
         ? `btn-container__${direction}__value btn-container__${direction}__value--${iconDirection} `
         : '';
-    const iconClass: string = children
-        ? `btn-container__${direction}__icon btn-container__${direction}__icon--${value ? iconDirection : 'center'} `
-        : '';
+    const iconClass: string =
+        icon || faIcon
+            ? `btn-container__${direction}__icon btn-container__${direction}__icon--${
+                  value ? iconDirection : 'center'
+              } `
+            : '';
 
     return (
         <div className={customClass}>
             {btnType === 'btn' && (
                 <button className={customClass} disabled={disabled} type={type} onClick={onClick ? onClick : () => ''}>
                     {value && <div className={valueClass}>{value}</div>}
-                    {children && <div className={iconClass}>{children}</div>}
+                    {icon && <img src={icon} className={iconClass} alt="Icon" />}
+                    {faIcon && <FontAwesomeIcon icon={faIcon} className={iconClass} />}
                 </button>
             )}
             {btnType === 'link' && (
                 <Link className={customClass} to={href} onClick={onClick}>
                     {value && <div className={valueClass}>{value}</div>}
-                    {children && <div className="btn-container__icon">{children}</div>}
+                    {icon && <img src={icon} className={iconClass} alt="Icon" />}
+                    {faIcon && <FontAwesomeIcon icon={faIcon} className={iconClass} />}
                 </Link>
             )}
         </div>
