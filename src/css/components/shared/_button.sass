@@ -15,6 +15,9 @@
     &:hover
       transform: translateZ(0.1rem) scale(1.10)
       box-shadow: 0.25rem 0.25rem 0.25rem rgba($cbk, 0.2)
+    &:active
+      transform: translateZ(0.07rem) scale(1.07)
+      box-shadow: 0.15rem 0.15rem 0.15rem rgba($cbk, 0.4)
   &__row
     display: grid
     grid-template-columns: repeat(2, auto)
@@ -30,6 +33,8 @@
       &--right
         grid-column: 2 / -1
         grid-row: 1 / -1
+      &--center
+        margin: 0
     &__value
       white-space: nowrap
 
@@ -71,6 +76,8 @@
 
       &:hover
         background-color: rgba($color-danger, 0.8)
+      &:active
+        background-color: rgba($color-danger, 0.9)
   &--success
     a,
     button
@@ -78,6 +85,8 @@
 
       &:hover
         background-color: rgba($color-success, 0.8)
+      &:active
+        background-color: rgba($color-success, 0.9)
   &--warning
     a,
     button
@@ -85,6 +94,8 @@
 
       &:hover
         background-color: rgba($color-warning, 0.8)
+      &:active
+        background-color: rgba($color-warning, 0.9)
   &--disabled
     a,
     button

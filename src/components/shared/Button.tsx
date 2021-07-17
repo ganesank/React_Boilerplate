@@ -27,7 +27,7 @@ const Button: React.FC<Type.Button> = ({
         ? `btn-container__${direction}__value btn-container__${direction}__value--${iconDirection} `
         : '';
     const iconClass: string = children
-        ? `btn-container__${direction}__icon btn-container__${direction}__icon--${iconDirection} `
+        ? `btn-container__${direction}__icon btn-container__${direction}__icon--${value ? iconDirection : 'center'} `
         : '';
 
     return (
