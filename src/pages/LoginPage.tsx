@@ -20,23 +20,25 @@ const LoginPage: React.FC = () => {
     }, [dispatch]);
 
     return (
-        <div className="login-page container">
-            <h1>LOGIN</h1>
-            <div className="login-page__form">
-                <UserLoginForm />
-                {!popup.visible && msg.msgs.length > 0 && <Alert />}
-                {popup.visible && popup.custom && (
-                    <Popup>
-                        <div className="popup__custom__link">
-                            <a href={popup.custom}>Click Here</a>
-                        </div>
-                    </Popup>
-                )}
-                {popup.visible && !popup.custom && (
-                    <Popup>
-                        <UserResetPasswordForm />
-                    </Popup>
-                )}
+        <div className="login-page">
+            <div className="container">
+                <h1>LOGIN</h1>
+                <div className="login-page__form">
+                    <UserLoginForm />
+                    {!popup.visible && msg.msgs.length > 0 && <Alert />}
+                    {popup.visible && popup.custom && (
+                        <Popup>
+                            <div className="popup__custom__link">
+                                <a href={popup.custom}>Click Here</a>
+                            </div>
+                        </Popup>
+                    )}
+                    {popup.visible && !popup.custom && (
+                        <Popup>
+                            <UserResetPasswordForm />
+                        </Popup>
+                    )}
+                </div>
             </div>
         </div>
     );

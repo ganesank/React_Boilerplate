@@ -17,10 +17,12 @@ const ResetPasswordPage: React.FC<Type.ResetPasswordPage> = ({ match }) => {
     }, [dispatch]);
 
     return (
-        <div className="reset-password-page container">
-            <h1>Reset Password</h1>
-            <UserUpdatePasswordForm token={token} />
-            {msg.msgs.length > 0 && <Alert />}
+        <div className="reset-password-page">
+            <div className="container">
+                <h1>Reset Password</h1>
+                <UserUpdatePasswordForm token={token} />
+                {msg.msgs.length > 0 && <Alert />}
+            </div>
         </div>
     );
 };

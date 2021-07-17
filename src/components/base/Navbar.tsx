@@ -2,7 +2,7 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { logoutUser } from '../../redux/user';
 import * as Type from '../../utils/@types/types';
 
@@ -11,6 +11,13 @@ const Navbar: React.FC = () => {
     const [visible, setVisible] = useState(false);
     const dispatch = useDispatch();
     const history = useHistory();
+    const location = useLocation();
+    const routes: string[] = ['/api'];
+    let removeStyle: string = '';
+
+    const idx: number = routes.indexOf(location.pathname);
+    if (idx !== -1) removeStyle = 'remove-style';
+    if (visible) removeStyle = '';
 
     const handleLogout: Type.HandleClickFn = (e) => {
         e.preventDefault();
@@ -78,8 +85,10 @@ const Navbar: React.FC = () => {
         );
 
     return (
-        <div className="navbar">
-            <div className="navbar__navbar-container">
+        <div className={`navbar${removeStyle ? ` navbar--${removeStyle}` : ''}`}>
+            <div
+                className={`navbar__navbar-container${removeStyle ? ` navbar__navbar-container--${removeStyle}` : ''}`}
+            >
                 <div
                     onClick={handleClick}
                     className={visible ? 'navbar__bars navbar__bars--light' : 'navbar__bars navbar__bars--dark'}

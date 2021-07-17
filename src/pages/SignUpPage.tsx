@@ -19,18 +19,20 @@ const SignUpPage: React.FC = () => {
     }, [dispatch]);
 
     return (
-        <div className="signup-page container">
-            <h1>SIGN UP</h1>
-            <div className="signup-page__form">
-                <UserSignUpForm />
-                {!popup.visible && msg.msgs.length > 0 && <Alert />}
-                {popup.visible && popup.custom && (
-                    <Popup>
-                        <div className="popup__custom__link">
-                            <a href={popup.custom}>Click Here</a>
-                        </div>
-                    </Popup>
-                )}
+        <div className="signup-page">
+            <div className="container">
+                <h1>SIGN UP</h1>
+                <div className="signup-page__form">
+                    <UserSignUpForm />
+                    {!popup.visible && msg.msgs.length > 0 && <Alert />}
+                    {popup.visible && popup.custom && (
+                        <Popup>
+                            <div className="popup__custom__link">
+                                <a href={popup.custom}>Click Here</a>
+                            </div>
+                        </Popup>
+                    )}
+                </div>
             </div>
         </div>
     );

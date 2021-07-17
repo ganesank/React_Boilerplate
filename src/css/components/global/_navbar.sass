@@ -3,13 +3,16 @@
   top: 0
   left: 0
   min-height: 5rem
-  background-color: $color-primary
   width: 100%
   display: flex
   flex: 1
   justify-content: center
-  box-shadow: 0 0.3rem 0.5rem rgba($cbk, 0.5)
+  box-shadow: 0 0.2rem 0.3rem rgba($cbk, 0.3)
+  background-color: $color-primary
   z-index: 1
+
+  &--remove-style
+    box-shadow: none
 
   &__navbar-container
     max-width: $page-width
@@ -66,6 +69,9 @@
     &__navbar-container
       flex-direction: column
       align-items: center
+      box-shadow: 0 0.2rem 0.3rem rgba($cbk, 0.3)
+      &--remove-style
+        box-shadow: none
     &__logo-container
       height: 5rem
     &__logo

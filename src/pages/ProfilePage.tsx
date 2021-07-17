@@ -18,15 +18,17 @@ const ProfilePage: React.FC = () => {
     }, [dispatch]);
 
     return (
-        <div className="profile-page container">
-            <h1>PROFILE</h1>
-            <UserProfileForm />
-            {!popup.visible && msg.msgs.length > 0 && <Alert />}
-            {popup.visible && (
-                <Popup>
-                    <UserDeleteForm />
-                </Popup>
-            )}
+        <div className="profile-page">
+            <div className="container">
+                <h1>PROFILE</h1>
+                <UserProfileForm />
+                {!popup.visible && msg.msgs.length > 0 && <Alert />}
+                {popup.visible && (
+                    <Popup>
+                        <UserDeleteForm />
+                    </Popup>
+                )}
+            </div>
         </div>
     );
 };

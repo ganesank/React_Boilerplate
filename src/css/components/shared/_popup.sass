@@ -39,3 +39,8 @@
 
       a
         font-size: $font-size * 1rem
+
+@include mq-manager(tab-port)
+  .popup
+    &__container
+      min-width: $form-min-width
