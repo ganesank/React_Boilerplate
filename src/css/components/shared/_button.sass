@@ -1,7 +1,7 @@
 .btn-container
   a,
   button
-    background-color: $color-info
+    background-color: $cbl-50
     color: $cwt
     min-height: $button-height
     font-size: resize($font-size, 0.9)
@@ -15,9 +15,11 @@
     &:hover
       transform: translateZ(0.1rem) scale(1.10)
       box-shadow: 0.25rem 0.25rem 0.25rem rgba($cbk, 0.2)
+      background-color: $cbl-60
     &:active
       transform: translateZ(0.07rem) scale(1.07)
       box-shadow: 0.15rem 0.15rem 0.15rem rgba($cbk, 0.4)
+      background-color: $cbl-55
     img
       height: resize($font-size, 0.9)
       width: resize($font-size, 0.9)
@@ -78,30 +80,30 @@
   &--danger
     a,
     button
-      background-color: $color-danger
+      background-color: $crd-50
 
       &:hover
-        background-color: rgba($color-danger, 0.8)
+        background-color: $crd-60
       &:active
-        background-color: rgba($color-danger, 0.9)
+        background-color: $crd-55
   &--success
     a,
     button
-      background-color: $color-success
+      background-color: $cgn-30
 
       &:hover
-        background-color: rgba($color-success, 0.8)
+        background-color: $cgn-40
       &:active
-        background-color: rgba($color-success, 0.9)
+        background-color: $cgn-35
   &--warning
     a,
     button
-      background-color: $color-warning
+      background-color: $cog-50
 
       &:hover
-        background-color: rgba($color-warning, 0.8)
+        background-color: $cog-60
       &:active
-        background-color: rgba($color-warning, 0.9)
+        background-color: $cog-55
   &--disabled
     a,
     button
@@ -111,5 +113,6 @@
       &:hover
         transform: translateZ(0rem) scale(1)
         box-shadow: none
+        background-color: $cgy-70
     a
       pointer-events: none
