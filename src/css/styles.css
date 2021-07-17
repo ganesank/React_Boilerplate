@@ -1166,6 +1166,7 @@ h4 {
 @media (max-width: 56.25em) {
   .popup__container {
     min-width: 20rem;
+    top: 50%;
   }
 }
 
@@ -1425,7 +1426,7 @@ h4 {
 
 .api-form {
   padding: 0.5rem;
-  width: 25rem;
+  min-width: 25rem;
 }
 
 .api-form__description textarea {
@@ -1437,7 +1438,7 @@ h4 {
 }
 
 .user-delete-form {
-  width: 25rem;
+  min-width: 25rem;
 }
 
 @media (max-width: 56.25em) {
@@ -1510,7 +1511,7 @@ h4 {
 }
 
 .user-reset-password-form {
-  width: 25rem;
+  min-width: 25rem;
 }
 
 .user-reset-password-form__cta {
@@ -1688,7 +1689,7 @@ h4 {
     font-size: 1.2rem;
   }
   .api-page__sub-menu {
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 1.75rem;
   }
 }
 

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import Input from '../../../components/shared/Input';
-import CTA from '../../../components/shared/CTA';
 import Button from '../../../components/shared/Button';
+import CTA from '../../../components/shared/CTA';
+import Input from '../../../components/shared/Input';
 import Select from '../../../components/shared/Select';
 import Textarea from '../../../components/shared/Textarea';
 import { setMsg } from '../../../redux/msg';
@@ -150,8 +150,8 @@ const ApiForm: React.FC = () => {
     };
 
     const options = [
-        { key: 'true', value: 'Active' },
-        { key: 'false', value: 'Desactive' },
+        { key: 'true', value: 'Enabled' },
+        { key: 'false', value: 'Disabled' },
     ];
 
     return (
@@ -204,7 +204,7 @@ const ApiForm: React.FC = () => {
                 <Select
                     name="active"
                     value={form.active}
-                    label="Active"
+                    label="Status"
                     handle="api-active"
                     options={options}
                     onChange={handleChange}
