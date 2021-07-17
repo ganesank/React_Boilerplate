@@ -1,0 +1,10 @@
+.api-form
+  padding: $form-padding
+  width: $form-width
+
+  &__description
+    textarea
+      min-height: 4rem
+
+@include mq-manager(tab-port)
+  width: $form-min-width

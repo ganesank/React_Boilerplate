@@ -1,0 +1,31 @@
+.api-page
+  margin-top: 5rem
+  width: 100%
+  display: flex
+  flex-grow: 1
+  flex-direction: column
+  align-items: center
+
+  h1
+    margin-bottom: $margin-20
+
+  &__form
+    padding: 0.5rem
+    width: 25rem
+
+  &__menu
+    width: 100%
+    margin-bottom: $margin-20
+    display: flex
+    justify-content: center
+    box-shadow: 0 0.3rem 0.5rem rgba($cbk, 0.5)
+    background-color: $cbl-35
+
+  &__sub-menu
+    max-width: $page-width
+    padding: $padding-5 $padding-25
+
+@include mq-manager(tab-port)
+  .api-page
+    &__sub-menu
+      padding: $padding-5 $padding-10

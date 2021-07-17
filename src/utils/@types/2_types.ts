@@ -115,4 +115,13 @@ export type DeleteUserForm = {
     password: string;
 };
 
+export type ApiForm = {
+    name: string;
+    url: string;
+    key: string;
+    value: string;
+    description: string;
+    active: string;
+};
+
 // = Other =====================================================================
