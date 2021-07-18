@@ -33,7 +33,7 @@ const UserResetPasswordForm: React.FC = () => {
     const handleSubmit: Type.HandleSubmitFn<{}> = async (e) => {
         e.preventDefault();
         try {
-            const response = await requestHelper.resetPassword(`${URL}/password`, form);
+            const response = await requestHelper.postData(`${URL}/password`, form);
             if (!response.ok)
                 return dispatch(
                     setMsg({

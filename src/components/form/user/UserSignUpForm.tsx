@@ -29,7 +29,7 @@ const UserSignUpForm: React.FC = () => {
     const handleSubmit: Type.HandleSubmitFn<{}> = async (e) => {
         e.preventDefault();
         try {
-            const response = await requestHelper.signUpUser(`${URL}/signup`, form);
+            const response = await requestHelper.postData(`${URL}/signup`, form);
             if (!response.ok)
                 return dispatch(
                     setMsg({

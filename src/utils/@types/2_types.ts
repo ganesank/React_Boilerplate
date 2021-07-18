@@ -116,6 +116,7 @@ export type DeleteUserForm = {
 };
 
 export type ApiForm = {
+    _id?: string;
     name: string;
     url: string;
     key: string;

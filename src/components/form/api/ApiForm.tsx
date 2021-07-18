@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState } from 'react';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import Button from '../../../components/shared/Button';
 import CTA from '../../../components/shared/CTA';
 import Input from '../../../components/shared/Input';
 import Select from '../../../components/shared/Select';
 import Textarea from '../../../components/shared/Textarea';
 import { setMsg } from '../../../redux/msg';
-import { hidePopup, showPopup } from '../../../redux/popup';
 import * as Type from '../../../utils/@types/types';
 import * as requestHelper from '../../../utils/helpers/requestHelper';
+import Alert from '../../shared/Alert';
 
 const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
 const URL: string =
@@ -16,65 +16,41 @@ const URL: string =
         ? `${process.env.REACT_APP_BACKEND_URL!}/api/apis`
         : `${process.env.REACT_APP_BACKEND_URL!}:${PORT}/api/apis`;
 
-const ApiForm: React.FC = () => {
-    const initialState: Type.ApiForm = {
-        name: '',
-        url: '',
-        key: '',
-        value: '',
-        description: '',
-        active: 'true',
-    };
+const ApiForm: React.FC<Type.ApiFormC> = ({ setApis, data }) => {
+    const initialState: Type.ApiForm = data
+        ? {
+              _id: data.api._id,
+              name: data.api.name,
+              url: data.api.url,
+              key: data.api.key,
+              value: data.api.value,
+              description: data.api.description,
+              active: data.api.active.toString(),
+          }
+        : {
+              _id: '',
+              name: '',
+              url: '',
+              key: '',
+              value: '',
+              description: '',
+              active: 'true',
+          };
+    const msg = useSelector((state: RootStateOrAny) => state.msg);
     const [form, setForm] = useState(initialState);
     const dispatch = useDispatch();
-
-    useEffect(() => {
-        (async () => {
-            try {
-                const response = await requestHelper.getData(`${URL}/profile`);
-                if (!response.ok)
-                    return dispatch(
-                        setMsg({
-                            msgs: [response.error.message],
-                            msgColor: 'danger',
-                            icon: '⚠',
-                            iconColor: 'danger',
-                        })
-                    );
-
-                setForm((prev) => {
-                    return {
-                        ...prev,
-                        _id: response.data._id,
-                        firstName: response.data.firstName,
-                        lastName: response.data.lastName,
-                        email: response.data.email,
-                        telegramId: response.data.telegramId,
-                        isTelegramVerified: response.data.isTelegramVerified,
-                    };
-                });
-            } catch (error) {
-                dispatch(
-                    setMsg({
-                        msgs: [error.message],
-                        msgColor: 'danger',
-                        icon: '⚠',
-                        iconColor: 'danger',
-                    })
-                );
-            }
-        })();
-
-        return () => {
-            dispatch(hidePopup());
-        };
-    }, [dispatch, setForm]);
 
     const handleSubmit: Type.HandleSubmitFn<{}> = async (e) => {
         e.preventDefault();
 
         try {
-            const response = await requestHelper.updateData(`${URL}/new`, form);
+            let response: any;
+
+            if (form._id === '') {
+                response = await requestHelper.postData(`${URL}/new`, form);
+            } else {
+                response = await requestHelper.updateData(`${URL}/${form._id}`, form);
+            }
 
             if (!response.ok) {
                 const errors = Object.keys(response.error).map((key) => {
@@ -91,23 +67,28 @@ const ApiForm: React.FC = () => {
                 );
             }
 
-            if (response.data && response.data.verifyToken) console.log(`${URL}/email/${response.data.verifyToken}`);
-
-            setForm((prev) => {
-                return {
-                    ...prev,
-                    newPassword: '',
-                    confirmNewPassword: '',
+            if (form._id === '') {
+                const updatedForm: Type.ApiForm = {
+                    ...form,
+                    _id: response.data._id,
                 };
-            });
+                setApis((prev: Type.ApiForm[]) => {
+                    return [...prev, updatedForm];
+                });
 
-            dispatch(
-                showPopup({
-                    title: 'Profile Updated',
-                    message: 'Your profile has been updated successfully',
-                    children: false,
-                })
-            );
+                setForm({
+                    name: '',
+                    url: '',
+                    key: '',
+                    value: '',
+                    description: '',
+                    active: 'true',
+                });
+            } else {
+                setApis((prev: Type.ApiForm[]) => {
+                    return [...prev.slice(0, data!.idx), form, ...prev.slice(data!.idx + 1, prev.length)];
+                });
+            }
         } catch (error) {
             dispatch(
                 setMsg({
@@ -120,24 +101,11 @@ const ApiForm: React.FC = () => {
         }
     };
 
-    const handleDelete: Type.HandleClickFn = (e) => {
-        e.preventDefault();
-        dispatch(
-            showPopup({
-                visible: true,
-                title: 'Delete Acc',
-                message: 'Are you sure you want to delete your account?',
-                children: true,
-            })
-        );
-    };
-
     const handleChange: Type.HandleChangeFn = ({ target: { name, value } }) => {
         setForm({
             ...form,
             [name]: value,
         });
-        console.log(form);
     };
 
     const isFormValid: Type.IsFormValidFn = () => {
@@ -149,7 +117,7 @@ const ApiForm: React.FC = () => {
         );
     };
 
-    const options = [
+    const options: Type.Obj[] = [
         { key: 'true', value: 'Enabled' },
         { key: 'false', value: 'Disabled' },
     ];
@@ -180,7 +148,6 @@ const ApiForm: React.FC = () => {
                     value={form.key}
                     handle="api-key"
                     onChange={handleChange}
-                    type="password"
                     autoComplete="new-password"
                 />
                 <Input
@@ -190,7 +157,6 @@ const ApiForm: React.FC = () => {
                     value={form.value}
                     handle="api-value"
                     onChange={handleChange}
-                    type="password"
                     autoComplete="new-password"
                 />
                 <Textarea
@@ -210,9 +176,10 @@ const ApiForm: React.FC = () => {
                     onChange={handleChange}
                 />
                 <CTA>
-                    <Button value="Create" type="submit" disabled={isFormValid()} />
+                    <Button value={form._id ? 'Update' : 'Create'} type="submit" disabled={isFormValid()} />
                 </CTA>
             </form>
+            {msg.msgs.length > 0 && <Alert />}
         </div>
     );
 };

@@ -6,8 +6,8 @@ export type HandleChangeFn = {
     (e: HandleChange): void;
 };
 
-export type HandleClickFn = {
-    (e: MouseEvent): void;
+export type HandleClickFn<T1, T2> = {
+    (e: MouseEvent, data?: T1, data2?: T2): void;
 };
 
 export type HandleSubmitFn<T> = {
