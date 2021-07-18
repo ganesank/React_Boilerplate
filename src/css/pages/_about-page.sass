@@ -36,3 +36,16 @@
       cursor: crosshair
   &__tech-label
     margin-top: 0.5rem
+
+@include mq-manager(tab-port)
+  .about-page
+    height: calc(100vh - 14rem)
+
+    h1
+      font-size: resize($font-size, 1.2)
+    h2
+      font-size: $font-size * 1rem
+    h4
+      font-size: $font-size * 0.8rem
+    &__picture
+      width: 8rem

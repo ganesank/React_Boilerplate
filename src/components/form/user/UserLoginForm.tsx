@@ -29,7 +29,7 @@ const UserLoginForm: React.FC = () => {
         });
     };
 
-    const handleResetPassword: Type.HandleClickFn = (e) => {
+    const handleResetPassword: Type.HandleClickFn<null, null> = (e) => {
         e.preventDefault();
         dispatch(
             showPopup({

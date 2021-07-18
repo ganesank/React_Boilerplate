@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import App from './App';
-import './css/styles.css';
+import './css/styles.sass';
 import reportWebVitals from './reportWebVitals';
 import store from './store';
 

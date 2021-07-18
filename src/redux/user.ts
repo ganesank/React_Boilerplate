@@ -18,7 +18,7 @@ const SHOW_POPUP: string = 'SHOW_POPUP';
 export const loginUser: Type.ActionThunk<Type.LoginForm> = (data) => {
     return async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
         try {
-            const response = await requestHelper.loginUser(`${URL}/login`, data);
+            const response = await requestHelper.postData(`${URL}/login`, data);
 
             if (!response.ok) {
                 if (response.error.verifyToken) {
@@ -64,7 +64,7 @@ export const logoutUser: Type.ActionPayload<null> = () => ({
 export const deleteUser: Type.ActionThunk<Type.DeleteUserForm> = (data) => {
     return async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
         try {
-            const response = await requestHelper.deleteUser(`${URL}/profile`, data);
+            const response = await requestHelper.deleteData(`${URL}/profile`, data);
 
             if (!response.ok) {
                 const errors: string[] = [];

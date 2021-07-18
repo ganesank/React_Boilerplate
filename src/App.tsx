@@ -4,6 +4,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import Footer from './components/base/Footer';
 import Navbar from './components/base/Navbar';
 import AboutPage from './pages/AboutPage';
+import ApiPage from './pages/ApiPage';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import ProfilePage from './pages/ProfilePage';
@@ -18,6 +19,7 @@ const App: React.FC = () => {
             <Switch>
                 <Route exact path="/" component={HomePage} />
                 <Route path="/about" component={AboutPage} />
+                <Route path="/api" component={ApiPage} />
                 <Route path="/profile" component={ProfilePage} />
                 <Route render={() => <Redirect to={{ pathname: '/' }} />} />
             </Switch>
