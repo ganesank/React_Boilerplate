@@ -4,37 +4,31 @@ import { Link } from 'react-router-dom';
 import * as Type from '../../utils/@types/types';
 
 const Button: React.FC<Type.Button> = ({
-    handle,
     value,
+    icon,
+    faIcon,
+    handle,
     iconDirection = 'left',
     direction = 'row',
+    disabled = false,
     type = 'button',
     btnType = 'btn',
     btnColor,
-    disabled = false,
     onClick,
     href = '/',
-    icon,
-    faIcon,
 }) => {
     if (direction === 'column' && (iconDirection === 'left' || iconDirection === 'right')) iconDirection = 'top';
     if (disabled) btnColor = 'disabled';
     if (icon && faIcon) faIcon = undefined;
 
     const handleClass: string = handle ? `${handle}` : '';
-    const directionClass: string = `btn-container__${direction} `;
-    const btnColorClass: string = btnColor ? `btn-container--${btnColor} ` : '';
-    const customClass: string = `btn-container ${btnColorClass}${directionClass}${handleClass}`;
+    const directionClass: string = `btn__${direction} `;
+    const btnColorClass: string = btnColor ? `btn--${btnColor} ` : '';
+    const customClass: string = `btn ${btnColorClass}${directionClass}${handleClass}`;
 
-    const valueClass: string = value
-        ? `btn-container__${direction}__value btn-container__${direction}__value--${iconDirection} `
-        : '';
+    const valueClass: string = value ? `btn__${direction}__value btn__${direction}__value--${iconDirection} ` : '';
     const iconClass: string =
-        icon || faIcon
-            ? `btn-container__${direction}__icon btn-container__${direction}__icon--${
-                  value ? iconDirection : 'center'
-              } `
-            : '';
+        icon || faIcon ? `btn__${direction}__icon btn__${direction}__icon--${value ? iconDirection : 'center'} ` : '';
 
     return (
         <div className={customClass}>
