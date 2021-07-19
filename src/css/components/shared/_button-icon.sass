@@ -1,0 +1,107 @@
+.btn-icon
+  a,
+  button
+    background-color: transparent
+    color: $cwt
+    border: none
+    text-decoration: none
+    cursor: pointer
+
+    img,
+    svg
+      transition: all 0.2s ease-in-out
+    &:hover > img,
+    &:hover > svg
+      transform: translateZ(0.1rem) scale(1.20)
+    &:active > img,
+    &:active > svg
+      transform: translateZ(0.07rem) scale(1.1)
+  &__icon
+    height: $font-size * 1.15rem
+    min-width: $font-size * 1.15rem
+  &--primary
+    svg > path
+      color: $cbl-60
+      fill: $cbl-60
+    &:hover > svg > path
+      color: $cbl-70
+      fill: $cbl-70
+    &:active > svg > path
+      color: $cbl-55
+      fill: $cbl-55
+  &--danger
+    svg > path
+      color: $crd-50
+      fill: $crd-50
+    &:hover > svg > path
+      color: $crd-60
+      fill: $crd-60
+    &:active > svg > path
+      color: $crd-55
+      fill: $crd-55
+  &--success
+    svg > path
+      color: $cgn-30
+      fill: $cgn-30
+    &:hover > svg > path
+      color: $cgn-40
+      fill: $cgn-40
+    &:active > svg > path
+      color: $cgn-35
+      fill: $cgn-35
+  &--warning
+    svg > path
+      color: $cog-50
+      fill: $cog-50
+    &:hover > svg > path
+      color: $cog-60
+      fill: $cog-60
+    &:active > svg > path
+      color: $cog-55
+      fill: $cog-55
+  &--disabled
+    svg > path
+      cursor: not-allowed
+      color: $cgy-70
+      fill: $cgy-70
+    &:hover button, a > svg > path
+      transform: translateZ(0rem) scale(1)
+      pointer-events: none
+  &--hover-primary
+    &:hover > svg > path
+      color: $cbl-65
+      fill: $cbl-65
+    &:active > svg > path
+      color: $cbl-60
+      fill: $cbl-60
+  &--hover-danger
+    &:hover > svg > path
+      color: $crd-60
+      fill: $crd-60
+    &:active > svg > path
+      color: $crd-55
+      fill: $crd-55
+  &--hover-success
+    &:hover > svg > path
+      color: $cgn-40
+      fill: $cgn-40
+    &:active > svg > path
+      color: $cgn-35
+      fill: $cgn-35
+  &--hover-warning
+    &:hover > svg > path
+      color: $cog-60
+      fill: $cog-60
+    &:active > svg > path
+      color: $cog-55
+      fill: $cog-55
+  &--hover-disabled
+    cursor: not-allowed
+
+    svg > path
+      color: $cgy-70
+      fill: $cgy-70
+    &:hover button, a > svg, img > path
+      transform: translateZ(0rem) scale(1)
+    a
+      pointer-events: none

@@ -6,7 +6,7 @@ import { showPopup } from '../../redux/popup';
 import * as Type from '../../utils/@types/types';
 import * as requestHelper from '../../utils/helpers/requestHelper';
 import Alert from '../shared/Alert';
-import Button from '../shared/Button';
+import ButtonIcon from '../shared/ButtonIcon';
 import CTA from '../shared/CTA';
 
 const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
@@ -109,14 +109,14 @@ const ApiTable: React.FC<Type.ApiTableC> = ({ apis, setApis, setApi }) => {
                                     <div className={statusClass}>
                                         <CTA handle="api-table__cta">
                                             <span>{status}</span>
-                                            <Button
-                                                handle="api-table__btn api-table__btn--edit"
+                                            <ButtonIcon
                                                 faIcon={faEdit}
+                                                btnHoverColor="primary"
                                                 onClick={(e) => handleEdit(e, api, idx)}
                                             />
-                                            <Button
-                                                handle="api-table__btn api-table__btn--delete"
+                                            <ButtonIcon
                                                 faIcon={faTrash}
+                                                btnHoverColor="danger"
                                                 onClick={(e) => handleDelete(e, api, idx)}
                                             />
                                         </CTA>

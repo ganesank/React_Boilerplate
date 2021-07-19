@@ -3,10 +3,10 @@ import * as Type from '../../utils/@types/types';
 
 const CTA: React.FC<Type.CTA> = ({ handle, justify = 'flex-end', align = 'center', direction = 'row', children }) => {
     const handleClass: string = handle ? `${handle}` : '';
-    const directionClass: string = `cta-container__${direction} `;
-    const justifyClass: string = `cta-container__${direction}--justify-${justify} `;
-    const alignClass: string = `cta-container__${direction}--align-${align} `;
-    const customClass: string = `cta-container ${justifyClass}${alignClass}${directionClass}${handleClass}`;
+    const directionClass: string = `cta__${direction} `;
+    const justifyClass: string = `cta__${direction}--justify-${justify} `;
+    const alignClass: string = `cta__${direction}--align-${align} `;
+    const customClass: string = `cta ${justifyClass}${alignClass}${directionClass}${handleClass}`;
 
     return <div className={customClass}>{children}</div>;
 };

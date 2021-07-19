@@ -1,4 +1,4 @@
-.btn-container
+.btn
   a,
   button
     background-color: $cbl-50
@@ -6,7 +6,7 @@
     min-height: $button-height
     min-width: $button-height
     font-size: resize($font-size, 0.9)
-    padding: 0.3rem 0.7rem
+    padding: $padding-3
     border-radius: $border-radius
     border: none
     text-decoration: none
@@ -21,17 +21,16 @@
       transform: translateZ(0.07rem) scale(1.07)
       box-shadow: 0.15rem 0.15rem 0.15rem rgba($cbk, 0.4)
       background-color: $cbl-55
-    img
-      height: resize($font-size, 0.9)
-      width: resize($font-size, 0.9)
   &__row
     display: grid
     grid-template-columns: repeat(2, auto)
     grid-template-rows: 1fr
+    justify-content: center
     align-items: center
 
     &__icon
-      width: resize($font-size, 0.9)
+      height: resize($font-size, 0.9)
+      min-width: resize($font-size, 0.9)
 
       &--left
         grid-column: 1 / span 1
@@ -59,7 +58,8 @@
     justify-items: center
 
     &__icon
-      width: resize($font-size, 0.9)
+      height: resize($font-size, 0.9)
+      min-width: resize($font-size, 0.9)
 
       &--top
         grid-column: 1 / -1
@@ -106,6 +106,8 @@
       &:active
         background-color: $cog-55
   &--disabled
+    cursor: not-allowed
+
     a,
     button
       cursor: not-allowed

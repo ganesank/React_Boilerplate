@@ -3,45 +3,40 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import * as Type from '../../utils/@types/types';
 
-const Button: React.FC<Type.Button> = ({
-    value,
+const ButtonIcon: React.FC<Type.ButtonIcon> = ({
     icon,
     faIcon,
     handle,
-    iconDirection = 'left',
-    direction = 'row',
     disabled = false,
     type = 'button',
     btnType = 'btn',
     btnColor,
+    btnHoverColor,
     onClick,
     href = '/',
 }) => {
-    if (direction === 'column' && (iconDirection === 'left' || iconDirection === 'right')) iconDirection = 'top';
-    if (disabled) btnColor = 'disabled';
+    if (disabled) {
+        btnColor = 'disabled';
+        btnHoverColor = 'disabled';
+    }
     if (icon && faIcon) faIcon = undefined;
 
     const handleClass: string = handle ? `${handle}` : '';
-    const directionClass: string = `btn__${direction} `;
-    const btnColorClass: string = btnColor ? `btn--${btnColor} ` : '';
-    const customClass: string = `btn ${btnColorClass}${directionClass}${handleClass}`;
-
-    const valueClass: string = value ? `btn__${direction}__value btn__${direction}__value--${iconDirection} ` : '';
-    const iconClass: string =
-        icon || faIcon ? `btn__${direction}__icon btn__${direction}__icon--${value ? iconDirection : 'center'} ` : '';
+    const btnColorClass: string = btnColor ? `btn-icon--${btnColor} ` : '';
+    const btnHoverColorClass: string = btnHoverColor ? `btn-icon--hover-${btnHoverColor} ` : '';
+    const customClass: string = `btn-icon ${btnColorClass}${btnHoverColorClass}${handleClass}`;
+    const iconClass: string = 'btn-icon__icon';
 
     return (
         <div className={customClass}>
             {btnType === 'btn' && (
                 <button className={customClass} disabled={disabled} type={type} onClick={onClick ? onClick : () => ''}>
-                    {value && <div className={valueClass}>{value}</div>}
                     {icon && <img src={icon} className={iconClass} alt="Icon" />}
                     {faIcon && <FontAwesomeIcon icon={faIcon} className={iconClass} />}
                 </button>
             )}
             {btnType === 'link' && (
                 <Link className={customClass} to={href} onClick={onClick}>
-                    {value && <div className={valueClass}>{value}</div>}
                     {icon && <img src={icon} className={iconClass} alt="Icon" />}
                     {faIcon && <FontAwesomeIcon icon={faIcon} className={iconClass} />}
                 </Link>
@@ -50,4 +45,4 @@ const Button: React.FC<Type.Button> = ({
     );
 };
 
-export default Button;
+export default ButtonIcon;

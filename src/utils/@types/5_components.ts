@@ -52,13 +52,26 @@ export type Button = {
     value?: string;
     icon?: string;
     faIcon?: IconProp;
-    iconDirection?: string;
     handle?: string;
+    iconDirection?: string;
     direction?: string;
     disabled?: boolean;
     type?: 'button' | 'submit' | 'reset' | undefined;
     btnType?: string;
     btnColor?: string;
+    onClick?(e: MouseEvent<HTMLElement>): void;
+    href?: string;
+};
+
+export type ButtonIcon = {
+    icon?: string;
+    faIcon?: IconProp;
+    handle?: string;
+    disabled?: boolean;
+    type?: 'button' | 'submit' | 'reset' | undefined;
+    btnType?: string;
+    btnColor?: string;
+    btnHoverColor?: string;
     onClick?(e: MouseEvent<HTMLElement>): void;
     href?: string;
 };
