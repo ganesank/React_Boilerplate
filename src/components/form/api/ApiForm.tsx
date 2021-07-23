@@ -6,6 +6,7 @@ import Input from '../../../components/shared/Input';
 import Select from '../../../components/shared/Select';
 import Textarea from '../../../components/shared/Textarea';
 import { setMsg } from '../../../redux/msg';
+import { hidePopup } from '../../../redux/popup';
 import * as Type from '../../../utils/@types/types';
 import * as requestHelper from '../../../utils/helpers/requestHelper';
 import Alert from '../../shared/Alert';
@@ -89,6 +90,8 @@ const ApiForm: React.FC<Type.ApiFormC> = ({ setApis, data }) => {
                     return [...prev.slice(0, data!.idx), form, ...prev.slice(data!.idx + 1, prev.length)];
                 });
             }
+
+            dispatch(hidePopup());
         } catch (error) {
             dispatch(
                 setMsg({

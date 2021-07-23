@@ -126,3 +126,8 @@ export type ApiForm = {
 };
 
 // = Other =====================================================================
+
+export type Thead = {
+    id: string;
+    friendlyName: string;
+};

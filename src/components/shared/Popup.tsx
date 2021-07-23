@@ -9,7 +9,7 @@ const Popup: React.FC = ({ children }) => {
     const popup = useSelector((state: RootStateOrAny) => state.popup);
     const dispatch = useDispatch();
 
-    const handleClose: Type.HandleClickFn<null> = (e) => {
+    const handleClose: Type.HandleClickFn<null, null> = (e) => {
         e.preventDefault();
         dispatch(hidePopup());
     };
