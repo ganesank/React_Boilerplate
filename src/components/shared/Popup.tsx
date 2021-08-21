@@ -2,7 +2,7 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { hidePopup } from '../../redux/popup';
-import * as Type from '../../utils/@types/types';
+import * as Type from '../../utils/@types/0_types';
 import Button from '../shared/Button';
 
 const Popup: React.FC = ({ children }) => {

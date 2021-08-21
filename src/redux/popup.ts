@@ -1,4 +1,4 @@
-import * as Type from '../utils/@types/types';
+import * as Type from '../utils/@types/0_types';
 
 const SHOW_POPUP: string = 'SHOW_POPUP';
 const HIDE_POPUP: string = 'HIDE_POPUP';

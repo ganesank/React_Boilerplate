@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { removeMsg, setMsg } from '../../../redux/msg';
-import * as Type from '../../../utils/@types/types';
+import * as Type from '../../../utils/@types/0_types';
 import * as requestHelper from '../../../utils/helpers/requestHelper';
 import Alert from '../../shared/Alert';
 import Button from '../../shared/Button';
@@ -12,8 +12,8 @@ import Input from '../../shared/Input';
 const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
 const URL: string =
     process.env.REACT_APP_ENV! === 'production'
-        ? `${process.env.REACT_APP_BACKEND_URL!}/api/users`
-        : `${process.env.REACT_APP_BACKEND_URL!}:${PORT}/api/users`;
+        ? `${process.env.REACT_APP_BACKEND_URL!}/api/user`
+        : `${process.env.REACT_APP_BACKEND_URL!}:${PORT}/api/user`;
 
 const UserResetPasswordForm: React.FC = () => {
     const initialState: Type.ResetPasswordForm = {

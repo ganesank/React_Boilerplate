@@ -1,14 +1,14 @@
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
-import * as Type from '../utils/@types/types';
+import * as Type from '../utils/@types/0_types';
 import * as requestHelper from '../utils/helpers/requestHelper';
 import * as tokenService from '../utils/token/tokenService';
 
 const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
 const URL: string =
     process.env.REACT_APP_ENV! === 'production'
-        ? `${process.env.REACT_APP_BACKEND_URL!}/api/users`
-        : `${process.env.REACT_APP_BACKEND_URL!}:${PORT}/api/users`;
+        ? `${process.env.REACT_APP_BACKEND_URL!}/api/user`
+        : `${process.env.REACT_APP_BACKEND_URL!}:${PORT}/api/user`;
 
 const SET_MSG: string = 'SET_MSG';
 const LOGIN_USER: string = 'LOGIN_USER';

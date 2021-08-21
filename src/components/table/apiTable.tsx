@@ -3,7 +3,7 @@ import React from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { setMsg } from '../../redux/msg';
 import { showPopup } from '../../redux/popup';
-import * as Type from '../../utils/@types/types';
+import * as Type from '../../utils/@types/0_types';
 import * as requestHelper from '../../utils/helpers/requestHelper';
 import Alert from '../shared/Alert';
 import ButtonIcon from '../shared/ButtonIcon';
@@ -12,8 +12,8 @@ import CTA from '../shared/CTA';
 const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
 const URL: string =
     process.env.REACT_APP_ENV! === 'production'
-        ? `${process.env.REACT_APP_BACKEND_URL!}/api/apis`
-        : `${process.env.REACT_APP_BACKEND_URL!}:${PORT}/api/apis`;
+        ? `${process.env.REACT_APP_BACKEND_URL!}/api/api`
+        : `${process.env.REACT_APP_BACKEND_URL!}:${PORT}/api/api`;
 
 const ApiTable: React.FC<Type.ApiTableC> = ({ apis, setApis, setApi }) => {
     const msg = useSelector((state: RootStateOrAny) => state.msg);

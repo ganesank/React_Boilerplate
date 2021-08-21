@@ -1,6 +1,6 @@
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
-import * as Type from '../../utils/@types/types';
+import * as Type from '../../utils/@types/0_types';
 import ButtonIcon from '../shared/ButtonIcon';
 import CTA from '../shared/CTA';
 
@@ -14,7 +14,10 @@ const Table: React.FC<Type.Table> = ({ handle, thead, data, handleEdit, handleDe
                     <tr className="table__row">
                         {thead &&
                             thead.map((column, idx) => (
-                                <th key={`h-${idx}`} className={`table__title table__item ${handle}--${column.id}`}>
+                                <th
+                                    key={`h-${idx}`}
+                                    className={`table__title table__item ${handle} ${handle}--${column.id}`}
+                                >
                                     {column.friendlyName}
                                 </th>
                             ))}
@@ -24,7 +27,7 @@ const Table: React.FC<Type.Table> = ({ handle, thead, data, handleEdit, handleDe
                     {data.map((row: Type.Obj, idx: number) => (
                         <tr key={`r-${idx}`} className="table__row">
                             {thead.map((column, idx2) => (
-                                <td key={`c-${idx2}`} className={`table__item ${handle}--${column.id}`}>
+                                <td key={`c-${idx2}`} className={`table__item ${handle} ${handle}--${column.id}`}>
                                     <div className="table__div">
                                         <span>
                                             {row[column.id].toString() === 'true'

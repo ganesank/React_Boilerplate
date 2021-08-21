@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setMsg } from '../../../redux/msg';
 import { showPopup } from '../../../redux/popup';
-import * as Type from '../../../utils/@types/types';
+import * as Type from '../../../utils/@types/0_types';
 import * as requestHelper from '../../../utils/helpers/requestHelper';
 import Button from '../../shared/Button';
 import CTA from '../../shared/CTA';
@@ -12,8 +12,8 @@ const PASSWORD_LEN: number = +process.env.REACT_APP_PASSWORD_LEN!;
 const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
 const URL: string =
     process.env.REACT_APP_ENV! === 'production'
-        ? `${process.env.REACT_APP_BACKEND_URL!}/api/users`
-        : `${process.env.REACT_APP_BACKEND_URL!}:${PORT}/api/users`;
+        ? `${process.env.REACT_APP_BACKEND_URL!}/api/user`
+        : `${process.env.REACT_APP_BACKEND_URL!}:${PORT}/api/user`;
 
 const UserSignUpForm: React.FC = () => {
     const initialState: Type.SignUpForm = {

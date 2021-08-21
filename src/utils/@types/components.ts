@@ -1,7 +1,7 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { ChangeEvent, MouseEvent } from 'react';
-import { Obj } from './1_shared';
-import { ApiForm, Thead } from './2_types';
+import { Obj } from './shared';
+import { ApiForm, Thead } from './types';
 
 type HandleChange = ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>;
 
