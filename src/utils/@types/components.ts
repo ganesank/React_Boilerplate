@@ -105,7 +105,8 @@ export type ApiFormC = {
 // = Tables ====================================================================
 
 export type ApiTableC = {
+    thead: Thead[];
     apis: ApiForm[];
-    setApis(prev: any): void;
-    setApi(prev: any): void;
+    setApis(e: MouseEvent, obj: any, idx: number): void;
+    setApi(e: MouseEvent, obj: any, idx: number): void;
 };

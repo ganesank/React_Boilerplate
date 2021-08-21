@@ -1,57 +1,60 @@
 .api-table
-  &__row
-    margin-bottom: $margin-3
-  &__title
-    justify-content: center
-    font-weight: bolder
-    background-color: $cgy-70 !important
-    padding: 0 !important
-    height: 2.5rem !important
-  &__item
-    display: inline
-    margin-left: $margin-3
+  font-size: $font-size * 1rem
 
-    &__name,
-    &__url,
-    &__key,
-    &__value,
-    &__description,
-    &__active
-      display: inline-flex
+  table
+    border-collapse: separate
+    border-spacing: 1px
+
+    thead
+      tr
+        th
+          display: inline-flex
+          justify-content: center
+          height: 2.5rem
+          flex-grow: 1
+          background-color: $cbl-70
+    tbody
+      tr
+        th
+          font-weight: normal
+          background-color: $cgy-90
+          padding: 0 $padding-10
+        th:not(:last-child)
+          border-right: 1px solid $cgy-75
+  &__name,
+  &__url,
+  &__key,
+  &__value,
+  &__description,
+  &__status
+    display: inline-flex
+    align-items: center
+    height: 1.8rem
+
+    div
+      text-overflow: ellipsis
+      overflow: hidden
       white-space: nowrap
-      background-color: $cgy-85
-      height: 1.8rem
-      align-items: center
-      padding: 0 $padding-10
-    &__name
-      width: 12rem
-    &__url
-      width: 20rem
-    &__key
-      width: 13rem
-    &__value
-      width: 13rem
-    &__description
-      width: 25rem
-    &__active
-      width: 10rem
-      justify-content: center
+  &__name
+    width: 12rem
+  &__url,
+  &__key,
+  &__value
+    width: 15rem
+  &__description
+    width: 25rem
+  &__status
+    width: 12rem
 
-      &--enabled
-        color: $cgn-30
-      &--disabled
-        color: $crd-50
+    &--enabled,
+    &--disabled
+      text-transform: uppercase
+      display: flex
+      flex: 1
+    &--enabled
+      color: $cgn-30
+    &--disabled
+      color: $crd-40
   &__cta
-    margin-bottom: 0 !important
-  &__btn,
-  &__btn:hover,
-  &__btn:active
-    padding: 0 !important
-    min-height: auto !important
-    min-width: auto !important
-    background-color: transparent !important
-    box-shadow: none !important
-  &__btn:hover > &__btn--edit > svg > path
-    fill: $cbl-50 !important
-  &__btn:hover > &__btn--delete > svg > path
-    fill: $crd-50 !important
+    width: 100%
+    margin: 0

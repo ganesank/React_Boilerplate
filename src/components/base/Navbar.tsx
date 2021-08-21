@@ -19,14 +19,14 @@ const Navbar: React.FC = () => {
     if (idx !== -1) removeStyle = 'remove-style';
     if (visible) removeStyle = '';
 
-    const handleLogout: Type.HandleClickFn<null, null> = (e) => {
-        e.preventDefault();
+    const handleLogout: Type.HandleClickFn = (e) => {
+        e!.preventDefault();
         dispatch(logoutUser());
         setVisible(false);
         history.push('/');
     };
 
-    const handleClick: Type.HandleClickFn<null, null> = (_) => {
+    const handleClick: Type.HandleClickFn = () => {
         setVisible((prev) => !prev);
     };
 

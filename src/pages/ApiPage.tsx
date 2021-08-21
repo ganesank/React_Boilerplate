@@ -6,7 +6,7 @@ import Alert from '../components/shared/Alert';
 import Button from '../components/shared/Button';
 import CTA from '../components/shared/CTA';
 import Popup from '../components/shared/Popup';
-import Table from '../components/shared/Table';
+import ApiTable from '../components/table/ApiTable';
 import { setMsg } from '../redux/msg';
 import { showPopup } from '../redux/popup';
 import * as Type from '../utils/@types/0_types';
@@ -32,9 +32,9 @@ const ApiPage: React.FC = () => {
         idx: -1,
     };
     const [api, setApi] = useState(initialState);
+    const [apis, setApis] = useState<Type.ApiForm[]>([]);
     const msg = useSelector((state: RootStateOrAny) => state.msg);
     const popup = useSelector((state: RootStateOrAny) => state.popup);
-    const [apis, setApis] = useState<Type.ApiForm[]>([]);
     const dispatch = useDispatch();
     const thead: Type.Thead[] = [
         { id: 'name', friendlyName: 'Name' },
@@ -42,7 +42,7 @@ const ApiPage: React.FC = () => {
         { id: 'key', friendlyName: 'API Secret Key' },
         { id: 'value', friendlyName: 'API Secret Value' },
         { id: 'description', friendlyName: 'Description' },
-        { id: 'active', friendlyName: 'Status' },
+        { id: 'status', friendlyName: 'Status' },
     ];
 
     useEffect(() => {
@@ -90,7 +90,7 @@ const ApiPage: React.FC = () => {
         })();
     }, [dispatch]);
 
-    const handleAdd: Type.HandleClickFn<null, null> = (_) => {
+    const handleAdd: Type.HandleClickFn = () => {
         dispatch(
             showPopup({
                 title: 'Add New API',
@@ -99,7 +99,7 @@ const ApiPage: React.FC = () => {
         );
     };
 
-    const handleEdit: Type.HandleClickFn<Type.ApiForm, number> = (_, api, idx) => {
+    const handleEdit: Type.HandleClickDataFn<Type.ApiForm, number> = (_, api, idx) => {
         dispatch(
             showPopup({
                 title: 'Edit API',
@@ -109,7 +109,7 @@ const ApiPage: React.FC = () => {
         setApi({ api: api!, idx: idx! });
     };
 
-    const handleDelete: Type.HandleClickFn<Type.ApiForm, number> = async (_, api, idx) => {
+    const handleDelete: Type.HandleClickDataFn<Type.ApiForm, number> = async (_, api, idx) => {
         try {
             const response = await requestHelper.deleteData(`${URL}/${api!._id}`, {});
             if (!response.ok)
@@ -146,15 +146,7 @@ const ApiPage: React.FC = () => {
             </div>
             <div className="container">
                 <h1>API</h1>
-                {apis.length > 0 && (
-                    <Table
-                        handle="api-page__table"
-                        thead={thead}
-                        data={apis}
-                        handleEdit={handleEdit}
-                        handleDelete={handleDelete}
-                    />
-                )}
+                <ApiTable thead={thead} apis={apis} setApis={handleDelete} setApi={handleEdit} />
                 {!popup.visible && msg.msgs.length > 0 && <Alert />}
 
                 {popup.visible && !popup.custom && (

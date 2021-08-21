@@ -124,8 +124,8 @@ const UserProfileForm: React.FC = () => {
         }
     };
 
-    const handleDelete: Type.HandleClickFn<null, null> = (e) => {
-        e.preventDefault();
+    const handleDelete: Type.HandleClickFn = (e) => {
+        e!.preventDefault();
         dispatch(
             showPopup({
                 visible: true,

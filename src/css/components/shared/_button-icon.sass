@@ -10,19 +10,13 @@
     img,
     svg
       transition: all 0.2s ease-in-out
-    &:hover > img,
-    &:hover > svg
-      transform: translateZ(0.1rem) scale(1.20)
-    &:active > img,
-    &:active > svg
-      transform: translateZ(0.07rem) scale(1.1)
   &__icon
-    height: $font-size * 1.15rem
-    min-width: $font-size * 1.15rem
+    height: $font-size * 1rem
+    min-width: $font-size * 1rem
   &--primary
     svg > path
-      color: $cbl-60
-      fill: $cbl-60
+      color: $cbl-75
+      fill: $cbl-75
     &:hover > svg > path
       color: $cbl-70
       fill: $cbl-70
@@ -31,8 +25,8 @@
       fill: $cbl-55
   &--danger
     svg > path
-      color: $crd-50
-      fill: $crd-50
+      color: $crd-75
+      fill: $crd-75
     &:hover > svg > path
       color: $crd-60
       fill: $crd-60
@@ -41,8 +35,8 @@
       fill: $crd-55
   &--success
     svg > path
-      color: $cgn-30
-      fill: $cgn-30
+      color: $cgn-45
+      fill: $cgn-45
     &:hover > svg > path
       color: $cgn-40
       fill: $cgn-40
@@ -51,8 +45,8 @@
       fill: $cgn-35
   &--warning
     svg > path
-      color: $cog-50
-      fill: $cog-50
+      color: $cog-70
+      fill: $cog-70
     &:hover > svg > path
       color: $cog-60
       fill: $cog-60
@@ -64,9 +58,6 @@
       cursor: not-allowed
       color: $cgy-70
       fill: $cgy-70
-    &:hover button, a > svg > path
-      transform: translateZ(0rem) scale(1)
-      pointer-events: none
   &--hover-primary
     &:hover > svg > path
       color: $cbl-65
@@ -101,7 +92,5 @@
     svg > path
       color: $cgy-70
       fill: $cgy-70
-    &:hover button, a > svg, img > path
-      transform: translateZ(0rem) scale(1)
     a
       pointer-events: none
