@@ -65,3 +65,60 @@
   &:hover &__text
     visibility: visible
     opacity: 1
+
+.copy
+  position: relative
+  display: inline-block
+  cursor: pointer
+
+  &:before
+    position: absolute
+    display: none
+    content: ''
+    z-index: 10
+    width: 0
+    height: 0
+    top: 30px
+    left: 4px
+    border-left: 5px solid transparent
+    border-right: 5px solid transparent
+    border-bottom: 5px solid $cgy-15
+
+  &:after
+    position: absolute
+    display: none
+    content: 'Copy to Clipboard'
+    z-index: 10
+    top: 35px
+    left: -50px
+    width: 115px
+    height: 36px
+    color: $cwt
+    font-size: 10px
+    line-height: 36px
+    text-align: center
+    background: $cgy-15
+    border-radius: $border-radius
+
+  &:hover
+    background-color: $cgy-90
+
+    &:before,
+    &:after
+      display: block
+
+  &:focus
+    &:before
+      border-bottom: 5px solid $cgy-15
+
+  &:active,
+  &:focus
+    outline: none
+
+    &:after
+      content: 'Copied!'
+      background-color: $cgy-35
+
+  &:active
+    &:before
+      border-bottom: 5px solid $cgy-35

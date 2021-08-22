@@ -1,4 +1,4 @@
-import { faEdit, faTrash, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrash, faEye, faEyeSlash, faCopy } from '@fortawesome/free-solid-svg-icons';
 import React, { useState, useEffect } from 'react';
 import * as Type from '../../utils/@types/0_types';
 import { ApiForm } from '../../utils/@types/0_types';
@@ -18,6 +18,10 @@ const ApiTable: React.FC<Type.ApiTableC> = ({ thead, apis, setApis, setApi }) =>
     const handleToggle: Type.HandleClickDataFn<ApiForm, null> = (_, api) => {
         const id: string = api!._id!;
         setVisible((prev) => ({ ...prev, [id]: !prev[id] }));
+    };
+
+    const handleCopy: Type.HandleClickDataFn<string, null> = async (_, text) => {
+        await navigator.clipboard.writeText(text!);
     };
 
     return (
@@ -41,23 +45,62 @@ const ApiTable: React.FC<Type.ApiTableC> = ({ thead, apis, setApis, setApi }) =>
                         return (
                             <tr key={idx}>
                                 <th className={'api-table__name'}>
-                                    <div>{api.name}</div>
+                                    <div className={'api-table__no-overflow'}>
+                                        <div className="api-table__no-overflow--text">{api.name}</div>
+                                    </div>
                                 </th>
                                 <th className={'api-table__url'}>
-                                    <div>
-                                        <a rel="noopener noreferrer" target="_blank" href={api.url}>
-                                            {api.url}
-                                        </a>
+                                    <div className={'api-table__no-overflow'}>
+                                        <div className="api-table__no-overflow--text">
+                                            <a rel="noopener noreferrer" target="_blank" href={api.url}>
+                                                {api.url}
+                                            </a>
+                                        </div>
+                                        <ButtonIcon
+                                            handle="copy"
+                                            faIcon={faCopy}
+                                            btnColor="grey"
+                                            btnHoverColor="grey"
+                                            onClick={(e) => handleCopy(e, api.url)}
+                                        />
                                     </div>
                                 </th>
                                 <th className={'api-table__key'}>
-                                    <div>{visible[id] ? api.key : '***'}</div>
+                                    <div className={'api-table__no-overflow'}>
+                                        <div className="api-table__no-overflow--text">
+                                            {visible[id] ? api.key : '***'}
+                                        </div>
+                                        {visible[id] && (
+                                            <ButtonIcon
+                                                handle="copy"
+                                                faIcon={faCopy}
+                                                btnColor="grey"
+                                                btnHoverColor="grey"
+                                                onClick={(e) => handleCopy(e, api.key)}
+                                            />
+                                        )}
+                                    </div>
                                 </th>
                                 <th className={'api-table__value'}>
-                                    <div>{visible[id] ? api.value : '***'}</div>
+                                    <div className={'api-table__no-overflow'}>
+                                        <div className="api-table__no-overflow--text">
+                                            {visible[id] ? api.value : '***'}
+                                        </div>
+                                        {visible[id] && (
+                                            <ButtonIcon
+                                                handle="copy"
+                                                faIcon={faCopy}
+                                                btnColor="grey"
+                                                btnHoverColor="grey"
+                                                onClick={(e) => handleCopy(e, api.value)}
+                                            />
+                                        )}
+                                    </div>
                                 </th>
                                 <th className={'api-table__description'}>
-                                    <div>{api.description}</div>
+                                    <div className={'api-table__no-overflow'}>
+                                        <div className="api-table__no-overflow--text">{api.description}</div>
+                                    </div>
                                 </th>
                                 <th className={'api-table__status'}>
                                     <CTA handle="api-table__cta">
