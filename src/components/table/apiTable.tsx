@@ -40,7 +40,7 @@ const ApiTable: React.FC<Type.ApiTableC> = ({ thead, apis, setApis, setApi }) =>
                 </thead>
                 <tbody>
                     {apis.map((api, idx) => {
-                        const status: string = api.active ? 'enabled' : 'disabled';
+                        const status: string = api.active === 'true' ? 'enabled' : 'disabled';
                         const id: string = api!._id!;
                         return (
                             <tr key={idx}>

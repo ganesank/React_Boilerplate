@@ -75,8 +75,11 @@ const ApiPage: React.FC = () => {
                             iconColor: 'danger',
                         })
                     );
-
-                setApis(response.data);
+                const formatted: Type.ApiForm[] = response.data.map((api: Type.ApiForm) => ({
+                    ...api,
+                    active: api.active.toString(),
+                }));
+                setApis(formatted);
             } catch (error) {
                 dispatch(
                     setMsg({
