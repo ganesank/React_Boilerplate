@@ -57,7 +57,7 @@ const ApiTable: React.FC<Type.ApiTableC> = ({ thead, apis, setApis, setApi }) =>
                                             </a>
                                         </div>
                                         <ButtonIcon
-                                            handle="copy"
+                                            handle="copy copy--right"
                                             faIcon={faCopy}
                                             btnColor="grey"
                                             btnHoverColor="grey"
@@ -72,7 +72,7 @@ const ApiTable: React.FC<Type.ApiTableC> = ({ thead, apis, setApis, setApi }) =>
                                         </div>
                                         {visible[id] && (
                                             <ButtonIcon
-                                                handle="copy"
+                                                handle="copy copy--right"
                                                 faIcon={faCopy}
                                                 btnColor="grey"
                                                 btnHoverColor="grey"
@@ -88,7 +88,7 @@ const ApiTable: React.FC<Type.ApiTableC> = ({ thead, apis, setApis, setApi }) =>
                                         </div>
                                         {visible[id] && (
                                             <ButtonIcon
-                                                handle="copy"
+                                                handle="copy copy--right"
                                                 faIcon={faCopy}
                                                 btnColor="grey"
                                                 btnHoverColor="grey"

@@ -75,22 +75,19 @@
     position: absolute
     display: none
     content: ''
-    z-index: 10
+    z-index: 100
     width: 0
     height: 0
-    top: 30px
-    left: 4px
-    border-left: 5px solid transparent
-    border-right: 5px solid transparent
-    border-bottom: 5px solid $cgy-15
-
+    border-width: 5px
+    border-style: solid
+    top: 20px
+    left: 2px
+    border-color: transparent transparent $cgy-15 transparent
   &:after
     position: absolute
     display: none
     content: 'Copy to Clipboard'
-    z-index: 10
-    top: 35px
-    left: -50px
+    z-index: 100
     width: 115px
     height: 36px
     color: $cwt
@@ -99,18 +96,17 @@
     text-align: center
     background: $cgy-15
     border-radius: $border-radius
-
+    top: 30px
+    left: -50px
   &:hover
     background-color: $cgy-90
 
     &:before,
     &:after
       display: block
-
   &:focus
     &:before
-      border-bottom: 5px solid $cgy-15
-
+      border-color: transparent transparent $cgy-15 transparent
   &:active,
   &:focus
     outline: none
@@ -118,7 +114,62 @@
     &:after
       content: 'Copied!'
       background-color: $cgy-35
-
   &:active
     &:before
-      border-bottom: 5px solid $cgy-35
+      border-color: transparent transparent $cgy-35 transparent
+  &--right
+    &:before
+      top: 2px
+      left: 20px
+      border-color: transparent $cgy-15 transparent transparent
+    &:after
+      top: -10px
+      left: 30px
+    &:focus
+      &:before
+        border-color: transparent $cgy-15 transparent transparent
+    &:active
+      &:before
+        border-color: transparent $cgy-35 transparent transparent
+  &--left
+    &:before
+      top: 2px
+      left: -15px
+      border-color: transparent transparent transparent $cgy-15
+    &:after
+      top: -10px
+      left: -130px
+    &:focus
+      &:before
+        border-color: transparent transparent transparent $cgy-15
+    &:active
+      &:before
+        border-color: transparent transparent transparent $cgy-35
+  &--top
+    &:before
+      top: -15px
+      left: 2px
+      border-color: $cgy-15 transparent transparent transparent
+    &:after
+      top: -51px
+      left: -50px
+    &:focus
+      &:before
+        border-color: $cgy-15 transparent transparent transparent
+    &:active
+      &:before
+        border-color: $cgy-35 transparent transparent transparent
+  &--bottom
+    &:before
+      top: 20px
+      left: 2px
+      border-color: transparent transparent $cgy-15 transparent
+    &:after
+      top: 30px
+      left: -50px
+    &:focus
+      &:before
+        border-color: transparent transparent $cgy-15 transparent
+    &:active
+      &:before
+        border-color: transparent transparent $cgy-35 transparent
