@@ -25,9 +25,8 @@ const UserUpdatePasswordForm: React.FC<Type.ResetPassword2FormComponent> = ({ to
     const handleSubmit: Type.HandleSubmitFn<{}> = async (e) => {
         e.preventDefault();
         try {
-            const response = await requestHelper.updateData(`${URL}/password/${token}`, form);
+            const response = await requestHelper.updateData(`${URL}/password/${token}`, form, false);
 
-            console.log(response);
             if (!response.ok)
                 return dispatch(
                     setMsg({
