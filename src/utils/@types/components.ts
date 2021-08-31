@@ -1,7 +1,7 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { ChangeEvent, MouseEvent } from 'react';
-import { Obj } from './1_shared';
-import { ApiForm } from './2_types';
+import { Obj } from './shared';
+import { ApiForm, Thead } from './types';
 
 type HandleChange = ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>;
 
@@ -83,6 +83,15 @@ export type CTA = {
     align?: string;
 };
 
+export type Table = {
+    handle: string;
+    thead: Thead[];
+    data: any;
+    handleEdit?(e: MouseEvent, obj: any, idx: number): void;
+    handleDelete?(e: MouseEvent, obj: any, idx: number): void;
+    cta?: boolean;
+};
+
 // = Forms =====================================================================
 
 export type ApiFormC = {
@@ -96,7 +105,8 @@ export type ApiFormC = {
 // = Tables ====================================================================
 
 export type ApiTableC = {
+    thead: Thead[];
     apis: ApiForm[];
-    setApis(prev: any): void;
-    setApi(prev: any): void;
+    setApis(e: MouseEvent, obj: any, idx: number): void;
+    setApi(e: MouseEvent, obj: any, idx: number): void;
 };

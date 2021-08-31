@@ -6,15 +6,16 @@ import Input from '../../../components/shared/Input';
 import Select from '../../../components/shared/Select';
 import Textarea from '../../../components/shared/Textarea';
 import { setMsg } from '../../../redux/msg';
-import * as Type from '../../../utils/@types/types';
+import { hidePopup } from '../../../redux/popup';
+import * as Type from '../../../utils/@types/0_types';
 import * as requestHelper from '../../../utils/helpers/requestHelper';
 import Alert from '../../shared/Alert';
 
 const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
 const URL: string =
     process.env.REACT_APP_ENV! === 'production'
-        ? `${process.env.REACT_APP_BACKEND_URL!}/api/apis`
-        : `${process.env.REACT_APP_BACKEND_URL!}:${PORT}/api/apis`;
+        ? `${process.env.REACT_APP_BACKEND_URL!}/api/api`
+        : `${process.env.REACT_APP_BACKEND_URL!}:${PORT}/api/api`;
 
 const ApiForm: React.FC<Type.ApiFormC> = ({ setApis, data }) => {
     const initialState: Type.ApiForm = data
@@ -89,6 +90,8 @@ const ApiForm: React.FC<Type.ApiFormC> = ({ setApis, data }) => {
                     return [...prev.slice(0, data!.idx), form, ...prev.slice(data!.idx + 1, prev.length)];
                 });
             }
+
+            dispatch(hidePopup());
         } catch (error) {
             dispatch(
                 setMsg({

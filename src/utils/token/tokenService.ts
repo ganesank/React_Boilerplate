@@ -1,4 +1,4 @@
-import * as Type from '../@types/types';
+import * as Type from '../@types/0_types';
 
 const setToken = (token: string): void => {
     if (token && typeof token === 'string') {

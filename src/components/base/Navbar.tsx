@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { logoutUser } from '../../redux/user';
-import * as Type from '../../utils/@types/types';
+import * as Type from '../../utils/@types/0_types';
 
 const Navbar: React.FC = () => {
     const user = useSelector((state: RootStateOrAny) => state.user);
@@ -19,14 +19,14 @@ const Navbar: React.FC = () => {
     if (idx !== -1) removeStyle = 'remove-style';
     if (visible) removeStyle = '';
 
-    const handleLogout: Type.HandleClickFn<null, null> = (e) => {
-        e.preventDefault();
+    const handleLogout: Type.HandleClickFn = (e) => {
+        e!.preventDefault();
         dispatch(logoutUser());
         setVisible(false);
         history.push('/');
     };
 
-    const handleClick: Type.HandleClickFn<null, null> = (_) => {
+    const handleClick: Type.HandleClickFn = () => {
         setVisible((prev) => !prev);
     };
 

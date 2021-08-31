@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { removeMsg } from '../../../redux/msg';
 import { hidePopup } from '../../../redux/popup';
 import { deleteUser } from '../../../redux/user';
-import * as Type from '../../../utils/@types/types';
+import * as Type from '../../../utils/@types/0_types';
 import Alert from '../../shared/Alert';
 import Button from '../../shared/Button';
 import CTA from '../../shared/CTA';

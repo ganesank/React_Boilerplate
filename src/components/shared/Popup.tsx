@@ -2,15 +2,15 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { hidePopup } from '../../redux/popup';
-import * as Type from '../../utils/@types/types';
+import * as Type from '../../utils/@types/0_types';
 import Button from '../shared/Button';
 
 const Popup: React.FC = ({ children }) => {
     const popup = useSelector((state: RootStateOrAny) => state.popup);
     const dispatch = useDispatch();
 
-    const handleClose: Type.HandleClickFn<null> = (e) => {
-        e.preventDefault();
+    const handleClose: Type.HandleClickFn = (e) => {
+        e!.preventDefault();
         dispatch(hidePopup());
     };
 

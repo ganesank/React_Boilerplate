@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { showPopup } from '../../../redux/popup';
 import { loginUser } from '../../../redux/user';
-import * as Type from '../../../utils/@types/types';
+import * as Type from '../../../utils/@types/0_types';
 import Button from '../../shared/Button';
 import CTA from '../../shared/CTA';
 import Input from '../../shared/Input';
@@ -29,8 +29,8 @@ const UserLoginForm: React.FC = () => {
         });
     };
 
-    const handleResetPassword: Type.HandleClickFn<null, null> = (e) => {
-        e.preventDefault();
+    const handleResetPassword: Type.HandleClickFn = (e) => {
+        e!.preventDefault();
         dispatch(
             showPopup({
                 title: 'Reset Password',

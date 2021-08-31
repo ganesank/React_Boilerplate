@@ -1,5 +1,5 @@
 import React from 'react';
-import * as Type from '../../utils/@types/types';
+import * as Type from '../../utils/@types/0_types';
 
 const CTA: React.FC<Type.CTA> = ({ handle, justify = 'flex-end', align = 'center', direction = 'row', children }) => {
     const handleClass: string = handle ? `${handle}` : '';

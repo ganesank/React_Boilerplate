@@ -1,133 +1,135 @@
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
-import React from 'react';
-import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
-import { setMsg } from '../../redux/msg';
-import { showPopup } from '../../redux/popup';
-import * as Type from '../../utils/@types/types';
-import * as requestHelper from '../../utils/helpers/requestHelper';
-import Alert from '../shared/Alert';
+import { faEdit, faTrash, faEye, faEyeSlash, faCopy } from '@fortawesome/free-solid-svg-icons';
+import React, { useState, useEffect } from 'react';
+import * as Type from '../../utils/@types/0_types';
+import { ApiForm } from '../../utils/@types/0_types';
 import ButtonIcon from '../shared/ButtonIcon';
 import CTA from '../shared/CTA';
 
-const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
-const URL: string =
-    process.env.REACT_APP_ENV! === 'production'
-        ? `${process.env.REACT_APP_BACKEND_URL!}/api/apis`
-        : `${process.env.REACT_APP_BACKEND_URL!}:${PORT}/api/apis`;
+const ApiTable: React.FC<Type.ApiTableC> = ({ thead, apis, setApis, setApi }) => {
+    const [visible, setVisible] = useState<{ [key: string]: boolean }>({});
 
-const ApiTable: React.FC<Type.ApiTableC> = ({ apis, setApis, setApi }) => {
-    const msg = useSelector((state: RootStateOrAny) => state.msg);
-    const popup = useSelector((state: RootStateOrAny) => state.popup);
-    const dispatch = useDispatch();
+    useEffect(() => {
+        apis.forEach((api) => {
+            const id: string = api._id!;
+            setVisible((prev) => ({ ...prev, [id]: false }));
+        });
+    }, [apis]);
 
-    const handleEdit: Type.HandleClickFn<Type.ApiForm, number> = (_, api, idx) => {
-        dispatch(
-            showPopup({
-                title: 'Add New API',
-                children: true,
-            })
-        );
-        setApi({ api, idx });
+    const handleToggle: Type.HandleClickDataFn<ApiForm, null> = (_, api) => {
+        const id: string = api!._id!;
+        setVisible((prev) => ({ ...prev, [id]: !prev[id] }));
     };
 
-    const handleDelete: Type.HandleClickFn<Type.ApiForm, number> = async (_, api, idx) => {
-        try {
-            const response = await requestHelper.deleteData(`${URL}/${api!._id}`, {});
-            if (!response.ok)
-                return dispatch(
-                    setMsg({
-                        msgs: [response.error.message],
-                        msgColor: 'danger',
-                        icon: '⚠',
-                        iconColor: 'danger',
-                    })
-                );
-
-            setApis((prev: Type.ApiForm[]) => {
-                return [...prev.slice(0, idx!), ...prev.slice(idx! + 1, prev.length)];
-            });
-        } catch (error) {
-            dispatch(
-                setMsg({
-                    msgs: [error.message],
-                    msgColor: 'danger',
-                    icon: '⚠',
-                    iconColor: 'danger',
-                })
-            );
-        }
+    const handleCopy: Type.HandleClickDataFn<string, null> = async (_, text) => {
+        await navigator.clipboard.writeText(text!);
     };
 
     return (
         <div className="api-table">
-            <li>
-                <ul className="api-table__row">
-                    <li>
-                        <ul className="api-table__item">
-                            <div className="api-table__title api-table__item__name">Name</div>
-                        </ul>
-                        <ul className="api-table__item">
-                            <div className="api-table__title api-table__item__url">URL</div>
-                        </ul>
-                        <ul className="api-table__item">
-                            <div className="api-table__title api-table__item__key">API Secret Key</div>
-                        </ul>
-                        <ul className="api-table__item">
-                            <div className="api-table__title api-table__item__value">API Secret Value</div>
-                        </ul>
-                        <ul className="api-table__item">
-                            <div className="api-table__title api-table__item__description">Description</div>
-                        </ul>
-                        <ul className="api-table__item">
-                            <div className="api-table__title api-table__item__active">Status</div>
-                        </ul>
-                    </li>
-                </ul>
-                {apis.map((api, idx) => {
-                    const status: string = api.active ? 'enabled' : 'disabled';
-                    const statusClass: string = `api-table__item__active api-table__item__active--${status}`;
-
-                    return (
-                        <ul key={api._id} className="api-table__row">
-                            <li>
-                                <ul className="api-table__item">
-                                    <div className="api-table__item__name">{api.name}</div>
-                                </ul>
-                                <ul className="api-table__item">
-                                    <div className="api-table__item__url">{api.url}</div>
-                                </ul>
-                                <ul className="api-table__item">
-                                    <div className="api-table__item__key">{api.key}</div>
-                                </ul>
-                                <ul className="api-table__item">
-                                    <div className="api-table__item__value">{api.value}</div>
-                                </ul>
-                                <ul className="api-table__item">
-                                    <div className="api-table__item__description">{api.description}</div>
-                                </ul>
-                                <ul className="api-table__item">
-                                    <div className={statusClass}>
-                                        <CTA handle="api-table__cta">
-                                            <span>{status}</span>
-                                            <ButtonIcon
-                                                faIcon={faEdit}
-                                                btnHoverColor="primary"
-                                                onClick={(e) => handleEdit(e, api, idx)}
-                                            />
-                                            <ButtonIcon
-                                                faIcon={faTrash}
-                                                btnHoverColor="danger"
-                                                onClick={(e) => handleDelete(e, api, idx)}
-                                            />
-                                        </CTA>
+            <table>
+                <thead>
+                    <tr>
+                        {thead.map((t, idx) => {
+                            return (
+                                <th className={`api-table__${t.id}`} key={idx}>
+                                    {t.friendlyName}
+                                </th>
+                            );
+                        })}
+                    </tr>
+                </thead>
+                <tbody>
+                    {apis.map((api, idx) => {
+                        const status: string = api.active === 'true' ? 'enabled' : 'disabled';
+                        const id: string = api!._id!;
+                        return (
+                            <tr key={idx}>
+                                <th className={'api-table__name'}>
+                                    <div className={'api-table__no-overflow'}>
+                                        <div className="api-table__no-overflow--text">{api.name}</div>
                                     </div>
-                                </ul>
-                            </li>
-                        </ul>
-                    );
-                })}
-            </li>
-            {!popup.visible && msg.msgs.length > 0 && <Alert />}
+                                </th>
+                                <th className={'api-table__url'}>
+                                    <div className={'api-table__no-overflow'}>
+                                        <div className="api-table__no-overflow--text">
+                                            <a rel="noopener noreferrer" target="_blank" href={api.url}>
+                                                {api.url}
+                                            </a>
+                                        </div>
+                                        <ButtonIcon
+                                            handle="copy copy--right"
+                                            faIcon={faCopy}
+                                            btnColor="grey"
+                                            btnHoverColor="grey"
+                                            onClick={(e) => handleCopy(e, api.url)}
+                                        />
+                                    </div>
+                                </th>
+                                <th className={'api-table__key'}>
+                                    <div className={'api-table__no-overflow'}>
+                                        <div className="api-table__no-overflow--text">
+                                            {visible[id] ? api.key : '***'}
+                                        </div>
+                                        {visible[id] && (
+                                            <ButtonIcon
+                                                handle="copy copy--right"
+                                                faIcon={faCopy}
+                                                btnColor="grey"
+                                                btnHoverColor="grey"
+                                                onClick={(e) => handleCopy(e, api.key)}
+                                            />
+                                        )}
+                                    </div>
+                                </th>
+                                <th className={'api-table__value'}>
+                                    <div className={'api-table__no-overflow'}>
+                                        <div className="api-table__no-overflow--text">
+                                            {visible[id] ? api.value : '***'}
+                                        </div>
+                                        {visible[id] && (
+                                            <ButtonIcon
+                                                handle="copy copy--right"
+                                                faIcon={faCopy}
+                                                btnColor="grey"
+                                                btnHoverColor="grey"
+                                                onClick={(e) => handleCopy(e, api.value)}
+                                            />
+                                        )}
+                                    </div>
+                                </th>
+                                <th className={'api-table__description'}>
+                                    <div className={'api-table__no-overflow'}>
+                                        <div className="api-table__no-overflow--text">{api.description}</div>
+                                    </div>
+                                </th>
+                                <th className={'api-table__status'}>
+                                    <CTA handle="api-table__cta">
+                                        <div className={`api-table__status--${status}`}>{status}</div>
+                                        <ButtonIcon
+                                            faIcon={visible[id] ? faEye : faEyeSlash}
+                                            btnColor={visible[id] ? 'success' : 'warning'}
+                                            btnHoverColor={visible[id] ? 'success' : 'warning'}
+                                            onClick={(e) => handleToggle(e, api)}
+                                        />
+                                        <ButtonIcon
+                                            faIcon={faEdit}
+                                            btnColor="primary"
+                                            btnHoverColor="primary"
+                                            onClick={(e) => setApi(e, api, idx)}
+                                        />
+                                        <ButtonIcon
+                                            faIcon={faTrash}
+                                            btnColor="danger"
+                                            btnHoverColor="danger"
+                                            onClick={(e) => setApis(e, api, idx)}
+                                        />
+                                    </CTA>
+                                </th>
+                            </tr>
+                        );
+                    })}
+                </tbody>
+            </table>
         </div>
     );
 };
