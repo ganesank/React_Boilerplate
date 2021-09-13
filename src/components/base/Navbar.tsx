@@ -1,12 +1,12 @@
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState } from 'react';
+import { FC, useState } from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { logoutUser } from '../../redux/user';
-import * as Type from '../../utils/@types/0_types';
+import * as Type from '../../utils/@types/types';
 
-const Navbar: React.FC = () => {
+const Navbar: FC = () => {
     const user = useSelector((state: RootStateOrAny) => state.user);
     const [visible, setVisible] = useState(false);
     const dispatch = useDispatch();

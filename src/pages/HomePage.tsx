@@ -1,7 +1,7 @@
-import React from 'react';
+import { FC } from 'react';
 import { RootStateOrAny, useSelector } from 'react-redux';
 
-const HomePage: React.FC = () => {
+const HomePage: FC = () => {
     const user = useSelector((state: RootStateOrAny) => state.user);
     return (
         <div className="home-page">

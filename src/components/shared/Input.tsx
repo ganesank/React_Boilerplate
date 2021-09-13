@@ -1,10 +1,11 @@
-import React from 'react';
-import * as Type from '../../utils/@types/0_types';
+import { FC } from 'react';
+import * as Type from '../../utils/@types/types';
 
-const Input: React.FC<Type.Input> = ({
+const Input: FC<Type.Input> = ({
     name,
     value,
     onChange,
+    onKeyPress,
     label,
     labelPosition = 'bottom',
     handle,
@@ -21,17 +22,33 @@ const Input: React.FC<Type.Input> = ({
 
     return (
         <div className={customClass}>
-            <input
-                type={type}
-                name={name}
-                value={value}
-                onChange={onChange}
-                placeholder={placeholder ? placeholder : ''}
-                required={required}
-                disabled={disabled}
-                autoComplete={autoComplete ? autoComplete : ''}
-                minLength={minLength ? minLength : 0}
-            />
+            {!onKeyPress && (
+                <input
+                    type={type}
+                    name={name}
+                    value={value}
+                    onChange={onChange}
+                    placeholder={placeholder ? placeholder : ''}
+                    required={required}
+                    disabled={disabled}
+                    autoComplete={autoComplete ? autoComplete : ''}
+                    minLength={minLength ? minLength : 0}
+                />
+            )}
+            {onKeyPress && (
+                <input
+                    type={type}
+                    name={name}
+                    value={value}
+                    onChange={onChange}
+                    onKeyPress={(e) => onKeyPress(e)}
+                    placeholder={placeholder ? placeholder : ''}
+                    required={required}
+                    disabled={disabled}
+                    autoComplete={autoComplete ? autoComplete : ''}
+                    minLength={minLength ? minLength : 0}
+                />
+            )}
             {label && <label htmlFor={name}>{label}</label>}
         </div>
     );

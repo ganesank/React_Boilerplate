@@ -1,7 +1,7 @@
-import React from 'react';
-import * as Type from '../../utils/@types/0_types';
+import { FC } from 'react';
+import * as Type from '../../utils/@types/types';
 
-const Select: React.FC<Type.Select> = ({
+const Select: FC<Type.Select> = ({
     name,
     value,
     options,

@@ -1,7 +1,7 @@
-import React from 'react';
-import * as Type from '../../utils/@types/0_types';
+import { FC } from 'react';
+import * as Type from '../../utils/@types/types';
 
-const CTA: React.FC<Type.CTA> = ({ handle, justify = 'flex-end', align = 'center', direction = 'row', children }) => {
+const CTA: FC<Type.CTA> = ({ handle, justify = 'flex-end', align = 'center', direction = 'row', children }) => {
     const handleClass: string = handle ? `${handle}` : '';
     const directionClass: string = `cta__${direction} `;
     const justifyClass: string = `cta__${direction}--justify-${justify} `;

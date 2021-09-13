@@ -8,30 +8,12 @@
 
   h1
     margin-bottom: $margin-20
-
   &__form
     padding: 0.5rem
     width: 25rem
 
-  &__menu
-    position: fixed
-    top: 5rem
-    left: 0
-    width: 100%
-    margin-bottom: $margin-20
-    display: flex
-    justify-content: center
-    box-shadow: 0 0.3rem 0.5rem rgba($cbk, 0.5)
-    background-color: $cbl-35
-
-  &__sub-menu
-    max-width: $page-width
-    padding: $padding-5 $padding-25
-
 @include mq-manager(tab-port)
   .api-page
-    height: calc(100vh - 17rem)
-
     h1
       font-size: resize($font-size, 1.2)
     &__sub-menu

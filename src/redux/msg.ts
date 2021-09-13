@@ -1,9 +1,9 @@
-import * as Type from '../utils/@types/0_types';
+import * as Type from '../utils/@types/types';
 
 const SET_MSG: string = 'SET_MSG';
 const REMOVE_MSG: string = 'REMOVE_MSG';
 
-export const setMsg: Type.ActionPayload<Type.MsgPayload> = (data) => ({
+export const setMsg: Type.ActionPayload<Type.Msg> = (data) => ({
     type: SET_MSG,
     payload: data,
 });

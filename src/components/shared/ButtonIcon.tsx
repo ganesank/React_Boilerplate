@@ -1,9 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
+import { FC } from 'react';
 import { Link } from 'react-router-dom';
-import * as Type from '../../utils/@types/0_types';
+import * as Type from '../../utils/@types/types';
 
-const ButtonIcon: React.FC<Type.ButtonIcon> = ({
+const ButtonIcon: FC<Type.ButtonIcon> = ({
     icon,
     faIcon,
     handle,

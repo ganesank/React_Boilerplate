@@ -1,13 +1,14 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
+import { FC } from 'react';
 import { Link } from 'react-router-dom';
-import * as Type from '../../utils/@types/0_types';
+import * as Type from '../../utils/@types/types';
 
-const Button: React.FC<Type.Button> = ({
+const Button: FC<Type.Button> = ({
     value,
     icon,
     faIcon,
     handle,
+    noHover = false,
     iconDirection = 'left',
     direction = 'row',
     disabled = false,
@@ -22,9 +23,10 @@ const Button: React.FC<Type.Button> = ({
     if (icon && faIcon) faIcon = undefined;
 
     const handleClass: string = handle ? `${handle}` : '';
+    const noHoverClass: string = noHover ? `btn--no-hover ` : '';
     const directionClass: string = `btn__${direction} `;
     const btnColorClass: string = btnColor ? `btn--${btnColor} ` : '';
-    const customClass: string = `btn ${btnColorClass}${directionClass}${handleClass}`;
+    const customClass: string = `btn ${noHoverClass}${btnColorClass}${directionClass}${handleClass}`;
 
     const valueClass: string = value ? `btn__${direction}__value btn__${direction}__value--${iconDirection} ` : '';
     const iconClass: string =
