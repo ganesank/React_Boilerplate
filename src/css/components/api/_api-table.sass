@@ -1,0 +1,68 @@
+.api-table
+  font-size: $font-size * 1rem
+  min-width: max-content
+
+  table
+    border-collapse: separate
+    border-spacing: 1px
+
+    thead
+      tr
+        th
+          display: inline-flex
+          justify-content: center
+          height: 2.5rem
+          flex-grow: 1
+          background-color: $cbl-65
+    tbody
+      tr
+        th
+          font-weight: normal
+          background-color: $cgy-90
+          padding: 0 $padding-10
+        th:not(:last-child)
+          border-right: 1px solid $cgy-75
+  &__name,
+  &__url,
+  &__key,
+  &__value,
+  &__description,
+  &__status
+    display: inline-flex
+    align-items: center
+    height: 1.8rem
+  &__no-overflow
+    display: flex
+    justify-content: space-between
+    flex: 1
+    width: 100%
+
+    &--text
+      text-overflow: ellipsis
+      overflow: hidden
+      white-space: nowrap
+      display: block
+  &__name
+    width: 10rem
+  &__url
+    width: 17rem
+  &__key,
+  &__value
+    width: 10rem
+  &__description
+    width: 20rem
+  &__status
+    width: 12rem
+
+    &--enabled,
+    &--disabled
+      text-transform: uppercase
+      display: flex
+      flex: 1
+    &--enabled
+      color: $cgn-30
+    &--disabled
+      color: $crd-40
+  &__cta
+    width: 100%
+    margin: 0

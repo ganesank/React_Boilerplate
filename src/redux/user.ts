@@ -1,8 +1,8 @@
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
-import * as Type from '../utils/@types/0_types';
-import * as requestHelper from '../utils/helpers/requestHelper';
-import * as tokenService from '../utils/token/tokenService';
+import * as Type from '../utils/@types/types';
+import * as Request from '../utils/helpers/functions/request';
+import * as Token from '../utils/helpers/functions/token';
 
 const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
 const URL: string =
@@ -15,10 +15,10 @@ const LOGIN_USER: string = 'LOGIN_USER';
 const LOGOUT_USER: string = 'LOGOUT_USER';
 const SHOW_POPUP: string = 'SHOW_POPUP';
 
-export const loginUser: Type.ActionThunk<Type.LoginForm> = (data) => {
+export const loginUser: Type.ActionThunk<Type.LoginForm, null> = (data) => {
     return async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
         try {
-            const response = await requestHelper.postData(`${URL}/login`, data);
+            const response = await Request.postData(`${URL}/login`, data!);
 
             if (!response.ok) {
                 if (response.error.verifyToken) {
@@ -41,9 +41,9 @@ export const loginUser: Type.ActionThunk<Type.LoginForm> = (data) => {
                 });
             }
 
-            tokenService.setToken(response.data);
+            Token.setToken(response.data);
             dispatch({ type: LOGIN_USER });
-        } catch (error) {
+        } catch (error: any) {
             dispatch({
                 type: SET_MSG,
                 payload: {
@@ -61,10 +61,10 @@ export const logoutUser: Type.ActionPayload<null> = () => ({
     type: LOGOUT_USER,
 });
 
-export const deleteUser: Type.ActionThunk<Type.DeleteUserForm> = (data) => {
+export const deleteUser: Type.ActionThunk<Type.DeleteUserForm, null> = (data) => {
     return async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
         try {
-            const response = await requestHelper.deleteData(`${URL}/profile`, data);
+            const response = await Request.deleteData(`${URL}/profile`, data!);
 
             if (!response.ok) {
                 const errors: string[] = [];
@@ -85,7 +85,7 @@ export const deleteUser: Type.ActionThunk<Type.DeleteUserForm> = (data) => {
             dispatch({
                 type: LOGOUT_USER,
             });
-        } catch (error) {
+        } catch (error: any) {
             dispatch({
                 type: SET_MSG,
                 payload: {
@@ -99,14 +99,14 @@ export const deleteUser: Type.ActionThunk<Type.DeleteUserForm> = (data) => {
     };
 };
 
-const initialState: Type.UserState = tokenService.getUserFromToken();
+const initialState: Type.UserState = Token.getUserFromToken();
 
 const userReducer: Type.Reducer<Type.UserState, Type.UserAction> = (state = initialState, action) => {
     switch (action.type) {
         case LOGIN_USER:
-            return tokenService.getUserFromToken();
+            return Token.getUserFromToken();
         case LOGOUT_USER:
-            tokenService.removeToken();
+            Token.removeToken();
             return null;
         default:
             return state;

@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { removeMsg } from '../../redux/msg';
 
-const Alert: React.FC = () => {
+const Alert: FC = () => {
     const msg = useSelector((state: RootStateOrAny) => state.msg);
     const dispatch = useDispatch();
 

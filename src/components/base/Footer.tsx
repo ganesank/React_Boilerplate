@@ -1,7 +1,7 @@
-import React from 'react';
+import { FC } from 'react';
 import socialMedias from '../../assets/data/socialMedias';
 
-const Footer: React.FC = () => {
+const Footer: FC = () => {
     return (
         <div className="footer">
             <div className="footer__footer-container container">

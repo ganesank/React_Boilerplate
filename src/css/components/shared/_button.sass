@@ -1,7 +1,8 @@
 .btn
+  min-width: fit-content
   a,
   button
-    background-color: $cbl-50
+    background-color: $cbl-45
     color: $cwt
     min-height: $button-height
     min-width: $button-height
@@ -16,11 +17,19 @@
     &:hover
       transform: translateZ(0.1rem) scale(1.10)
       box-shadow: 0.25rem 0.25rem 0.25rem rgba($cbk, 0.2)
-      background-color: $cbl-60
+      background-color: $cbl-50
     &:active
       transform: translateZ(0.07rem) scale(1.07)
       box-shadow: 0.15rem 0.15rem 0.15rem rgba($cbk, 0.4)
-      background-color: $cbl-55
+      background-color: $cbl-40
+  &--no-hover
+    a,
+    button
+      &:hover,
+      &:active
+        transform: translateZ(0) scale(1)
+        box-shadow: 0 0 0
+
   &__row
     display: grid
     grid-template-columns: repeat(2, auto)
@@ -31,6 +40,7 @@
     &__icon
       height: resize($font-size, 0.9)
       min-width: resize($font-size, 0.9)
+      max-width: resize($font-size, 0.9)
 
       &--left
         grid-column: 1 / span 1
@@ -81,30 +91,30 @@
   &--danger
     a,
     button
-      background-color: $crd-50
+      background-color: $crd-40
 
       &:hover
-        background-color: $crd-60
+        background-color: $crd-45
       &:active
-        background-color: $crd-55
+        background-color: $crd-35
   &--success
     a,
     button
       background-color: $cgn-30
 
       &:hover
-        background-color: $cgn-40
-      &:active
         background-color: $cgn-35
+      &:active
+        background-color: $cgn-25
   &--warning
     a,
     button
-      background-color: $cog-50
+      background-color: $cog-45
 
       &:hover
-        background-color: $cog-60
+        background-color: $cog-50
       &:active
-        background-color: $cog-55
+        background-color: $cog-40
   &--disabled
     cursor: not-allowed
 

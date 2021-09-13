@@ -1,8 +1,8 @@
-import React from 'react';
+import { FC } from 'react';
 import technologies from '../assets/data/technologies';
 import RogerTakeshita from '../assets/images/profile.jpeg';
 
-const AboutPage: React.FC = () => {
+const AboutPage: FC = () => {
     return (
         <div className="about-page">
             <div className="container">

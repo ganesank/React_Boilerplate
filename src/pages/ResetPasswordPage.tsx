@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
-import UserUpdatePasswordForm from '../components/form/user/UserUpdatePasswordForm';
 import Alert from '../components/shared/Alert';
+import UserUpdatePasswordForm from '../components/user/UserUpdatePasswordForm';
 import { removeMsg } from '../redux/msg';
-import * as Type from '../utils/@types/0_types';
+import * as Type from '../utils/@types/types';
 
-const ResetPasswordPage: React.FC<Type.ResetPasswordPage> = ({ match }) => {
+const ResetPasswordPage: FC<Type.ResetPasswordPage> = ({ match }) => {
     const msg = useSelector((state: RootStateOrAny) => state.msg);
     const dispatch = useDispatch();
     const { token } = match.params;

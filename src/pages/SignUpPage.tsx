@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
-import UserSignUpForm from '../components/form/user/UserSignUpForm';
 import Alert from '../components/shared/Alert';
 import Popup from '../components/shared/Popup';
+import UserSignUpForm from '../components/user/UserSignUpForm';
 import { removeMsg } from '../redux/msg';
 import { hidePopup } from '../redux/popup';
 
-const SignUpPage: React.FC = () => {
+const SignUpPage: FC = () => {
     const msg = useSelector((state: RootStateOrAny) => state.msg);
     const popup = useSelector((state: RootStateOrAny) => state.popup);
     const dispatch = useDispatch();

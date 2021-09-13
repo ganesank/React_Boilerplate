@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC } from 'react';
 import { RootStateOrAny, useSelector } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import Footer from './components/base/Footer';
@@ -11,7 +11,7 @@ import ProfilePage from './pages/ProfilePage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import SignUpPage from './pages/SignUpPage';
 
-const App: React.FC = () => {
+const App: FC = () => {
     const user = useSelector((state: RootStateOrAny) => state.user);
 
     const route =
