@@ -1,3 +1,7 @@
+export type ActionRedux<T> = {
+    (data?: T): void;
+};
+
 export type ActionThunk<T1, T2> = {
     (data1?: T1, data2?: T2): void;
 };

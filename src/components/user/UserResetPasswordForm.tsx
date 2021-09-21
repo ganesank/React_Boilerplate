@@ -33,7 +33,7 @@ const UserResetPasswordForm: FC = () => {
     const handleSubmit: Type.HandleSubmitFn<{}> = async (e) => {
         e.preventDefault();
         try {
-            const response = await Request.postData(`${URL}/password`, form);
+            const response: Type.Response<Type.ResetPasswordRes> = await Request.postData(`${URL}/password`, form);
             if (!response.ok)
                 return dispatch(
                     setMsg({
