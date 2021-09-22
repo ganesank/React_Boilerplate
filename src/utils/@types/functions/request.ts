@@ -1,5 +1,5 @@
-export type ReqFn = {
-    (type: string, url: string, data?: {} | null, reqToken?: boolean, throwError?: boolean): Promise<any>;
+export type RequestFn = {
+    (type: string, url: string, data?: any, reqToken?: boolean, throwError?: boolean): Promise<any>;
 };
 
 export type ReqHelperFn = {

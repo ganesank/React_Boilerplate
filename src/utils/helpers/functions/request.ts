@@ -1,7 +1,7 @@
 import * as Type from '../../@types/types';
 import * as Token from './token';
 
-const req: Type.ReqFn = async (type, url, data, reqToken, throwError) => {
+const request: Type.RequestFn = async (type, url, data, reqToken, throwError) => {
     const option: Type.RequestOptions = {
         method: type,
         headers: {
@@ -34,18 +34,18 @@ const req: Type.ReqFn = async (type, url, data, reqToken, throwError) => {
     }
 };
 
-export const getData: Type.ReqHelperFn = async (url, _, useToken = true, throwError = false) => {
-    return await req('GET', url, useToken, true, throwError);
+export const getData: Type.ReqHelperFn = async (url, useToken = true, throwError = false) => {
+    return await request('GET', url, null, useToken, throwError);
 };
 
 export const postData: Type.ReqHelperFn = async (url, data = {}, useToken = true, throwError = false) => {
-    return await req('POST', url, data, useToken, throwError);
+    return await request('POST', url, data, useToken, throwError);
 };
 
 export const updateData: Type.ReqHelperFn = async (url, data = {}, useToken = true, throwError = false) => {
-    return await req('PUT', url, data, useToken, throwError);
+    return await request('PUT', url, data, useToken, throwError);
 };
 
 export const deleteData: Type.ReqHelperFn = async (url, data = {}, useToken = true, throwError = false) => {
-    return await req('DELETE', url, data, useToken, throwError);
+    return await request('DELETE', url, data, useToken, throwError);
 };

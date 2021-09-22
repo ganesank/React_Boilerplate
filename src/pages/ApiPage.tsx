@@ -65,7 +65,7 @@ const ApiPage: FC = () => {
     useEffect(() => {
         (async () => {
             try {
-                const response = await Request.postData(`${URL}`, {});
+                const response: Type.Response<Type.ApiForm[]> = await Request.postData(`${URL}`, {});
                 if (!response.ok)
                     return dispatch(
                         setMsg({

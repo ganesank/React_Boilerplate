@@ -25,7 +25,11 @@ const UserUpdatePasswordForm: FC<Type.UserUpdatePasswordFormC> = ({ token }) => 
     const handleSubmit: Type.HandleSubmitFn<{}> = async (e) => {
         e.preventDefault();
         try {
-            const response = await Request.updateData(`${URL}/password/${token}`, form, false);
+            const response: Type.Response<Type.UpdatePasswordRes> = await Request.updateData(
+                `${URL}/password/${token}`,
+                form,
+                false
+            );
 
             if (!response.ok)
                 return dispatch(

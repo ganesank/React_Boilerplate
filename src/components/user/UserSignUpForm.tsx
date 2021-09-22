@@ -29,7 +29,7 @@ const UserSignUpForm: FC = () => {
     const handleSubmit: Type.HandleSubmitFn<{}> = async (e) => {
         e.preventDefault();
         try {
-            const response = await Request.postData(`${URL}/signup`, form);
+            const response: Type.Response<Type.SignUpRes> = await Request.postData(`${URL}/signup`, form);
             if (!response.ok)
                 return dispatch(
                     setMsg({

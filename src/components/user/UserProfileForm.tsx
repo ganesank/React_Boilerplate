@@ -35,7 +35,7 @@ const UserProfileForm: FC = () => {
     useEffect(() => {
         (async () => {
             try {
-                const response = await Request.getData(`${URL}/profile`);
+                const response: Type.Response<Type.ProfileForm> = await Request.getData(`${URL}/profile`);
                 if (!response.ok)
                     return dispatch(
                         setMsg({

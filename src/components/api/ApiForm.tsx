@@ -45,7 +45,7 @@ const ApiForm: FC<Type.ApiFormC> = ({ setApis, data }) => {
         e.preventDefault();
 
         try {
-            let response: any;
+            let response: Type.Response<Type.ApiForm>;
 
             if (form._id === '') {
                 response = await Request.postData(`${URL}/new`, form);

@@ -18,8 +18,8 @@ const SHOW_POPUP: string = 'SHOW_POPUP';
 export const loginUser: Type.ActionThunk<Type.LoginForm, null> = (data) => {
     return async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
         try {
-            const response = await Request.postData(`${URL}/login`, data!);
-
+            const response: Type.Response<string> = await Request.postData(`${URL}/login`, data!);
+	    
             if (!response.ok) {
                 if (response.error.verifyToken) {
                     dispatch({
