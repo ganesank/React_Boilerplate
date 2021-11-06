@@ -2,15 +2,15 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC, useState } from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { logoutUser } from '../../redux/user';
 import * as Type from '../../utils/@types';
 
-const Navbar: FC = () => {
+const Header: FC = () => {
     const user = useSelector((state: RootStateOrAny): Type.User => state.user);
     const [visible, setVisible] = useState(false);
     const dispatch = useDispatch();
-    const history = useHistory();
+    const navigate = useNavigate();
     const location = useLocation();
     const routes: string[] = ['/api'];
     let removeStyle: string = '';
@@ -23,7 +23,7 @@ const Navbar: FC = () => {
         e!.preventDefault();
         dispatch(logoutUser());
         setVisible(false);
-        history.push('/');
+        navigate('/');
     };
 
     const handleClick: Type.HandleClickFn = () => {
@@ -85,27 +85,31 @@ const Navbar: FC = () => {
         );
 
     return (
-        <div className={`navbar${removeStyle ? ` navbar--${removeStyle}` : ''}`}>
-            <div
-                className={`navbar__navbar-container${removeStyle ? ` navbar__navbar-container--${removeStyle}` : ''}`}
-            >
+        <header>
+            <div className={`navbar${removeStyle ? ` navbar--${removeStyle}` : ''}`}>
                 <div
-                    onClick={handleClick}
-                    className={visible ? 'navbar__bars navbar__bars--light' : 'navbar__bars navbar__bars--dark'}
+                    className={`navbar__navbar-container${
+                        removeStyle ? ` navbar__navbar-container--${removeStyle}` : ''
+                    }`}
                 >
-                    <FontAwesomeIcon icon={faBars} />
-                </div>
-                <div className="navbar__logo-container">
-                    <Link className="navbar__logo" to="/" onClick={() => setVisible(false)}>
-                        Roger Takeshita
-                    </Link>
-                </div>
-                <div className={`navbar__menu-container ${visible ? 'navbar__menu-container--visible' : ''}`}>
-                    {menu}
+                    <div
+                        onClick={handleClick}
+                        className={visible ? 'navbar__bars navbar__bars--light' : 'navbar__bars navbar__bars--dark'}
+                    >
+                        <FontAwesomeIcon icon={faBars} />
+                    </div>
+                    <div className="navbar__logo-container">
+                        <Link className="navbar__logo" to="/" onClick={() => setVisible(false)}>
+                            Roger Takeshita
+                        </Link>
+                    </div>
+                    <div className={`navbar__menu-container ${visible ? 'navbar__menu-container--visible' : ''}`}>
+                        {menu}
+                    </div>
                 </div>
             </div>
-        </div>
+        </header>
     );
 };
 
-export default Navbar;
+export default Header;

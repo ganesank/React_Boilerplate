@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import { RootStateOrAny, useSelector } from 'react-redux';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import Footer from './components/base/Footer';
-import Navbar from './components/base/Navbar';
+import Header from './components/base/Header';
 import AboutPage from './pages/AboutPage';
 import ApiPage from './pages/ApiPage';
 import HomePage from './pages/HomePage';
@@ -17,27 +17,27 @@ const App: FC = () => {
 
     const route =
         user && user.firstName ? (
-            <Switch>
-                <Route exact path="/" component={HomePage} />
-                <Route path="/about" component={AboutPage} />
-                <Route path="/api" component={ApiPage} />
-                <Route path="/profile" component={ProfilePage} />
-                <Route render={() => <Redirect to={{ pathname: '/' }} />} />
-            </Switch>
+            <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/api" element={<ApiPage />} />
+                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/*" element={<Navigate replace to={'/'} />} />
+            </Routes>
         ) : (
-            <Switch>
-                <Route exact path="/" component={HomePage} />
-                <Route path="/about" component={AboutPage} />
-                <Route path="/login" component={LoginPage} />
-                <Route path="/signup" component={SignUpPage} />
-                <Route path="/reset-password/:token" component={ResetPasswordPage} />
-                <Route render={() => <Redirect to={{ pathname: '/' }} />} />
-            </Switch>
+            <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/signup" element={<SignUpPage />} />
+                <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
+                <Route path="/*" element={<Navigate replace to={'/'} />} />
+            </Routes>
         );
 
     return (
         <div className="app">
-            <Navbar />
+            <Header />
             <main>{route}</main>
             <Footer />
         </div>

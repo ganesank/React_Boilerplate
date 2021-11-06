@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { removeMsg } from '../../redux/msg';
 import { hidePopup } from '../../redux/popup';
 import { deleteUser } from '../../redux/user';
@@ -18,7 +18,7 @@ const UserDeleteForm: FC = () => {
     const msg = useSelector((state: RootStateOrAny): Type.Msg => state.msg);
     const user = useSelector((state: RootStateOrAny): Type.User => state.user);
     const dispatch = useDispatch();
-    const history = useHistory();
+    const navigate = useNavigate();
 
     useEffect(() => {
         return () => {
@@ -31,7 +31,7 @@ const UserDeleteForm: FC = () => {
         dispatch(deleteUser(form));
         if (!user) {
             dispatch(hidePopup());
-            history.push('/');
+            navigate('/');
         }
     };
 

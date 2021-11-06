@@ -18,7 +18,7 @@ const Select: FC<Type.Select> = ({
 
     return (
         <div className={customClass}>
-            <select name={name} value={value} onChange={onChange} required={required} disabled={disabled}>
+            <select title={name} name={name} value={value} onChange={onChange} required={required} disabled={disabled}>
                 {options.map((option) => {
                     return (
                         <option key={option.key} value={option.key}>

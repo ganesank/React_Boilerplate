@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { removeMsg, setMsg } from '../../redux/msg';
 import * as Type from '../../utils/@types';
 import * as Request from '../../utils/helpers/functions/request';
@@ -22,7 +22,7 @@ const UserResetPasswordForm: FC = () => {
     const [form, setForm] = useState(initialState);
     const msg = useSelector((state: RootStateOrAny): Type.Msg => state.msg);
     const dispatch = useDispatch();
-    const history = useHistory();
+    const navigate = useNavigate();
 
     useEffect(() => {
         return () => {
@@ -56,7 +56,7 @@ const UserResetPasswordForm: FC = () => {
                 email: '',
             });
 
-            if (response.data.verifyToken) history.push(`/reset-password/${response.data.verifyToken}`);
+            if (response.data.verifyToken) navigate(`/reset-password/${response.data.verifyToken}`);
         } catch (error: any) {
             dispatch(
                 setMsg({

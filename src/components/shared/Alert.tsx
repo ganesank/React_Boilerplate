@@ -21,9 +21,9 @@ const Alert: FC = () => {
         <div className={msg.iconColor ? `alert__icon alert__icon--${msg.iconColor}` : `alert__icon`}>{msg.icon}</div>
     );
 
-    const messages = msg.msgs.map((item: string, idx: number) => {
+    const messages = msg.msgs.map((item, idx) => {
         return (
-            <div key={idx} className={`alert__msg alert__msg--${msg.msgColor}`}>
+            <div key={`msg_${idx}`} className={`alert__msg alert__msg--${msg.msgColor}`}>
                 {item}
             </div>
         );
