@@ -2167,7 +2167,7 @@ In `src/redux/user.ts`
           pointer-events: none
   ```
 
-- In `src/sass/components/shared/_CTA.sass`
+- In `src/sass/components/shared/_cta.sass`
 
   ```SCSS
     .cta
