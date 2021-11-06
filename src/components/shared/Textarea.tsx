@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import * as Type from '../../utils/@types/types';
+import * as Type from '../../utils/@types';
 
 const Textarea: FC<Type.Textarea> = ({
     name,

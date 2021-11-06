@@ -22,6 +22,7 @@
           padding: 0 $padding-10
         th:not(:last-child)
           border-right: 1px solid $cgy-75
+  &__type,
   &__name,
   &__url,
   &__key,
@@ -42,6 +43,10 @@
       overflow: hidden
       white-space: nowrap
       display: block
+  &__type
+    text-transform: capitalize
+    width: 8rem
+    justify-content: center
   &__name
     width: 10rem
   &__url

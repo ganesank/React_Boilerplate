@@ -1,4 +1,4 @@
-import * as Type from '../utils/@types/types';
+import * as Type from '../utils/@types';
 
 const SET_MSG: string = 'SET_MSG';
 const REMOVE_MSG: string = 'REMOVE_MSG';

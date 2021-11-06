@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import * as Type from '../../utils/@types/types';
+import * as Type from '../../utils/@types';
 
 const Input: FC<Type.Input> = ({
     name,
@@ -13,7 +13,7 @@ const Input: FC<Type.Input> = ({
     type = 'text',
     required = false,
     disabled = false,
-    autoComplete,
+    autoComplete = 'off',
     minLength,
 }) => {
     const labelClass: string = label ? `input-container--${labelPosition} ` : '';
@@ -31,7 +31,7 @@ const Input: FC<Type.Input> = ({
                     placeholder={placeholder ? placeholder : ''}
                     required={required}
                     disabled={disabled}
-                    autoComplete={autoComplete ? autoComplete : ''}
+                    autoComplete={autoComplete}
                     minLength={minLength ? minLength : 0}
                 />
             )}
@@ -45,7 +45,7 @@ const Input: FC<Type.Input> = ({
                     placeholder={placeholder ? placeholder : ''}
                     required={required}
                     disabled={disabled}
-                    autoComplete={autoComplete ? autoComplete : ''}
+                    autoComplete={autoComplete}
                     minLength={minLength ? minLength : 0}
                 />
             )}

@@ -4,10 +4,10 @@ import { FC, useState } from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { logoutUser } from '../../redux/user';
-import * as Type from '../../utils/@types/types';
+import * as Type from '../../utils/@types';
 
 const Navbar: FC = () => {
-    const user = useSelector((state: RootStateOrAny) => state.user);
+    const user = useSelector((state: RootStateOrAny): Type.User => state.user);
     const [visible, setVisible] = useState(false);
     const dispatch = useDispatch();
     const history = useHistory();

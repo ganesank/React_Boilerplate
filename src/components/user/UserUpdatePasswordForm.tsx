@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setMsg } from '../../redux/msg';
-import * as Type from '../../utils/@types/types';
+import * as Type from '../../utils/@types';
 import * as Request from '../../utils/helpers/functions/request';
 import Button from '../shared/Button';
 import CTA from '../shared/CTA';

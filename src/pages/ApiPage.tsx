@@ -9,7 +9,7 @@ import CTA from '../components/shared/CTA';
 import Popup from '../components/shared/Popup';
 import { setMsg } from '../redux/msg';
 import { showPopup } from '../redux/popup';
-import * as Type from '../utils/@types/types';
+import * as Type from '../utils/@types';
 import * as Request from '../utils/helpers/functions/request';
 
 const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
@@ -22,6 +22,7 @@ const ApiPage: FC = () => {
     const initialState: { api: Type.ApiForm; idx: number } = {
         api: {
             _id: '',
+            type: '',
             name: '',
             url: '',
             key: '',
@@ -33,10 +34,11 @@ const ApiPage: FC = () => {
     };
     const [api, setApi] = useState(initialState);
     const [apis, setApis] = useState<Type.ApiForm[]>([]);
-    const msg = useSelector((state: RootStateOrAny) => state.msg);
-    const popup = useSelector((state: RootStateOrAny) => state.popup);
+    const msg = useSelector((state: RootStateOrAny): Type.Msg => state.msg);
+    const popup = useSelector((state: RootStateOrAny): Type.Popup => state.popup);
     const dispatch = useDispatch();
     const thead: Type.Thead[] = [
+        { id: 'type', friendlyName: 'Type' },
         { id: 'name', friendlyName: 'Name' },
         { id: 'url', friendlyName: 'URL' },
         { id: 'key', friendlyName: 'API Secret Key' },
@@ -50,6 +52,7 @@ const ApiPage: FC = () => {
             setApi({
                 api: {
                     _id: '',
+                    type: '',
                     name: '',
                     url: '',
                     key: '',
@@ -75,6 +78,7 @@ const ApiPage: FC = () => {
                             iconColor: 'danger',
                         })
                     );
+
                 const formatted: Type.ApiForm[] = response.data.map((api: Type.ApiForm) => ({
                     ...api,
                     active: api.active.toString(),

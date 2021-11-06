@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { removeMsg, setMsg } from '../../redux/msg';
-import * as Type from '../../utils/@types/types';
+import * as Type from '../../utils/@types';
 import * as Request from '../../utils/helpers/functions/request';
 import Alert from '../shared/Alert';
 import Button from '../shared/Button';
@@ -20,7 +20,7 @@ const UserResetPasswordForm: FC = () => {
         email: '',
     };
     const [form, setForm] = useState(initialState);
-    const msg = useSelector((state: RootStateOrAny) => state.msg);
+    const msg = useSelector((state: RootStateOrAny): Type.Msg => state.msg);
     const dispatch = useDispatch();
     const history = useHistory();
 
