@@ -1,7 +1,36 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { MouseEvent } from 'react';
-import { HandleChange, HandleKeyboard, Obj } from '../types';
+import { ChangeEvent, KeyboardEvent, MouseEvent } from 'react';
 
+// = Types =====================================================================
+export type Obj = {
+    [key: string]: any;
+};
+
+// = Forms =====================================================================
+export type HandleChange = ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>;
+
+export type HandleKeyboard = KeyboardEvent<HTMLInputElement>;
+
+// = Request / Response ========================================================
+export type RequestOptions = {
+    method: string;
+    mode?: RequestMode;
+    headers: {
+        'Content-Type': string;
+        'Access-Control-Allow-Origin'?: string;
+        Authorization?: string;
+    };
+    body?: string;
+};
+
+export type Response<T> = {
+    data: T;
+    error: Obj;
+    ok: boolean;
+    status: number;
+};
+
+// = Components ================================================================
 export type Input = {
     name: string;
     value: string;
@@ -76,4 +105,14 @@ export type CTA = {
     direction?: string;
     justify?: string;
     align?: string;
+};
+
+export type LoadingSpinner = {
+    handle?: string;
+    color?: string;
+};
+
+export type Thead = {
+    id: string;
+    friendlyName: string;
 };

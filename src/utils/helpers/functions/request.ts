@@ -1,7 +1,10 @@
-import * as Type from '../../@types/types';
+import * as Type from '../../@types';
+import { sleep } from './shared';
 import * as Token from './token';
 
-const request: Type.RequestFn = async (type, url, data, reqToken, throwError) => {
+const REQUEST_TRY: number = +process.env.REACT_APP_REQUEST_TRY! || 5;
+
+const request: Type.RequestFn = async (type, url, attrs, reqToken, throwError, nTry = 0) => {
     const option: Type.RequestOptions = {
         method: type,
         headers: {
@@ -10,27 +13,33 @@ const request: Type.RequestFn = async (type, url, data, reqToken, throwError) =>
     };
 
     if (reqToken) option.headers.Authorization = `Bearer ${Token.getToken()}`;
-    if (data && Object.keys(data).length > 0 && type !== 'GET') option.body = JSON.stringify(data);
+    if (attrs && Object.keys(attrs).length > 0 && type !== 'GET') option.body = JSON.stringify(attrs);
 
     try {
-        const response = await fetch(url, option);
-        const dataRes = await response.json();
+        const res = await fetch(url, option);
+        const data = await res.json();
         const formattedRes = {
-            data: response.ok ? dataRes : null,
-            ok: response.ok,
-            status: response.status,
-            error: response.ok ? null : dataRes,
+            data: res.ok ? data : null,
+            ok: res.ok,
+            status: res.status,
+            error: res.ok ? null : data,
         };
 
         if (throwError) {
-            if (response.ok) return dataRes;
-            throw new Error(JSON.stringify(dataRes));
+            if (res.ok) return { data, error: null };
+            throw new Error(JSON.stringify(data));
         }
 
         return formattedRes;
     } catch (error: any) {
-        if (throwError) throw new Error(error);
-        return { data: null, ok: false, status: 503, error };
+        if (nTry === REQUEST_TRY) {
+            if (throwError) throw new Error(error);
+            return { data: null, ok: false, status: 503, error };
+        }
+
+        nTry++;
+        await sleep(5000);
+        return await request(type, url, attrs, reqToken, throwError, nTry);
     }
 };
 

@@ -1,4 +1,4 @@
-import { User } from '../types';
+import { User } from '.';
 
 export type UserState = User | null;
 

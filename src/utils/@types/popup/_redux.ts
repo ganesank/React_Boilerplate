@@ -1,4 +1,4 @@
-import { Popup } from '../types';
+import { Popup } from '.';
 
 export type PopupState = Popup;
 

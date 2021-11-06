@@ -1,5 +1,6 @@
 import { MouseEvent } from 'react';
-import { ApiForm, Thead } from '../types';
+import { ApiForm } from '.';
+import { Thead } from '..';
 
 export type ApiFormC = {
     setApis(prev: any): void;

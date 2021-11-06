@@ -1,4 +1,4 @@
-import { Msg } from '../types';
+import { Msg } from '.';
 
 export type MsgState = Msg;
 

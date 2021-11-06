@@ -1,5 +1,6 @@
 export type ApiForm = {
     _id?: string;
+    type: string;
     name: string;
     url: string;
     key: string;

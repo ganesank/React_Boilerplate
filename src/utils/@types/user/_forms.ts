@@ -1,12 +1,3 @@
-export type User = {
-    _id: string;
-    firstName: string;
-    lastName: string;
-    admin: boolean;
-    exp: number;
-    iat: number;
-};
-
 export type ResetPasswordForm = {
     email: string;
 };
@@ -43,4 +34,8 @@ export type ProfileForm = {
 
 export type DeleteUserForm = {
     password: string;
+};
+
+export type UserUpdatePasswordFormC = {
+    token: string;
 };
