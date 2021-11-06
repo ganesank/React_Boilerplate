@@ -6,10 +6,11 @@ import UserLoginForm from '../components/user/UserLoginForm';
 import UserResetPasswordForm from '../components/user/UserResetPasswordForm';
 import { removeMsg } from '../redux/msg';
 import { hidePopup } from '../redux/popup';
+import * as Type from '../utils/@types';
 
 const LoginPage: FC = () => {
-    const msg = useSelector((state: RootStateOrAny) => state.msg);
-    const popup = useSelector((state: RootStateOrAny) => state.popup);
+    const msg = useSelector((state: RootStateOrAny): Type.Msg => state.msg);
+    const popup = useSelector((state: RootStateOrAny): Type.Popup => state.popup);
     const dispatch = useDispatch();
 
     useEffect(() => {

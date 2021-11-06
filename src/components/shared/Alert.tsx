@@ -1,9 +1,10 @@
 import { FC, useEffect } from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { removeMsg } from '../../redux/msg';
+import * as Type from '../../utils/@types';
 
 const Alert: FC = () => {
-    const msg = useSelector((state: RootStateOrAny) => state.msg);
+    const msg = useSelector((state: RootStateOrAny): Type.Msg => state.msg);
     const dispatch = useDispatch();
 
     useEffect(() => {

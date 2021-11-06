@@ -2,7 +2,7 @@ import { FC, useState } from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { setMsg } from '../../redux/msg';
 import { hidePopup } from '../../redux/popup';
-import * as Type from '../../utils/@types/types';
+import * as Type from '../../utils/@types';
 import * as Request from '../../utils/helpers/functions/request';
 import Alert from '../shared/Alert';
 import Button from '../shared/Button';
@@ -21,6 +21,7 @@ const ApiForm: FC<Type.ApiFormC> = ({ setApis, data }) => {
     const initialState: Type.ApiForm = data
         ? {
               _id: data.api._id,
+              type: data.api.type,
               name: data.api.name,
               url: data.api.url,
               key: data.api.key,
@@ -30,6 +31,7 @@ const ApiForm: FC<Type.ApiFormC> = ({ setApis, data }) => {
           }
         : {
               _id: '',
+              type: 'custom',
               name: '',
               url: '',
               key: '',
@@ -37,7 +39,7 @@ const ApiForm: FC<Type.ApiFormC> = ({ setApis, data }) => {
               description: '',
               active: 'true',
           };
-    const msg = useSelector((state: RootStateOrAny) => state.msg);
+    const msg = useSelector((state: RootStateOrAny): Type.Msg => state.msg);
     const [form, setForm] = useState(initialState);
     const dispatch = useDispatch();
 
@@ -78,6 +80,7 @@ const ApiForm: FC<Type.ApiFormC> = ({ setApis, data }) => {
                 });
 
                 setForm({
+                    type: 'custom',
                     name: '',
                     url: '',
                     key: '',
@@ -125,9 +128,24 @@ const ApiForm: FC<Type.ApiFormC> = ({ setApis, data }) => {
         { key: 'false', value: 'Disabled' },
     ];
 
+    const typeOptions: Type.Obj[] = [
+        { key: 'custom', value: 'Custom' },
+        { key: 'discord', value: 'Discord' },
+        { key: 'telegram', value: 'Telegram' },
+        { key: 'twitter', value: 'Twitter' },
+    ];
+
     return (
         <div className="api-form">
             <form onSubmit={handleSubmit}>
+                <Select
+                    name="type"
+                    value={form.type}
+                    label="Type"
+                    handle="api-type"
+                    options={typeOptions}
+                    onChange={handleChange}
+                />
                 <Input
                     placeholder="Name"
                     label="Name"

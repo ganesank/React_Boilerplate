@@ -1,6 +1,6 @@
 import { faCopy, faEdit, faEye, faEyeSlash, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FC, useEffect, useState } from 'react';
-import * as Type from '../../utils/@types/types';
+import * as Type from '../../utils/@types';
 import ButtonIcon from '../shared/ButtonIcon';
 import CTA from '../shared/CTA';
 
@@ -43,6 +43,7 @@ const ApiTable: FC<Type.ApiTableC> = ({ thead, apis, setApis, setApi }) => {
                         const id: string = api!._id!;
                         return (
                             <tr key={idx}>
+                                <th className={'api-table__type'}>{api.type}</th>
                                 <th className={'api-table__name'}>
                                     <div className={'api-table__no-overflow'}>
                                         <div className="api-table__no-overflow--text">{api.name}</div>

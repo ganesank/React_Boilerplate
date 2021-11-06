@@ -4,7 +4,7 @@ import { FC, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setMsg } from '../../redux/msg';
 import { hidePopup, showPopup } from '../../redux/popup';
-import * as Type from '../../utils/@types/types';
+import * as Type from '../../utils/@types';
 import * as Request from '../../utils/helpers/functions/request';
 import Button from '../shared/Button';
 import CTA from '../shared/CTA';

@@ -5,10 +5,11 @@ import Popup from '../components/shared/Popup';
 import UserDeleteForm from '../components/user/UserDeleteForm';
 import UserProfileForm from '../components/user/UserProfileForm';
 import { removeMsg } from '../redux/msg';
+import * as Type from '../utils/@types';
 
 const ProfilePage: FC = () => {
-    const popup = useSelector((state: RootStateOrAny) => state.popup);
-    const msg = useSelector((state: RootStateOrAny) => state.msg);
+    const popup = useSelector((state: RootStateOrAny): Type.Popup => state.popup);
+    const msg = useSelector((state: RootStateOrAny): Type.Msg => state.msg);
     const dispatch = useDispatch();
 
     useEffect(() => {

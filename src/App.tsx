@@ -10,9 +10,10 @@ import LoginPage from './pages/LoginPage';
 import ProfilePage from './pages/ProfilePage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import SignUpPage from './pages/SignUpPage';
+import * as Type from './utils/@types';
 
 const App: FC = () => {
-    const user = useSelector((state: RootStateOrAny) => state.user);
+    const user = useSelector((state: RootStateOrAny): Type.User => state.user);
 
     const route =
         user && user.firstName ? (

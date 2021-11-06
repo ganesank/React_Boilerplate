@@ -2,11 +2,11 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FC } from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { hidePopup } from '../../redux/popup';
-import * as Type from '../../utils/@types/types';
+import * as Type from '../../utils/@types';
 import Button from '../shared/Button';
 
 const Popup: FC = ({ children }) => {
-    const popup = useSelector((state: RootStateOrAny) => state.popup);
+    const popup = useSelector((state: RootStateOrAny): Type.Popup => state.popup);
     const dispatch = useDispatch();
 
     const handleClose: Type.HandleClickFn = (e) => {
@@ -17,7 +17,15 @@ const Popup: FC = ({ children }) => {
     return (
         <div className="popup" onClick={handleClose}>
             <div className="popup__container" onClick={(e) => e.stopPropagation()}>
-                <Button btnType="link" faIcon={faTimes} href="/" handle="popup__close" onClick={handleClose} />
+                <Button
+                    btnType="link"
+                    btnColor="danger"
+                    faIcon={faTimes}
+                    noHover={true}
+                    href="/"
+                    handle="popup__close"
+                    onClick={handleClose}
+                />
                 {popup.title !== '' && (
                     <div className="popup__header">
                         <h3>{popup.title}</h3>

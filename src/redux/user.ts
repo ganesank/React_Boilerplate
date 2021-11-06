@@ -1,6 +1,6 @@
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
-import * as Type from '../utils/@types/types';
+import * as Type from '../utils/@types';
 import * as Request from '../utils/helpers/functions/request';
 import * as Token from '../utils/helpers/functions/token';
 
@@ -19,7 +19,7 @@ export const loginUser: Type.ActionThunk<Type.LoginForm, null> = (data) => {
     return async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
         try {
             const response: Type.Response<string> = await Request.postData(`${URL}/login`, data!);
-	    
+
             if (!response.ok) {
                 if (response.error.verifyToken) {
                     dispatch({

@@ -3,10 +3,10 @@ import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import Alert from '../components/shared/Alert';
 import UserUpdatePasswordForm from '../components/user/UserUpdatePasswordForm';
 import { removeMsg } from '../redux/msg';
-import * as Type from '../utils/@types/types';
+import * as Type from '../utils/@types';
 
 const ResetPasswordPage: FC<Type.ResetPasswordPage> = ({ match }) => {
-    const msg = useSelector((state: RootStateOrAny) => state.msg);
+    const msg = useSelector((state: RootStateOrAny): Type.Msg => state.msg);
     const dispatch = useDispatch();
     const { token } = match.params;
 

@@ -1,8 +1,9 @@
 import { FC } from 'react';
 import { RootStateOrAny, useSelector } from 'react-redux';
+import * as Type from '../utils/@types';
 
 const HomePage: FC = () => {
-    const user = useSelector((state: RootStateOrAny) => state.user);
+    const user = useSelector((state: RootStateOrAny): Type.User => state.user);
     return (
         <div className="home-page">
             <div className="container">
