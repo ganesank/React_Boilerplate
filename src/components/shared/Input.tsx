@@ -9,7 +9,7 @@ const Input: FC<Type.Input> = ({
     label,
     labelPosition = 'bottom',
     handle,
-    placeholder,
+    placeholder = '',
     type = 'text',
     required = false,
     disabled = false,
@@ -28,7 +28,7 @@ const Input: FC<Type.Input> = ({
                     name={name}
                     value={value}
                     onChange={onChange}
-                    placeholder={placeholder ? placeholder : ''}
+                    placeholder={placeholder}
                     required={required}
                     disabled={disabled}
                     autoComplete={autoComplete}
@@ -42,7 +42,7 @@ const Input: FC<Type.Input> = ({
                     value={value}
                     onChange={onChange}
                     onKeyPress={(e) => onKeyPress(e)}
-                    placeholder={placeholder ? placeholder : ''}
+                    placeholder={placeholder}
                     required={required}
                     disabled={disabled}
                     autoComplete={autoComplete}

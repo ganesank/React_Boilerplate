@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import { RootStateOrAny, useSelector } from 'react-redux';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import Footer from './components/base/Footer';
-import Header from './components/base/Header';
+import Footer from './components/shared/Footer';
+import Header from './components/shared/Header';
 import AboutPage from './pages/AboutPage';
 import ApiPage from './pages/ApiPage';
 import HomePage from './pages/HomePage';
