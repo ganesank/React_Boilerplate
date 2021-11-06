@@ -78,7 +78,7 @@ On your `Terminal` create a new **react** app with **typescript**
 Install the following dependencies
 
 ```Bash
-  # npm i react-router-dom@6 redux react-redux redux-thunk redux-logger node-sass @fortawesome/free-solid-svg-icons @fortawesome/react-fontawesome
+  # npm i react-router-dom@6 redux react-redux redux-thunk redux-logger node-sass @fortawesome/free-solid-svg-icons @fortawesome/react-fontawesome @fortawesome/fontawesome-svg-core
   npm i react-router-dom@6
 
   npm i redux
@@ -90,6 +90,7 @@ Install the following dependencies
 
   npm i @fortawesome/free-solid-svg-icons
   npm i @fortawesome/react-fontawesome
+  npm i @fortawesome/fontawesome-svg-core
 
   # npm i -D @types/react @types/react-dom @types/react-redux @types/react-router-dom @types/redux-logger
   npm i -D @types/react-redux
