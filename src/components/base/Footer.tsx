@@ -9,7 +9,7 @@ const Footer: FC = () => {
                     <ul className="footer__social-media-list">
                         {socialMedias.map((media, idx) => {
                             return (
-                                <li key={idx} className="footer__social-media-item tooltip">
+                                <li key={`social-media_${idx}`} className="footer__social-media-item tooltip">
                                     <a
                                         href={media.url}
                                         rel="noopener noreferrer"

@@ -30,7 +30,7 @@ const ApiTable: FC<Type.ApiTableC> = ({ thead, apis, setApis, setApi }) => {
                     <tr>
                         {thead.map((t, idx) => {
                             return (
-                                <th className={`api-table__${t.id}`} key={idx}>
+                                <th className={`api-table__${t.id}`} key={`thead_${idx}`}>
                                     {t.friendlyName}
                                 </th>
                             );
@@ -42,7 +42,7 @@ const ApiTable: FC<Type.ApiTableC> = ({ thead, apis, setApis, setApi }) => {
                         const status: string = api.active === 'true' ? 'enabled' : 'disabled';
                         const id: string = api!._id!;
                         return (
-                            <tr key={idx}>
+                            <tr key={`row_${idx}`}>
                                 <th className={'api-table__type'}>{api.type}</th>
                                 <th className={'api-table__name'}>
                                     <div className={'api-table__no-overflow'}>

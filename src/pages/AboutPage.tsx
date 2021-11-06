@@ -13,7 +13,7 @@ const AboutPage: FC = () => {
                 <div className="about-page__technologies">
                     {technologies.map((tech, idx) => {
                         return (
-                            <div key={idx} className="about-page__tech-container">
+                            <div key={`tech_${idx}`} className="about-page__tech-container">
                                 <img className={tech.class} src={tech.src} alt="Tech" />
                                 <p className="about-page__tech-label">{tech.name}</p>
                             </div>
