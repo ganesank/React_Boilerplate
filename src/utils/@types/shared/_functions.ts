@@ -13,6 +13,10 @@ export type GetEnvURLFn = {
     (param: string): string;
 };
 
+export type ValidateEmailFn = {
+    (email: string): boolean;
+};
+
 // = Forms =====================================================================
 export type HandleChangeFn<T> = {
     (e: T): void;

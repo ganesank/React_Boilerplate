@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { removeMsg, setMsg } from '../../redux/msg';
 import * as Type from '../../utils/@types';
 import * as Request from '../../utils/helpers/functions/request';
-import { getEnvURL } from '../../utils/helpers/functions/shared';
+import { getEnvURL, validateEmail } from '../../utils/helpers/functions/shared';
 import Alert from '../shared/Alert';
 import Button from '../shared/Button';
 import CTA from '../shared/CTA';
@@ -74,7 +74,7 @@ const UserResetPasswordForm: FC = () => {
     };
 
     const isFormValid: Type.IsFormValidFn = () => {
-        return !(form.email !== '');
+        return !(form.email !== '' && validateEmail(form.email));
     };
 
     return (
