@@ -1433,6 +1433,7 @@ In `src/components/user/UserLoginForm.tsx`
   import { showPopup } from '../../redux/popup';
   import { loginUser } from '../../redux/user';
   import * as Type from '../../utils/@types';
+  import { validateEmail } from '../../utils/helpers/functions/shared';
   import Button from '../shared/Button';
   import CTA from '../shared/CTA';
   import Input from '../shared/Input';
@@ -1471,7 +1472,7 @@ In `src/components/user/UserLoginForm.tsx`
       };
 
       const isFormValid: Type.IsFormValidFn = () => {
-          return !(form.email.trim() !== '' && form.password.trim() !== '');
+          return !(form.email.trim() !== '' && form.password.trim() !== '' && validateEmail(form.email));
       };
 
       return (
@@ -1530,7 +1531,7 @@ In `src/components/user/UserProfileForm.tsx`
   import { hidePopup, showPopup } from '../../redux/popup';
   import * as Type from '../../utils/@types';
   import * as Request from '../../utils/helpers/functions/request';
-  import { getEnvURL } from '../../utils/helpers/functions/shared';
+  import { getEnvURL, validateEmail } from '../../utils/helpers/functions/shared';
   import Button from '../shared/Button';
   import CTA from '../shared/CTA';
   import Input from '../shared/Input';
@@ -1671,7 +1672,8 @@ In `src/components/user/UserProfileForm.tsx`
               form.lastName.trim() !== '' &&
               form.email.trim() !== '' &&
               form.password.trim() !== '' &&
-              form.newPassword.trim() === form.confirmNewPassword.trim()
+              form.newPassword.trim() === form.confirmNewPassword.trim() &&
+              validateEmail(form.email)
           );
       };
 
@@ -1790,7 +1792,7 @@ In `src/components/user/UserResetPasswordForm.tsx`
   import { removeMsg, setMsg } from '../../redux/msg';
   import * as Type from '../../utils/@types';
   import * as Request from '../../utils/helpers/functions/request';
-  import { getEnvURL } from '../../utils/helpers/functions/shared';
+  import { getEnvURL, validateEmail } from '../../utils/helpers/functions/shared';
   import Alert from '../shared/Alert';
   import Button from '../shared/Button';
   import CTA from '../shared/CTA';
@@ -1860,7 +1862,7 @@ In `src/components/user/UserResetPasswordForm.tsx`
       };
 
       const isFormValid: Type.IsFormValidFn = () => {
-          return !(form.email !== '');
+          return !(form.email !== '' && validateEmail(form.email));
       };
 
       return (
@@ -1899,7 +1901,7 @@ In `src/components/user/UserSignUpForm.tsx`
   import { showPopup } from '../../redux/popup';
   import * as Type from '../../utils/@types';
   import * as Request from '../../utils/helpers/functions/request';
-  import { getEnvURL } from '../../utils/helpers/functions/shared';
+  import { getEnvURL, validateEmail } from '../../utils/helpers/functions/shared';
   import Button from '../shared/Button';
   import CTA from '../shared/CTA';
   import Input from '../shared/Input';
@@ -1982,7 +1984,8 @@ In `src/components/user/UserSignUpForm.tsx`
               form.email.trim() !== '' &&
               form.password.trim() !== '' &&
               form.confirmPassword.trim() !== '' &&
-              form.confirmPassword.trim() === form.password.trim()
+              form.confirmPassword.trim() === form.password.trim() &&
+              validateEmail(form.email)
           );
       };
 
@@ -4811,6 +4814,10 @@ In `src/redux/user.ts`
         (param: string): string;
     };
 
+    export type ValidateEmailFn = {
+        (email: string): boolean;
+    };
+
     // = Forms =====================================================================
     export type HandleChangeFn<T> = {
         (e: T): void;
@@ -5217,6 +5224,12 @@ In `src/redux/user.ts`
     export const getEnvURL: Type.GetEnvURLFn = (param) => {
         const PORT: number = process.env.REACT_APP_BACKEND_PORT ? +process.env.REACT_APP_BACKEND_PORT : 3001;
         return process.env.REACT_APP_ENV! === 'production' ? `${process.env[param]!}` : `${process.env[param]!}:${PORT}`;
+    };
+
+    export const validateEmail: Type.ValidateEmailFn = (email) => {
+        const regex =
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return regex.test(String(email.trim()).toLowerCase());
     };
   ```
 

@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { showPopup } from '../../redux/popup';
 import { loginUser } from '../../redux/user';
 import * as Type from '../../utils/@types';
+import { validateEmail } from '../../utils/helpers/functions/shared';
 import Button from '../shared/Button';
 import CTA from '../shared/CTA';
 import Input from '../shared/Input';
@@ -41,7 +42,7 @@ const UserLoginForm: FC = () => {
     };
 
     const isFormValid: Type.IsFormValidFn = () => {
-        return !(form.email.trim() !== '' && form.password.trim() !== '');
+        return !(form.email.trim() !== '' && form.password.trim() !== '' && validateEmail(form.email));
     };
 
     return (

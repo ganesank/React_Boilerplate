@@ -4,7 +4,7 @@ import { setMsg } from '../../redux/msg';
 import { showPopup } from '../../redux/popup';
 import * as Type from '../../utils/@types';
 import * as Request from '../../utils/helpers/functions/request';
-import { getEnvURL } from '../../utils/helpers/functions/shared';
+import { getEnvURL, validateEmail } from '../../utils/helpers/functions/shared';
 import Button from '../shared/Button';
 import CTA from '../shared/CTA';
 import Input from '../shared/Input';
@@ -87,7 +87,8 @@ const UserSignUpForm: FC = () => {
             form.email.trim() !== '' &&
             form.password.trim() !== '' &&
             form.confirmPassword.trim() !== '' &&
-            form.confirmPassword.trim() === form.password.trim()
+            form.confirmPassword.trim() === form.password.trim() &&
+            validateEmail(form.email)
         );
     };
 
