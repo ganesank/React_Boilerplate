@@ -2,13 +2,10 @@ import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import * as Type from '../utils/@types';
 import * as Request from '../utils/helpers/functions/request';
+import { getEnvURL } from '../utils/helpers/functions/shared';
 import * as Token from '../utils/helpers/functions/token';
 
-const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
-const URL: string =
-    process.env.REACT_APP_ENV! === 'production'
-        ? `${process.env.REACT_APP_BACKEND_URL!}/api/user`
-        : `${process.env.REACT_APP_BACKEND_URL!}:${PORT}/api/user`;
+const URL: string = `${getEnvURL('REACT_APP_BACKEND_URL')}/api/user`;
 
 const SET_MSG: string = 'SET_MSG';
 const LOGIN_USER: string = 'LOGIN_USER';

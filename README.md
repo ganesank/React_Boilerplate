@@ -10,13 +10,16 @@
   - [Config](#config)
     - [Packages](#packages)
       - [Deploy To Netlify](#deploy-to-netlify)
-  - [Environment Variables](#environment-variables)
+    - [Environment Variables](#environment-variables)
     - [tsconfig.json](#tsconfigjson)
+    - [Redux Persist](#redux-persist)
   - [Project](#project)
     - [Public Folder](#public-folder)
       - [Index.html](#indexhtml)
       - [Manifest](#manifest)
     - [Components](#components)
+      - [ApiForm](#apiform)
+      - [ApiTable](#apitable)
       - [Alert](#alert)
       - [Button](#button)
       - [ButtonIcon](#buttonicon)
@@ -28,6 +31,12 @@
       - [Popup](#popup)
       - [Select](#select)
       - [Textarea](#textarea)
+      - [UserDeleteForm](#userdeleteform)
+      - [UserLoginForm](#userloginform)
+      - [UserProfileForm](#userprofileform)
+      - [UseResetPasswordForm](#useresetpasswordform)
+      - [UserSignUpForm](#usersignupform)
+      - [UserUpdatePasswordForm](#userupdatepasswordform)
     - [Pages](#pages)
       - [AboutPage](#aboutpage)
       - [ApiPage](#apipage)
@@ -51,7 +60,6 @@
     - [Store](#store)
     - [App](#app)
     - [Index](#index)
-    - [.env.local](#envlocal)
 
 # LIVE LINK
 
@@ -85,6 +93,7 @@ Install the following dependencies
   npm i react-redux
   npm i redux-thunk
   npm i redux-logger
+  npm i redux-persist
 
   npm i node-sass
 
@@ -117,7 +126,7 @@ In `package.json`
     },
   ```
 
-## Environment Variables
+### Environment Variables
 
 [Go Back to Contents](#contents)
 
@@ -126,8 +135,10 @@ In `.env.local`
 - With react the variables need to start with `REACT_APP_`
 
   ```Bash
-    REACT_APP_BACKEND_URL="127.0.0.1:3001"
+    REACT_APP_BACKEND_URL="http://localhost"
     REACT_APP_BACKEND_PORT=3001
+    REACT_APP_PASSWORD_LEN=7
+    REACT_APP_ENV=development
   ```
 
 ### tsconfig.json
@@ -167,6 +178,122 @@ In `tsconfig.json`
     "include": ["src"],
     "exclude": ["**/node_modules"]
   }
+```
+
+### Redux Persist
+
+[Go Back to Contents](#table-of-contents)
+
+```Bash
+  npm i redux-persist
+```
+
+In `src/store.ts`
+
+- Import `persisStore` and `persistReducer` from `redux-persist`
+- Import `storage` from `redux-persist/lib/storage`
+  - The `storage` function will help us write the data into our `localStorage`
+
+1. Create a persist config, where we need to provide
+
+   - `key` will be the name of our variable in our local `localStorage`
+   - `storage` is the storage function from `redux-persist`
+
+   ```TypeScript
+     const persistConfig = {
+         key: 'redux-persist-key',
+         storage,
+         blacklist: ['user', 'msg', 'popup'],
+         whitelist: [],
+     };
+   ```
+
+   - `blacklist`, removes from persist
+   - `whitelist`, only allows to persist
+
+2. Crate our persist reducer
+
+   - first argument is the configuration
+   - second argument is the reducer, in our case our `combineReducer`
+
+     ```TypeScript
+       const persistedReducer = persistReducer(persistConfig, reducers);
+     ```
+
+3. After creating our `persistedReducer` then we switch the `reducers` with `persistedReducer`
+
+   ```TypeScript
+       const store = createStore(persistedReducer, applyMiddleware(...middlewares));
+   ```
+
+4. We create our `persitor` and export as normal property
+
+   ```TypeScript
+     export const persitor = persistStore(store)
+   ```
+
+```TypeScript
+  import { applyMiddleware, combineReducers, createStore } from 'redux';
+  import logger from 'redux-logger';
+  import { persistReducer, persistStore } from 'redux-persist';
+  import storage from 'redux-persist/lib/storage';
+  import ReduxThunk from 'redux-thunk';
+  import msgReducer from './redux/msg';
+  import popupReducer from './redux/popup';
+  import userReducer from './redux/user';
+
+  const reducers = combineReducers({
+      user: userReducer,
+      popup: popupReducer,
+      msg: msgReducer,
+  });
+
+  const persistConfig = {
+      key: 'redux-persist-key',
+      storage,
+      blacklist: ['user', 'msg', 'popup'],
+      whitelist: [],
+  };
+
+  const persistedReducer = persistReducer(persistConfig, reducers);
+  const middlewares = [ReduxThunk, logger];
+  const store = createStore(persistedReducer, applyMiddleware(...middlewares));
+  export const persistor = persistStore(store);
+
+  export default store;
+```
+
+In `src/index.tsx`
+
+- We need to import our `persitor`
+- We need to import `PersistGate` from `redux-persist/integration/react`
+- Then we need to wrap our `<App />` with `PersistGate` just like we do with normal redux using `<Provider>` and we need to provide the a `persistor`
+
+```TypeScript
+  import React from 'react';
+  import ReactDOM from 'react-dom';
+  import { Provider } from 'react-redux';
+  import { BrowserRouter } from 'react-router-dom';
+  import { PersistGate } from 'redux-persist/integration/react';
+  import App from './App';
+  import reportWebVitals from './reportWebVitals';
+  import './sass/styles.sass';
+  import store, { persistor } from './store';
+
+  ReactDOM.render(
+      <React.StrictMode>
+          <Provider store={store}>
+              <PersistGate persistor={persistor}>
+                  <BrowserRouter>
+                      <App />
+                  </BrowserRouter>
+              </PersistGate>
+          </Provider>
+      </React.StrictMode>,
+      document.getElementById('root')
+  );
+
+  reportWebVitals();
 ```
 
 ## Project
@@ -256,6 +383,366 @@ In `public/manifest.json`
   └── Textarea.tsx
 ```
 
+#### ApiForm
+
+[Go Back to Contents](#table-of-contents)
+
+In `src/components/api/ApiForm.tsx`
+
+```TypeScript
+  import { FC, useState } from 'react';
+  import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+  import { setMsg } from '../../redux/msg';
+  import { hidePopup } from '../../redux/popup';
+  import * as Type from '../../utils/@types';
+  import * as Request from '../../utils/helpers/functions/request';
+  import { getEnvURL } from '../../utils/helpers/functions/shared';
+  import Alert from '../shared/Alert';
+  import Button from '../shared/Button';
+  import CTA from '../shared/CTA';
+  import Input from '../shared/Input';
+  import Select from '../shared/Select';
+  import Textarea from '../shared/Textarea';
+
+  const URL: string = `${getEnvURL('REACT_APP_BACKEND_URL')}/api/api`;
+
+  const ApiForm: FC<Type.ApiFormC> = ({ setApis, data }) => {
+      const initialState: Type.ApiForm = data
+          ? {
+                _id: data.api._id,
+                type: data.api.type,
+                name: data.api.name,
+                url: data.api.url,
+                key: data.api.key,
+                value: data.api.value,
+                description: data.api.description,
+                active: data.api.active.toString(),
+            }
+          : {
+                _id: '',
+                type: 'custom',
+                name: '',
+                url: '',
+                key: '',
+                value: '',
+                description: '',
+                active: 'true',
+            };
+      const msg = useSelector((state: RootStateOrAny): Type.Msg => state.msg);
+      const [form, setForm] = useState(initialState);
+      const dispatch = useDispatch();
+
+      const handleSubmit: Type.HandleSubmitFn<{}> = async (e) => {
+          e.preventDefault();
+
+          try {
+              let response: Type.Response<Type.ApiForm>;
+
+              if (form._id === '') {
+                  response = await Request.postData(`${URL}/new`, form);
+              } else {
+                  response = await Request.updateData(`${URL}/${form._id}`, form);
+              }
+
+              if (!response.ok) {
+                  const errors = Object.keys(response.error).map((key) => {
+                      return response.error[key];
+                  });
+
+                  return dispatch(
+                      setMsg({
+                          msgs: errors,
+                          msgColor: 'danger',
+                          icon: '⚠',
+                          iconColor: 'danger',
+                      })
+                  );
+              }
+
+              if (form._id === '') {
+                  const updatedForm: Type.ApiForm = {
+                      ...form,
+                      _id: response.data._id,
+                  };
+                  setApis((prev: Type.ApiForm[]) => {
+                      return [...prev, updatedForm];
+                  });
+
+                  setForm({
+                      type: 'custom',
+                      name: '',
+                      url: '',
+                      key: '',
+                      value: '',
+                      description: '',
+                      active: 'true',
+                  });
+              } else {
+                  setApis((prev: Type.ApiForm[]) => {
+                      return [...prev.slice(0, data!.idx), form, ...prev.slice(data!.idx + 1, prev.length)];
+                  });
+              }
+
+              dispatch(hidePopup());
+          } catch (error: any) {
+              dispatch(
+                  setMsg({
+                      msgs: [error.message],
+                      msgColor: 'danger',
+                      icon: '⚠',
+                      iconColor: 'danger',
+                  })
+              );
+          }
+      };
+
+      const handleChange: Type.HandleChangeFn<Type.HandleChange> = ({ target: { name, value } }) => {
+          setForm({
+              ...form,
+              [name]: value,
+          });
+      };
+
+      const isFormValid: Type.IsFormValidFn = () => {
+          return !(
+              form.name.trim() !== '' &&
+              form.url.trim() !== '' &&
+              form.key.trim() !== '' &&
+              form.value.trim() !== ''
+          );
+      };
+
+      const options: Type.Obj[] = [
+          { key: 'true', value: 'Enabled' },
+          { key: 'false', value: 'Disabled' },
+      ];
+
+      const typeOptions: Type.Obj[] = [
+          { key: 'custom', value: 'Custom' },
+          { key: 'discord', value: 'Discord' },
+          { key: 'telegram', value: 'Telegram' },
+          { key: 'twitter', value: 'Twitter' },
+      ];
+
+      return (
+          <div className="api-form">
+              <form onSubmit={handleSubmit}>
+                  <Select
+                      name="type"
+                      value={form.type}
+                      label="Type"
+                      handle="api-type"
+                      options={typeOptions}
+                      onChange={handleChange}
+                  />
+                  <Input
+                      placeholder="Name"
+                      label="Name"
+                      name="name"
+                      value={form.name}
+                      handle="api-name"
+                      onChange={handleChange}
+                  />
+                  <Input
+                      placeholder="URL"
+                      label="URL"
+                      name="url"
+                      value={form.url}
+                      handle="api-url"
+                      onChange={handleChange}
+                  />
+                  <Input
+                      placeholder="Secret Key"
+                      label="Secret Key"
+                      name="key"
+                      value={form.key}
+                      handle="api-key"
+                      onChange={handleChange}
+                      autoComplete="new-password"
+                  />
+                  <Input
+                      placeholder="Secret Value"
+                      label="Secret Value"
+                      name="value"
+                      value={form.value}
+                      handle="api-value"
+                      onChange={handleChange}
+                      autoComplete="new-password"
+                  />
+                  <Textarea
+                      placeholder="Description"
+                      label="Description"
+                      name="description"
+                      handle="api-form__description"
+                      value={form.description}
+                      onChange={handleChange}
+                  />
+                  <Select
+                      name="active"
+                      value={form.active}
+                      label="Status"
+                      handle="api-active"
+                      options={options}
+                      onChange={handleChange}
+                  />
+                  <CTA>
+                      <Button value={form._id ? 'Update' : 'Create'} type="submit" disabled={isFormValid()} />
+                  </CTA>
+              </form>
+              {msg.msgs && msg.msgs.length > 0 && <Alert />}
+          </div>
+      );
+  };
+
+  export default ApiForm;
+```
+
+#### ApiTable
+
+[Go Back to Contents](#table-of-contents)
+
+In `src/components/api/ApiTable.tsx`
+
+```TypeScript
+  import { faCopy, faEdit, faEye, faEyeSlash, faTrash } from '@fortawesome/free-solid-svg-icons';
+  import { FC, useEffect, useState } from 'react';
+  import * as Type from '../../utils/@types';
+  import ButtonIcon from '../shared/ButtonIcon';
+  import CTA from '../shared/CTA';
+
+  const ApiTable: FC<Type.ApiTableC> = ({ thead, apis, setApis, setApi }) => {
+      const [visible, setVisible] = useState<{ [key: string]: boolean }>({});
+
+      useEffect(() => {
+          apis.forEach((api) => {
+              const id: string = api._id!;
+              setVisible((prev) => ({ ...prev, [id]: false }));
+          });
+      }, [apis]);
+
+      const handleToggle: Type.HandleClickDataFn<Type.ApiForm, null> = (_, api) => {
+          const id: string = api!._id!;
+          setVisible((prev) => ({ ...prev, [id]: !prev[id] }));
+      };
+
+      const handleCopy: Type.HandleClickDataFn<string, null> = async (_, text) => {
+          await navigator.clipboard.writeText(text!);
+      };
+
+      return (
+          <div className="api-table">
+              <table>
+                  <thead>
+                      <tr>
+                          {thead.map((t, idx) => {
+                              return (
+                                  <th className={`api-table__${t.id}`} key={`thead_${idx}`}>
+                                      {t.friendlyName}
+                                  </th>
+                              );
+                          })}
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {apis.map((api, idx) => {
+                          const status: string = api.active === 'true' ? 'enabled' : 'disabled';
+                          const id: string = api!._id!;
+                          return (
+                              <tr key={`row_${idx}`}>
+                                  <th className={'api-table__type'}>{api.type}</th>
+                                  <th className={'api-table__name'}>
+                                      <div className={'api-table__no-overflow'}>
+                                          <div className="api-table__no-overflow--text">{api.name}</div>
+                                      </div>
+                                  </th>
+                                  <th className={'api-table__url'}>
+                                      <div className={'api-table__no-overflow'}>
+                                          <div className="api-table__no-overflow--text">
+                                              <a rel="noopener noreferrer" target="_blank" href={api.url}>
+                                                  {api.url}
+                                              </a>
+                                          </div>
+                                          <ButtonIcon
+                                              handle="copy copy--right"
+                                              faIcon={faCopy}
+                                              btnColor="grey"
+                                              btnHoverColor="grey"
+                                              onClick={(e) => handleCopy(e, api.url)}
+                                          />
+                                      </div>
+                                  </th>
+                                  <th className={'api-table__key'}>
+                                      <div className={'api-table__no-overflow'}>
+                                          <div className="api-table__no-overflow--text">
+                                              {visible[id] ? api.key : '***'}
+                                          </div>
+                                          {visible[id] && (
+                                              <ButtonIcon
+                                                  handle="copy copy--right"
+                                                  faIcon={faCopy}
+                                                  btnColor="grey"
+                                                  btnHoverColor="grey"
+                                                  onClick={(e) => handleCopy(e, api.key)}
+                                              />
+                                          )}
+                                      </div>
+                                  </th>
+                                  <th className={'api-table__value'}>
+                                      <div className={'api-table__no-overflow'}>
+                                          <div className="api-table__no-overflow--text">
+                                              {visible[id] ? api.value : '***'}
+                                          </div>
+                                          {visible[id] && (
+                                              <ButtonIcon
+                                                  handle="copy copy--right"
+                                                  faIcon={faCopy}
+                                                  btnColor="grey"
+                                                  btnHoverColor="grey"
+                                                  onClick={(e) => handleCopy(e, api.value)}
+                                              />
+                                          )}
+                                      </div>
+                                  </th>
+                                  <th className={'api-table__description'}>
+                                      <div className={'api-table__no-overflow'}>
+                                          <div className="api-table__no-overflow--text">{api.description}</div>
+                                      </div>
+                                  </th>
+                                  <th className={'api-table__status'}>
+                                      <CTA handle="api-table__cta">
+                                          <div className={`api-table__status--${status}`}>{status}</div>
+                                          <ButtonIcon
+                                              faIcon={visible[id] ? faEye : faEyeSlash}
+                                              btnColor={visible[id] ? 'success' : 'warning'}
+                                              btnHoverColor={visible[id] ? 'success' : 'warning'}
+                                              onClick={(e) => handleToggle(e, api)}
+                                          />
+                                          <ButtonIcon
+                                              faIcon={faEdit}
+                                              btnColor="primary"
+                                              btnHoverColor="primary"
+                                              onClick={(e) => setApi(e, api, idx)}
+                                          />
+                                          <ButtonIcon
+                                              faIcon={faTrash}
+                                              btnColor="danger"
+                                              btnHoverColor="danger"
+                                              onClick={(e) => setApis(e, api, idx)}
+                                          />
+                                      </CTA>
+                                  </th>
+                              </tr>
+                          );
+                      })}
+                  </tbody>
+              </table>
+          </div>
+      );
+  };
+
+  export default ApiTable;
+```
+
 #### Alert
 
 [Go Back to Contents](#table-of-contents)
@@ -274,13 +761,12 @@ In `src/components/shared/Alert.tsx`
 
       useEffect(() => {
           const timer = setTimeout(() => {
-              dispatch(removeMsg());
+              if (msg.msgs && msg.msgs.length > 0) dispatch(removeMsg());
           }, 10000);
           return () => {
               clearTimeout(timer);
-              dispatch(removeMsg());
           };
-      }, [dispatch]);
+      }, [dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
 
       const icon = (
           <div className={msg.iconColor ? `alert__icon alert__icon--${msg.iconColor}` : `alert__icon`}>{msg.icon}</div>
@@ -296,7 +782,7 @@ In `src/components/shared/Alert.tsx`
 
       return (
           <div className="alert">
-              {msg.msgs.length > 0 && msg.icon && icon}
+              {msg.msgs && msg.msgs.length > 0 && msg.icon && icon}
               <div className="alert__msg-container">{messages}</div>
           </div>
       );
@@ -856,6 +1342,831 @@ In `src/components/shared/Textarea.tsx`
   export default Textarea;
 ```
 
+#### UserDeleteForm
+
+[Go Back to Contents](#table-of-contents)
+
+In `src/components/user/UserDeleteForm.tsx`
+
+```TypeScript
+  import { FC, useEffect, useState } from 'react';
+  import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+  import { useNavigate } from 'react-router-dom';
+  import { removeMsg } from '../../redux/msg';
+  import { hidePopup } from '../../redux/popup';
+  import { deleteUser } from '../../redux/user';
+  import * as Type from '../../utils/@types';
+  import Alert from '../shared/Alert';
+  import Button from '../shared/Button';
+  import CTA from '../shared/CTA';
+  import Input from '../shared/Input';
+
+  const UserDeleteForm: FC = () => {
+      const initialState: Type.DeleteUserForm = {
+          password: '',
+      };
+      const [form, setForm] = useState(initialState);
+      const msg = useSelector((state: RootStateOrAny): Type.Msg => state.msg);
+      const user = useSelector((state: RootStateOrAny): Type.User => state.user);
+      const dispatch = useDispatch();
+      const navigate = useNavigate();
+
+      useEffect(() => {
+          return () => {
+              if (msg.msgs && msg.msgs.length > 0) dispatch(removeMsg());
+          };
+      }, [dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
+
+      const handleSubmit: Type.HandleSubmitFn<{}> = (e) => {
+          e.preventDefault();
+          dispatch(deleteUser(form));
+          if (!user) {
+              dispatch(hidePopup());
+              navigate('/');
+          }
+      };
+
+      const handleChange: Type.HandleChangeFn<Type.HandleChange> = ({ target: { name, value } }) => {
+          setForm({
+              ...form,
+              [name]: value,
+          });
+      };
+
+      const isFormValid: Type.IsFormValidFn = () => {
+          return !(form.password !== '');
+      };
+
+      return (
+          <div className="user-delete-form" onClick={(e) => e.stopPropagation()}>
+              <form onSubmit={handleSubmit}>
+                  <CTA>
+                      <Input
+                          placeholder="Password"
+                          name="password"
+                          value={form.password}
+                          type="password"
+                          autoComplete="password"
+                          onChange={handleChange}
+                          required={true}
+                      />
+                      <Button value="Delete" btnColor="danger" type="submit" disabled={isFormValid()} />
+                  </CTA>
+              </form>
+              {msg.msgs && msg.msgs.length > 0 && <Alert />}
+          </div>
+      );
+  };
+
+  export default UserDeleteForm;
+```
+
+#### UserLoginForm
+
+[Go Back to Contents](#table-of-contents)
+
+In `src/components/user/UserLoginForm.tsx`
+
+```TypeScript
+  import { FC, useState } from 'react';
+  import { useDispatch } from 'react-redux';
+  import { showPopup } from '../../redux/popup';
+  import { loginUser } from '../../redux/user';
+  import * as Type from '../../utils/@types';
+  import Button from '../shared/Button';
+  import CTA from '../shared/CTA';
+  import Input from '../shared/Input';
+
+  const PASSWORD_LEN: number = process.env.REACT_APP_PASSWORD_LEN ? +process.env.REACT_APP_PASSWORD_LEN : 7;
+
+  const UserLoginForm: FC = () => {
+      const initialState: Type.LoginForm = {
+          email: '',
+          password: '',
+      };
+      const [form, setForm] = useState(initialState);
+      const dispatch = useDispatch();
+
+      const handleSubmit: Type.HandleSubmitFn<Type.LoginForm> = (e) => {
+          e.preventDefault();
+          dispatch(loginUser(form));
+      };
+
+      const handleChange: Type.HandleChangeFn<Type.HandleChange> = ({ target: { name, value } }) => {
+          setForm({
+              ...form,
+              [name]: value,
+          });
+      };
+
+      const handleResetPassword: Type.HandleClickFn = (e) => {
+          e!.preventDefault();
+          dispatch(
+              showPopup({
+                  title: 'Reset Password',
+                  message: 'Enter your email to reset your password.',
+                  children: true,
+              })
+          );
+      };
+
+      const isFormValid: Type.IsFormValidFn = () => {
+          return !(form.email.trim() !== '' && form.password.trim() !== '');
+      };
+
+      return (
+          <div className="user-login-form">
+              <form onSubmit={handleSubmit}>
+                  <Input
+                      placeholder="Email"
+                      label="Email"
+                      name="email"
+                      value={form.email}
+                      onChange={handleChange}
+                      autoComplete="username"
+                      required={true}
+                      type="email"
+                  />
+                  <Input
+                      placeholder="Password"
+                      label="Password"
+                      name="password"
+                      value={form.password}
+                      onChange={handleChange}
+                      autoComplete="password"
+                      required={true}
+                      minLength={PASSWORD_LEN}
+                      type="password"
+                  />
+                  <CTA>
+                      <Button value="Sign Up" btnType="link" href="/signup" btnColor="warning" />
+                      <Button value="Login" btnColor="success" type="submit" disabled={isFormValid()} />
+                  </CTA>
+              </form>
+              <CTA justify="flex-start">
+                  <a href="/" className="user-login-form__reset-password-link" onClick={handleResetPassword}>
+                      Forgot your password?
+                  </a>
+              </CTA>
+          </div>
+      );
+  };
+
+  export default UserLoginForm;
+```
+
+#### UserProfileForm
+
+[Go Back to Contents](#table-of-contents)
+
+In `src/components/user/UserProfileForm.tsx`
+
+```TypeScript
+  import { faLocationArrow } from '@fortawesome/free-solid-svg-icons';
+  import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+  import { FC, useEffect, useState } from 'react';
+  import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+  import { setMsg } from '../../redux/msg';
+  import { hidePopup, showPopup } from '../../redux/popup';
+  import * as Type from '../../utils/@types';
+  import * as Request from '../../utils/helpers/functions/request';
+  import { getEnvURL } from '../../utils/helpers/functions/shared';
+  import Button from '../shared/Button';
+  import CTA from '../shared/CTA';
+  import Input from '../shared/Input';
+
+  const PASSWORD_LEN: number = process.env.REACT_APP_PASSWORD_LEN ? +process.env.REACT_APP_PASSWORD_LEN : 7;
+  const URL: string = `${getEnvURL('REACT_APP_BACKEND_URL')}/api/user`;
+
+  const UserProfileForm: FC = () => {
+      const initialState: Type.ProfileForm = {
+          _id: '',
+          firstName: '',
+          lastName: '',
+          email: '',
+          telegramId: '',
+          isTelegramVerified: false,
+          password: '',
+          newPassword: '',
+          confirmNewPassword: '',
+      };
+      const [form, setForm] = useState(initialState);
+      const popup = useSelector((state: RootStateOrAny): Type.Popup => state.popup);
+      const dispatch = useDispatch();
+
+      useEffect(() => {
+          (async () => {
+              try {
+                  const response: Type.Response<Type.ProfileForm> = await Request.getData(`${URL}/profile`);
+                  if (!response.ok)
+                      return dispatch(
+                          setMsg({
+                              msgs: [response.error.message],
+                              msgColor: 'danger',
+                              icon: '⚠',
+                              iconColor: 'danger',
+                          })
+                      );
+
+                  setForm((prev) => {
+                      return {
+                          ...prev,
+                          _id: response.data._id,
+                          firstName: response.data.firstName,
+                          lastName: response.data.lastName,
+                          email: response.data.email,
+                          telegramId: response.data.telegramId,
+                          isTelegramVerified: response.data.isTelegramVerified,
+                      };
+                  });
+              } catch (error: any) {
+                  dispatch(
+                      setMsg({
+                          msgs: [error.message],
+                          msgColor: 'danger',
+                          icon: '⚠',
+                          iconColor: 'danger',
+                      })
+                  );
+              }
+          })();
+
+          return () => {
+              if (popup.visible) dispatch(hidePopup());
+          };
+      }, [dispatch, setForm]); // eslint-disable-line react-hooks/exhaustive-deps
+
+      const handleSubmit: Type.HandleSubmitFn<{}> = async (e) => {
+          e.preventDefault();
+
+          try {
+              const response = await Request.updateData(`${URL}/profile`, form);
+
+              if (!response.ok) {
+                  const errors = Object.keys(response.error).map((key) => {
+                      return response.error[key];
+                  });
+
+                  return dispatch(
+                      setMsg({
+                          msgs: errors,
+                          msgColor: 'danger',
+                          icon: '⚠',
+                          iconColor: 'danger',
+                      })
+                  );
+              }
+
+              if (response.data && response.data.verifyToken) console.log(`${URL}/email/${response.data.verifyToken}`);
+
+              setForm((prev) => {
+                  return {
+                      ...prev,
+                      newPassword: '',
+                      confirmNewPassword: '',
+                  };
+              });
+
+              dispatch(
+                  showPopup({
+                      title: 'Profile Updated',
+                      message: 'Your profile has been updated successfully',
+                      children: false,
+                  })
+              );
+          } catch (error: any) {
+              dispatch(
+                  setMsg({
+                      msgs: [error.message],
+                      msgColor: 'danger',
+                      icon: '⚠',
+                      iconColor: 'danger',
+                  })
+              );
+          }
+      };
+
+      const handleDelete: Type.HandleClickFn = (e) => {
+          e!.preventDefault();
+          dispatch(
+              showPopup({
+                  visible: true,
+                  title: 'Delete Acc',
+                  message: 'Are you sure you want to delete your account?',
+                  children: true,
+              })
+          );
+      };
+
+      const handleChange: Type.HandleChangeFn<Type.HandleChange> = ({ target: { name, value } }) => {
+          setForm({
+              ...form,
+              [name]: value,
+          });
+      };
+
+      const isFormValid: Type.IsFormValidFn = () => {
+          return !(
+              form.firstName.trim() !== '' &&
+              form.lastName.trim() !== '' &&
+              form.email.trim() !== '' &&
+              form.password.trim() !== '' &&
+              form.newPassword.trim() === form.confirmNewPassword.trim()
+          );
+      };
+
+      return (
+          <div className="user-profile-form">
+              <form onSubmit={handleSubmit}>
+                  <div className="split-2">
+                      <Input
+                          placeholder="First Name"
+                          label="First Name"
+                          name="firstName"
+                          value={form.firstName}
+                          onChange={handleChange}
+                          required={true}
+                      />
+                      <Input
+                          placeholder="Last Name"
+                          label="Last Name"
+                          name="lastName"
+                          value={form.lastName}
+                          onChange={handleChange}
+                          required={true}
+                      />
+                  </div>
+                  <Input
+                      placeholder="Email"
+                      label="Email"
+                      name="email"
+                      value={form.email}
+                      onChange={handleChange}
+                      autoComplete="username"
+                      required={true}
+                  />
+                  <div className="user-profile-form__telegram-container">
+                      <Input
+                          placeholder="Telegram ID"
+                          label="Telegram ID"
+                          name="telegramId"
+                          value={form.telegramId}
+                          onChange={handleChange}
+                          handle="user-profile-form__telegram-container__telegram"
+                      />
+                      <div
+                          className={
+                              form.isTelegramVerified
+                                  ? 'user-profile-form__icon user-profile-form__icon--activated'
+                                  : 'user-profile-form__icon'
+                          }
+                      >
+                          <div className="tooltip">
+                              <FontAwesomeIcon icon={faLocationArrow} />
+                              <span className="tooltip__text">
+                                  {form.isTelegramVerified ? 'Verified' : 'Not Verified'}
+                              </span>
+                          </div>
+                      </div>
+                  </div>
+                  <div className="split-2">
+                      <Input
+                          placeholder="New Password"
+                          label="New Password"
+                          name="newPassword"
+                          value={form.newPassword}
+                          onChange={handleChange}
+                          autoComplete="new-password"
+                          minLength={PASSWORD_LEN}
+                          type="password"
+                      />
+                      <Input
+                          placeholder="Confirm New Password"
+                          label="Confirm New Password"
+                          name="confirmNewPassword"
+                          value={form.confirmNewPassword}
+                          onChange={handleChange}
+                          autoComplete="new-password"
+                          minLength={PASSWORD_LEN}
+                          type="password"
+                      />
+                  </div>
+                  <CTA>
+                      <Input
+                          placeholder="Password"
+                          name="password"
+                          value={form.password}
+                          onChange={handleChange}
+                          required={true}
+                          autoComplete="new-password"
+                          minLength={PASSWORD_LEN}
+                          type="password"
+                      />
+                      <Button value="Update" type="submit" disabled={isFormValid()} />
+                  </CTA>
+              </form>
+              <CTA justify="flex-start">
+                  <a href="/" className="user-profile-form__delete-link" onClick={handleDelete}>
+                      Delete Account
+                  </a>
+              </CTA>
+          </div>
+      );
+  };
+
+  export default UserProfileForm;
+```
+
+#### UseResetPasswordForm
+
+[Go Back to Contents](#table-of-contents)
+
+In `src/components/user/UserResetPasswordForm.tsx`
+
+```TypeScript
+  import { FC, useEffect, useState } from 'react';
+  import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+  import { useNavigate } from 'react-router-dom';
+  import { removeMsg, setMsg } from '../../redux/msg';
+  import * as Type from '../../utils/@types';
+  import * as Request from '../../utils/helpers/functions/request';
+  import { getEnvURL } from '../../utils/helpers/functions/shared';
+  import Alert from '../shared/Alert';
+  import Button from '../shared/Button';
+  import CTA from '../shared/CTA';
+  import Input from '../shared/Input';
+
+  const URL: string = `${getEnvURL('REACT_APP_BACKEND_URL')}/api/user`;
+
+  const UserResetPasswordForm: FC = () => {
+      const initialState: Type.ResetPasswordForm = {
+          email: '',
+      };
+      const [form, setForm] = useState(initialState);
+      const msg = useSelector((state: RootStateOrAny): Type.Msg => state.msg);
+      const dispatch = useDispatch();
+      const navigate = useNavigate();
+
+      useEffect(() => {
+          return () => {
+              if (msg.msgs && msg.msgs.length > 0) dispatch(removeMsg());
+          };
+      }, [dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
+
+      const handleSubmit: Type.HandleSubmitFn<{}> = async (e) => {
+          e.preventDefault();
+          try {
+              const response: Type.Response<Type.ResetPasswordRes> = await Request.postData(`${URL}/password`, form);
+              if (!response.ok)
+                  return dispatch(
+                      setMsg({
+                          msgs: [response.error.message],
+                          msgColor: 'danger',
+                          icon: '⚠',
+                          iconColor: 'danger',
+                      })
+                  );
+
+              dispatch(
+                  setMsg({
+                      msgs: [response.data.message],
+                      msgColor: 'success',
+                      icon: '✓',
+                      iconColor: 'success',
+                  })
+              );
+              setForm({
+                  email: '',
+              });
+
+              if (response.data.verifyToken) navigate(`/reset-password/${response.data.verifyToken}`);
+          } catch (error: any) {
+              dispatch(
+                  setMsg({
+                      msgs: [error.message],
+                      msgColor: 'danger',
+                      icon: '⚠',
+                      iconColor: 'danger',
+                  })
+              );
+          }
+      };
+
+      const handleChange: Type.HandleChangeFn<Type.HandleChange> = ({ target: { name, value } }) => {
+          setForm({
+              ...form,
+              [name]: value,
+          });
+      };
+
+      const isFormValid: Type.IsFormValidFn = () => {
+          return !(form.email !== '');
+      };
+
+      return (
+          <div className="user-reset-password-form" onClick={(e) => e.stopPropagation()}>
+              <form onSubmit={handleSubmit}>
+                  <Input
+                      placeholder="Email"
+                      name="email"
+                      value={form.email}
+                      onChange={handleChange}
+                      autoComplete="username"
+                      required={true}
+                  />
+                  <CTA handle="user-reset-password-form__cta">
+                      <Button value="Reset" type="submit" disabled={isFormValid()} />
+                  </CTA>
+              </form>
+              {msg.msgs && msg.msgs.length > 0 && <Alert />}
+          </div>
+      );
+  };
+
+  export default UserResetPasswordForm;
+```
+
+#### UserSignUpForm
+
+[Go Back to Contents](#table-of-contents)
+
+In `src/components/user/UserSignUpForm.tsx`
+
+```TypeScript
+  import { FC, useState } from 'react';
+  import { useDispatch } from 'react-redux';
+  import { setMsg } from '../../redux/msg';
+  import { showPopup } from '../../redux/popup';
+  import * as Type from '../../utils/@types';
+  import * as Request from '../../utils/helpers/functions/request';
+  import { getEnvURL } from '../../utils/helpers/functions/shared';
+  import Button from '../shared/Button';
+  import CTA from '../shared/CTA';
+  import Input from '../shared/Input';
+
+  const PASSWORD_LEN: number = process.env.REACT_APP_PASSWORD_LEN ? +process.env.REACT_APP_PASSWORD_LEN : 7;
+  const URL: string = `${getEnvURL('REACT_APP_BACKEND_URL')}/api/user`;
+
+  const UserSignUpForm: FC = () => {
+      const initialState: Type.SignUpForm = {
+          firstName: '',
+          lastName: '',
+          email: '',
+          password: '',
+          confirmPassword: '',
+      };
+      const [form, setForm] = useState(initialState);
+      const dispatch = useDispatch();
+
+      const handleSubmit: Type.HandleSubmitFn<{}> = async (e) => {
+          e.preventDefault();
+          try {
+              const response: Type.Response<Type.SignUpRes> = await Request.postData(`${URL}/signup`, form);
+              if (!response.ok)
+                  return dispatch(
+                      setMsg({
+                          msgs: [response.error.message],
+                          msgColor: 'danger',
+                          icon: '⚠',
+                          iconColor: 'danger',
+                      })
+                  );
+
+              if (response.data && response.data.verifyToken)
+                  dispatch(
+                      showPopup({
+                          title: 'Verify Email',
+                          custom: `${URL}/email/${response.data.verifyToken}`,
+                          children: true,
+                      })
+                  );
+
+              dispatch(
+                  setMsg({
+                      msgs: [response.data.message],
+                      msgColor: 'success',
+                      icon: '✓',
+                      iconColor: 'success',
+                  })
+              );
+              setForm({
+                  firstName: '',
+                  lastName: '',
+                  email: '',
+                  password: '',
+                  confirmPassword: '',
+              });
+          } catch (error: any) {
+              dispatch(
+                  setMsg({
+                      msgs: [error.message],
+                      msgColor: 'danger',
+                      icon: '⚠',
+                      iconColor: 'danger',
+                  })
+              );
+          }
+      };
+
+      const handleChange: Type.HandleChangeFn<Type.HandleChange> = ({ target: { name, value } }) => {
+          setForm({
+              ...form,
+              [name]: value,
+          });
+      };
+
+      const isFormValid: Type.IsFormValidFn = () => {
+          return !(
+              form.firstName.trim() !== '' &&
+              form.lastName.trim() !== '' &&
+              form.email.trim() !== '' &&
+              form.password.trim() !== '' &&
+              form.confirmPassword.trim() !== '' &&
+              form.confirmPassword.trim() === form.password.trim()
+          );
+      };
+
+      return (
+          <div className="user-signup-form">
+              <form onSubmit={handleSubmit}>
+                  <div className="split-2">
+                      <Input
+                          placeholder="First Name"
+                          label="First Name"
+                          name="firstName"
+                          value={form.firstName}
+                          onChange={handleChange}
+                          required={true}
+                      />
+                      <Input
+                          placeholder="Last Name"
+                          label="Last Name"
+                          name="lastName"
+                          value={form.lastName}
+                          onChange={handleChange}
+                          required={true}
+                      />
+                  </div>
+                  <Input
+                      placeholder="Email"
+                      label="Email"
+                      name="email"
+                      value={form.email}
+                      onChange={handleChange}
+                      autoComplete="username"
+                      required={true}
+                      type="email"
+                  />
+                  <div className="split-2">
+                      <Input
+                          placeholder="Password"
+                          label="Password"
+                          name="password"
+                          value={form.password}
+                          onChange={handleChange}
+                          autoComplete="new-password"
+                          minLength={PASSWORD_LEN}
+                          type="password"
+                      />
+                      <Input
+                          placeholder="New Password"
+                          label="New Password"
+                          name="confirmPassword"
+                          value={form.confirmPassword}
+                          onChange={handleChange}
+                          autoComplete="new-password"
+                          minLength={PASSWORD_LEN}
+                          type="password"
+                      />
+                  </div>
+                  <CTA>
+                      <Button value="Login" btnType="link" href="/login" btnColor="warning" />
+                      <Button value="Sign Up" btnColor="success" type="submit" disabled={isFormValid()} />
+                  </CTA>
+              </form>
+          </div>
+      );
+  };
+
+  export default UserSignUpForm;
+```
+
+#### UserUpdatePasswordForm
+
+[Go Back to Contents](#table-of-contents)
+
+In `src/components/user/UserUpdatePasswordForm.tsx`
+
+```TypeScript
+  import { FC, useState } from 'react';
+  import { useDispatch } from 'react-redux';
+  import { setMsg } from '../../redux/msg';
+  import * as Type from '../../utils/@types';
+  import * as Request from '../../utils/helpers/functions/request';
+  import { getEnvURL } from '../../utils/helpers/functions/shared';
+  import Button from '../shared/Button';
+  import CTA from '../shared/CTA';
+  import Input from '../shared/Input';
+
+  const PASSWORD_LEN: number = process.env.REACT_APP_PASSWORD_LEN ? +process.env.REACT_APP_PASSWORD_LEN : 7;
+  const URL: string = `${getEnvURL('REACT_APP_BACKEND_URL')}/api/user`;
+
+  const UserUpdatePasswordForm: FC<Type.UserUpdatePasswordFormC> = ({ token }) => {
+      const initialState: Type.UpdatePasswordForm = {
+          password: '',
+          confirmPassword: '',
+      };
+      const [form, setForm] = useState(initialState);
+      const dispatch = useDispatch();
+
+      const handleSubmit: Type.HandleSubmitFn<{}> = async (e) => {
+          e.preventDefault();
+          try {
+              const response: Type.Response<Type.UpdatePasswordRes> = await Request.updateData(
+                  `${URL}/password/${token}`,
+                  form,
+                  false
+              );
+
+              if (!response.ok)
+                  return dispatch(
+                      setMsg({
+                          msgs: [response.error.message],
+                          msgColor: 'danger',
+                          icon: '⚠',
+                          iconColor: 'danger',
+                      })
+                  );
+
+              dispatch(
+                  setMsg({
+                      msgs: [response.data.message],
+                      msgColor: 'success',
+                      icon: '✓',
+                      iconColor: 'success',
+                  })
+              );
+              setForm({
+                  password: '',
+                  confirmPassword: '',
+              });
+          } catch (error: any) {
+              dispatch(
+                  setMsg({
+                      msgs: [error.message],
+                      msgColor: 'danger',
+                      icon: '⚠',
+                      iconColor: 'danger',
+                  })
+              );
+          }
+      };
+
+      const handleChange: Type.HandleChangeFn<Type.HandleChange> = ({ target: { name, value } }) => {
+          setForm({
+              ...form,
+              [name]: value,
+          });
+      };
+
+      const isFormValid: Type.IsFormValidFn = () => {
+          return !(form.password.trim() !== '' && form.confirmPassword.trim() !== '');
+      };
+
+      return (
+          <div className="user-update-password-form">
+              <form onSubmit={handleSubmit}>
+                  <Input
+                      placeholder="New Password"
+                      label="New Password"
+                      name="password"
+                      value={form.password}
+                      onChange={handleChange}
+                      autoComplete="new-password"
+                      type="password"
+                      minLength={PASSWORD_LEN}
+                  />
+                  <Input
+                      placeholder="Confirm New Password"
+                      label="Confirm New Password"
+                      name="confirmPassword"
+                      value={form.confirmPassword}
+                      onChange={handleChange}
+                      autoComplete="new-password"
+                      type="password"
+                      minLength={PASSWORD_LEN}
+                  />
+                  <CTA>
+                      <Button value="Reset" type="submit" disabled={isFormValid()} />
+                  </CTA>
+              </form>
+          </div>
+      );
+  };
+
+  export default UserUpdatePasswordForm;
+```
+
 ### Pages
 
 #### AboutPage
@@ -915,12 +2226,9 @@ In `src/pages/ApiPage.tsx`
   import { showPopup } from '../redux/popup';
   import * as Type from '../utils/@types';
   import * as Request from '../utils/helpers/functions/request';
+  import { getEnvURL } from '../utils/helpers/functions/shared';
 
-  const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
-  const URL: string =
-      process.env.REACT_APP_ENV! === 'production'
-          ? `${process.env.REACT_APP_BACKEND_URL!}/api/api`
-          : `${process.env.REACT_APP_BACKEND_URL!}:${PORT}/api/api`;
+  const URL: string = `${getEnvURL('REACT_APP_BACKEND_URL')}/api/api`;
 
   const ApiPage: FC = () => {
       const initialState: { api: Type.ApiForm; idx: number } = {
@@ -1058,7 +2366,7 @@ In `src/pages/ApiPage.tsx`
               <div className="container">
                   <h1>API</h1>
                   <ApiTable thead={thead} apis={apis} setApis={handleDelete} setApi={handleEdit} />
-                  {!popup.visible && msg.msgs.length > 0 && <Alert />}
+                  {!popup.visible && msg.msgs && msg.msgs.length > 0 && <Alert />}
 
                   {popup.visible && !popup.custom && (
                       <Popup>
@@ -1124,10 +2432,10 @@ In `src/pages/LoginPage.tsx`
 
       useEffect(() => {
           return () => {
-              dispatch(hidePopup());
-              dispatch(removeMsg());
+              if (popup.visible) dispatch(hidePopup());
+              if (msg.msgs && msg.msgs.length > 0) dispatch(removeMsg());
           };
-      }, [dispatch]);
+      }, [dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
 
       return (
           <div className="login-page">
@@ -1135,7 +2443,7 @@ In `src/pages/LoginPage.tsx`
                   <h1>LOGIN</h1>
                   <div className="login-page__form">
                       <UserLoginForm />
-                      {!popup.visible && msg.msgs.length > 0 && <Alert />}
+                      {!popup.visible && msg.msgs && msg.msgs.length > 0 && <Alert />}
                       {popup.visible && popup.custom && (
                           <Popup>
                               <div className="popup__custom__link">
@@ -1180,16 +2488,16 @@ In `src/pages/ProfilePage.tsx`
 
       useEffect(() => {
           return () => {
-              dispatch(removeMsg());
+              if (msg.msgs && msg.msgs.length > 0) dispatch(removeMsg());
           };
-      }, [dispatch]);
+      }, [dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
 
       return (
           <div className="profile-page">
               <div className="container">
                   <h1>PROFILE</h1>
                   <UserProfileForm />
-                  {!popup.visible && msg.msgs.length > 0 && <Alert />}
+                  {!popup.visible && msg.msgs && msg.msgs.length > 0 && <Alert />}
                   {popup.visible && (
                       <Popup>
                           <UserDeleteForm />
@@ -1225,16 +2533,16 @@ In `src/pages/ResetPasswordPage.tsx`
 
       useEffect(() => {
           return () => {
-              dispatch(removeMsg());
+              if (msg.msgs && msg.msgs.length > 0) dispatch(removeMsg());
           };
-      }, [dispatch]);
+      }, [dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
 
       return (
           <div className="reset-password-page">
               <div className="container">
                   <h1>Reset Password</h1>
                   <UserUpdatePasswordForm token={token!} />
-                  {msg.msgs.length > 0 && <Alert />}
+                  {msg.msgs && msg.msgs.length > 0 && <Alert />}
               </div>
           </div>
       );
@@ -1266,10 +2574,10 @@ In `src/pages/SignUpPage.tsx`
 
       useEffect(() => {
           return () => {
-              dispatch(hidePopup());
-              dispatch(removeMsg());
+              if (popup.visible) dispatch(hidePopup());
+              if (msg.msgs && msg.msgs.length > 0) dispatch(removeMsg());
           };
-      }, [dispatch]);
+      }, [dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
 
       return (
           <div className="signup-page">
@@ -1277,7 +2585,7 @@ In `src/pages/SignUpPage.tsx`
                   <h1>SIGN UP</h1>
                   <div className="signup-page__form">
                       <UserSignUpForm />
-                      {!popup.visible && msg.msgs.length > 0 && <Alert />}
+                      {!popup.visible && msg.msgs && msg.msgs.length > 0 && <Alert />}
                       {popup.visible && popup.custom && (
                           <Popup>
                               <div className="popup__custom__link">
@@ -1409,13 +2717,10 @@ In `src/redux/user.ts`
   import { ThunkDispatch } from 'redux-thunk';
   import * as Type from '../utils/@types';
   import * as Request from '../utils/helpers/functions/request';
+  import { getEnvURL } from '../utils/helpers/functions/shared';
   import * as Token from '../utils/helpers/functions/token';
 
-  const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
-  const URL: string =
-      process.env.REACT_APP_ENV! === 'production'
-          ? `${process.env.REACT_APP_BACKEND_URL!}/api/user`
-          : `${process.env.REACT_APP_BACKEND_URL!}:${PORT}/api/user`;
+  const URL: string = `${getEnvURL('REACT_APP_BACKEND_URL')}/api/user`;
 
   const SET_MSG: string = 'SET_MSG';
   const LOGIN_USER: string = 'LOGIN_USER';
@@ -3502,6 +4807,10 @@ In `src/redux/user.ts`
         (response: any, outputFile: string): void;
     };
 
+    export type GetEnvURLFn = {
+        (param: string): string;
+    };
+
     // = Forms =====================================================================
     export type HandleChangeFn<T> = {
         (e: T): void;
@@ -3830,7 +5139,7 @@ In `src/redux/user.ts`
     import { sleep } from './shared';
     import * as Token from './token';
 
-    const REQUEST_TRY: number = +process.env.REACT_APP_REQUEST_TRY! || 5;
+    const REQUEST_TRY: number = process.env.REACT_APP_REQUEST_TRY ? +process.env.REACT_APP_REQUEST_TRY : 5;
 
     const request: Type.RequestFn = async (type, url, attrs, reqToken, throwError, nTry = 0) => {
         const option: Type.RequestOptions = {
@@ -3904,6 +5213,11 @@ In `src/redux/user.ts`
         linkEl.click();
         linkEl.remove();
     };
+
+    export const getEnvURL: Type.GetEnvURLFn = (param) => {
+        const PORT: number = process.env.REACT_APP_BACKEND_PORT ? +process.env.REACT_APP_BACKEND_PORT : 3001;
+        return process.env.REACT_APP_ENV! === 'production' ? `${process.env[param]!}` : `${process.env[param]!}:${PORT}`;
+    };
   ```
 
 - In `src/utils/helpers/functions/token.ts`
@@ -3957,10 +5271,17 @@ In `src/store.ts`
 ```TypeScript
   import { applyMiddleware, combineReducers, createStore } from 'redux';
   import logger from 'redux-logger';
+  import { persistReducer, persistStore } from 'redux-persist';
+  import storage from 'redux-persist/lib/storage';
   import ReduxThunk from 'redux-thunk';
   import msgReducer from './redux/msg';
   import popupReducer from './redux/popup';
   import userReducer from './redux/user';
+
+  const persistConfig = {
+      key: 'redux-persist-key',
+      storage,
+  };
 
   const reducers = combineReducers({
       user: userReducer,
@@ -3968,8 +5289,10 @@ In `src/store.ts`
       msg: msgReducer,
   });
 
+  const persistedReducer = persistReducer(persistConfig, reducers);
   const middlewares = [ReduxThunk, logger];
-  const store = createStore(reducers, applyMiddleware(...middlewares));
+  const store = createStore(persistedReducer, applyMiddleware(...middlewares));
+  export const persistor = persistStore(store);
 
   export default store;
 ```
@@ -4041,34 +5364,24 @@ In `src/index.tsx`
   import ReactDOM from 'react-dom';
   import { Provider } from 'react-redux';
   import { BrowserRouter } from 'react-router-dom';
+  import { PersistGate } from 'redux-persist/integration/react';
   import App from './App';
   import reportWebVitals from './reportWebVitals';
   import './sass/styles.sass';
-  import store from './store';
+  import store, { persistor } from './store';
 
   ReactDOM.render(
       <React.StrictMode>
           <Provider store={store}>
-              <BrowserRouter>
-                  <App />
-              </BrowserRouter>
+              <PersistGate persistor={persistor}>
+                  <BrowserRouter>
+                      <App />
+                  </BrowserRouter>
+              </PersistGate>
           </Provider>
       </React.StrictMode>,
       document.getElementById('root')
   );
 
   reportWebVitals();
-```
-
-### .env.local
-
-[Go Back to Contents](#table-of-contents)
-
-In `.env.local`
-
-```Bash
-  REACT_APP_BACKEND_URL="http://localhost"
-  REACT_APP_BACKEND_PORT=3001
-  REACT_APP_PASSWORD_LEN=7
-  REACT_APP_ENV=development
 ```

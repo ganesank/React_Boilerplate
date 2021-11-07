@@ -14,10 +14,10 @@ const SignUpPage: FC = () => {
 
     useEffect(() => {
         return () => {
-            dispatch(hidePopup());
-            dispatch(removeMsg());
+            if (popup.visible) dispatch(hidePopup());
+            if (msg.msgs && msg.msgs.length > 0) dispatch(removeMsg());
         };
-    }, [dispatch]);
+    }, [dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <div className="signup-page">
@@ -25,7 +25,7 @@ const SignUpPage: FC = () => {
                 <h1>SIGN UP</h1>
                 <div className="signup-page__form">
                     <UserSignUpForm />
-                    {!popup.visible && msg.msgs.length > 0 && <Alert />}
+                    {!popup.visible && msg.msgs && msg.msgs.length > 0 && <Alert />}
                     {popup.visible && popup.custom && (
                         <Popup>
                             <div className="popup__custom__link">

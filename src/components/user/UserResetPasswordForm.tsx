@@ -4,16 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import { removeMsg, setMsg } from '../../redux/msg';
 import * as Type from '../../utils/@types';
 import * as Request from '../../utils/helpers/functions/request';
+import { getEnvURL } from '../../utils/helpers/functions/shared';
 import Alert from '../shared/Alert';
 import Button from '../shared/Button';
 import CTA from '../shared/CTA';
 import Input from '../shared/Input';
 
-const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
-const URL: string =
-    process.env.REACT_APP_ENV! === 'production'
-        ? `${process.env.REACT_APP_BACKEND_URL!}/api/user`
-        : `${process.env.REACT_APP_BACKEND_URL!}:${PORT}/api/user`;
+const URL: string = `${getEnvURL('REACT_APP_BACKEND_URL')}/api/user`;
 
 const UserResetPasswordForm: FC = () => {
     const initialState: Type.ResetPasswordForm = {
@@ -26,9 +23,9 @@ const UserResetPasswordForm: FC = () => {
 
     useEffect(() => {
         return () => {
-            dispatch(removeMsg());
+            if (msg.msgs && msg.msgs.length > 0) dispatch(removeMsg());
         };
-    }, [dispatch]);
+    }, [dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleSubmit: Type.HandleSubmitFn<{}> = async (e) => {
         e.preventDefault();
@@ -95,7 +92,7 @@ const UserResetPasswordForm: FC = () => {
                     <Button value="Reset" type="submit" disabled={isFormValid()} />
                 </CTA>
             </form>
-            {msg.msgs.length > 0 && <Alert />}
+            {msg.msgs && msg.msgs.length > 0 && <Alert />}
         </div>
     );
 };

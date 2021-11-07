@@ -14,16 +14,16 @@ const ProfilePage: FC = () => {
 
     useEffect(() => {
         return () => {
-            dispatch(removeMsg());
+            if (msg.msgs && msg.msgs.length > 0) dispatch(removeMsg());
         };
-    }, [dispatch]);
+    }, [dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <div className="profile-page">
             <div className="container">
                 <h1>PROFILE</h1>
                 <UserProfileForm />
-                {!popup.visible && msg.msgs.length > 0 && <Alert />}
+                {!popup.visible && msg.msgs && msg.msgs.length > 0 && <Alert />}
                 {popup.visible && (
                     <Popup>
                         <UserDeleteForm />

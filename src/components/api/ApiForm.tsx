@@ -4,6 +4,7 @@ import { setMsg } from '../../redux/msg';
 import { hidePopup } from '../../redux/popup';
 import * as Type from '../../utils/@types';
 import * as Request from '../../utils/helpers/functions/request';
+import { getEnvURL } from '../../utils/helpers/functions/shared';
 import Alert from '../shared/Alert';
 import Button from '../shared/Button';
 import CTA from '../shared/CTA';
@@ -11,11 +12,7 @@ import Input from '../shared/Input';
 import Select from '../shared/Select';
 import Textarea from '../shared/Textarea';
 
-const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
-const URL: string =
-    process.env.REACT_APP_ENV! === 'production'
-        ? `${process.env.REACT_APP_BACKEND_URL!}/api/api`
-        : `${process.env.REACT_APP_BACKEND_URL!}:${PORT}/api/api`;
+const URL: string = `${getEnvURL('REACT_APP_BACKEND_URL')}/api/api`;
 
 const ApiForm: FC<Type.ApiFormC> = ({ setApis, data }) => {
     const initialState: Type.ApiForm = data
@@ -200,7 +197,7 @@ const ApiForm: FC<Type.ApiFormC> = ({ setApis, data }) => {
                     <Button value={form._id ? 'Update' : 'Create'} type="submit" disabled={isFormValid()} />
                 </CTA>
             </form>
-            {msg.msgs.length > 0 && <Alert />}
+            {msg.msgs && msg.msgs.length > 0 && <Alert />}
         </div>
     );
 };

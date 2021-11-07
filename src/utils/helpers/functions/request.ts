@@ -2,7 +2,7 @@ import * as Type from '../../@types';
 import { sleep } from './shared';
 import * as Token from './token';
 
-const REQUEST_TRY: number = +process.env.REACT_APP_REQUEST_TRY! || 5;
+const REQUEST_TRY: number = process.env.REACT_APP_REQUEST_TRY ? +process.env.REACT_APP_REQUEST_TRY : 5;
 
 const request: Type.RequestFn = async (type, url, attrs, reqToken, throwError, nTry = 0) => {
     const option: Type.RequestOptions = {

@@ -11,3 +11,8 @@ export const downloadJson: Type.DownloadJsonFn = (response, outputFile) => {
     linkEl.click();
     linkEl.remove();
 };
+
+export const getEnvURL: Type.GetEnvURLFn = (param) => {
+    const PORT: number = process.env.REACT_APP_BACKEND_PORT ? +process.env.REACT_APP_BACKEND_PORT : 3001;
+    return process.env.REACT_APP_ENV! === 'production' ? `${process.env[param]!}` : `${process.env[param]!}:${PORT}`;
+};

@@ -1,21 +1,18 @@
 import { faLocationArrow } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { setMsg } from '../../redux/msg';
 import { hidePopup, showPopup } from '../../redux/popup';
 import * as Type from '../../utils/@types';
 import * as Request from '../../utils/helpers/functions/request';
+import { getEnvURL } from '../../utils/helpers/functions/shared';
 import Button from '../shared/Button';
 import CTA from '../shared/CTA';
 import Input from '../shared/Input';
 
-const PASSWORD_LEN: number = +process.env.REACT_APP_PASSWORD_LEN!;
-const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
-const URL: string =
-    process.env.REACT_APP_ENV! === 'production'
-        ? `${process.env.REACT_APP_BACKEND_URL!}/api/user`
-        : `${process.env.REACT_APP_BACKEND_URL!}:${PORT}/api/user`;
+const PASSWORD_LEN: number = process.env.REACT_APP_PASSWORD_LEN ? +process.env.REACT_APP_PASSWORD_LEN : 7;
+const URL: string = `${getEnvURL('REACT_APP_BACKEND_URL')}/api/user`;
 
 const UserProfileForm: FC = () => {
     const initialState: Type.ProfileForm = {
@@ -30,6 +27,7 @@ const UserProfileForm: FC = () => {
         confirmNewPassword: '',
     };
     const [form, setForm] = useState(initialState);
+    const popup = useSelector((state: RootStateOrAny): Type.Popup => state.popup);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -70,9 +68,9 @@ const UserProfileForm: FC = () => {
         })();
 
         return () => {
-            dispatch(hidePopup());
+            if (popup.visible) dispatch(hidePopup());
         };
-    }, [dispatch, setForm]);
+    }, [dispatch, setForm]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleSubmit: Type.HandleSubmitFn<{}> = async (e) => {
         e.preventDefault();
