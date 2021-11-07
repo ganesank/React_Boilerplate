@@ -29,7 +29,7 @@ const msgReducer: Type.Reducer<Type.MsgState, Type.MsgAction> = (state = initial
                 iconColor: action.payload.iconColor,
             };
         case REMOVE_MSG:
-            return Object.create(initialState);
+            return Object.assign({}, initialState);
         default:
             return state;
     }

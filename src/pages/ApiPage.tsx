@@ -7,7 +7,7 @@ import Alert from '../components/shared/Alert';
 import Button from '../components/shared/Button';
 import CTA from '../components/shared/CTA';
 import Popup from '../components/shared/Popup';
-import { setMsg } from '../redux/msg';
+import { removeMsg, setMsg } from '../redux/msg';
 import { showPopup } from '../redux/popup';
 import * as Type from '../utils/@types';
 import * as Request from '../utils/helpers/functions/request';
@@ -63,9 +63,13 @@ const ApiPage: FC = () => {
     }, [popup]);
 
     useEffect(() => {
+        if (msg.msgs.length > 0) dispatch(removeMsg());
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+    useEffect(() => {
         (async () => {
             try {
-                const response: Type.Response<Type.ApiForm[]> = await Request.postData(`${URL}`, {});
+                const response: Type.Response<Type.ApiForm[]> = await Request.postData(URL, {});
                 if (!response.ok)
                     return dispatch(
                         setMsg({
@@ -151,13 +155,10 @@ const ApiPage: FC = () => {
             <div className="container">
                 <h1>API</h1>
                 <ApiTable thead={thead} apis={apis} setApis={handleDelete} setApi={handleEdit} />
-                {!popup.visible && msg.msgs && msg.msgs.length > 0 && <Alert />}
-
-                {popup.visible && !popup.custom && (
-                    <Popup>
-                        <ApiForm setApis={setApis} data={api} />
-                    </Popup>
-                )}
+                {!popup.visible && <Alert />}
+                <Popup>
+                    <ApiForm setApis={setApis} data={api} />
+                </Popup>
             </div>
         </div>
     );

@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setMsg } from '../../redux/msg';
 import { hidePopup } from '../../redux/popup';
 import * as Type from '../../utils/@types';
@@ -36,7 +36,6 @@ const ApiForm: FC<Type.ApiFormC> = ({ setApis, data }) => {
               description: '',
               active: 'true',
           };
-    const msg = useSelector((state: RootStateOrAny): Type.Msg => state.msg);
     const [form, setForm] = useState(initialState);
     const dispatch = useDispatch();
 
@@ -197,7 +196,7 @@ const ApiForm: FC<Type.ApiFormC> = ({ setApis, data }) => {
                     <Button value={form._id ? 'Update' : 'Create'} type="submit" disabled={isFormValid()} />
                 </CTA>
             </form>
-            {msg.msgs && msg.msgs.length > 0 && <Alert />}
+            <Alert />
         </div>
     );
 };

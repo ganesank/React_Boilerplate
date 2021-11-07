@@ -1,19 +1,6 @@
 .home-page
-  margin-top: 7rem
-  width: 100%
-  display: flex
-  flex-grow: 1
-  flex-direction: column
-  align-items: center
+  @include config-page
 
-  h1
-    margin-bottom: $margin-20
   h2
     color: $color-primary
-
-@include mq-manager(tab-port)
-  .home-page
-    h1
-      font-size: resize($font-size, 1.2)
-    h2
-      font-size: $font-size * 1rem
+    text-transform: capitalize

@@ -17,6 +17,13 @@ export type ValidateEmailFn = {
     (email: string): boolean;
 };
 
+// = Hooks =====================================================================
+export type UseTimeoutFn = {
+    (callback: () => void, delay: number): {
+        clear: () => void;
+    };
+};
+
 // = Forms =====================================================================
 export type HandleChangeFn<T> = {
     (e: T): void;

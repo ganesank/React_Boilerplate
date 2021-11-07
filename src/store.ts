@@ -21,7 +21,15 @@ const persistConfig = {
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);
-const middlewares = [ReduxThunk, logger];
+
+let middlewares: any = [];
+
+if (process.env.REACT_APP_ENV === 'development') {
+    middlewares = [ReduxThunk, logger];
+} else {
+    middlewares = [ReduxThunk];
+}
+
 const store = createStore(persistedReducer, applyMiddleware(...middlewares));
 export const persistor = persistStore(store);
 

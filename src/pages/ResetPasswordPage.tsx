@@ -12,17 +12,15 @@ const ResetPasswordPage: FC = () => {
     const { token } = useParams();
 
     useEffect(() => {
-        return () => {
-            if (msg.msgs && msg.msgs.length > 0) dispatch(removeMsg());
-        };
-    }, [dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
+        if (msg.msgs.length > 0) dispatch(removeMsg());
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <div className="reset-password-page">
             <div className="container">
                 <h1>Reset Password</h1>
                 <UserUpdatePasswordForm token={token!} />
-                {msg.msgs && msg.msgs.length > 0 && <Alert />}
+                <Alert />
             </div>
         </div>
     );
