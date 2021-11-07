@@ -1,11 +1,21 @@
 h1
-  font-size: 1.6rem
+  font-size: resize($font-size, 1.6)
 
 h2
-  font-size: 1.4rem
+  font-size: resize($font-size, 1.4)
 
 h3
-  font-size: 1.2rem
+  font-size: resize($font-size, 1.2)
 
 h4
-  font-size: 1rem
+  font-size: resize($font-size, 1)
+
+@include mq-manager(tab-port)
+  h1
+    font-size: resize($font-size, 1.2)
+  h2
+    font-size: resize($font-size, 1)
+  h3
+    font-size: resize($font-size, 0.8)
+  h4
+    font-size: resize($font-size, 0.6)
