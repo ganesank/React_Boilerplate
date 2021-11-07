@@ -14,6 +14,8 @@ const Popup: FC = ({ children }) => {
         dispatch(hidePopup());
     };
 
+    if (!popup.visible) return <></>;
+
     return (
         <div className="popup" onClick={handleClose}>
             <div className="popup__container" onClick={(e) => e.stopPropagation()}>

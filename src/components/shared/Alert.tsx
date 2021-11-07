@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { removeMsg } from '../../redux/msg';
 import * as Type from '../../utils/@types';
@@ -6,17 +6,20 @@ import * as Type from '../../utils/@types';
 const Alert: FC = () => {
     const msg = useSelector((state: RootStateOrAny): Type.Msg => state.msg);
     const dispatch = useDispatch();
+    const timer: any = useRef();
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            if (msg.msgs && msg.msgs.length > 0) dispatch(removeMsg());
-        }, 10000);
+        if (msg.msgs.length > 0) {
+            timer.current = setTimeout(() => {
+                dispatch(removeMsg());
+            }, 10000);
+        }
         return () => {
-            clearTimeout(timer);
+            timer.current && clearTimeout(timer.current);
         };
-    }, [dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [dispatch, msg, timer]);
 
-    const icon = (
+    const icon = msg.icon && (
         <div className={msg.iconColor ? `alert__icon alert__icon--${msg.iconColor}` : `alert__icon`}>{msg.icon}</div>
     );
 
@@ -28,9 +31,11 @@ const Alert: FC = () => {
         );
     });
 
+    if (msg.msgs.length === 0) return <></>;
+
     return (
         <div className="alert">
-            {msg.msgs && msg.msgs.length > 0 && msg.icon && icon}
+            {icon}
             <div className="alert__msg-container">{messages}</div>
         </div>
     );

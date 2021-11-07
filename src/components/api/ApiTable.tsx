@@ -9,14 +9,12 @@ const ApiTable: FC<Type.ApiTableC> = ({ thead, apis, setApis, setApi }) => {
 
     useEffect(() => {
         apis.forEach((api) => {
-            const id: string = api._id!;
-            setVisible((prev) => ({ ...prev, [id]: false }));
+            setVisible((prev) => ({ ...prev, [api._id!]: false }));
         });
     }, [apis]);
 
     const handleToggle: Type.HandleClickDataFn<Type.ApiForm, null> = (_, api) => {
-        const id: string = api!._id!;
-        setVisible((prev) => ({ ...prev, [id]: !prev[id] }));
+        setVisible((prev) => ({ ...prev, [api!._id!]: !prev[api!._id!] }));
     };
 
     const handleCopy: Type.HandleClickDataFn<string, null> = async (_, text) => {

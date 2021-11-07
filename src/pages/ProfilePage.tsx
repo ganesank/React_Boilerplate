@@ -8,27 +8,23 @@ import { removeMsg } from '../redux/msg';
 import * as Type from '../utils/@types';
 
 const ProfilePage: FC = () => {
-    const popup = useSelector((state: RootStateOrAny): Type.Popup => state.popup);
     const msg = useSelector((state: RootStateOrAny): Type.Msg => state.msg);
+    const popup = useSelector((state: RootStateOrAny): Type.Popup => state.popup);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        return () => {
-            if (msg.msgs && msg.msgs.length > 0) dispatch(removeMsg());
-        };
-    }, [dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
+        if (msg.msgs.length > 0) dispatch(removeMsg());
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <div className="profile-page">
             <div className="container">
                 <h1>PROFILE</h1>
                 <UserProfileForm />
-                {!popup.visible && msg.msgs && msg.msgs.length > 0 && <Alert />}
-                {popup.visible && (
-                    <Popup>
-                        <UserDeleteForm />
-                    </Popup>
-                )}
+                {!popup.visible && <Alert />}
+                <Popup>
+                    <UserDeleteForm />
+                </Popup>
             </div>
         </div>
     );

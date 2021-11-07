@@ -4,7 +4,6 @@ import Alert from '../components/shared/Alert';
 import Popup from '../components/shared/Popup';
 import UserSignUpForm from '../components/user/UserSignUpForm';
 import { removeMsg } from '../redux/msg';
-import { hidePopup } from '../redux/popup';
 import * as Type from '../utils/@types';
 
 const SignUpPage: FC = () => {
@@ -13,11 +12,8 @@ const SignUpPage: FC = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        return () => {
-            if (popup.visible) dispatch(hidePopup());
-            if (msg.msgs && msg.msgs.length > 0) dispatch(removeMsg());
-        };
-    }, [dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
+        if (msg.msgs.length > 0) dispatch(removeMsg());
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <div className="signup-page">
@@ -25,14 +21,12 @@ const SignUpPage: FC = () => {
                 <h1>SIGN UP</h1>
                 <div className="signup-page__form">
                     <UserSignUpForm />
-                    {!popup.visible && msg.msgs && msg.msgs.length > 0 && <Alert />}
-                    {popup.visible && popup.custom && (
-                        <Popup>
-                            <div className="popup__custom__link">
-                                <a href={popup.custom}>Click Here</a>
-                            </div>
-                        </Popup>
-                    )}
+                    {!popup.visible && <Alert />}
+                    <Popup>
+                        <div className="popup__custom__link">
+                            <a href={popup.custom}>Click Here</a>
+                        </div>
+                    </Popup>
                 </div>
             </div>
         </div>

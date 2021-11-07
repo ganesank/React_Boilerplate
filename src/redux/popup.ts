@@ -31,13 +31,7 @@ const popupReducer: Type.Reducer<Type.PopupState, Type.PopupAction> = (state = i
                 custom: action.payload?.custom,
             };
         case HIDE_POPUP:
-            return {
-                visible: false,
-                title: '',
-                message: '',
-                children: true,
-                custom: '',
-            };
+            return Object.assign({}, initialState);
         default:
             return state;
     }

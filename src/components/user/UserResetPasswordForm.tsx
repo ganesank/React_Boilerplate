@@ -22,10 +22,8 @@ const UserResetPasswordForm: FC = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        return () => {
-            if (msg.msgs && msg.msgs.length > 0) dispatch(removeMsg());
-        };
-    }, [dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
+        if (msg.msgs.length > 0) dispatch(removeMsg());
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleSubmit: Type.HandleSubmitFn<{}> = async (e) => {
         e.preventDefault();
@@ -92,7 +90,7 @@ const UserResetPasswordForm: FC = () => {
                     <Button value="Reset" type="submit" disabled={isFormValid()} />
                 </CTA>
             </form>
-            {msg.msgs && msg.msgs.length > 0 && <Alert />}
+            <Alert />
         </div>
     );
 };

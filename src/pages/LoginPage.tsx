@@ -5,7 +5,6 @@ import Popup from '../components/shared/Popup';
 import UserLoginForm from '../components/user/UserLoginForm';
 import UserResetPasswordForm from '../components/user/UserResetPasswordForm';
 import { removeMsg } from '../redux/msg';
-import { hidePopup } from '../redux/popup';
 import * as Type from '../utils/@types';
 
 const LoginPage: FC = () => {
@@ -14,11 +13,22 @@ const LoginPage: FC = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        return () => {
-            if (popup.visible) dispatch(hidePopup());
-            if (msg.msgs && msg.msgs.length > 0) dispatch(removeMsg());
-        };
-    }, [dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
+        if (msg.msgs.length > 0) dispatch(removeMsg());
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+    const customPopup = popup.custom && (
+        <Popup>
+            <div className="popup__custom__link">
+                <a href={popup.custom}>Click Here</a>
+            </div>
+        </Popup>
+    );
+
+    const normalPopup = !popup.custom && (
+        <Popup>
+            <UserResetPasswordForm />
+        </Popup>
+    );
 
     return (
         <div className="login-page">
@@ -26,19 +36,9 @@ const LoginPage: FC = () => {
                 <h1>LOGIN</h1>
                 <div className="login-page__form">
                     <UserLoginForm />
-                    {!popup.visible && msg.msgs && msg.msgs.length > 0 && <Alert />}
-                    {popup.visible && popup.custom && (
-                        <Popup>
-                            <div className="popup__custom__link">
-                                <a href={popup.custom}>Click Here</a>
-                            </div>
-                        </Popup>
-                    )}
-                    {popup.visible && !popup.custom && (
-                        <Popup>
-                            <UserResetPasswordForm />
-                        </Popup>
-                    )}
+                    {!popup.visible && <Alert />}
+                    {customPopup}
+                    {normalPopup}
                 </div>
             </div>
         </div>
