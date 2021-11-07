@@ -22,9 +22,9 @@ const UserDeleteForm: FC = () => {
 
     useEffect(() => {
         return () => {
-            dispatch(removeMsg());
+            if (msg.msgs && msg.msgs.length > 0) dispatch(removeMsg());
         };
-    }, [dispatch]);
+    }, [dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleSubmit: Type.HandleSubmitFn<{}> = (e) => {
         e.preventDefault();
@@ -62,7 +62,7 @@ const UserDeleteForm: FC = () => {
                     <Button value="Delete" btnColor="danger" type="submit" disabled={isFormValid()} />
                 </CTA>
             </form>
-            {msg.msgs.length > 0 && <Alert />}
+            {msg.msgs && msg.msgs.length > 0 && <Alert />}
         </div>
     );
 };

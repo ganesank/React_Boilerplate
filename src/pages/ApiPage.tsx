@@ -11,12 +11,9 @@ import { setMsg } from '../redux/msg';
 import { showPopup } from '../redux/popup';
 import * as Type from '../utils/@types';
 import * as Request from '../utils/helpers/functions/request';
+import { getEnvURL } from '../utils/helpers/functions/shared';
 
-const PORT: number = +process.env.REACT_APP_BACKEND_PORT!;
-const URL: string =
-    process.env.REACT_APP_ENV! === 'production'
-        ? `${process.env.REACT_APP_BACKEND_URL!}/api/api`
-        : `${process.env.REACT_APP_BACKEND_URL!}:${PORT}/api/api`;
+const URL: string = `${getEnvURL('REACT_APP_BACKEND_URL')}/api/api`;
 
 const ApiPage: FC = () => {
     const initialState: { api: Type.ApiForm; idx: number } = {
@@ -154,7 +151,7 @@ const ApiPage: FC = () => {
             <div className="container">
                 <h1>API</h1>
                 <ApiTable thead={thead} apis={apis} setApis={handleDelete} setApi={handleEdit} />
-                {!popup.visible && msg.msgs.length > 0 && <Alert />}
+                {!popup.visible && msg.msgs && msg.msgs.length > 0 && <Alert />}
 
                 {popup.visible && !popup.custom && (
                     <Popup>

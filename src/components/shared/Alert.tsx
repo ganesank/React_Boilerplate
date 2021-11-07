@@ -9,13 +9,12 @@ const Alert: FC = () => {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            dispatch(removeMsg());
+            if (msg.msgs && msg.msgs.length > 0) dispatch(removeMsg());
         }, 10000);
         return () => {
             clearTimeout(timer);
-            dispatch(removeMsg());
         };
-    }, [dispatch]);
+    }, [dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const icon = (
         <div className={msg.iconColor ? `alert__icon alert__icon--${msg.iconColor}` : `alert__icon`}>{msg.icon}</div>
@@ -31,7 +30,7 @@ const Alert: FC = () => {
 
     return (
         <div className="alert">
-            {msg.msgs.length > 0 && msg.icon && icon}
+            {msg.msgs && msg.msgs.length > 0 && msg.icon && icon}
             <div className="alert__msg-container">{messages}</div>
         </div>
     );

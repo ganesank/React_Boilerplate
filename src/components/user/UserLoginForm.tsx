@@ -7,7 +7,7 @@ import Button from '../shared/Button';
 import CTA from '../shared/CTA';
 import Input from '../shared/Input';
 
-const PASSWORD_LEN: number = +process.env.REACT_APP_PASSWORD_LEN!;
+const PASSWORD_LEN: number = process.env.REACT_APP_PASSWORD_LEN ? +process.env.REACT_APP_PASSWORD_LEN : 7;
 
 const UserLoginForm: FC = () => {
     const initialState: Type.LoginForm = {

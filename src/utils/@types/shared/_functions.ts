@@ -9,6 +9,10 @@ export type DownloadJsonFn = {
     (response: any, outputFile: string): void;
 };
 
+export type GetEnvURLFn = {
+    (param: string): string;
+};
+
 // = Forms =====================================================================
 export type HandleChangeFn<T> = {
     (e: T): void;

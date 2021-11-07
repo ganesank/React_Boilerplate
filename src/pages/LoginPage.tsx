@@ -15,10 +15,10 @@ const LoginPage: FC = () => {
 
     useEffect(() => {
         return () => {
-            dispatch(hidePopup());
-            dispatch(removeMsg());
+            if (popup.visible) dispatch(hidePopup());
+            if (msg.msgs && msg.msgs.length > 0) dispatch(removeMsg());
         };
-    }, [dispatch]);
+    }, [dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <div className="login-page">
@@ -26,7 +26,7 @@ const LoginPage: FC = () => {
                 <h1>LOGIN</h1>
                 <div className="login-page__form">
                     <UserLoginForm />
-                    {!popup.visible && msg.msgs.length > 0 && <Alert />}
+                    {!popup.visible && msg.msgs && msg.msgs.length > 0 && <Alert />}
                     {popup.visible && popup.custom && (
                         <Popup>
                             <div className="popup__custom__link">
