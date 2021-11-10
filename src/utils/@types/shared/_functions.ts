@@ -1,4 +1,4 @@
-import { FormEvent, MouseEvent } from 'react';
+import { Dispatch, FormEvent, MouseEvent, SetStateAction } from 'react';
 
 // = Generic ===================================================================
 export type SleepFn = {
@@ -19,9 +19,34 @@ export type ValidateEmailFn = {
 
 // = Hooks =====================================================================
 export type UseTimeoutFn = {
-    (callback: () => void, delay: number): {
+    (callback: any, delay: number): {
+        reset: () => void;
         clear: () => void;
     };
+};
+
+export type UseDebounceFn = {
+    (callback: any, delay: number, dependencies: any[]): void;
+};
+
+export type UseUpdateEffectFn = {
+    (callback: any, dependencies: any[]): void;
+};
+
+export type UsePlainArrayFn = {
+    (initArray: any[]): {
+        array: any[];
+        set: Dispatch<SetStateAction<any[]>>;
+        push: (newEl: any) => void;
+        filter: (callback: any) => void;
+        update: (idx: number, newEl: any) => void;
+        remove: (idx: number) => void;
+        clear: () => void;
+    };
+};
+
+export type UseToggleFn = {
+    (defaultValue?: boolean): [value: boolean, toggleValue: any];
 };
 
 // = Forms =====================================================================
