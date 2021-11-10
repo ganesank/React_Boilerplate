@@ -391,7 +391,7 @@ In `src/components/api/ApiForm.tsx`
 
 ```TypeScript
   import { FC, useState } from 'react';
-  import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+  import { useDispatch } from 'react-redux';
   import { setMsg } from '../../redux/msg';
   import { hidePopup } from '../../redux/popup';
   import * as Type from '../../utils/@types';
@@ -428,7 +428,6 @@ In `src/components/api/ApiForm.tsx`
                 description: '',
                 active: 'true',
             };
-      const msg = useSelector((state: RootStateOrAny): Type.Msg => state.msg);
       const [form, setForm] = useState(initialState);
       const dispatch = useDispatch();
 
@@ -589,7 +588,7 @@ In `src/components/api/ApiForm.tsx`
                       <Button value={form._id ? 'Update' : 'Create'} type="submit" disabled={isFormValid()} />
                   </CTA>
               </form>
-              {msg.msgs && msg.msgs.length > 0 && <Alert />}
+              <Alert />
           </div>
       );
   };
@@ -615,14 +614,12 @@ In `src/components/api/ApiTable.tsx`
 
       useEffect(() => {
           apis.forEach((api) => {
-              const id: string = api._id!;
-              setVisible((prev) => ({ ...prev, [id]: false }));
+              setVisible((prev) => ({ ...prev, [api._id!]: false }));
           });
       }, [apis]);
 
       const handleToggle: Type.HandleClickDataFn<Type.ApiForm, null> = (_, api) => {
-          const id: string = api!._id!;
-          setVisible((prev) => ({ ...prev, [id]: !prev[id] }));
+          setVisible((prev) => ({ ...prev, [api!._id!]: !prev[api!._id!] }));
       };
 
       const handleCopy: Type.HandleClickDataFn<string, null> = async (_, text) => {
@@ -750,7 +747,7 @@ In `src/components/api/ApiTable.tsx`
 In `src/components/shared/Alert.tsx`
 
 ```TypeScript
-  import { FC, useEffect } from 'react';
+  import { FC, useEffect, useRef } from 'react';
   import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
   import { removeMsg } from '../../redux/msg';
   import * as Type from '../../utils/@types';
@@ -758,17 +755,20 @@ In `src/components/shared/Alert.tsx`
   const Alert: FC = () => {
       const msg = useSelector((state: RootStateOrAny): Type.Msg => state.msg);
       const dispatch = useDispatch();
+      const timer: any = useRef();
 
       useEffect(() => {
-          const timer = setTimeout(() => {
-              if (msg.msgs && msg.msgs.length > 0) dispatch(removeMsg());
-          }, 10000);
+          if (msg.msgs.length > 0) {
+              timer.current = setTimeout(() => {
+                  dispatch(removeMsg());
+              }, 10000);
+          }
           return () => {
-              clearTimeout(timer);
+              timer.current && clearTimeout(timer.current);
           };
-      }, [dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
+      }, [dispatch, msg, timer]);
 
-      const icon = (
+      const icon = msg.icon && (
           <div className={msg.iconColor ? `alert__icon alert__icon--${msg.iconColor}` : `alert__icon`}>{msg.icon}</div>
       );
 
@@ -780,9 +780,11 @@ In `src/components/shared/Alert.tsx`
           );
       });
 
+      if (msg.msgs.length === 0) return <></>;
+
       return (
           <div className="alert">
-              {msg.msgs && msg.msgs.length > 0 && msg.icon && icon}
+              {icon}
               <div className="alert__msg-container">{messages}</div>
           </div>
       );
@@ -1228,6 +1230,8 @@ In `src/components/shared/Popup.tsx`
           dispatch(hidePopup());
       };
 
+      if (!popup.visible) return <></>;
+
       return (
           <div className="popup" onClick={handleClose}>
               <div className="popup__container" onClick={(e) => e.stopPropagation()}>
@@ -1372,10 +1376,8 @@ In `src/components/user/UserDeleteForm.tsx`
       const navigate = useNavigate();
 
       useEffect(() => {
-          return () => {
-              if (msg.msgs && msg.msgs.length > 0) dispatch(removeMsg());
-          };
-      }, [dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
+          if (msg.msgs.length > 0) dispatch(removeMsg());
+      }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
       const handleSubmit: Type.HandleSubmitFn<{}> = (e) => {
           e.preventDefault();
@@ -1413,7 +1415,7 @@ In `src/components/user/UserDeleteForm.tsx`
                       <Button value="Delete" btnColor="danger" type="submit" disabled={isFormValid()} />
                   </CTA>
               </form>
-              {msg.msgs && msg.msgs.length > 0 && <Alert />}
+              <Alert />
           </div>
       );
   };
@@ -1526,9 +1528,9 @@ In `src/components/user/UserProfileForm.tsx`
   import { faLocationArrow } from '@fortawesome/free-solid-svg-icons';
   import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
   import { FC, useEffect, useState } from 'react';
-  import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+  import { useDispatch } from 'react-redux';
   import { setMsg } from '../../redux/msg';
-  import { hidePopup, showPopup } from '../../redux/popup';
+  import { showPopup } from '../../redux/popup';
   import * as Type from '../../utils/@types';
   import * as Request from '../../utils/helpers/functions/request';
   import { getEnvURL, validateEmail } from '../../utils/helpers/functions/shared';
@@ -1552,7 +1554,6 @@ In `src/components/user/UserProfileForm.tsx`
           confirmNewPassword: '',
       };
       const [form, setForm] = useState(initialState);
-      const popup = useSelector((state: RootStateOrAny): Type.Popup => state.popup);
       const dispatch = useDispatch();
 
       useEffect(() => {
@@ -1591,11 +1592,7 @@ In `src/components/user/UserProfileForm.tsx`
                   );
               }
           })();
-
-          return () => {
-              if (popup.visible) dispatch(hidePopup());
-          };
-      }, [dispatch, setForm]); // eslint-disable-line react-hooks/exhaustive-deps
+      }, [dispatch, setForm]);
 
       const handleSubmit: Type.HandleSubmitFn<{}> = async (e) => {
           e.preventDefault();
@@ -1810,10 +1807,8 @@ In `src/components/user/UserResetPasswordForm.tsx`
       const navigate = useNavigate();
 
       useEffect(() => {
-          return () => {
-              if (msg.msgs && msg.msgs.length > 0) dispatch(removeMsg());
-          };
-      }, [dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
+          if (msg.msgs.length > 0) dispatch(removeMsg());
+      }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
       const handleSubmit: Type.HandleSubmitFn<{}> = async (e) => {
           e.preventDefault();
@@ -1880,7 +1875,7 @@ In `src/components/user/UserResetPasswordForm.tsx`
                       <Button value="Reset" type="submit" disabled={isFormValid()} />
                   </CTA>
               </form>
-              {msg.msgs && msg.msgs.length > 0 && <Alert />}
+              <Alert />
           </div>
       );
   };
@@ -2225,7 +2220,7 @@ In `src/pages/ApiPage.tsx`
   import Button from '../components/shared/Button';
   import CTA from '../components/shared/CTA';
   import Popup from '../components/shared/Popup';
-  import { setMsg } from '../redux/msg';
+  import { removeMsg, setMsg } from '../redux/msg';
   import { showPopup } from '../redux/popup';
   import * as Type from '../utils/@types';
   import * as Request from '../utils/helpers/functions/request';
@@ -2281,9 +2276,13 @@ In `src/pages/ApiPage.tsx`
       }, [popup]);
 
       useEffect(() => {
+          if (msg.msgs.length > 0) dispatch(removeMsg());
+      }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+      useEffect(() => {
           (async () => {
               try {
-                  const response: Type.Response<Type.ApiForm[]> = await Request.postData(`${URL}`, {});
+                  const response: Type.Response<Type.ApiForm[]> = await Request.postData(URL, {});
                   if (!response.ok)
                       return dispatch(
                           setMsg({
@@ -2369,13 +2368,10 @@ In `src/pages/ApiPage.tsx`
               <div className="container">
                   <h1>API</h1>
                   <ApiTable thead={thead} apis={apis} setApis={handleDelete} setApi={handleEdit} />
-                  {!popup.visible && msg.msgs && msg.msgs.length > 0 && <Alert />}
-
-                  {popup.visible && !popup.custom && (
-                      <Popup>
-                          <ApiForm setApis={setApis} data={api} />
-                      </Popup>
-                  )}
+                  {!popup.visible && <Alert />}
+                  <Popup>
+                      <ApiForm setApis={setApis} data={api} />
+                  </Popup>
               </div>
           </div>
       );
@@ -2425,7 +2421,6 @@ In `src/pages/LoginPage.tsx`
   import UserLoginForm from '../components/user/UserLoginForm';
   import UserResetPasswordForm from '../components/user/UserResetPasswordForm';
   import { removeMsg } from '../redux/msg';
-  import { hidePopup } from '../redux/popup';
   import * as Type from '../utils/@types';
 
   const LoginPage: FC = () => {
@@ -2434,11 +2429,22 @@ In `src/pages/LoginPage.tsx`
       const dispatch = useDispatch();
 
       useEffect(() => {
-          return () => {
-              if (popup.visible) dispatch(hidePopup());
-              if (msg.msgs && msg.msgs.length > 0) dispatch(removeMsg());
-          };
-      }, [dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
+          if (msg.msgs.length > 0) dispatch(removeMsg());
+      }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+      const customPopup = popup.custom && (
+          <Popup>
+              <div className="popup__custom__link">
+                  <a href={popup.custom}>Click Here</a>
+              </div>
+          </Popup>
+      );
+
+      const normalPopup = !popup.custom && (
+          <Popup>
+              <UserResetPasswordForm />
+          </Popup>
+      );
 
       return (
           <div className="login-page">
@@ -2446,19 +2452,9 @@ In `src/pages/LoginPage.tsx`
                   <h1>LOGIN</h1>
                   <div className="login-page__form">
                       <UserLoginForm />
-                      {!popup.visible && msg.msgs && msg.msgs.length > 0 && <Alert />}
-                      {popup.visible && popup.custom && (
-                          <Popup>
-                              <div className="popup__custom__link">
-                                  <a href={popup.custom}>Click Here</a>
-                              </div>
-                          </Popup>
-                      )}
-                      {popup.visible && !popup.custom && (
-                          <Popup>
-                              <UserResetPasswordForm />
-                          </Popup>
-                      )}
+                      {!popup.visible && <Alert />}
+                      {customPopup}
+                      {normalPopup}
                   </div>
               </div>
           </div>
@@ -2485,27 +2481,23 @@ In `src/pages/ProfilePage.tsx`
   import * as Type from '../utils/@types';
 
   const ProfilePage: FC = () => {
-      const popup = useSelector((state: RootStateOrAny): Type.Popup => state.popup);
       const msg = useSelector((state: RootStateOrAny): Type.Msg => state.msg);
+      const popup = useSelector((state: RootStateOrAny): Type.Popup => state.popup);
       const dispatch = useDispatch();
 
       useEffect(() => {
-          return () => {
-              if (msg.msgs && msg.msgs.length > 0) dispatch(removeMsg());
-          };
-      }, [dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
+          if (msg.msgs.length > 0) dispatch(removeMsg());
+      }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
       return (
           <div className="profile-page">
               <div className="container">
                   <h1>PROFILE</h1>
                   <UserProfileForm />
-                  {!popup.visible && msg.msgs && msg.msgs.length > 0 && <Alert />}
-                  {popup.visible && (
-                      <Popup>
-                          <UserDeleteForm />
-                      </Popup>
-                  )}
+                  {!popup.visible && <Alert />}
+                  <Popup>
+                      <UserDeleteForm />
+                  </Popup>
               </div>
           </div>
       );
@@ -2535,17 +2527,15 @@ In `src/pages/ResetPasswordPage.tsx`
       const { token } = useParams();
 
       useEffect(() => {
-          return () => {
-              if (msg.msgs && msg.msgs.length > 0) dispatch(removeMsg());
-          };
-      }, [dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
+          if (msg.msgs.length > 0) dispatch(removeMsg());
+      }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
       return (
           <div className="reset-password-page">
               <div className="container">
                   <h1>Reset Password</h1>
                   <UserUpdatePasswordForm token={token!} />
-                  {msg.msgs && msg.msgs.length > 0 && <Alert />}
+                  <Alert />
               </div>
           </div>
       );
@@ -2567,7 +2557,6 @@ In `src/pages/SignUpPage.tsx`
   import Popup from '../components/shared/Popup';
   import UserSignUpForm from '../components/user/UserSignUpForm';
   import { removeMsg } from '../redux/msg';
-  import { hidePopup } from '../redux/popup';
   import * as Type from '../utils/@types';
 
   const SignUpPage: FC = () => {
@@ -2576,11 +2565,8 @@ In `src/pages/SignUpPage.tsx`
       const dispatch = useDispatch();
 
       useEffect(() => {
-          return () => {
-              if (popup.visible) dispatch(hidePopup());
-              if (msg.msgs && msg.msgs.length > 0) dispatch(removeMsg());
-          };
-      }, [dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
+          if (msg.msgs.length > 0) dispatch(removeMsg());
+      }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
       return (
           <div className="signup-page">
@@ -2588,14 +2574,12 @@ In `src/pages/SignUpPage.tsx`
                   <h1>SIGN UP</h1>
                   <div className="signup-page__form">
                       <UserSignUpForm />
-                      {!popup.visible && msg.msgs && msg.msgs.length > 0 && <Alert />}
-                      {popup.visible && popup.custom && (
-                          <Popup>
-                              <div className="popup__custom__link">
-                                  <a href={popup.custom}>Click Here</a>
-                              </div>
-                          </Popup>
-                      )}
+                      {!popup.visible && <Alert />}
+                      <Popup>
+                          <div className="popup__custom__link">
+                              <a href={popup.custom}>Click Here</a>
+                          </div>
+                      </Popup>
                   </div>
               </div>
           </div>
@@ -2645,7 +2629,7 @@ In `src/redux/msg.ts`
                   iconColor: action.payload.iconColor,
               };
           case REMOVE_MSG:
-              return Object.create(initialState);
+              return Object.assign({}, initialState);
           default:
               return state;
       }
@@ -2694,13 +2678,7 @@ In `src/redux/popup.ts`
                   custom: action.payload?.custom,
               };
           case HIDE_POPUP:
-              return {
-                  visible: false,
-                  title: '',
-                  message: '',
-                  children: true,
-                  custom: '',
-              };
+              return Object.assign({}, initialState);
           default:
               return state;
       }
@@ -3048,6 +3026,7 @@ In `src/redux/user.ts`
       flex-grow: 1
       width: 100%
       justify-content: center
+      min-height: 100vh
 
     .container
       max-width: $page-width
@@ -3092,16 +3071,26 @@ In `src/redux/user.ts`
 
   ```SCSS
     h1
-      font-size: 1.6rem
+      font-size: resize($font-size, 1.6)
 
     h2
-      font-size: 1.4rem
+      font-size: resize($font-size, 1.4)
 
     h3
-      font-size: 1.2rem
+      font-size: resize($font-size, 1.2)
 
     h4
-      font-size: 1rem
+      font-size: resize($font-size, 1)
+
+    @include mq-manager(tab-port)
+      h1
+        font-size: resize($font-size, 1.2)
+      h2
+        font-size: resize($font-size, 1)
+      h3
+        font-size: resize($font-size, 0.8)
+      h4
+        font-size: resize($font-size, 0.6)
   ```
 
 - In `src/sass/base/index.sass`
@@ -4286,6 +4275,17 @@ In `src/redux/user.ts`
 
     @mixin google-font($family)
       @import url('https://fonts.googleapis.com/css2?family=#{$family}&display=swap')
+
+    @mixin config-page
+      margin-top: 7rem
+      width: 100%
+      display: flex
+      flex-grow: 1
+      flex-direction: column
+      align-items: center
+
+      h1
+        margin-bottom: $margin-20
   ```
 
 - In `src/sass/helpers/_tooltip.sass`
@@ -4482,15 +4482,8 @@ In `src/redux/user.ts`
 
   ```SCSS
     .about-page
-      margin-top: 7rem
-      width: 100%
-      display: flex
-      flex-grow: 1
-      flex-direction: column
-      align-items: center
+      @include config-page
 
-      h1
-        margin-bottom: $margin-20
       h2
         margin: 0.5rem 0
         white-space: nowrap
@@ -4522,12 +4515,6 @@ In `src/redux/user.ts`
 
     @include mq-manager(tab-port)
       .about-page
-        h1
-          font-size: resize($font-size, 1.2)
-        h2
-          font-size: $font-size * 1rem
-        h4
-          font-size: $font-size * 0.8rem
         &__picture
           width: 8rem
   ```
@@ -4536,129 +4523,51 @@ In `src/redux/user.ts`
 
   ```SCSS
     .api-page
+      @include config-page
       margin-top: 10rem
-      width: 100%
-      display: flex
-      flex-grow: 1
-      flex-direction: column
-      align-items: center
 
-      h1
-        margin-bottom: $margin-20
       &__form
         padding: 0.5rem
         width: 25rem
-
-    @include mq-manager(tab-port)
-      .api-page
-        h1
-          font-size: resize($font-size, 1.2)
-        &__sub-menu
-          padding: $padding-5 1.75rem
   ```
 
 - In `src/sass/pages/_home-page.sass`
 
   ```SCSS
     .home-page
-      margin-top: 7rem
-      width: 100%
-      display: flex
-      flex-grow: 1
-      flex-direction: column
-      align-items: center
+      @include config-page
 
-      h1
-        margin-bottom: $margin-20
       h2
         color: $color-primary
-
-    @include mq-manager(tab-port)
-      .home-page
-        h1
-          font-size: resize($font-size, 1.2)
-        h2
-          font-size: $font-size * 1rem
+        text-transform: capitalize
   ```
 
 - In `src/sass/pages/_login-page.sass`
 
   ```SCSS
     .login-page
-      margin-top: 7rem
-      width: 100%
-      display: flex
-      flex-grow: 1
-      flex-direction: column
-      align-items: center
-
-      h1
-        margin-bottom: $margin-20
-
-    @include mq-manager(tab-port)
-      .login-page
-        h1
-          font-size: resize($font-size, 1.2)
+      @include config-page
   ```
 
 - In `src/sass/pages/_profile-page.sass`
 
   ```SCSS
     .profile-page
-      margin-top: 7rem
-      width: 100%
-      display: flex
-      flex-grow: 1
-      flex-direction: column
-      align-items: center
-
-      h1
-        margin-bottom: $margin-20
-
-    @include mq-manager(tab-port)
-      .profile-page
-        h1
-          font-size: resize($font-size, 1.2)
+      @include config-page
   ```
 
 - In `src/sass/pages/_reset-password-page.sass`
 
   ```SCSS
     .reset-password-page
-      margin-top: 7rem
-      width: 100%
-      display: flex
-      flex-grow: 1
-      flex-direction: column
-      align-items: center
-
-      h1
-        margin-bottom: $margin-20
-
-    @include mq-manager(tab-port)
-      .reset-password-page
-        h1
-          font-size: resize($font-size, 1.2)
+      @include config-page
   ```
 
 - In `src/sass/pages/_signup-page.sass`
 
   ```SCSS
     .signup-page
-      margin-top: 7rem
-      width: 100%
-      display: flex
-      flex-grow: 1
-      flex-direction: column
-      align-items: center
-
-      h1
-        margin-bottom: $margin-20
-
-    @include mq-manager(tab-port)
-      .signup-page
-        h1
-          font-size: resize($font-size, 1.2)
+      @include config-page
   ```
 
 - In `src/sass/pages/index.sass`
@@ -4799,7 +4708,7 @@ In `src/redux/user.ts`
 - In `src/utils/@types/shared/_functions.ts`
 
   ```TypeScript
-    import { FormEvent, MouseEvent } from 'react';
+    import { Dispatch, FormEvent, MouseEvent, SetStateAction } from 'react';
 
     // = Generic ===================================================================
     export type SleepFn = {
@@ -4816,6 +4725,38 @@ In `src/redux/user.ts`
 
     export type ValidateEmailFn = {
         (email: string): boolean;
+    };
+
+    // = Hooks =====================================================================
+    export type UseTimeoutFn = {
+        (callback: any, delay: number): {
+            reset: () => void;
+            clear: () => void;
+        };
+    };
+
+    export type UseDebounceFn = {
+        (callback: any, delay: number, dependencies: any[]): void;
+    };
+
+    export type UseUpdateEffectFn = {
+        (callback: any, dependencies: any[]): void;
+    };
+
+    export type UsePlainArrayFn = {
+        (initArray: any[]): {
+            array: any[];
+            set: Dispatch<SetStateAction<any[]>>;
+            push: (newEl: any) => void;
+            filter: (callback: any) => void;
+            update: (idx: number, newEl: any) => void;
+            remove: (idx: number) => void;
+            clear: () => void;
+        };
+    };
+
+    export type UseToggleFn = {
+        (defaultValue?: boolean): [value: boolean, toggleValue: any];
     };
 
     // = Forms =====================================================================
@@ -5275,6 +5216,115 @@ In `src/redux/user.ts`
     };
   ```
 
+- In `src/utils/helpers/functions/hooks.ts`
+
+  ```TypeScript
+    import { useCallback, useEffect, useRef, useState } from 'react';
+    import * as Type from '../../@types';
+
+    export const useTimeout: Type.UseTimeoutFn = (callback, delay) => {
+        const callbackRef: any = useRef(callback);
+        const timeoutRef: any = useRef(null);
+
+        useEffect(() => {
+            callbackRef.current = callback;
+        }, [callback]);
+
+        const set = useCallback(() => {
+            timeoutRef.current = setTimeout(() => {
+                callbackRef.current();
+            }, delay);
+        }, [delay]);
+
+        const clear = useCallback(() => {
+            timeoutRef.current && clearTimeout(timeoutRef.current);
+        }, []);
+
+        useEffect(() => {
+            set();
+            return clear;
+        }, [delay, set, clear]);
+
+        const reset = useCallback(() => {
+            clear();
+            set();
+        }, [clear, set]);
+
+        return { reset, clear };
+    };
+
+    export const useDebounce: Type.UseDebounceFn = (callback, delay, dependencies) => {
+        const { reset, clear } = useTimeout(callback, delay);
+
+        useEffect(() => {
+            reset();
+        }, [...dependencies, reset]); // eslint-disable-line react-hooks/exhaustive-deps
+
+        useEffect(() => {
+            clear();
+        }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    };
+
+    export const useUpdateEffect: Type.UseUpdateEffectFn = (callback, dependencies) => {
+        const firstRenderRef = useRef<boolean>(true);
+
+        useEffect(() => {
+            if (firstRenderRef.current) {
+                firstRenderRef.current = false;
+                return;
+            }
+            return callback();
+        }, [...dependencies]); // eslint-disable-line react-hooks/exhaustive-deps
+    };
+
+    export const usePlainArray: Type.UsePlainArrayFn = (initArray) => {
+        const [array, setArray] = useState<any[]>(initArray);
+
+        const push = (newEl: any) => {
+            setArray((prev) => [...prev, newEl]);
+        };
+
+        const filter = (callback: any) => {
+            setArray((prev) => prev.filter(callback));
+        };
+
+        const update = (idx: number, newEl: any) => {
+            setArray((prev) => [...prev.slice(0, idx), newEl, ...prev.slice(idx + 1, prev.length)]);
+        };
+
+        const remove = (idx: number) => {
+            console.log(array);
+            setArray((prev) => [...prev.slice(0, idx), ...prev.slice(idx + 1, prev.length)]);
+        };
+
+        const clear = () => {
+            setArray([]);
+        };
+
+        return {
+            array,
+            set: setArray,
+            push,
+            filter,
+            update,
+            remove,
+            clear,
+        };
+    };
+
+    export const useToggle: Type.UseToggleFn = (defaultValue = false) => {
+        const [value, setValue] = useState<boolean>(defaultValue);
+
+        const toggleValue = (value?: boolean) => {
+            setValue((prev: boolean) => {
+                return typeof value === 'boolean' ? value : !prev;
+            });
+        };
+
+        return [value, toggleValue];
+    };
+  ```
+
 ### Store
 
 [Go Back to Contents](#table-of-contents)
@@ -5291,19 +5341,29 @@ In `src/store.ts`
   import popupReducer from './redux/popup';
   import userReducer from './redux/user';
 
-  const persistConfig = {
-      key: 'redux-persist-key',
-      storage,
-  };
-
   const reducers = combineReducers({
       user: userReducer,
       popup: popupReducer,
       msg: msgReducer,
   });
 
+  const persistConfig = {
+      key: 'redux-persist-key',
+      storage,
+      blacklist: ['user', 'msg', 'popup'],
+      whitelist: [],
+  };
+
   const persistedReducer = persistReducer(persistConfig, reducers);
-  const middlewares = [ReduxThunk, logger];
+
+  let middlewares: any = [];
+
+  if (process.env.REACT_APP_ENV === 'development') {
+      middlewares = [ReduxThunk, logger];
+  } else {
+      middlewares = [ReduxThunk];
+  }
+
   const store = createStore(persistedReducer, applyMiddleware(...middlewares));
   export const persistor = persistStore(store);
 
