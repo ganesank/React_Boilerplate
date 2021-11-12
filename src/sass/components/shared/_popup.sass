@@ -2,7 +2,7 @@
   position: fixed
   top: 0
   left: 0
-  background-color: rgba($cbk, 0.8)
+  background-color: rgba($color-black, 0.8)
   width: 100%
   height: 100%
   z-index: 10
@@ -10,18 +10,20 @@
   &__container
     @include abs-center
     top: 45%
-    background-color: $cwt
+    background-color: $color-white
     min-width: 30rem
     min-height: 5rem
     border-radius: $border-radius
     padding: 1rem
-    color: $cbk
+    color: $color-black
     z-index: 2
   &__close
     position: absolute
     top: $form-padding
     right: $form-padding
     font-size: $font-size * 1rem
+    margin: 0 !important
+    padding: 0 !important
   &__header
     margin: 0 0 1rem 0
 
