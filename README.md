@@ -1,4 +1,4 @@
-<h1>Last Update - 11/06/2021</h1>
+<h1>Last Update - 11/11/2021</h1>
 
 ---
 
@@ -107,7 +107,7 @@ Install the following dependencies
   npm i -D @types/redux-logger
 ```
 
-> **For now 11/06/2021** make sure you are using typescript version `4.0.3` (Today TypeScript latest version is given some errors)
+> **For now 11/11/2021** make sure you are using typescript version `4.0.3` (Today TypeScript latest version is given some errors)
 
 #### Deploy To Netlify
 
