@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import * as Type from '../../@types';
+import * as Type from '../@types';
 
 export const useTimeout: Type.UseTimeoutFn = (callback, delay) => {
     const callbackRef: any = useRef(callback);

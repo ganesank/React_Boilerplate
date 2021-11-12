@@ -8,7 +8,7 @@ const Button: FC<Type.Button> = ({
     icon,
     faIcon,
     handle,
-    noHover = false,
+    hover = false,
     iconDirection = 'left',
     direction = 'row',
     disabled = false,
@@ -23,10 +23,10 @@ const Button: FC<Type.Button> = ({
     if (icon && faIcon) faIcon = undefined;
 
     const handleClass: string = handle ? `${handle}` : '';
-    const noHoverClass: string = noHover ? `btn--no-hover ` : '';
+    const hoverClass: string = hover ? '' : `btn--no-hover `;
     const directionClass: string = `btn__${direction} `;
     const btnColorClass: string = btnColor ? `btn--${btnColor} ` : '';
-    const customClass: string = `btn ${noHoverClass}${btnColorClass}${directionClass}${handleClass}`;
+    const customClass: string = `btn ${hoverClass}${btnColorClass}${directionClass}${handleClass}`;
 
     const valueClass: string = value ? `btn__${direction}__value btn__${direction}__value--${iconDirection} ` : '';
     const iconClass: string =

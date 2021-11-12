@@ -8,12 +8,12 @@ import Button from '../components/shared/Button';
 import CTA from '../components/shared/CTA';
 import Popup from '../components/shared/Popup';
 import { removeMsg, setMsg } from '../redux/msg';
-import { showPopup } from '../redux/popup';
+import { hidePopup, showPopup } from '../redux/popup';
 import * as Type from '../utils/@types';
-import * as Request from '../utils/helpers/functions/request';
-import { getEnvURL } from '../utils/helpers/functions/shared';
+import * as Request from '../utils/helpers/request';
+import { getEnvURL } from '../utils/helpers/shared';
 
-const URL: string = `${getEnvURL('REACT_APP_BACKEND_URL')}/api/api`;
+const URL: string = getEnvURL('REACT_APP_BACKEND_URL', '/api/api');
 
 const ApiPage: FC = () => {
     const initialState: { api: Type.ApiForm; idx: number } = {
@@ -63,6 +63,7 @@ const ApiPage: FC = () => {
     }, [popup]);
 
     useEffect(() => {
+        if (popup.visible) dispatch(hidePopup());
         if (msg.msgs.length > 0) dispatch(removeMsg());
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -73,7 +74,7 @@ const ApiPage: FC = () => {
                 if (!response.ok)
                     return dispatch(
                         setMsg({
-                            msgs: [response.error.message],
+                            msgs: response.errors,
                             msgColor: 'danger',
                             icon: '⚠',
                             iconColor: 'danger',

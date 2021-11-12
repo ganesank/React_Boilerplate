@@ -2,7 +2,7 @@ import { Msg } from '.';
 
 export type MsgState = Msg;
 
-export type MsgAction = {
+export interface MsgAction {
     type: string;
     payload: Msg;
-};
+}

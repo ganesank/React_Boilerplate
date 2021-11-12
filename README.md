@@ -1,4 +1,4 @@
-<h1>Last Update - 11/06/2021</h1>
+<h1>Last Update - 11/11/2021</h1>
 
 ---
 
@@ -56,7 +56,7 @@
       - [Pages](#pages-1)
     - [Utils](#utils)
       - [@types](#types)
-      - [Functions](#functions)
+      - [Helpers](#helpers-1)
     - [Store](#store)
     - [App](#app)
     - [Index](#index)
@@ -107,7 +107,7 @@ Install the following dependencies
   npm i -D @types/redux-logger
 ```
 
-> **For now 11/06/2021** make sure you are using typescript version `4.0.3` (Today TypeScript latest version is given some errors)
+> **For now 11/11/2021** make sure you are using typescript version `4.0.3` (Today TypeScript latest version is given some errors)
 
 #### Deploy To Netlify
 
@@ -395,8 +395,8 @@ In `src/components/api/ApiForm.tsx`
   import { setMsg } from '../../redux/msg';
   import { hidePopup } from '../../redux/popup';
   import * as Type from '../../utils/@types';
-  import * as Request from '../../utils/helpers/functions/request';
-  import { getEnvURL } from '../../utils/helpers/functions/shared';
+  import * as Request from '../../utils/helpers/request';
+  import { getEnvURL } from '../../utils/helpers/shared';
   import Alert from '../shared/Alert';
   import Button from '../shared/Button';
   import CTA from '../shared/CTA';
@@ -404,7 +404,7 @@ In `src/components/api/ApiForm.tsx`
   import Select from '../shared/Select';
   import Textarea from '../shared/Textarea';
 
-  const URL: string = `${getEnvURL('REACT_APP_BACKEND_URL')}/api/api`;
+  const URL: string = getEnvURL('REACT_APP_BACKEND_URL', '/api/api');
 
   const ApiForm: FC<Type.ApiFormC> = ({ setApis, data }) => {
       const initialState: Type.ApiForm = data
@@ -444,13 +444,9 @@ In `src/components/api/ApiForm.tsx`
               }
 
               if (!response.ok) {
-                  const errors = Object.keys(response.error).map((key) => {
-                      return response.error[key];
-                  });
-
                   return dispatch(
                       setMsg({
-                          msgs: errors,
+                          msgs: response.errors,
                           msgColor: 'danger',
                           icon: '⚠',
                           iconColor: 'danger',
@@ -810,7 +806,7 @@ In `src/components/shared/Button.tsx`
       icon,
       faIcon,
       handle,
-      noHover = false,
+      hover = false,
       iconDirection = 'left',
       direction = 'row',
       disabled = false,
@@ -825,10 +821,10 @@ In `src/components/shared/Button.tsx`
       if (icon && faIcon) faIcon = undefined;
 
       const handleClass: string = handle ? `${handle}` : '';
-      const noHoverClass: string = noHover ? `btn--no-hover ` : '';
+      const hoverClass: string = hover ? '' : `btn--no-hover `;
       const directionClass: string = `btn__${direction} `;
       const btnColorClass: string = btnColor ? `btn--${btnColor} ` : '';
-      const customClass: string = `btn ${noHoverClass}${btnColorClass}${directionClass}${handleClass}`;
+      const customClass: string = `btn ${hoverClass}${btnColorClass}${directionClass}${handleClass}`;
 
       const valueClass: string = value ? `btn__${direction}__value btn__${direction}__value--${iconDirection} ` : '';
       const iconClass: string =
@@ -1239,7 +1235,6 @@ In `src/components/shared/Popup.tsx`
                       btnType="link"
                       btnColor="danger"
                       faIcon={faTimes}
-                      noHover={true}
                       href="/"
                       handle="popup__close"
                       onClick={handleClose}
@@ -1435,7 +1430,7 @@ In `src/components/user/UserLoginForm.tsx`
   import { showPopup } from '../../redux/popup';
   import { loginUser } from '../../redux/user';
   import * as Type from '../../utils/@types';
-  import { validateEmail } from '../../utils/helpers/functions/shared';
+  import { validateEmail } from '../../utils/helpers/shared';
   import Button from '../shared/Button';
   import CTA from '../shared/CTA';
   import Input from '../shared/Input';
@@ -1532,14 +1527,14 @@ In `src/components/user/UserProfileForm.tsx`
   import { setMsg } from '../../redux/msg';
   import { showPopup } from '../../redux/popup';
   import * as Type from '../../utils/@types';
-  import * as Request from '../../utils/helpers/functions/request';
-  import { getEnvURL, validateEmail } from '../../utils/helpers/functions/shared';
+  import * as Request from '../../utils/helpers/request';
+  import { getEnvURL, validateEmail } from '../../utils/helpers/shared';
   import Button from '../shared/Button';
   import CTA from '../shared/CTA';
   import Input from '../shared/Input';
 
   const PASSWORD_LEN: number = process.env.REACT_APP_PASSWORD_LEN ? +process.env.REACT_APP_PASSWORD_LEN : 7;
-  const URL: string = `${getEnvURL('REACT_APP_BACKEND_URL')}/api/user`;
+  const URL: string = getEnvURL('REACT_APP_BACKEND_URL', '/api/user');
 
   const UserProfileForm: FC = () => {
       const initialState: Type.ProfileForm = {
@@ -1563,7 +1558,7 @@ In `src/components/user/UserProfileForm.tsx`
                   if (!response.ok)
                       return dispatch(
                           setMsg({
-                              msgs: [response.error.message],
+                              msgs: response.errors,
                               msgColor: 'danger',
                               icon: '⚠',
                               iconColor: 'danger',
@@ -1788,14 +1783,14 @@ In `src/components/user/UserResetPasswordForm.tsx`
   import { useNavigate } from 'react-router-dom';
   import { removeMsg, setMsg } from '../../redux/msg';
   import * as Type from '../../utils/@types';
-  import * as Request from '../../utils/helpers/functions/request';
-  import { getEnvURL, validateEmail } from '../../utils/helpers/functions/shared';
+  import * as Request from '../../utils/helpers/request';
+  import { getEnvURL, validateEmail } from '../../utils/helpers/shared';
   import Alert from '../shared/Alert';
   import Button from '../shared/Button';
   import CTA from '../shared/CTA';
   import Input from '../shared/Input';
 
-  const URL: string = `${getEnvURL('REACT_APP_BACKEND_URL')}/api/user`;
+  const URL: string = getEnvURL('REACT_APP_BACKEND_URL', '/api/user');
 
   const UserResetPasswordForm: FC = () => {
       const initialState: Type.ResetPasswordForm = {
@@ -1813,11 +1808,12 @@ In `src/components/user/UserResetPasswordForm.tsx`
       const handleSubmit: Type.HandleSubmitFn<{}> = async (e) => {
           e.preventDefault();
           try {
-              const response: Type.Response<Type.ResetPasswordRes> = await Request.postData(`${URL}/password`, form);
+              const response: Type.Response<Type.ResetUserPasswordRes> = await Request.postData(`${URL}/password`, form);
+
               if (!response.ok)
                   return dispatch(
                       setMsg({
-                          msgs: [response.error.message],
+                          msgs: response.errors,
                           msgColor: 'danger',
                           icon: '⚠',
                           iconColor: 'danger',
@@ -1895,14 +1891,14 @@ In `src/components/user/UserSignUpForm.tsx`
   import { setMsg } from '../../redux/msg';
   import { showPopup } from '../../redux/popup';
   import * as Type from '../../utils/@types';
-  import * as Request from '../../utils/helpers/functions/request';
-  import { getEnvURL, validateEmail } from '../../utils/helpers/functions/shared';
+  import * as Request from '../../utils/helpers/request';
+  import { getEnvURL, validateEmail } from '../../utils/helpers/shared';
   import Button from '../shared/Button';
   import CTA from '../shared/CTA';
   import Input from '../shared/Input';
 
   const PASSWORD_LEN: number = process.env.REACT_APP_PASSWORD_LEN ? +process.env.REACT_APP_PASSWORD_LEN : 7;
-  const URL: string = `${getEnvURL('REACT_APP_BACKEND_URL')}/api/user`;
+  const URL: string = getEnvURL('REACT_APP_BACKEND_URL', '/api/user');
 
   const UserSignUpForm: FC = () => {
       const initialState: Type.SignUpForm = {
@@ -1918,11 +1914,11 @@ In `src/components/user/UserSignUpForm.tsx`
       const handleSubmit: Type.HandleSubmitFn<{}> = async (e) => {
           e.preventDefault();
           try {
-              const response: Type.Response<Type.SignUpRes> = await Request.postData(`${URL}/signup`, form);
+              const response: Type.Response<Type.SignUpUserRes> = await Request.postData(`${URL}/signup`, form);
               if (!response.ok)
                   return dispatch(
                       setMsg({
-                          msgs: [response.error.message],
+                          msgs: response.errors,
                           msgColor: 'danger',
                           icon: '⚠',
                           iconColor: 'danger',
@@ -2058,16 +2054,17 @@ In `src/components/user/UserUpdatePasswordForm.tsx`
 ```TypeScript
   import { FC, useState } from 'react';
   import { useDispatch } from 'react-redux';
+  import { useNavigate } from 'react-router-dom';
   import { setMsg } from '../../redux/msg';
   import * as Type from '../../utils/@types';
-  import * as Request from '../../utils/helpers/functions/request';
-  import { getEnvURL } from '../../utils/helpers/functions/shared';
+  import * as Request from '../../utils/helpers/request';
+  import { getEnvURL } from '../../utils/helpers/shared';
   import Button from '../shared/Button';
   import CTA from '../shared/CTA';
   import Input from '../shared/Input';
 
   const PASSWORD_LEN: number = process.env.REACT_APP_PASSWORD_LEN ? +process.env.REACT_APP_PASSWORD_LEN : 7;
-  const URL: string = `${getEnvURL('REACT_APP_BACKEND_URL')}/api/user`;
+  const URL: string = getEnvURL('REACT_APP_BACKEND_URL', '/api/user');
 
   const UserUpdatePasswordForm: FC<Type.UserUpdatePasswordFormC> = ({ token }) => {
       const initialState: Type.UpdatePasswordForm = {
@@ -2076,48 +2073,27 @@ In `src/components/user/UserUpdatePasswordForm.tsx`
       };
       const [form, setForm] = useState(initialState);
       const dispatch = useDispatch();
+      const navigate = useNavigate();
 
       const handleSubmit: Type.HandleSubmitFn<{}> = async (e) => {
           e.preventDefault();
-          try {
-              const response: Type.Response<Type.UpdatePasswordRes> = await Request.updateData(
-                  `${URL}/password/${token}`,
-                  form,
-                  false
-              );
+          const response: Type.Response<Type.UpdateUserPasswordRes> = await Request.updateData(
+              `${URL}/password/${token}`,
+              form,
+              false
+          );
 
-              if (!response.ok)
-                  return dispatch(
-                      setMsg({
-                          msgs: [response.error.message],
-                          msgColor: 'danger',
-                          icon: '⚠',
-                          iconColor: 'danger',
-                      })
-                  );
-
-              dispatch(
+          if (!response.ok)
+              return dispatch(
                   setMsg({
-                      msgs: [response.data.message],
-                      msgColor: 'success',
-                      icon: '✓',
-                      iconColor: 'success',
-                  })
-              );
-              setForm({
-                  password: '',
-                  confirmPassword: '',
-              });
-          } catch (error: any) {
-              dispatch(
-                  setMsg({
-                      msgs: [error.message],
+                      msgs: response.errors,
                       msgColor: 'danger',
                       icon: '⚠',
                       iconColor: 'danger',
                   })
               );
-          }
+
+          navigate('/login');
       };
 
       const handleChange: Type.HandleChangeFn<Type.HandleChange> = ({ target: { name, value } }) => {
@@ -2221,12 +2197,12 @@ In `src/pages/ApiPage.tsx`
   import CTA from '../components/shared/CTA';
   import Popup from '../components/shared/Popup';
   import { removeMsg, setMsg } from '../redux/msg';
-  import { showPopup } from '../redux/popup';
+  import { hidePopup, showPopup } from '../redux/popup';
   import * as Type from '../utils/@types';
-  import * as Request from '../utils/helpers/functions/request';
-  import { getEnvURL } from '../utils/helpers/functions/shared';
+  import * as Request from '../utils/helpers/request';
+  import { getEnvURL } from '../utils/helpers/shared';
 
-  const URL: string = `${getEnvURL('REACT_APP_BACKEND_URL')}/api/api`;
+  const URL: string = getEnvURL('REACT_APP_BACKEND_URL', '/api/api');
 
   const ApiPage: FC = () => {
       const initialState: { api: Type.ApiForm; idx: number } = {
@@ -2276,6 +2252,7 @@ In `src/pages/ApiPage.tsx`
       }, [popup]);
 
       useEffect(() => {
+          if (popup.visible) dispatch(hidePopup());
           if (msg.msgs.length > 0) dispatch(removeMsg());
       }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -2286,7 +2263,7 @@ In `src/pages/ApiPage.tsx`
                   if (!response.ok)
                       return dispatch(
                           setMsg({
-                              msgs: [response.error.message],
+                              msgs: response.errors,
                               msgColor: 'danger',
                               icon: '⚠',
                               iconColor: 'danger',
@@ -2421,6 +2398,7 @@ In `src/pages/LoginPage.tsx`
   import UserLoginForm from '../components/user/UserLoginForm';
   import UserResetPasswordForm from '../components/user/UserResetPasswordForm';
   import { removeMsg } from '../redux/msg';
+  import { hidePopup } from '../redux/popup';
   import * as Type from '../utils/@types';
 
   const LoginPage: FC = () => {
@@ -2429,6 +2407,7 @@ In `src/pages/LoginPage.tsx`
       const dispatch = useDispatch();
 
       useEffect(() => {
+          if (popup.visible) dispatch(hidePopup());
           if (msg.msgs.length > 0) dispatch(removeMsg());
       }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -2478,6 +2457,7 @@ In `src/pages/ProfilePage.tsx`
   import UserDeleteForm from '../components/user/UserDeleteForm';
   import UserProfileForm from '../components/user/UserProfileForm';
   import { removeMsg } from '../redux/msg';
+  import { hidePopup } from '../redux/popup';
   import * as Type from '../utils/@types';
 
   const ProfilePage: FC = () => {
@@ -2486,6 +2466,7 @@ In `src/pages/ProfilePage.tsx`
       const dispatch = useDispatch();
 
       useEffect(() => {
+          if (popup.visible) dispatch(hidePopup());
           if (msg.msgs.length > 0) dispatch(removeMsg());
       }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -2557,6 +2538,7 @@ In `src/pages/SignUpPage.tsx`
   import Popup from '../components/shared/Popup';
   import UserSignUpForm from '../components/user/UserSignUpForm';
   import { removeMsg } from '../redux/msg';
+  import { hidePopup } from '../redux/popup';
   import * as Type from '../utils/@types';
 
   const SignUpPage: FC = () => {
@@ -2565,6 +2547,7 @@ In `src/pages/SignUpPage.tsx`
       const dispatch = useDispatch();
 
       useEffect(() => {
+          if (popup.visible) dispatch(hidePopup());
           if (msg.msgs.length > 0) dispatch(removeMsg());
       }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -2697,11 +2680,11 @@ In `src/redux/user.ts`
   import { AnyAction } from 'redux';
   import { ThunkDispatch } from 'redux-thunk';
   import * as Type from '../utils/@types';
-  import * as Request from '../utils/helpers/functions/request';
-  import { getEnvURL } from '../utils/helpers/functions/shared';
-  import * as Token from '../utils/helpers/functions/token';
+  import * as Request from '../utils/helpers/request';
+  import { getEnvURL } from '../utils/helpers/shared';
+  import * as Token from '../utils/helpers/token';
 
-  const URL: string = `${getEnvURL('REACT_APP_BACKEND_URL')}/api/user`;
+  const URL: string = getEnvURL('REACT_APP_BACKEND_URL', '/api/user');
 
   const SET_MSG: string = 'SET_MSG';
   const LOGIN_USER: string = 'LOGIN_USER';
@@ -2711,22 +2694,13 @@ In `src/redux/user.ts`
   export const loginUser: Type.ActionThunk<Type.LoginForm, null> = (data) => {
       return async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
           try {
-              const response: Type.Response<string> = await Request.postData(`${URL}/login`, data!);
+              const response: Type.Response<Type.LoginUserRes> = await Request.postData(`${URL}/login`, data!);
 
               if (!response.ok) {
-                  if (response.error.verifyToken) {
-                      dispatch({
-                          type: SHOW_POPUP,
-                          payload: {
-                              title: 'Verify Email',
-                              custom: `${URL}/email/${response.error.verifyToken}`,
-                          },
-                      });
-                  }
                   return dispatch({
                       type: SET_MSG,
                       payload: {
-                          msgs: [response.error.message],
+                          msgs: response.errors,
                           msgColor: 'danger',
                           icon: '⚠',
                           iconColor: 'danger',
@@ -2734,8 +2708,18 @@ In `src/redux/user.ts`
                   });
               }
 
-              Token.setToken(response.data);
-              dispatch({ type: LOGIN_USER });
+              if (response.data.verifyToken) {
+                  dispatch({
+                      type: SHOW_POPUP,
+                      payload: {
+                          title: 'Verify Email',
+                          custom: `${URL}/email/${response.data.verifyToken}`,
+                      },
+                  });
+              } else {
+                  Token.setToken(response.data.token);
+                  dispatch({ type: LOGIN_USER });
+              }
           } catch (error: any) {
               dispatch({
                   type: SET_MSG,
@@ -2757,17 +2741,13 @@ In `src/redux/user.ts`
   export const deleteUser: Type.ActionThunk<Type.DeleteUserForm, null> = (data) => {
       return async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
           try {
-              const response = await Request.deleteData(`${URL}/profile`, data!);
+              const response: Type.Response<Type.DeleteUserRes> = await Request.deleteData(`${URL}/profile`, data!);
 
               if (!response.ok) {
-                  const errors: string[] = [];
-                  Object.keys(response.error).forEach((key) => {
-                      errors.push(response.error[key]);
-                  });
                   return dispatch({
                       type: SET_MSG,
                       payload: {
-                          msgs: errors,
+                          msgs: response.errors,
                           msgColor: 'danger',
                           icon: '⚠',
                           iconColor: 'danger',
@@ -2815,189 +2795,255 @@ In `src/redux/user.ts`
 
 [Go Back to Contents](#table-of-contents)
 
-- In `src/sass/base/_base-variables.sass`
+- In `src/sass/base/_base-theme.sass`
 
-```SCSS
-  // = General ===================================================================
-  $font-size: 1
-  $page-width: 110rem
-  $border-radius: 0.3rem
-  $grid-gap: 0.3rem
+  ```SCSS
+    @import ./_colors
 
-  // + Form
-  $form-min-width: 20rem
-  $form-width: 25rem
-  $form-padding: 0.5rem
-  $form-margin: 0.5rem
+    $font-size: 1
+    $page-width: 110rem
+    $height: 1.8rem
+    $border: 0.2rem solid rgba($cbk, 0.5)
+    $shadow: 0.2rem 0.2rem 0.2rem rgba($cbk, 0.2)
 
-  // + Margin
-  $margin-20: 2rem
-  $margin-15: 1.5rem
-  $margin-10: 1rem
-  $margin-9: 0.9rem
-  $margin-8: 0.8rem
-  $margin-7: 0.7rem
-  $margin-6: 0.6rem
-  $margin-5: 0.5rem
-  $margin-4: 0.4rem
-  $margin-3: 0.3rem
-  $margin-2: 0.2rem
-  $margin-1: 0.1rem
+    $size-none: 0rem
+    $size-micro: 0.2rem
+    $size-xtiny: 0.4rem
+    $size-tiny: 0.8rem
+    $size-xsmall: 1.2rem
+    $size-small: 1.4rem
+    $size-medium: 1.6rem
+    $size-big: 1.8rem
+    $size-xbig: 2.4rem
+    $size-large: 2.8rem
+    $size-xlarge: 3.6rem
+    $size-huge: 4.8rem
+    $size-giant: 6.4rem
+    $size-massive: 7.2rem
 
-  // + Padding
-  $padding-30: 3rem
-  $padding-25: 2.5rem
-  $padding-20: 2rem
-  $padding-15: 1.5rem
-  $padding-10: 1rem
-  $padding-9: 0.9rem
-  $padding-8: 0.8rem
-  $padding-7: 0.7rem
-  $padding-6: 0.6rem
-  $padding-5: 0.5rem
-  $padding-4: 0.4rem
-  $padding-3: 0.3rem
-  $padding-2: 0.2rem
-  $padding-1: 0.1rem
+    //= Color ======================================================================
+    $color-primary: $cbl-40
+    $color-primary-light: $cbl-60
+    $color-primary-dark: $cbl-30
 
-  // + Button
-  $button-margin: 0.5rem
-  $button-height: 1.8rem
-  $button-padding-tb: 0.3rem
-  $button-padding-lr: 0.6rem
+    $color-secondary: $cgy-80
+    $color-secondary-light: $cgy-90
+    $color-secondary-dark: $cgy-70
 
-  // + Input
-  $input-padding: 0.3rem
-  $input-margin: 0.3rem
-  $input-height: 1.8rem
+    $color-white: $cwt
+    $color-black: $cbk
 
-  // + Select
-  $select-padding: 0.3rem
-  $select-margin: 0.3rem
-  $select-height: 1.8rem
+    $color-disabled: $cgy-70
+    $color-disabled-light: $cgy-80
+    $color-disabled-dark: $cgy-50
 
-  // + Textarea
-  $textarea-padding: 0.3rem
-  $textarea-margin: 0.3rem
-  $textarea-height: 1.8rem
+    $color-info: $cbl-45
+    $color-info-light: $cbl-50
+    $color-info-dark: $cbl-40
 
-  // = Colors ====================================================================
-  $cbl-90: hsl(204, 70%, 90%)
-  $cbl-85: hsl(204, 70%, 85%)
-  $cbl-80: hsl(204, 70%, 80%)
-  $cbl-75: hsl(204, 70%, 75%)
-  $cbl-70: hsl(204, 70%, 70%)
-  $cbl-65: hsl(204, 70%, 65%)
-  $cbl-60: hsl(204, 70%, 60%)
-  $cbl-55: hsl(204, 70%, 55%)
-  $cbl-50: hsl(204, 70%, 50%)
-  $cbl-45: hsl(204, 70%, 45%)
-  $cbl-40: hsl(204, 70%, 40%)
-  $cbl-35: hsl(204, 70%, 35%)
-  $cbl-30: hsl(204, 70%, 30%)
-  $cbl-25: hsl(204, 70%, 25%)
-  $cbl-20: hsl(204, 70%, 20%)
-  $cgn-90: hsl(121, 100%, 90%)
-  $cgn-85: hsl(121, 100%, 85%)
-  $cgn-80: hsl(121, 100%, 80%)
-  $cgn-75: hsl(121, 100%, 75%)
-  $cgn-70: hsl(121, 100%, 70%)
-  $cgn-65: hsl(121, 100%, 65%)
-  $cgn-60: hsl(121, 100%, 60%)
-  $cgn-55: hsl(121, 100%, 55%)
-  $cgn-50: hsl(121, 100%, 50%)
-  $cgn-45: hsl(121, 100%, 45%)
-  $cgn-40: hsl(121, 100%, 40%)
-  $cgn-35: hsl(121, 100%, 35%)
-  $cgn-30: hsl(121, 100%, 30%)
-  $cgn-25: hsl(121, 100%, 25%)
-  $cgn-20: hsl(121, 100%, 20%)
-  $cog-90: hsl(37, 90%, 90%)
-  $cog-85: hsl(37, 90%, 85%)
-  $cog-80: hsl(37, 90%, 80%)
-  $cog-75: hsl(37, 90%, 75%)
-  $cog-70: hsl(37, 90%, 70%)
-  $cog-65: hsl(37, 90%, 65%)
-  $cog-60: hsl(37, 90%, 60%)
-  $cog-55: hsl(37, 90%, 55%)
-  $cog-50: hsl(37, 90%, 50%)
-  $cog-45: hsl(37, 90%, 45%)
-  $cog-40: hsl(37, 90%, 40%)
-  $cog-35: hsl(37, 90%, 35%)
-  $cog-30: hsl(37, 90%, 30%)
-  $cog-25: hsl(37, 90%, 25%)
-  $cog-20: hsl(37, 90%, 20%)
-  $crd-90: hsl(0, 100%, 90%)
-  $crd-85: hsl(0, 100%, 85%)
-  $crd-80: hsl(0, 100%, 80%)
-  $crd-75: hsl(0, 100%, 75%)
-  $crd-70: hsl(0, 100%, 70%)
-  $crd-70: hsl(0, 100%, 70%)
-  $crd-65: hsl(0, 100%, 65%)
-  $crd-60: hsl(0, 100%, 60%)
-  $crd-55: hsl(0, 100%, 55%)
-  $crd-50: hsl(0, 100%, 50%)
-  $crd-45: hsl(0, 100%, 45%)
-  $crd-40: hsl(0, 100%, 40%)
-  $crd-35: hsl(0, 100%, 35%)
-  $crd-30: hsl(0, 100%, 30%)
-  $crd-25: hsl(0, 100%, 25%)
-  $crd-20: hsl(0, 100%, 20%)
-  $cgy-95: hsl(0, 0%, 95%)
-  $cgy-90: hsl(0, 0%, 90%)
-  $cgy-85: hsl(0, 0%, 85%)
-  $cgy-80: hsl(0, 0%, 80%)
-  $cgy-75: hsl(0, 0%, 75%)
-  $cgy-70: hsl(0, 0%, 70%)
-  $cgy-65: hsl(0, 0%, 65%)
-  $cgy-60: hsl(0, 0%, 60%)
-  $cgy-55: hsl(0, 0%, 55%)
-  $cgy-50: hsl(0, 0%, 50%)
-  $cgy-45: hsl(0, 0%, 45%)
-  $cgy-40: hsl(0, 0%, 40%)
-  $cgy-35: hsl(0, 0%, 35%)
-  $cgy-30: hsl(0, 0%, 30%)
-  $cgy-25: hsl(0, 0%, 25%)
-  $cgy-20: hsl(0, 0%, 20%)
-  $cgy-15: hsl(0, 0%, 15%)
-  $cgy-10: hsl(0, 0%, 10%)
-  $cbk: hsl(0, 0%, 0%)
-  $cwt: hsl(0 , 0%,100%)
+    $color-success: $cgn-35
+    $color-success-light: $cgn-40
+    $color-success-dark: $cgn-30
 
-  $color-success: $cgn-30
-  $color-info: $cbl-50
-  $color-warning: $cog-50
-  $color-danger: $crd-60
+    $color-warning: $cog-50
+    $color-warning-light: $cog-65
+    $color-warning-dark: $cog-45
 
-  $color-primary: $cbl-30
-  $color-primary-dark: $cbl-40
-  $color-secondary: $cgy-25
-  $color-secondary-dark: $cgy-15
-```
+    $color-danger: $crd-40
+    $color-danger-light: $crd-45
+    $color-danger-dark: $crd-35
+
+    //= Grid =======================================================================
+    $grid-gap: 8px
+    $grid-gap-small: 2px
+    $grid-gap-medium: 4px
+    $grid-gap-large: 16px
+    $grid-gap-xlarge: 32px
+
+    //= Font =======================================================================
+    // + Font Family
+    $font-family-sans: "Open Sans", helvetica, sans-serif
+    $font-family-title: "Butler", serif
+    $font-family-code: "Source Code Pro", monospace
+
+    // + Font Weight
+    $font-weight-normal: 400
+    $font-weight-bold: 600
+    $font-weight-heavy: 800
+
+    // + Letter Spacing
+    $letter-spacing-small: 0.75px
+    $letter-spacing-medium: 1px
+    $letter-spacing-large: 2px
+
+    //= Border =====================================================================
+    // + Border Radius
+    $border-radius: 5px
+    $border-radius-small: 2px
+    $border-radius-medium: 3.5px
+    $border-radius-large: 6.5px
+    $border-radius-xlarge: 8px
+    $border-radius-circle: 50%
+
+    // = Shadow ====================================================================
+    // + Form
+    $form-min-width: 20rem
+    $form-width: 25rem
+    $form-padding: $size-xtiny
+    $form-margin: $size-xtiny
+
+    // + Button
+    $button-margin: $size-xtiny
+    $button-height: $height
+    $button-shadow: 0.2rem 0.2rem 0.2rem rgba($cbk, 0.2)
+    $button-shadow-hover: 0.5rem 0.5rem 1rem rgba($cbk, 0.4)
+    $button-shadow-active: 0.35rem 0.35rem 0.3rem rgba($cbk, 0.3)
+
+    // + Input
+    $input-padding: $size-xtiny
+    $input-margin: $size-xtiny
+    $input-height: $height
+
+    // + Select
+    $select-padding: $size-xtiny
+    $select-margin: $size-xtiny
+    $select-height: $height
+
+    // + Textarea
+    $textarea-padding: $size-xtiny
+    $textarea-margin: $size-xtiny
+    $textarea-height: $height
+  ```
+
+- In `src/sass/base/_colors.sass`
+
+  ```SCSS
+    $cbl-90: hsl(204, 70%, 90%)
+    $cbl-85: hsl(204, 70%, 85%)
+    $cbl-80: hsl(204, 70%, 80%)
+    $cbl-75: hsl(204, 70%, 75%)
+    $cbl-70: hsl(204, 70%, 70%)
+    $cbl-65: hsl(204, 70%, 65%)
+    $cbl-60: hsl(204, 70%, 60%)
+    $cbl-55: hsl(204, 70%, 55%)
+    $cbl-50: hsl(204, 70%, 50%)
+    $cbl-45: hsl(204, 70%, 45%)
+    $cbl-40: hsl(204, 70%, 40%)
+    $cbl-35: hsl(204, 70%, 35%)
+    $cbl-30: hsl(204, 70%, 30%)
+    $cbl-25: hsl(204, 70%, 25%)
+    $cbl-20: hsl(204, 70%, 20%)
+    $cgn-90: hsl(121, 100%, 90%)
+    $cgn-85: hsl(121, 100%, 85%)
+    $cgn-80: hsl(121, 100%, 80%)
+    $cgn-75: hsl(121, 100%, 75%)
+    $cgn-70: hsl(121, 100%, 70%)
+    $cgn-65: hsl(121, 100%, 65%)
+    $cgn-60: hsl(121, 100%, 60%)
+    $cgn-55: hsl(121, 100%, 55%)
+    $cgn-50: hsl(121, 100%, 50%)
+    $cgn-45: hsl(121, 100%, 45%)
+    $cgn-40: hsl(121, 100%, 40%)
+    $cgn-35: hsl(121, 100%, 35%)
+    $cgn-30: hsl(121, 100%, 30%)
+    $cgn-25: hsl(121, 100%, 25%)
+    $cgn-20: hsl(121, 100%, 20%)
+    $cog-90: hsl(37, 90%, 90%)
+    $cog-85: hsl(37, 90%, 85%)
+    $cog-80: hsl(37, 90%, 80%)
+    $cog-75: hsl(37, 90%, 75%)
+    $cog-70: hsl(37, 90%, 70%)
+    $cog-65: hsl(37, 90%, 65%)
+    $cog-60: hsl(37, 90%, 60%)
+    $cog-55: hsl(37, 90%, 55%)
+    $cog-50: hsl(37, 90%, 50%)
+    $cog-45: hsl(37, 90%, 45%)
+    $cog-40: hsl(37, 90%, 40%)
+    $cog-35: hsl(37, 90%, 35%)
+    $cog-30: hsl(37, 90%, 30%)
+    $cog-25: hsl(37, 90%, 25%)
+    $cog-20: hsl(37, 90%, 20%)
+    $crd-90: hsl(0, 100%, 90%)
+    $crd-85: hsl(0, 100%, 85%)
+    $crd-80: hsl(0, 100%, 80%)
+    $crd-75: hsl(0, 100%, 75%)
+    $crd-70: hsl(0, 100%, 70%)
+    $crd-70: hsl(0, 100%, 70%)
+    $crd-65: hsl(0, 100%, 65%)
+    $crd-60: hsl(0, 100%, 60%)
+    $crd-55: hsl(0, 100%, 55%)
+    $crd-50: hsl(0, 100%, 50%)
+    $crd-45: hsl(0, 100%, 45%)
+    $crd-40: hsl(0, 100%, 40%)
+    $crd-35: hsl(0, 100%, 35%)
+    $crd-30: hsl(0, 100%, 30%)
+    $crd-25: hsl(0, 100%, 25%)
+    $crd-20: hsl(0, 100%, 20%)
+    $cgy-95: hsl(0, 0%, 95%)
+    $cgy-90: hsl(0, 0%, 90%)
+    $cgy-85: hsl(0, 0%, 85%)
+    $cgy-80: hsl(0, 0%, 80%)
+    $cgy-75: hsl(0, 0%, 75%)
+    $cgy-70: hsl(0, 0%, 70%)
+    $cgy-65: hsl(0, 0%, 65%)
+    $cgy-60: hsl(0, 0%, 60%)
+    $cgy-55: hsl(0, 0%, 55%)
+    $cgy-50: hsl(0, 0%, 50%)
+    $cgy-45: hsl(0, 0%, 45%)
+    $cgy-40: hsl(0, 0%, 40%)
+    $cgy-35: hsl(0, 0%, 35%)
+    $cgy-30: hsl(0, 0%, 30%)
+    $cgy-25: hsl(0, 0%, 25%)
+    $cgy-20: hsl(0, 0%, 20%)
+    $cgy-15: hsl(0, 0%, 15%)
+    $cgy-10: hsl(0, 0%, 10%)
+    $cbk: hsl(0, 0%, 0%)
+    $cwt: hsl(0 , 0%,100%)
+  ```
 
 - In `src/sass/base/_fonts.sass`
 
-```SCSS
-  @import ../helpers
+  ```SCSS
+    @import ../helpers
 
-  //! Import from url
-  @include google-font("Pacifico")
+    //! Import from url
+    @include google-font("Pacifico")
 
-  //! Import from local
-  @font-face
-    font-family: 'PressStart2P-Regular'
-    font-weight: 400
-    src: url('../../assets/fonts/PressStart2P-Regular.ttf') format('opentype')
-```
+    //! Import from local
+    @font-face
+      font-family: 'PressStart2P-Regular'
+      font-weight: $font-weight-normal
+      src: url('../../assets/fonts/PressStart2P-Regular.ttf') format('opentype')
+  ```
 
 - In `src/sass/base/_reset.sass`
 
   ```SCSS
+    html, body, div, span, applet, object, iframe,
+    h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+    a, abbr, acronym, address, big, cite, code,
+    del, dfn, em, img, ins, kbd, q, s, samp,
+    small, strike, strong, sub, sup, tt, var,
+    b, u, i, center,
+    dl, dt, dd, ol, ul, li,
+    fieldset, form, label, legend,
+    table, caption, tbody, tfoot, thead, tr, th, td,
+    article, aside, canvas, details, embed,
+    figure, figcaption, footer, header, hgroup,
+    menu, nav, output, ruby, section, summary,
+    time, mark, audio, video
+      margin: 0
+      padding: 0
+      border: 0
+      font-size: 100%
+
+    article, aside, details, figcaption, figure,
+    footer, header, hgroup, menu, nav, section
+      display: block
+
     *,
     *::before,
     *::after
-      margin: 0
-      padding: 0
       box-sizing: border-box
 
     html
@@ -3009,8 +3055,8 @@ In `src/redux/user.ts`
     #root
       height: 100%
       width: 100%
-      font-family: sans-serif
-      font-weight: 400
+      font-family: $font-family-sans
+      font-weight: $font-weight-normal
       line-height: 1
       font-size: 62.5%
 
@@ -3028,6 +3074,39 @@ In `src/redux/user.ts`
       justify-content: center
       min-height: 100vh
 
+    ol, ul
+      list-style-type: none
+
+    blockquote, q
+      quotes: none
+
+    table
+      border-collapse: collapse
+      border-spacing: 0
+
+    blockquote, q
+      quotes: none
+
+    blockquote:before, blockquote:after,
+    q:before, q:after
+      content: ''
+      content: none
+
+    table
+      border-collapse: collapse
+      border-spacing: 0
+
+    a
+      text-decoration: none
+      cursor: pointer
+      color: inherit
+      color: $color-info
+
+    button
+      border: none
+      background: none
+      cursor: pointer
+
     .container
       max-width: $page-width
       display: flex
@@ -3035,15 +3114,8 @@ In `src/redux/user.ts`
       align-items: center
       width: 100%
 
-    li,
-    ul
-      list-style-type: none
-      margin: 0
-      padding: 0
-      font-size: $font-size * 1.3rem
-
-    a
-      color: $cbl-50
+    .loading
+      cursor: progress
 
     .add-loading
       position: relative
@@ -3062,9 +3134,6 @@ In `src/redux/user.ts`
 
     .split-4
       grid-template-columns: repeat(4, 1fr)
-
-    .loading
-      cursor: progress
   ```
 
 - In `src/sass/base/_typography.sass`
@@ -3096,7 +3165,8 @@ In `src/redux/user.ts`
 - In `src/sass/base/index.sass`
 
   ```SCSS
-    @import ./_base-variables
+    @import ./_base-theme
+    @import ./_colors
     @import ./_fonts
     @import ./_reset
     @import ./_typography
@@ -3139,15 +3209,20 @@ In `src/redux/user.ts`
               justify-content: center
               height: 2.5rem
               flex-grow: 1
-              background-color: $cbl-65
+              color: $color-secondary-light
+              background-color: $color-primary
         tbody
           tr
             th
               font-weight: normal
-              background-color: $cgy-90
-              padding: 0 $padding-10
+              background-color: $color-secondary-light
+              padding: 0 $size-xtiny
             th:not(:last-child)
               border-right: 1px solid $cgy-75
+
+        .cta
+          & > :not(:last-child)
+            margin-right: $size-xtiny
       &__type,
       &__name,
       &__url,
@@ -3191,9 +3266,9 @@ In `src/redux/user.ts`
           display: flex
           flex: 1
         &--enabled
-          color: $cgn-30
+          color: $color-success
         &--disabled
-          color: $crd-40
+          color: $color-danger
       &__cta
         width: 100%
         margin: 0
@@ -3246,10 +3321,12 @@ In `src/redux/user.ts`
       a,
       button
         background-color: transparent
-        color: $cwt
+        color: $color-white
         border: none
         text-decoration: none
         cursor: pointer
+        margin: 0
+        padding: 0
 
         img,
         svg
@@ -3259,69 +3336,69 @@ In `src/redux/user.ts`
         min-width: $font-size * 1rem
       &--primary
         svg > path
-          color: $cbl-45
-          fill: $cbl-45
+          color: $color-primary
+          fill: $color-primary
       &--danger
         svg > path
-          color: $crd-40
-          fill: $crd-40
+          color: $color-danger
+          fill: $color-danger
       &--success
         svg > path
-          color: $cgn-30
-          fill: $cgn-30
+          color: $color-success
+          fill: $color-success
       &--warning
         svg > path
-          color: $cog-45
-          fill: $cog-45
+          color: $color-warning
+          fill: $color-warning
       &--grey
         svg > path
-          color: $cgy-50
-          fill: $cgy-50
+          color: $color-disabled-dark
+          fill: $color-disabled-dark
       &--disabled
         svg > path
           cursor: not-allowed
-          color: $cgy-70
-          fill: $cgy-70
+          color: $color-disabled
+          fill: $color-disabled
       &--hover-primary
         &:hover > svg > path
-          color: $cbl-60
-          fill: $cbl-60
+          color: $color-primary-light
+          fill: $color-primary-light
         &:active > svg > path
-          color: $cbl-40
-          fill: $cbl-40
+          color: $color-primary-dark
+          fill: $color-primary-dark
       &--hover-danger
         &:hover > svg > path
-          color: $crd-50
-          fill: $crd-50
+          color: $color-danger-light
+          fill: $color-danger-light
         &:active > svg > path
-          color: $crd-35
-          fill: $crd-35
+          color: $color-danger-dark
+          fill: $color-danger-dark
       &--hover-success
         &:hover > svg > path
-          color: $cgn-40
-          fill: $cgn-40
+          color: $color-success-light
+          fill: $color-success-light
         &:active > svg > path
-          color: $cgn-25
-          fill: $cgn-25
+          color: $color-success-dark
+          fill: $color-success-dark
       &--hover-warning
         &:hover > svg > path
-          color: $cog-60
-          fill: $cog-60
+          color: $color-warning-light
+          fill: $color-warning-light
         &:active > svg > path
-          color: $cog-40
-          fill: $cog-40
+          color: $color-warning-dark
+          fill: $color-warning-dark
       &--hover-grey
         &:hover > svg > path
-          color: $cgy-65
-          fill: $cgy-65
+          color: $color-disabled
+          fill: $color-disabled
         &:active > svg > path
-          color: $cgy-45
-          fill: $cgy-45
+          color: $color-disabled-dark
+          fill: $color-disabled-dark
       &--hover-disabled
         svg > path
           cursor: not-allowed
-          color: $cgy-70
-          fill: $cgy-70
+          color: $color-disabled
+          fill: $color-disabled
         a
           cursor: not-allowed
           pointer-events: none
@@ -3335,33 +3412,30 @@ In `src/redux/user.ts`
 
       a,
       button
-        background-color: $cbl-45
-        color: $cwt
+        background-color: $color-info
+        color: $color-white
         min-height: $button-height
         min-width: $button-height
         font-size: resize($font-size, 0.9)
-        padding: $button-padding-tb $button-padding-lr
+        padding: $size-xtiny $size-tiny
         border-radius: $border-radius
-        border: none
-        text-decoration: none
-        cursor: pointer
         transition: all 0.2s ease-in-out
 
         &:hover
           transform: translateZ(0.1rem) scale(1.10)
-          box-shadow: 0.25rem 0.25rem 0.25rem rgba($cbk, 0.2)
-          background-color: $cbl-50
+          box-shadow: $button-shadow-hover
+          background-color: $color-info-light
         &:active
           transform: translateZ(0.07rem) scale(1.07)
-          box-shadow: 0.15rem 0.15rem 0.15rem rgba($cbk, 0.4)
-          background-color: $cbl-40
+          box-shadow: $button-shadow-active
+          background-color: $color-info-dark
       &--no-hover
         a,
         button
           &:hover,
           &:active
             transform: translateZ(0) scale(1)
-            box-shadow: 0 0 0
+            box-shadow: none
 
       &__row
         display: grid
@@ -3378,7 +3452,7 @@ In `src/redux/user.ts`
           &--left
             grid-column: 1 / span 1
             grid-row: 1 / -1
-            margin-right: $margin-3
+            margin-right: $size-xtiny
           &--right
             grid-column: 2 / -1
             grid-row: 1 / -1
@@ -3393,7 +3467,7 @@ In `src/redux/user.ts`
           &--right
             grid-column: 1 / span 1
             grid-row: 1 / -1
-            margin-right: $margin-3
+            margin-right: $size-xtiny
       &__column
         display: grid
         grid-template-columns: 1fr
@@ -3407,7 +3481,7 @@ In `src/redux/user.ts`
           &--top
             grid-column: 1 / -1
             grid-row: 1 / span 1
-            margin-bottom: $margin-3
+            margin-bottom: $size-xtiny
           &--bottom
             grid-column: 1 / -1
             grid-row: 2 / -1
@@ -3420,46 +3494,46 @@ In `src/redux/user.ts`
           &--bottom
             grid-column: 1 / -1
             grid-row: 1 / span 1
-            margin-bottom: $margin-3
+            margin-bottom: $size-xtiny
       &--danger
         a,
         button
-          background-color: $crd-40
+          background-color: $color-danger
 
           &:hover
-            background-color: $crd-45
+            background-color: $color-danger-light
           &:active
-            background-color: $crd-35
+            background-color: $color-danger-dark
       &--success
         a,
         button
-          background-color: $cgn-30
+          background-color: $color-success
 
           &:hover
-            background-color: $cgn-35
+            background-color: $color-success-light
           &:active
-            background-color: $cgn-25
+            background-color: $color-success-dark
       &--warning
         a,
         button
-          background-color: $cog-45
+          background-color: $color-warning
 
           &:hover
-            background-color: $cog-50
+            background-color: $color-warning-light
           &:active
-            background-color: $cog-40
+            background-color: $color-warning-dark
       &--disabled
         cursor: not-allowed
 
         a,
         button
           cursor: not-allowed
-          background-color: $cgy-70
+          background-color: $color-disabled
 
           &:hover
             transform: translateZ(0rem) scale(1)
             box-shadow: none
-            background-color: $cgy-70
+            background-color: $color-disabled
         a
           pointer-events: none
   ```
@@ -3469,7 +3543,6 @@ In `src/redux/user.ts`
   ```SCSS
     .cta
       display: flex
-      margin-bottom: $margin-3
       width: 100%
 
       &__row
@@ -3479,17 +3552,17 @@ In `src/redux/user.ts`
           justify-content: flex-start
 
           & > :not(:last-child)
-            margin-right: $margin-5
+            margin-right: $size-xtiny
         &--justify-center
           justify-content: center
 
           & > :not(:first-child)
-            margin-left: $margin-5
+            margin-left: $size-xtiny
         &--justify-flex-end
           justify-content: flex-end
 
           & > :not(:first-child)
-            margin-left: $margin-5
+            margin-left: $size-xtiny
         &--align-flex-start
           align-items: flex-start
         &--align-center
@@ -3500,7 +3573,7 @@ In `src/redux/user.ts`
         flex-direction: column
 
         & > :not(:last-child)
-          margin-bottom: $margin-5
+          margin-bottom: $size-xtiny
         &--align-flex-start
           align-items: flex-start
         &--align-center
@@ -3515,7 +3588,7 @@ In `src/redux/user.ts`
     .footer
       display: flex
       justify-content: center
-      background-color: $cbk
+      background-color: $color-black
       min-height: 10rem
       max-height: 10rem
       width: 100%
@@ -3524,8 +3597,8 @@ In `src/redux/user.ts`
       &__footer-container
         display: grid
         grid-template-columns: 3fr 1fr 3fr
-        column-gap: 2rem
-        color: $cwt
+        column-gap: $grid-gap-small
+        color: $color-white
       &__left,
       &__middle,
       &__right
@@ -3543,10 +3616,10 @@ In `src/redux/user.ts`
         justify-content: center
       &__repo-text
         font-size: 1.3rem
-        font-weight: bold
+        font-weight: $font-weight-bold
       &__link
         text-decoration: none
-        color: $cwt
+        color: $color-white
 
         &:hover
           color: $color-primary
@@ -3557,7 +3630,7 @@ In `src/redux/user.ts`
         &__footer-container
           grid-template-columns: 1fr
           grid-template-rows: repeat(3, 1fr)
-          column-gap: 0rem
+          column-gap: 0
         &__left
           grid-column: 1 / span 1
           grid-row: 2 / 3
@@ -3596,13 +3669,13 @@ In `src/redux/user.ts`
         font-size: resize($font-size, 0.8)
         height: $input-height
         padding: $input-padding+0.2rem
-        border: 1px solid $cgy-70
+        border: 1px solid $color-disabled
       label
         margin: $input-margin
         text-align: left
         padding-left: $input-padding
         font-size: resize($font-size, 0.7)
-        color: $cgy-40
+        color: $color-disabled-dark
         display: flex
       &--left
         margin-bottom: $input-margin
@@ -3716,22 +3789,22 @@ In `src/redux/user.ts`
         animation-delay: 0s
       &--primary
         div:after
-          background: $cbl-45
+          background: $color-primary
       &--danger
         div:after
-          background: $crd-40
+          background: $color-danger
       &--success
         div:after
-          background: $cgn-30
+          background: $color-success
       &--warning
         div:after
-          background: $cog-45
+          background: $color-warning
       &--white
         div:after
-          background: $cwt
+          background: $color-white
       &--black
         div:after
-          background: $cbk
+          background: $color-black
   ```
 
 - In `src/sass/components/shared/_navbar.sass`
@@ -3746,9 +3819,10 @@ In `src/redux/user.ts`
       display: flex
       flex: 1
       justify-content: center
-      box-shadow: 0 0.3rem 0.3rem rgba($cbk, 0.3)
-      background-color: $color-primary
-      z-index: 1
+      box-shadow: 0 0.3rem 0.3rem rgba($color-black, 0.3)
+      background-color: $color-primary-dark
+      z-index: 2
+      user-select: none
 
       &--remove-style
         box-shadow: none
@@ -3763,7 +3837,7 @@ In `src/redux/user.ts`
       &__logo
         height: 100%
         font-size: 1.5rem
-        color: $cwt
+        color: $color-white
         font-weight: bolder
         font-family: Pacifico, PressStart2P-Regular, sans-serif
         display: flex
@@ -3791,14 +3865,14 @@ In `src/redux/user.ts`
         display: flex
         align-items: center
         text-decoration: none
-        color: rgba($cwt, 0.5)
+        color: rgba($color-white, 0.5)
         font-size: $font-size * 1rem
         white-space: nowrap
         padding: 0 1.5rem
 
         &:hover
-          background-color: $cbl-35
-          color: $cwt
+          color: $color-white
+          background-color: $color-primary
       &__bars
         display: none
         visibility: hidden
@@ -3808,23 +3882,24 @@ In `src/redux/user.ts`
       top: 5rem
       left: 0
       width: 100%
-      margin-bottom: $margin-20
+      margin-bottom: $size-big
       display: flex
       justify-content: center
-      box-shadow: 0 0.3rem 0.3rem rgba($cbk, 0.3)
-      background-color: $cbl-35
-      z-index: 10
+      box-shadow: 0 0.3rem 0.3rem rgba($color-black, 0.3)
+      background-color: $color-primary
+      z-index: 1
 
       &__sub-menu
         max-width: $page-width
-        padding: $padding-5 $padding-25 $padding-1 $padding-25
+        padding: $size-xtiny $size-xbig
+        background-color: $color-primary
 
     @include mq-manager(tab-port)
       .navbar
         &__navbar-container
           flex-direction: column
           align-items: center
-          box-shadow: 0 0.2rem 0.3rem rgba($cbk, 0.3)
+          box-shadow: 0 0.2rem 0.3rem rgba($color-black, 0.3)
           &--remove-style
             box-shadow: none
         &__logo-container
@@ -3850,11 +3925,14 @@ In `src/redux/user.ts`
           display: flex
           justify-content: center
         &__link
-          padding: $margin-10 1.5rem
+          padding: $size-xsmall $size-small
           width: 100%
           text-align: center
           display: flex
           justify-content: center
+
+          &:hover
+            background-color: $color-primary-light
         &__bars
           display: flex
           visibility: visible
@@ -3866,10 +3944,12 @@ In `src/redux/user.ts`
           cursor: pointer
           transition: all 0.3s ease-in-out
 
+          &:hover
+            color: $color-white
           &--light
-            color: $cwt
+            color: $color-disabled-light
           &--dark
-            color: $cbl-20
+            color: $color-primary
   ```
 
 - In `src/sass/components/shared/_popup.sass`
@@ -3879,7 +3959,7 @@ In `src/redux/user.ts`
       position: fixed
       top: 0
       left: 0
-      background-color: rgba($cbk, 0.8)
+      background-color: rgba($color-black, 0.8)
       width: 100%
       height: 100%
       z-index: 10
@@ -3887,18 +3967,20 @@ In `src/redux/user.ts`
       &__container
         @include abs-center
         top: 45%
-        background-color: $cwt
+        background-color: $color-white
         min-width: 30rem
         min-height: 5rem
         border-radius: $border-radius
         padding: 1rem
-        color: $cbk
+        color: $color-black
         z-index: 2
       &__close
         position: absolute
         top: $form-padding
         right: $form-padding
         font-size: $font-size * 1rem
+        margin: 0 !important
+        padding: 0 !important
       &__header
         margin: 0 0 1rem 0
 
@@ -3936,13 +4018,13 @@ In `src/redux/user.ts`
         font-size: resize($font-size, 0.7)
         height: $select-height
         padding: $select-padding - 0.1rem $select-padding - 0.1rem $select-padding - 0.1rem $select-padding
-        border: 1px solid $cgy-70
+        border: 1px solid $color-disabled
       label
         margin: $select-margin
         text-align: left
         padding-left: $select-padding - 0.1rem
         font-size: resize($font-size, 0.7)
-        color: $cgy-40
+        color: $color-disabled-dark
         display: flex
       &--left
         margin-bottom: $select-margin
@@ -4008,13 +4090,13 @@ In `src/redux/user.ts`
         font-size: resize($font-size, 0.8)
         min-height: $textarea-height
         padding: $textarea-padding $textarea-padding $textarea-padding $textarea-padding+0.2rem
-        border: 1px solid $cgy-70
+        border: 1px solid $color-disabled
       label
         margin: $textarea-margin
         text-align: left
         padding-left: $textarea-padding
         font-size: resize($font-size, 0.7)
-        color: $cgy-40
+        color: $color-disabled-dark
         display: flex
       &--left
         margin-bottom: $textarea-margin
@@ -4102,7 +4184,7 @@ In `src/redux/user.ts`
       width: $form-width
 
       &__reset-password-link
-        color: $cgy-30
+        color: $color-disabled-dark
         font-size: 0.6rem
 
         &:hover
@@ -4126,17 +4208,17 @@ In `src/redux/user.ts`
           width: 100%
       &__icon
         font-size: resize($font-size, 1.3)
-        color: $crd-70
+        color: $color-danger-light
         display: flex
-        padding: $padding-3
+        padding: $size-xtiny
 
         &--activated
           font-size: resize($font-size, 1.3)
           display: flex
           padding-top: 0.3rem
-          color: $cbl-70
+          color: $color-info-light
       &__delete-link
-        color: $cgy-30
+        color: $color-disabled-dark
         font-size: 0.6rem
 
         &:hover
@@ -4153,7 +4235,7 @@ In `src/redux/user.ts`
       min-width: $form-width
 
       &__cta
-        margin-top: $margin-5
+        margin-top: $size-xtiny
 
     @include mq-manager(tab-port)
       width: $form-min-width
@@ -4285,7 +4367,7 @@ In `src/redux/user.ts`
       align-items: center
 
       h1
-        margin-bottom: $margin-20
+        margin-bottom: $size-big
   ```
 
 - In `src/sass/helpers/_tooltip.sass`
@@ -4294,12 +4376,13 @@ In `src/redux/user.ts`
     .tooltip
       position: relative
       display: inline-block
+      user-select: none
 
       &__text
         font-size: resize($font-size, 0.8)
         visibility: hidden
         background-color: $color-primary
-        color: $cwt
+        color: $color-white
         text-align: center
         width: 6rem
         border-radius: 0.6rem
@@ -4321,7 +4404,7 @@ In `src/redux/user.ts`
           margin-left: -0.5rem
           border-width: 0.5rem
           border-style: solid
-          border-color: $cgy-70 transparent transparent transparent
+          border-color: $color-disabled transparent transparent transparent
 
         &--left
           top: -10%
@@ -4332,7 +4415,7 @@ In `src/redux/user.ts`
             left: 91%
             margin-left: 0.5rem
             border-width: 0.5rem
-            border-color: transparent transparent transparent $cgy-70
+            border-color: transparent transparent transparent $color-disabled
         &--right
           top: -10%
           left: 380%
@@ -4342,7 +4425,7 @@ In `src/redux/user.ts`
             left: -24%
             margin-left: 0.5rem
             border-width: 0.5rem
-            border-color: transparent $cgy-70 transparent transparent
+            border-color: transparent $color-disabled transparent transparent
         &--bottom
           top: 80%
 
@@ -4351,7 +4434,7 @@ In `src/redux/user.ts`
             left: 50%
             margin-left: -0.5rem
             border-width: 0.5rem
-            border-color: transparent transparent $cgy-70 transparent
+            border-color: transparent transparent $color-disabled transparent
       &:hover &__text
         visibility: visible
         opacity: 1
@@ -4360,6 +4443,7 @@ In `src/redux/user.ts`
       position: relative
       display: inline-block
       cursor: pointer
+      user-select: none
 
       &:before
         position: absolute
@@ -4380,7 +4464,7 @@ In `src/redux/user.ts`
         z-index: 100
         width: 115px
         height: 36px
-        color: $cwt
+        color: $color-white
         font-size: 10px
         line-height: 36px
         text-align: center
@@ -4604,20 +4688,20 @@ In `src/redux/user.ts`
     import { ApiForm } from '.';
     import { Thead } from '..';
 
-    export type ApiFormC = {
+    export interface ApiFormC {
         setApis(prev: any): void;
         data?: {
             api: ApiForm;
             idx: number;
         };
-    };
+    }
 
-    export type ApiTableC = {
+    export interface ApiTableC {
         thead: Thead[];
         apis: ApiForm[];
         setApis(e: MouseEvent, obj: any, idx: number): void;
         setApi(e: MouseEvent, obj: any, idx: number): void;
-    };
+    }
   ```
 
 - In `src/utils/@types/api/_types.ts`
@@ -4649,10 +4733,10 @@ In `src/redux/user.ts`
 
     export type MsgState = Msg;
 
-    export type MsgAction = {
+    export interface MsgAction {
         type: string;
         payload: Msg;
-    };
+    }
   ```
 
 - In `src/utils/@types/message/_types.ts`
@@ -4680,10 +4764,10 @@ In `src/redux/user.ts`
 
     export type PopupState = Popup;
 
-    export type PopupAction = {
+    export interface PopupAction {
         type: string;
         payload?: Popup;
-    };
+    }
   ```
 
 - In `src/utils/@types/popup/_types.ts`
@@ -4705,148 +4789,14 @@ In `src/redux/user.ts`
     export * from './_types';
   ```
 
-- In `src/utils/@types/shared/_functions.ts`
-
-  ```TypeScript
-    import { Dispatch, FormEvent, MouseEvent, SetStateAction } from 'react';
-
-    // = Generic ===================================================================
-    export type SleepFn = {
-        (ms: number): Promise<void>;
-    };
-
-    export type DownloadJsonFn = {
-        (response: any, outputFile: string): void;
-    };
-
-    export type GetEnvURLFn = {
-        (param: string): string;
-    };
-
-    export type ValidateEmailFn = {
-        (email: string): boolean;
-    };
-
-    // = Hooks =====================================================================
-    export type UseTimeoutFn = {
-        (callback: any, delay: number): {
-            reset: () => void;
-            clear: () => void;
-        };
-    };
-
-    export type UseDebounceFn = {
-        (callback: any, delay: number, dependencies: any[]): void;
-    };
-
-    export type UseUpdateEffectFn = {
-        (callback: any, dependencies: any[]): void;
-    };
-
-    export type UsePlainArrayFn = {
-        (initArray: any[]): {
-            array: any[];
-            set: Dispatch<SetStateAction<any[]>>;
-            push: (newEl: any) => void;
-            filter: (callback: any) => void;
-            update: (idx: number, newEl: any) => void;
-            remove: (idx: number) => void;
-            clear: () => void;
-        };
-    };
-
-    export type UseToggleFn = {
-        (defaultValue?: boolean): [value: boolean, toggleValue: any];
-    };
-
-    // = Forms =====================================================================
-    export type HandleChangeFn<T> = {
-        (e: T): void;
-    };
-
-    export type HandleClickFn = {
-        (e?: MouseEvent): void;
-    };
-
-    export type HandleClickDataFn<T1, T2> = {
-        (e?: MouseEvent, data?: T1, data2?: T2): void;
-    };
-
-    export type HandleSubmitFn<T> = {
-        (e: FormEvent, data?: T): void;
-    };
-
-    export type IsFormValidFn = {
-        (): boolean;
-    };
-
-    // = Request / Response ========================================================
-    export type RequestFn = {
-        (type: string, url: string, attrs?: any, reqToken?: boolean, throwError?: boolean, nTry?: number): Promise<any>;
-    };
-
-    export type ReqHelperFn = {
-        (url: string, data?: any, useToken?: boolean, throwError?: boolean): Promise<any>;
-    };
-  ```
-
-- In `src/utils/@types/shared/_redux.ts`
-
-  ```TypeScript
-    export type ActionRedux<T> = {
-        (data?: T): void;
-    };
-
-    export type ActionThunk<T1, T2> = {
-        (data1?: T1, data2?: T2): void;
-    };
-
-    export type ActionPayload<T> = {
-        (data?: T): { type: string; payload?: T };
-    };
-
-    export type Reducer<S, A> = {
-        (state: S, action: A): void;
-    };
-  ```
-
-- In `src/utils/@types/shared/_types.ts`
+- In `src/utils/@types/shared/_components.ts`
 
   ```TypeScript
     import { IconProp } from '@fortawesome/fontawesome-svg-core';
-    import { ChangeEvent, KeyboardEvent, MouseEvent } from 'react';
+    import { MouseEvent } from 'react';
+    import { HandleChange, HandleKeyboard, Obj } from '.';
 
-    // = Types =====================================================================
-    export type Obj = {
-        [key: string]: any;
-    };
-
-    // = Forms =====================================================================
-    export type HandleChange = ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>;
-
-    export type HandleKeyboard = KeyboardEvent<HTMLInputElement>;
-
-    // = Request / Response ========================================================
-    export type RequestOptions = {
-        method: string;
-        mode?: RequestMode;
-        headers: {
-            'Content-Type': string;
-            'Access-Control-Allow-Origin'?: string;
-            Authorization?: string;
-        };
-        body?: string;
-    };
-
-    export type Response<T> = {
-        data: T;
-        error: Obj;
-        ok: boolean;
-        status: number;
-    };
-
-    // = Components ================================================================
-    export type Input = {
+    export interface Input {
         name: string;
         value: string;
         onChange(e: HandleChange): void;
@@ -4860,9 +4810,9 @@ In `src/redux/user.ts`
         autoComplete?: string;
         labelPosition?: string;
         minLength?: number;
-    };
+    }
 
-    export type Textarea = {
+    export interface Textarea {
         name: string;
         value: string;
         onChange(e: HandleChange): void;
@@ -4872,9 +4822,9 @@ In `src/redux/user.ts`
         required?: boolean;
         disabled?: boolean;
         labelPosition?: string;
-    };
+    }
 
-    export type Select = {
+    export interface Select {
         name: string;
         value: string;
         options: Obj[];
@@ -4884,9 +4834,9 @@ In `src/redux/user.ts`
         required?: boolean;
         disabled?: boolean;
         labelPosition?: string;
-    };
+    }
 
-    export type Button = {
+    export interface Button {
         value?: string;
         icon?: string;
         faIcon?: IconProp;
@@ -4894,15 +4844,15 @@ In `src/redux/user.ts`
         iconDirection?: string;
         direction?: string;
         disabled?: boolean;
-        noHover?: boolean;
+        hover?: boolean;
         type?: 'button' | 'submit' | 'reset' | undefined;
         btnType?: string;
         btnColor?: string;
         onClick?(e: MouseEvent<HTMLElement>): void;
         href?: string;
-    };
+    }
 
-    export type ButtonIcon = {
+    export interface ButtonIcon {
         icon?: string;
         faIcon?: IconProp;
         handle?: string;
@@ -4913,70 +4863,243 @@ In `src/redux/user.ts`
         btnHoverColor?: string;
         onClick?(e: MouseEvent<HTMLElement>): void;
         href?: string;
-    };
+    }
 
-    export type CTA = {
+    export interface CTA {
         handle?: string;
         direction?: string;
         justify?: string;
         align?: string;
-    };
+    }
 
-    export type LoadingSpinner = {
+    export interface LoadingSpinner {
         handle?: string;
         color?: string;
-    };
+    }
 
-    export type Thead = {
+    export interface Thead {
         id: string;
         friendlyName: string;
+    }
+  ```
+
+- In `src/utils/@types/shared/_functions.ts`
+
+  ```TypeScript
+    import { FormEvent, MouseEvent } from 'react';
+
+    export interface SleepFn {
+        (ms: number): Promise<void>;
+    }
+
+    export interface DownloadJsonFn {
+        (response: any, outputFile: string): void;
+    }
+
+    export interface GetEnvURLFn {
+        (param: string, path: string): string;
+    }
+
+    export interface ValidateEmailFn {
+        (email: string): boolean;
+    }
+
+    export interface IsFormValidFn {
+        (): boolean;
+    }
+
+    // = Handlers ==================================================================
+    export interface HandleChangeFn<T> {
+        (e: T): void;
+    }
+
+    export interface HandleClickFn {
+        (e?: MouseEvent): void;
+    }
+
+    export interface HandleClickDataFn<T1, T2> {
+        (e?: MouseEvent, data?: T1, data2?: T2): void;
+    }
+
+    export interface HandleSubmitFn<T> {
+        (e: FormEvent, data?: T): void;
+    }
+  ```
+
+- In `src/utils/@types/shared/_hooks.ts`
+
+  ```TypeScript
+    import { Dispatch, SetStateAction } from 'react';
+
+    export interface UseTimeoutFn {
+        (callback: any, delay: number): {
+            reset: () => void;
+            clear: () => void;
+        };
+    }
+
+    export interface UseDebounceFn {
+        (callback: any, delay: number, dependencies: any[]): void;
+    }
+
+    export interface UseUpdateEffectFn {
+        (callback: any, dependencies: any[]): void;
+    }
+
+    export interface UsePlainArrayFn {
+        (initArray: any[]): {
+            array: any[];
+            set: Dispatch<SetStateAction<any[]>>;
+            push: (newEl: any) => void;
+            filter: (callback: any) => void;
+            update: (idx: number, newEl: any) => void;
+            remove: (idx: number) => void;
+            clear: () => void;
+        };
+    }
+
+    export interface UseToggleFn {
+        (defaultValue?: boolean): [value: boolean, toggleValue: any];
+    }
+  ```
+
+- In `src/utils/@types/shared/_redux.ts`
+
+  ```TypeScript
+    export interface ActionRedux<T> {
+        (data?: T): void;
+    }
+
+    export interface ActionThunk<T1, T2> {
+        (data1?: T1, data2?: T2): void;
+    }
+
+    export interface ActionPayload<T> {
+        (data?: T): { type: string; payload?: T };
+    }
+
+    export interface Reducer<S, A> {
+        (state: S, action: A): void;
+    }
+  ```
+
+- In `src/utils/@types/shared/_request.ts`
+
+  ```TypeScript
+    export interface RequestFn {
+        (type: string, url: string, data?: any, reqToken?: boolean, nTry?: number): Promise<any>;
+    }
+
+    export interface ReqHelperFn {
+        (url: string, data?: any, useToken?: boolean): Promise<any>;
+    }
+
+    export interface RequestOptions {
+        method: string;
+        mode?: RequestMode;
+        headers: {
+            'Content-Type': string;
+            'Access-Control-Allow-Origin'?: string;
+            Authorization?: string;
+        };
+        body?: string;
+    }
+
+    export interface Response<T> {
+        data: T;
+        errors: string[];
+        ok: boolean;
+        status: number;
+    }
+  ```
+
+- In `src/utils/@types/shared/_token.ts`
+
+  ```TypeScript
+    import { User } from '..';
+
+    export interface GetTokenFn {
+        (): string | null;
+    }
+
+    export interface GetUserFromTokenFn {
+        (): User | null;
+    }
+
+    export interface SetTokenFn {
+        (token: string): void;
+    }
+
+    export interface UpdateTokenFn {
+        (token: string): void;
+    }
+
+    export interface RemoveTokenFn {
+        (): void;
+    }
+  ```
+
+- In `src/utils/@types/shared/_types.ts`
+
+  ```TypeScript
+    import { ChangeEvent, KeyboardEvent } from 'react';
+
+    export type Obj = {
+        [key: string]: any;
     };
+
+    export type HandleChange = ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>;
+
+    export type HandleKeyboard = KeyboardEvent<HTMLInputElement>;
   ```
 
 - In `src/utils/@types/shared/index.ts`
 
   ```TypeScript
+    export * from './_components';
     export * from './_functions';
+    export * from './_hooks';
     export * from './_redux';
+    export * from './_request';
+    export * from './_token';
     export * from './_types';
   ```
 
-- In `src/utils/@types/token/_functions.ts`
+- In `src/utils/@types/user/_components.ts`
 
   ```TypeScript
-    import { User } from '..';
-
-    // = Functions =================================================================
-    export type GetTokenFn = {
-        (): string | null;
-    };
-
-    export type GetUserFromTokenFn = {
-        (): User | null;
-    };
-
-    export type SetTokenFn = {
-        (token: string): void;
-    };
-
-    export type UpdateTokenFn = {
-        (token: string): void;
-    };
-
-    export type RemoveTokenFn = {
-        (): void;
-    };
+    export interface UserUpdatePasswordFormC {
+        token: string;
+    }
   ```
 
-- In `src/utils/@types/token/index.ts`
+- In `src/utils/@types/user/_redux.ts`
 
   ```TypeScript
-    export * from './_functions';
+    import { User } from '.';
+
+    export type UserState = User | null;
+
+    export interface UserAction {
+        type: string;
+        payload?: User;
+    }
   ```
 
-- In `src/utils/@types/user/_forms.ts`
+- In `src/utils/@types/user/_types.ts`
 
   ```TypeScript
+    // = Types =====================================================================
+    export type User = {
+        _id: string;
+        firstName: string;
+        lastName: string;
+        admin: boolean;
+        exp: number;
+        iat: number;
+    };
+
+    // = Forms =====================================================================
     export type ResetPasswordForm = {
         email: string;
     };
@@ -5015,52 +5138,31 @@ In `src/redux/user.ts`
         password: string;
     };
 
-    export type UserUpdatePasswordFormC = {
-        token: string;
-    };
-  ```
-
-- In `src/utils/@types/user/_redux.ts`
-
-  ```TypeScript
-    import { User } from '.';
-
-    export type UserState = User | null;
-
-    export type UserAction = {
-        type: string;
-        payload?: User;
-    };
-  ```
-
-- In `src/utils/@types/user/_types.ts`
-
-  ```TypeScript
-    // = Types =====================================================================
-    export type User = {
-        _id: string;
-        firstName: string;
-        lastName: string;
-        admin: boolean;
-        exp: number;
-        iat: number;
-    };
-
     // = Request / Response ========================================================
-    export type ResetPasswordRes = {
+    export type LoginUserRes = {
+        token: string;
         message: string;
         verifyToken?: string;
     };
 
-    export type UpdatePasswordRes = ResetPasswordRes;
+    export type DeleteUserRes = {
+        message: string;
+    };
 
-    export type SignUpRes = ResetPasswordRes;
+    export type ResetUserPasswordRes = {
+        message: string;
+        verifyToken?: string;
+    };
+
+    export type UpdateUserPasswordRes = ResetUserPasswordRes;
+
+    export type SignUpUserRes = ResetUserPasswordRes;
   ```
 
 - In `src/utils/@types/user/index.ts`
 
   ```TypeScript
-    export * from './_forms';
+    export * from './_components';
     export * from './_redux';
     export * from './_types';
   ```
@@ -5072,24 +5174,131 @@ In `src/redux/user.ts`
     export * from './message';
     export * from './popup';
     export * from './shared';
-    export * from './token';
     export * from './user';
   ```
 
-#### Functions
+#### Helpers
 
 [Go Back to Contents](#table-of-contents)
 
-- In `src/utils/helpers/functions/request.ts`
+- In `src/utils/helpers/hooks.ts`
 
   ```TypeScript
-    import * as Type from '../../@types';
+    import { useCallback, useEffect, useRef, useState } from 'react';
+    import * as Type from '../@types';
+
+    export const useTimeout: Type.UseTimeoutFn = (callback, delay) => {
+        const callbackRef: any = useRef(callback);
+        const timeoutRef: any = useRef(null);
+
+        useEffect(() => {
+            callbackRef.current = callback;
+        }, [callback]);
+
+        const set = useCallback(() => {
+            timeoutRef.current = setTimeout(() => {
+                callbackRef.current();
+            }, delay);
+        }, [delay]);
+
+        const clear = useCallback(() => {
+            timeoutRef.current && clearTimeout(timeoutRef.current);
+        }, []);
+
+        useEffect(() => {
+            set();
+            return clear;
+        }, [delay, set, clear]);
+
+        const reset = useCallback(() => {
+            clear();
+            set();
+        }, [clear, set]);
+
+        return { reset, clear };
+    };
+
+    export const useDebounce: Type.UseDebounceFn = (callback, delay, dependencies) => {
+        const { reset, clear } = useTimeout(callback, delay);
+
+        useEffect(() => {
+            reset();
+        }, [...dependencies, reset]); // eslint-disable-line react-hooks/exhaustive-deps
+
+        useEffect(() => {
+            clear();
+        }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    };
+
+    export const useUpdateEffect: Type.UseUpdateEffectFn = (callback, dependencies) => {
+        const firstRenderRef = useRef<boolean>(true);
+
+        useEffect(() => {
+            if (firstRenderRef.current) {
+                firstRenderRef.current = false;
+                return;
+            }
+            return callback();
+        }, [...dependencies]); // eslint-disable-line react-hooks/exhaustive-deps
+    };
+
+    export const usePlainArray: Type.UsePlainArrayFn = (initArray) => {
+        const [array, setArray] = useState<any[]>(initArray);
+
+        const push = (newEl: any) => {
+            setArray((prev) => [...prev, newEl]);
+        };
+
+        const filter = (callback: any) => {
+            setArray((prev) => prev.filter(callback));
+        };
+
+        const update = (idx: number, newEl: any) => {
+            setArray((prev) => [...prev.slice(0, idx), newEl, ...prev.slice(idx + 1, prev.length)]);
+        };
+
+        const remove = (idx: number) => {
+            setArray((prev) => [...prev.slice(0, idx), ...prev.slice(idx + 1, prev.length)]);
+        };
+
+        const clear = () => {
+            setArray([]);
+        };
+
+        return {
+            array,
+            set: setArray,
+            push,
+            filter,
+            update,
+            remove,
+            clear,
+        };
+    };
+
+    export const useToggle: Type.UseToggleFn = (defaultValue = false) => {
+        const [value, setValue] = useState<boolean>(defaultValue);
+
+        const toggleValue = (value?: boolean) => {
+            setValue((prev: boolean) => {
+                return typeof value === 'boolean' ? value : !prev;
+            });
+        };
+
+        return [value, toggleValue];
+    };
+  ```
+
+- In `src/utils/helpers/request.ts`
+
+  ```TypeScript
+    import * as Type from '../@types';
     import { sleep } from './shared';
     import * as Token from './token';
 
     const REQUEST_TRY: number = process.env.REACT_APP_REQUEST_TRY ? +process.env.REACT_APP_REQUEST_TRY : 5;
 
-    const request: Type.RequestFn = async (type, url, attrs, reqToken, throwError, nTry = 0) => {
+    const request: Type.RequestFn = async (type, url, data, reqToken, nTry = -1) => {
         const option: Type.RequestOptions = {
             method: type,
             headers: {
@@ -5098,57 +5307,56 @@ In `src/redux/user.ts`
         };
 
         if (reqToken) option.headers.Authorization = `Bearer ${Token.getToken()}`;
-        if (attrs && Object.keys(attrs).length > 0 && type !== 'GET') option.body = JSON.stringify(attrs);
+        if (data && Object.keys(data).length > 0 && type !== 'GET') option.body = JSON.stringify(data);
 
         try {
             const res = await fetch(url, option);
             const data = await res.json();
-            const formattedRes = {
+
+            return {
                 data: res.ok ? data : null,
                 ok: res.ok,
                 status: res.status,
-                error: res.ok ? null : data,
+                errors: res.ok ? null : Object.keys(data).map((err) => data[err]),
             };
-
-            if (throwError) {
-                if (res.ok) return { data, error: null };
-                throw new Error(JSON.stringify(data));
-            }
-
-            return formattedRes;
         } catch (error: any) {
-            if (nTry === REQUEST_TRY) {
-                if (throwError) throw new Error(error);
-                return { data: null, ok: false, status: 503, error };
+            if (nTry === -1 || nTry === REQUEST_TRY) {
+                console.log(error);
+                return {
+                    data: null,
+                    ok: false,
+                    status: 503,
+                    errors: [error.message],
+                };
             }
 
             nTry++;
             await sleep(5000);
-            return await request(type, url, attrs, reqToken, throwError, nTry);
+            return await request(type, url, data, reqToken, nTry);
         }
     };
 
-    export const getData: Type.ReqHelperFn = async (url, useToken = true, throwError = false) => {
-        return await request('GET', url, null, useToken, throwError);
+    export const getData: Type.ReqHelperFn = async (url, useToken = true) => {
+        return await request('GET', url, null, useToken);
     };
 
-    export const postData: Type.ReqHelperFn = async (url, data = {}, useToken = true, throwError = false) => {
-        return await request('POST', url, data, useToken, throwError);
+    export const postData: Type.ReqHelperFn = async (url, data = {}, useToken = true) => {
+        return await request('POST', url, data, useToken);
     };
 
-    export const updateData: Type.ReqHelperFn = async (url, data = {}, useToken = true, throwError = false) => {
-        return await request('PUT', url, data, useToken, throwError);
+    export const updateData: Type.ReqHelperFn = async (url, data = {}, useToken = true) => {
+        return await request('PUT', url, data, useToken);
     };
 
-    export const deleteData: Type.ReqHelperFn = async (url, data = {}, useToken = true, throwError = false) => {
-        return await request('DELETE', url, data, useToken, throwError);
+    export const deleteData: Type.ReqHelperFn = async (url, data = {}, useToken = true) => {
+        return await request('DELETE', url, data, useToken);
     };
   ```
 
-- In `src/utils/helpers/functions/shared.ts`
+- In `src/utils/helpers/shared.ts`
 
   ```TypeScript
-    import * as Type from '../../@types';
+    import * as Type from '../@types';
 
     export const sleep: Type.SleepFn = (ms = 1000) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -5162,9 +5370,11 @@ In `src/redux/user.ts`
         linkEl.remove();
     };
 
-    export const getEnvURL: Type.GetEnvURLFn = (param) => {
+    export const getEnvURL: Type.GetEnvURLFn = (param, path) => {
         const PORT: number = process.env.REACT_APP_BACKEND_PORT ? +process.env.REACT_APP_BACKEND_PORT : 3001;
-        return process.env.REACT_APP_ENV! === 'production' ? `${process.env[param]!}` : `${process.env[param]!}:${PORT}`;
+        return process.env.REACT_APP_ENV! === 'production'
+            ? `${process.env[param]!}${path}`
+            : `${process.env[param]!}:${PORT}${path}`;
     };
 
     export const validateEmail: Type.ValidateEmailFn = (email) => {
@@ -5174,10 +5384,10 @@ In `src/redux/user.ts`
     };
   ```
 
-- In `src/utils/helpers/functions/token.ts`
+- In `src/utils/helpers/token.ts`
 
   ```TypeScript
-    import * as Type from '../../@types';
+    import * as Type from '../@types';
 
     export const getToken: Type.GetTokenFn = () => {
         let token: string | null = localStorage.getItem('token');

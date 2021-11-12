@@ -1,11 +1,11 @@
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import * as Type from '../utils/@types';
-import * as Request from '../utils/helpers/functions/request';
-import { getEnvURL } from '../utils/helpers/functions/shared';
-import * as Token from '../utils/helpers/functions/token';
+import * as Request from '../utils/helpers/request';
+import { getEnvURL } from '../utils/helpers/shared';
+import * as Token from '../utils/helpers/token';
 
-const URL: string = `${getEnvURL('REACT_APP_BACKEND_URL')}/api/user`;
+const URL: string = getEnvURL('REACT_APP_BACKEND_URL', '/api/user');
 
 const SET_MSG: string = 'SET_MSG';
 const LOGIN_USER: string = 'LOGIN_USER';
@@ -15,22 +15,13 @@ const SHOW_POPUP: string = 'SHOW_POPUP';
 export const loginUser: Type.ActionThunk<Type.LoginForm, null> = (data) => {
     return async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
         try {
-            const response: Type.Response<string> = await Request.postData(`${URL}/login`, data!);
+            const response: Type.Response<Type.LoginUserRes> = await Request.postData(`${URL}/login`, data!);
 
             if (!response.ok) {
-                if (response.error.verifyToken) {
-                    dispatch({
-                        type: SHOW_POPUP,
-                        payload: {
-                            title: 'Verify Email',
-                            custom: `${URL}/email/${response.error.verifyToken}`,
-                        },
-                    });
-                }
                 return dispatch({
                     type: SET_MSG,
                     payload: {
-                        msgs: [response.error.message],
+                        msgs: response.errors,
                         msgColor: 'danger',
                         icon: '⚠',
                         iconColor: 'danger',
@@ -38,8 +29,18 @@ export const loginUser: Type.ActionThunk<Type.LoginForm, null> = (data) => {
                 });
             }
 
-            Token.setToken(response.data);
-            dispatch({ type: LOGIN_USER });
+            if (response.data.verifyToken) {
+                dispatch({
+                    type: SHOW_POPUP,
+                    payload: {
+                        title: 'Verify Email',
+                        custom: `${URL}/email/${response.data.verifyToken}`,
+                    },
+                });
+            } else {
+                Token.setToken(response.data.token);
+                dispatch({ type: LOGIN_USER });
+            }
         } catch (error: any) {
             dispatch({
                 type: SET_MSG,
@@ -61,17 +62,13 @@ export const logoutUser: Type.ActionPayload<null> = () => ({
 export const deleteUser: Type.ActionThunk<Type.DeleteUserForm, null> = (data) => {
     return async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
         try {
-            const response = await Request.deleteData(`${URL}/profile`, data!);
+            const response: Type.Response<Type.DeleteUserRes> = await Request.deleteData(`${URL}/profile`, data!);
 
             if (!response.ok) {
-                const errors: string[] = [];
-                Object.keys(response.error).forEach((key) => {
-                    errors.push(response.error[key]);
-                });
                 return dispatch({
                     type: SET_MSG,
                     payload: {
-                        msgs: errors,
+                        msgs: response.errors,
                         msgColor: 'danger',
                         icon: '⚠',
                         iconColor: 'danger',

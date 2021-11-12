@@ -3,14 +3,14 @@ import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { removeMsg, setMsg } from '../../redux/msg';
 import * as Type from '../../utils/@types';
-import * as Request from '../../utils/helpers/functions/request';
-import { getEnvURL, validateEmail } from '../../utils/helpers/functions/shared';
+import * as Request from '../../utils/helpers/request';
+import { getEnvURL, validateEmail } from '../../utils/helpers/shared';
 import Alert from '../shared/Alert';
 import Button from '../shared/Button';
 import CTA from '../shared/CTA';
 import Input from '../shared/Input';
 
-const URL: string = `${getEnvURL('REACT_APP_BACKEND_URL')}/api/user`;
+const URL: string = getEnvURL('REACT_APP_BACKEND_URL', '/api/user');
 
 const UserResetPasswordForm: FC = () => {
     const initialState: Type.ResetPasswordForm = {
@@ -28,11 +28,12 @@ const UserResetPasswordForm: FC = () => {
     const handleSubmit: Type.HandleSubmitFn<{}> = async (e) => {
         e.preventDefault();
         try {
-            const response: Type.Response<Type.ResetPasswordRes> = await Request.postData(`${URL}/password`, form);
+            const response: Type.Response<Type.ResetUserPasswordRes> = await Request.postData(`${URL}/password`, form);
+
             if (!response.ok)
                 return dispatch(
                     setMsg({
-                        msgs: [response.error.message],
+                        msgs: response.errors,
                         msgColor: 'danger',
                         icon: '⚠',
                         iconColor: 'danger',

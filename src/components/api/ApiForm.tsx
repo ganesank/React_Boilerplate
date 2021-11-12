@@ -3,8 +3,8 @@ import { useDispatch } from 'react-redux';
 import { setMsg } from '../../redux/msg';
 import { hidePopup } from '../../redux/popup';
 import * as Type from '../../utils/@types';
-import * as Request from '../../utils/helpers/functions/request';
-import { getEnvURL } from '../../utils/helpers/functions/shared';
+import * as Request from '../../utils/helpers/request';
+import { getEnvURL } from '../../utils/helpers/shared';
 import Alert from '../shared/Alert';
 import Button from '../shared/Button';
 import CTA from '../shared/CTA';
@@ -12,7 +12,7 @@ import Input from '../shared/Input';
 import Select from '../shared/Select';
 import Textarea from '../shared/Textarea';
 
-const URL: string = `${getEnvURL('REACT_APP_BACKEND_URL')}/api/api`;
+const URL: string = getEnvURL('REACT_APP_BACKEND_URL', '/api/api');
 
 const ApiForm: FC<Type.ApiFormC> = ({ setApis, data }) => {
     const initialState: Type.ApiForm = data
@@ -52,13 +52,9 @@ const ApiForm: FC<Type.ApiFormC> = ({ setApis, data }) => {
             }
 
             if (!response.ok) {
-                const errors = Object.keys(response.error).map((key) => {
-                    return response.error[key];
-                });
-
                 return dispatch(
                     setMsg({
-                        msgs: errors,
+                        msgs: response.errors,
                         msgColor: 'danger',
                         icon: '⚠',
                         iconColor: 'danger',
