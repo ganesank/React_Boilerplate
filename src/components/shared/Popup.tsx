@@ -23,7 +23,6 @@ const Popup: FC = ({ children }) => {
                     btnType="link"
                     btnColor="danger"
                     faIcon={faTimes}
-                    noHover={true}
                     href="/"
                     handle="popup__close"
                     onClick={handleClose}

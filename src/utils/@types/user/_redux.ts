@@ -2,7 +2,7 @@ import { User } from '.';
 
 export type UserState = User | null;
 
-export type UserAction = {
+export interface UserAction {
     type: string;
     payload?: User;
-};
+}

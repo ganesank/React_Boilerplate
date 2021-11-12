@@ -1,4 +1,4 @@
-import * as Type from '../../@types';
+import * as Type from '../@types';
 
 export const getToken: Type.GetTokenFn = () => {
     let token: string | null = localStorage.getItem('token');

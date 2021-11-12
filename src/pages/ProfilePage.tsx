@@ -5,6 +5,7 @@ import Popup from '../components/shared/Popup';
 import UserDeleteForm from '../components/user/UserDeleteForm';
 import UserProfileForm from '../components/user/UserProfileForm';
 import { removeMsg } from '../redux/msg';
+import { hidePopup } from '../redux/popup';
 import * as Type from '../utils/@types';
 
 const ProfilePage: FC = () => {
@@ -13,6 +14,7 @@ const ProfilePage: FC = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        if (popup.visible) dispatch(hidePopup());
         if (msg.msgs.length > 0) dispatch(removeMsg());
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 

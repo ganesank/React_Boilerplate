@@ -2,7 +2,7 @@ import { Popup } from '.';
 
 export type PopupState = Popup;
 
-export type PopupAction = {
+export interface PopupAction {
     type: string;
     payload?: Popup;
-};
+}

@@ -5,14 +5,14 @@ import { useDispatch } from 'react-redux';
 import { setMsg } from '../../redux/msg';
 import { showPopup } from '../../redux/popup';
 import * as Type from '../../utils/@types';
-import * as Request from '../../utils/helpers/functions/request';
-import { getEnvURL, validateEmail } from '../../utils/helpers/functions/shared';
+import * as Request from '../../utils/helpers/request';
+import { getEnvURL, validateEmail } from '../../utils/helpers/shared';
 import Button from '../shared/Button';
 import CTA from '../shared/CTA';
 import Input from '../shared/Input';
 
 const PASSWORD_LEN: number = process.env.REACT_APP_PASSWORD_LEN ? +process.env.REACT_APP_PASSWORD_LEN : 7;
-const URL: string = `${getEnvURL('REACT_APP_BACKEND_URL')}/api/user`;
+const URL: string = getEnvURL('REACT_APP_BACKEND_URL', '/api/user');
 
 const UserProfileForm: FC = () => {
     const initialState: Type.ProfileForm = {
@@ -36,7 +36,7 @@ const UserProfileForm: FC = () => {
                 if (!response.ok)
                     return dispatch(
                         setMsg({
-                            msgs: [response.error.message],
+                            msgs: response.errors,
                             msgColor: 'danger',
                             icon: '⚠',
                             iconColor: 'danger',

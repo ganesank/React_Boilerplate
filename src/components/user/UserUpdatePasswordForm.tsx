@@ -1,15 +1,16 @@
 import { FC, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { setMsg } from '../../redux/msg';
 import * as Type from '../../utils/@types';
-import * as Request from '../../utils/helpers/functions/request';
-import { getEnvURL } from '../../utils/helpers/functions/shared';
+import * as Request from '../../utils/helpers/request';
+import { getEnvURL } from '../../utils/helpers/shared';
 import Button from '../shared/Button';
 import CTA from '../shared/CTA';
 import Input from '../shared/Input';
 
 const PASSWORD_LEN: number = process.env.REACT_APP_PASSWORD_LEN ? +process.env.REACT_APP_PASSWORD_LEN : 7;
-const URL: string = `${getEnvURL('REACT_APP_BACKEND_URL')}/api/user`;
+const URL: string = getEnvURL('REACT_APP_BACKEND_URL', '/api/user');
 
 const UserUpdatePasswordForm: FC<Type.UserUpdatePasswordFormC> = ({ token }) => {
     const initialState: Type.UpdatePasswordForm = {
@@ -18,48 +19,27 @@ const UserUpdatePasswordForm: FC<Type.UserUpdatePasswordFormC> = ({ token }) => 
     };
     const [form, setForm] = useState(initialState);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleSubmit: Type.HandleSubmitFn<{}> = async (e) => {
         e.preventDefault();
-        try {
-            const response: Type.Response<Type.UpdatePasswordRes> = await Request.updateData(
-                `${URL}/password/${token}`,
-                form,
-                false
-            );
+        const response: Type.Response<Type.UpdateUserPasswordRes> = await Request.updateData(
+            `${URL}/password/${token}`,
+            form,
+            false
+        );
 
-            if (!response.ok)
-                return dispatch(
-                    setMsg({
-                        msgs: [response.error.message],
-                        msgColor: 'danger',
-                        icon: '⚠',
-                        iconColor: 'danger',
-                    })
-                );
-
-            dispatch(
+        if (!response.ok)
+            return dispatch(
                 setMsg({
-                    msgs: [response.data.message],
-                    msgColor: 'success',
-                    icon: '✓',
-                    iconColor: 'success',
-                })
-            );
-            setForm({
-                password: '',
-                confirmPassword: '',
-            });
-        } catch (error: any) {
-            dispatch(
-                setMsg({
-                    msgs: [error.message],
+                    msgs: response.errors,
                     msgColor: 'danger',
                     icon: '⚠',
                     iconColor: 'danger',
                 })
             );
-        }
+
+        navigate('/login');
     };
 
     const handleChange: Type.HandleChangeFn<Type.HandleChange> = ({ target: { name, value } }) => {

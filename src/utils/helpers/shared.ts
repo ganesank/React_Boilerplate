@@ -1,4 +1,4 @@
-import * as Type from '../../@types';
+import * as Type from '../@types';
 
 export const sleep: Type.SleepFn = (ms = 1000) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -12,9 +12,11 @@ export const downloadJson: Type.DownloadJsonFn = (response, outputFile) => {
     linkEl.remove();
 };
 
-export const getEnvURL: Type.GetEnvURLFn = (param) => {
+export const getEnvURL: Type.GetEnvURLFn = (param, path) => {
     const PORT: number = process.env.REACT_APP_BACKEND_PORT ? +process.env.REACT_APP_BACKEND_PORT : 3001;
-    return process.env.REACT_APP_ENV! === 'production' ? `${process.env[param]!}` : `${process.env[param]!}:${PORT}`;
+    return process.env.REACT_APP_ENV! === 'production'
+        ? `${process.env[param]!}${path}`
+        : `${process.env[param]!}:${PORT}${path}`;
 };
 
 export const validateEmail: Type.ValidateEmailFn = (email) => {

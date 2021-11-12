@@ -4,6 +4,7 @@ import Alert from '../components/shared/Alert';
 import Popup from '../components/shared/Popup';
 import UserSignUpForm from '../components/user/UserSignUpForm';
 import { removeMsg } from '../redux/msg';
+import { hidePopup } from '../redux/popup';
 import * as Type from '../utils/@types';
 
 const SignUpPage: FC = () => {
@@ -12,6 +13,7 @@ const SignUpPage: FC = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        if (popup.visible) dispatch(hidePopup());
         if (msg.msgs.length > 0) dispatch(removeMsg());
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
