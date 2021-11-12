@@ -3,33 +3,30 @@
 
   a,
   button
-    background-color: $cbl-45
-    color: $cwt
+    background-color: $color-info
+    color: $color-white
     min-height: $button-height
     min-width: $button-height
     font-size: resize($font-size, 0.9)
-    padding: $button-padding-tb $button-padding-lr
+    padding: $size-xtiny $size-tiny
     border-radius: $border-radius
-    border: none
-    text-decoration: none
-    cursor: pointer
     transition: all 0.2s ease-in-out
 
     &:hover
       transform: translateZ(0.1rem) scale(1.10)
-      box-shadow: 0.25rem 0.25rem 0.25rem rgba($cbk, 0.2)
-      background-color: $cbl-50
+      box-shadow: $button-shadow-hover
+      background-color: $color-info-light
     &:active
       transform: translateZ(0.07rem) scale(1.07)
-      box-shadow: 0.15rem 0.15rem 0.15rem rgba($cbk, 0.4)
-      background-color: $cbl-40
+      box-shadow: $button-shadow-active
+      background-color: $color-info-dark
   &--no-hover
     a,
     button
       &:hover,
       &:active
         transform: translateZ(0) scale(1)
-        box-shadow: 0 0 0
+        box-shadow: none
 
   &__row
     display: grid
@@ -46,7 +43,7 @@
       &--left
         grid-column: 1 / span 1
         grid-row: 1 / -1
-        margin-right: $margin-3
+        margin-right: $size-xtiny
       &--right
         grid-column: 2 / -1
         grid-row: 1 / -1
@@ -61,7 +58,7 @@
       &--right
         grid-column: 1 / span 1
         grid-row: 1 / -1
-        margin-right: $margin-3
+        margin-right: $size-xtiny
   &__column
     display: grid
     grid-template-columns: 1fr
@@ -75,7 +72,7 @@
       &--top
         grid-column: 1 / -1
         grid-row: 1 / span 1
-        margin-bottom: $margin-3
+        margin-bottom: $size-xtiny
       &--bottom
         grid-column: 1 / -1
         grid-row: 2 / -1
@@ -88,45 +85,45 @@
       &--bottom
         grid-column: 1 / -1
         grid-row: 1 / span 1
-        margin-bottom: $margin-3
+        margin-bottom: $size-xtiny
   &--danger
     a,
     button
-      background-color: $crd-40
+      background-color: $color-danger
 
       &:hover
-        background-color: $crd-45
+        background-color: $color-danger-light
       &:active
-        background-color: $crd-35
+        background-color: $color-danger-dark
   &--success
     a,
     button
-      background-color: $cgn-30
+      background-color: $color-success
 
       &:hover
-        background-color: $cgn-35
+        background-color: $color-success-light
       &:active
-        background-color: $cgn-25
+        background-color: $color-success-dark
   &--warning
     a,
     button
-      background-color: $cog-45
+      background-color: $color-warning
 
       &:hover
-        background-color: $cog-50
+        background-color: $color-warning-light
       &:active
-        background-color: $cog-40
+        background-color: $color-warning-dark
   &--disabled
     cursor: not-allowed
 
     a,
     button
       cursor: not-allowed
-      background-color: $cgy-70
+      background-color: $color-disabled
 
       &:hover
         transform: translateZ(0rem) scale(1)
         box-shadow: none
-        background-color: $cgy-70
+        background-color: $color-disabled
     a
       pointer-events: none

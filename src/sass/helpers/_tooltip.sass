@@ -1,12 +1,13 @@
 .tooltip
   position: relative
   display: inline-block
+  user-select: none
 
   &__text
     font-size: resize($font-size, 0.8)
     visibility: hidden
     background-color: $color-primary
-    color: $cwt
+    color: $color-white
     text-align: center
     width: 6rem
     border-radius: 0.6rem
@@ -28,7 +29,7 @@
       margin-left: -0.5rem
       border-width: 0.5rem
       border-style: solid
-      border-color: $cgy-70 transparent transparent transparent
+      border-color: $color-disabled transparent transparent transparent
 
     &--left
       top: -10%
@@ -39,7 +40,7 @@
         left: 91%
         margin-left: 0.5rem
         border-width: 0.5rem
-        border-color: transparent transparent transparent $cgy-70
+        border-color: transparent transparent transparent $color-disabled
     &--right
       top: -10%
       left: 380%
@@ -49,7 +50,7 @@
         left: -24%
         margin-left: 0.5rem
         border-width: 0.5rem
-        border-color: transparent $cgy-70 transparent transparent
+        border-color: transparent $color-disabled transparent transparent
     &--bottom
       top: 80%
 
@@ -58,7 +59,7 @@
         left: 50%
         margin-left: -0.5rem
         border-width: 0.5rem
-        border-color: transparent transparent $cgy-70 transparent
+        border-color: transparent transparent $color-disabled transparent
   &:hover &__text
     visibility: visible
     opacity: 1
@@ -67,6 +68,7 @@
   position: relative
   display: inline-block
   cursor: pointer
+  user-select: none
 
   &:before
     position: absolute
@@ -87,7 +89,7 @@
     z-index: 100
     width: 115px
     height: 36px
-    color: $cwt
+    color: $color-white
     font-size: 10px
     line-height: 36px
     text-align: center

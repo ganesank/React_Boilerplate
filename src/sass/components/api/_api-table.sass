@@ -13,15 +13,20 @@
           justify-content: center
           height: 2.5rem
           flex-grow: 1
-          background-color: $cbl-65
+          color: $color-secondary-light
+          background-color: $color-primary
     tbody
       tr
         th
           font-weight: normal
-          background-color: $cgy-90
-          padding: 0 $padding-10
+          background-color: $color-secondary-light
+          padding: 0 $size-xtiny
         th:not(:last-child)
           border-right: 1px solid $cgy-75
+
+    .cta
+      & > :not(:last-child)
+        margin-right: $size-xtiny
   &__type,
   &__name,
   &__url,
@@ -65,9 +70,9 @@
       display: flex
       flex: 1
     &--enabled
-      color: $cgn-30
+      color: $color-success
     &--disabled
-      color: $crd-40
+      color: $color-danger
   &__cta
     width: 100%
     margin: 0

@@ -2,10 +2,12 @@
   a,
   button
     background-color: transparent
-    color: $cwt
+    color: $color-white
     border: none
     text-decoration: none
     cursor: pointer
+    margin: 0
+    padding: 0
 
     img,
     svg
@@ -15,69 +17,69 @@
     min-width: $font-size * 1rem
   &--primary
     svg > path
-      color: $cbl-45
-      fill: $cbl-45
+      color: $color-primary
+      fill: $color-primary
   &--danger
     svg > path
-      color: $crd-40
-      fill: $crd-40
+      color: $color-danger
+      fill: $color-danger
   &--success
     svg > path
-      color: $cgn-30
-      fill: $cgn-30
+      color: $color-success
+      fill: $color-success
   &--warning
     svg > path
-      color: $cog-45
-      fill: $cog-45
+      color: $color-warning
+      fill: $color-warning
   &--grey
     svg > path
-      color: $cgy-50
-      fill: $cgy-50
+      color: $color-disabled-dark
+      fill: $color-disabled-dark
   &--disabled
     svg > path
       cursor: not-allowed
-      color: $cgy-70
-      fill: $cgy-70
+      color: $color-disabled
+      fill: $color-disabled
   &--hover-primary
     &:hover > svg > path
-      color: $cbl-60
-      fill: $cbl-60
+      color: $color-primary-light
+      fill: $color-primary-light
     &:active > svg > path
-      color: $cbl-40
-      fill: $cbl-40
+      color: $color-primary-dark
+      fill: $color-primary-dark
   &--hover-danger
     &:hover > svg > path
-      color: $crd-50
-      fill: $crd-50
+      color: $color-danger-light
+      fill: $color-danger-light
     &:active > svg > path
-      color: $crd-35
-      fill: $crd-35
+      color: $color-danger-dark
+      fill: $color-danger-dark
   &--hover-success
     &:hover > svg > path
-      color: $cgn-40
-      fill: $cgn-40
+      color: $color-success-light
+      fill: $color-success-light
     &:active > svg > path
-      color: $cgn-25
-      fill: $cgn-25
+      color: $color-success-dark
+      fill: $color-success-dark
   &--hover-warning
     &:hover > svg > path
-      color: $cog-60
-      fill: $cog-60
+      color: $color-warning-light
+      fill: $color-warning-light
     &:active > svg > path
-      color: $cog-40
-      fill: $cog-40
+      color: $color-warning-dark
+      fill: $color-warning-dark
   &--hover-grey
     &:hover > svg > path
-      color: $cgy-65
-      fill: $cgy-65
+      color: $color-disabled
+      fill: $color-disabled
     &:active > svg > path
-      color: $cgy-45
-      fill: $cgy-45
+      color: $color-disabled-dark
+      fill: $color-disabled-dark
   &--hover-disabled
     svg > path
       cursor: not-allowed
-      color: $cgy-70
-      fill: $cgy-70
+      color: $color-disabled
+      fill: $color-disabled
     a
       cursor: not-allowed
       pointer-events: none
