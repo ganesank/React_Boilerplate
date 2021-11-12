@@ -7,6 +7,7 @@ export type User = {
     exp: number;
     iat: number;
 };
+
 // = Forms =====================================================================
 export type ResetPasswordForm = {
     email: string;
