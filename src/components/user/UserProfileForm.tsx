@@ -177,14 +177,14 @@ const UserProfileForm: FC = () => {
                     autoComplete="username"
                     required={true}
                 />
-                <div className="user-profile-form__telegram-container">
+                <div className="user-profile-form__telegram-wrap">
                     <Input
                         placeholder="Telegram ID"
                         label="Telegram ID"
                         name="telegramId"
                         value={form.telegramId}
                         onChange={handleChange}
-                        handle="user-profile-form__telegram-container__telegram"
+                        handle="user-profile-form__telegram-wrap__telegram"
                     />
                     <div
                         className={

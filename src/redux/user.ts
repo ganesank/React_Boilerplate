@@ -18,6 +18,16 @@ export const loginUser: Type.ActionThunk<Type.LoginForm, null> = (data) => {
             const response: Type.Response<Type.LoginUserRes> = await Request.postData(`${URL}/login`, data!);
 
             if (!response.ok) {
+                if (response.data && response.data.verifyToken) {
+                    dispatch({
+                        type: SHOW_POPUP,
+                        payload: {
+                            title: 'Verify Email',
+                            custom: `${URL}/email/${response.data.verifyToken}`,
+                        },
+                    });
+                }
+
                 return dispatch({
                     type: SET_MSG,
                     payload: {
@@ -29,18 +39,8 @@ export const loginUser: Type.ActionThunk<Type.LoginForm, null> = (data) => {
                 });
             }
 
-            if (response.data.verifyToken) {
-                dispatch({
-                    type: SHOW_POPUP,
-                    payload: {
-                        title: 'Verify Email',
-                        custom: `${URL}/email/${response.data.verifyToken}`,
-                    },
-                });
-            } else {
-                Token.setToken(response.data.token);
-                dispatch({ type: LOGIN_USER });
-            }
+            Token.setToken(response.data.token);
+            dispatch({ type: LOGIN_USER });
         } catch (error: any) {
             dispatch({
                 type: SET_MSG,

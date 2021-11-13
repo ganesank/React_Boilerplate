@@ -12,9 +12,9 @@ const Textarea: FC<Type.Textarea> = ({
     required = false,
     disabled = false,
 }) => {
-    const labelClass: string = label ? `textarea-container--${labelPosition} ` : '';
+    const labelClass: string = label ? `textarea-wrap--${labelPosition} ` : '';
     const handleClass: string = handle ? handle : '';
-    const customClass: string = `textarea-container ${labelClass}${handleClass}`;
+    const customClass: string = `textarea-wrap ${labelClass}${handleClass}`;
 
     return (
         <div className={customClass}>

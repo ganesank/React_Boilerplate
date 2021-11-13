@@ -1,7 +1,26 @@
 .api-page
   @include config-page
-  margin-top: 10rem
 
   &__form
     padding: 0.5rem
     width: 25rem
+  .sub-menu
+    width: 100%
+    display: flex
+    justify-content: center
+    box-shadow: 0 0.3rem 0.3rem rgba($color-black, 0.3)
+    background-color: $color-primary
+    z-index: 1
+
+    &__cta
+      max-width: $page-width
+      padding: $size-xtiny $size-xbig
+      background-color: $color-primary
+    &__btn
+      margin: 0
+      padding: 0
+  @include mq-manager(tab-port)
+    .sub-menu
+      &__cta
+        padding-right: $size-big
+        background-color: $color-primary-dark

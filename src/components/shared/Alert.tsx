@@ -36,7 +36,7 @@ const Alert: FC = () => {
     return (
         <div className="alert">
             {icon}
-            <div className="alert__msg-container">{messages}</div>
+            <div className="alert__msg-wrap">{messages}</div>
         </div>
     );
 };

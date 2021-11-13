@@ -33,7 +33,7 @@ const Button: FC<Type.Button> = ({
         icon || faIcon ? `btn__${direction}__icon btn__${direction}__icon--${value ? iconDirection : 'center'} ` : '';
 
     return (
-        <div className={customClass}>
+        <>
             {btnType === 'btn' && (
                 <button className={customClass} disabled={disabled} type={type} onClick={onClick ? onClick : () => ''}>
                     {value && <div className={valueClass}>{value}</div>}
@@ -48,7 +48,7 @@ const Button: FC<Type.Button> = ({
                     {faIcon && <FontAwesomeIcon icon={faIcon} className={iconClass} />}
                 </Link>
             )}
-        </div>
+        </>
     );
 };
 
