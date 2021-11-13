@@ -25,9 +25,10 @@
       - [ButtonIcon](#buttonicon)
       - [CTA](#cta)
       - [Footer](#footer)
-      - [Headers](#headers)
+      - [Header](#header)
       - [Input](#input)
       - [LoadingSpinner](#loadingspinner)
+      - [Navbar](#navbar)
       - [Popup](#popup)
       - [Select](#select)
       - [Textarea](#textarea)
@@ -781,7 +782,7 @@ In `src/components/shared/Alert.tsx`
       return (
           <div className="alert">
               {icon}
-              <div className="alert__msg-container">{messages}</div>
+              <div className="alert__msg-wrap">{messages}</div>
           </div>
       );
   };
@@ -831,7 +832,7 @@ In `src/components/shared/Button.tsx`
           icon || faIcon ? `btn__${direction}__icon btn__${direction}__icon--${value ? iconDirection : 'center'} ` : '';
 
       return (
-          <div className={customClass}>
+          <>
               {btnType === 'btn' && (
                   <button className={customClass} disabled={disabled} type={type} onClick={onClick ? onClick : () => ''}>
                       {value && <div className={valueClass}>{value}</div>}
@@ -846,7 +847,7 @@ In `src/components/shared/Button.tsx`
                       {faIcon && <FontAwesomeIcon icon={faIcon} className={iconClass} />}
                   </Link>
               )}
-          </div>
+          </>
       );
   };
 
@@ -945,8 +946,8 @@ In `src/components/shared/Footer.tsx`
 
   const Footer: FC = () => {
       return (
-          <div className="footer">
-              <div className="footer__footer-container container">
+          <footer className="footer">
+              <div className="footer__footer-wrap container">
                   <div className="footer__left">
                       <ul className="footer__social-media-list">
                           {socialMedias.map((media, idx) => {
@@ -969,130 +970,27 @@ In `src/components/shared/Footer.tsx`
                   <div className="footer__middle"></div>
                   <div className="footer__right">&copy; Roger Takeshita - 2021. All rights reserved.</div>
               </div>
-          </div>
+          </footer>
       );
   };
 
   export default Footer;
 ```
 
-#### Headers
+#### Header
 
 [Go Back to Contents](#table-of-contents)
 
 In `src/components/shared/Header.tsx`
 
 ```TypeScript
-  import { faBars } from '@fortawesome/free-solid-svg-icons';
-  import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-  import { FC, useState } from 'react';
-  import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
-  import { Link, useLocation, useNavigate } from 'react-router-dom';
-  import { logoutUser } from '../../redux/user';
-  import * as Type from '../../utils/@types';
+  import { FC } from 'react';
+  import Navbar from './Navbar';
 
   const Header: FC = () => {
-      const user = useSelector((state: RootStateOrAny): Type.User => state.user);
-      const [visible, setVisible] = useState(false);
-      const dispatch = useDispatch();
-      const navigate = useNavigate();
-      const location = useLocation();
-      const routes: string[] = ['/api'];
-      let removeStyle: string = '';
-
-      const idx: number = routes.indexOf(location.pathname);
-      if (idx !== -1) removeStyle = 'remove-style';
-      if (visible) removeStyle = '';
-
-      const handleLogout: Type.HandleClickFn = (e) => {
-          e!.preventDefault();
-          dispatch(logoutUser());
-          setVisible(false);
-          navigate('/');
-      };
-
-      const handleClick: Type.HandleClickFn = () => {
-          setVisible((prev) => !prev);
-      };
-
-      const menu =
-          user && user.firstName ? (
-              <ul className="navbar__list">
-                  <li className="navbar__item">
-                      <Link className="navbar__link" to="/" onClick={() => setVisible(false)}>
-                          HOME
-                      </Link>
-                  </li>
-                  <li className="navbar__item">
-                      <Link className="navbar__link" to="/about" onClick={() => setVisible(false)}>
-                          ABOUT
-                      </Link>
-                  </li>
-                  <li className="navbar__item">
-                      <Link className="navbar__link" to="/api" onClick={() => setVisible(false)}>
-                          API
-                      </Link>
-                  </li>
-                  <li className="navbar__item">
-                      <Link className="navbar__link" to="/profile" onClick={() => setVisible(false)}>
-                          PROFILE
-                      </Link>
-                  </li>
-                  <li className="navbar__item">
-                      <a className="navbar__link" href="/" onClick={handleLogout}>
-                          LOG OUT
-                      </a>
-                  </li>
-              </ul>
-          ) : (
-              <ul className="navbar__list">
-                  <li className="navbar__item">
-                      <Link className="navbar__link" to="/" onClick={() => setVisible(false)}>
-                          HOME
-                      </Link>
-                  </li>
-                  <li className="navbar__item">
-                      <Link className="navbar__link" to="/about" onClick={() => setVisible(false)}>
-                          ABOUT
-                      </Link>
-                  </li>
-                  <li className="navbar__item">
-                      <Link className="navbar__link" to="/login" onClick={() => setVisible(false)}>
-                          LOGIN
-                      </Link>
-                  </li>
-                  <li className="navbar__item">
-                      <Link className="navbar__link" to="/signup" onClick={() => setVisible(false)}>
-                          SIGN UP
-                      </Link>
-                  </li>
-              </ul>
-          );
-
       return (
           <header>
-              <div className={`navbar${removeStyle ? ` navbar--${removeStyle}` : ''}`}>
-                  <div
-                      className={`navbar__navbar-container${
-                          removeStyle ? ` navbar__navbar-container--${removeStyle}` : ''
-                      }`}
-                  >
-                      <div
-                          onClick={handleClick}
-                          className={visible ? 'navbar__bars navbar__bars--light' : 'navbar__bars navbar__bars--dark'}
-                      >
-                          <FontAwesomeIcon icon={faBars} />
-                      </div>
-                      <div className="navbar__logo-container">
-                          <Link className="navbar__logo" to="/" onClick={() => setVisible(false)}>
-                              Roger Takeshita
-                          </Link>
-                      </div>
-                      <div className={`navbar__menu-container ${visible ? 'navbar__menu-container--visible' : ''}`}>
-                          {menu}
-                      </div>
-                  </div>
-              </div>
+              <Navbar />
           </header>
       );
   };
@@ -1125,9 +1023,9 @@ In `src/components/shared/Input.tsx`
       autoComplete = 'off',
       minLength,
   }) => {
-      const labelClass: string = label ? `input-container--${labelPosition} ` : '';
+      const labelClass: string = label ? `input-wrap--${labelPosition} ` : '';
       const handleClass: string = handle ? handle : '';
-      const customClass: string = `input-container ${labelClass}${handleClass}`;
+      const customClass: string = `input-wrap ${labelClass}${handleClass}`;
 
       return (
           <div className={customClass}>
@@ -1203,6 +1101,126 @@ In `src/components/shared/LoadingSpinner.tsx`
   export default LoadingSpinner;
 ```
 
+#### Navbar
+
+[Go Back to Contents](#table-of-contents)
+
+In `src/components/shared/Navbar.tsx`
+
+```TypeScript
+  import { faBars } from '@fortawesome/free-solid-svg-icons';
+  import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+  import { FC, useState } from 'react';
+  import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+  import { Link, useLocation, useNavigate } from 'react-router-dom';
+  import { logoutUser } from '../../redux/user';
+  import * as Type from '../../utils/@types';
+
+  const Navbar: FC = () => {
+      const user = useSelector((state: RootStateOrAny): Type.User => state.user);
+      const [visible, setVisible] = useState(false);
+      const dispatch = useDispatch();
+      const navigate = useNavigate();
+      const location = useLocation();
+      const routes: string[] = ['/api'];
+      let removeShadow: string = '';
+
+      const idx: number = routes.indexOf(location.pathname);
+      console.log(idx);
+      if (idx !== -1) removeShadow = 'remove-shadow';
+      if (visible) removeShadow = '';
+
+      const handleLogout: Type.HandleClickFn = (e) => {
+          e!.preventDefault();
+          dispatch(logoutUser());
+          setVisible(false);
+          navigate('/');
+      };
+
+      const handleClick: Type.HandleClickFn = () => {
+          setVisible((prev) => !prev);
+      };
+
+      const menu =
+          user && user.firstName ? (
+              <ul className="nav__list">
+                  <li className="nav__item">
+                      <Link className="nav__link" to="/" onClick={() => setVisible(false)}>
+                          HOME
+                      </Link>
+                  </li>
+                  <li className="nav__item">
+                      <Link className="nav__link" to="/about" onClick={() => setVisible(false)}>
+                          ABOUT
+                      </Link>
+                  </li>
+                  <li className="nav__item">
+                      <Link className="nav__link" to="/api" onClick={() => setVisible(false)}>
+                          API
+                      </Link>
+                  </li>
+                  <li className="nav__item">
+                      <Link className="nav__link" to="/profile" onClick={() => setVisible(false)}>
+                          PROFILE
+                      </Link>
+                  </li>
+                  <li className="nav__item">
+                      <a className="nav__link" href="/" onClick={handleLogout}>
+                          LOG OUT
+                      </a>
+                  </li>
+              </ul>
+          ) : (
+              <ul className="nav__list">
+                  <li className="nav__item">
+                      <Link className="nav__link" to="/" onClick={() => setVisible(false)}>
+                          HOME
+                      </Link>
+                  </li>
+                  <li className="nav__item">
+                      <Link className="nav__link" to="/about" onClick={() => setVisible(false)}>
+                          ABOUT
+                      </Link>
+                  </li>
+                  <li className="nav__item">
+                      <Link className="nav__link" to="/login" onClick={() => setVisible(false)}>
+                          LOGIN
+                      </Link>
+                  </li>
+                  <li className="nav__item">
+                      <Link className="nav__link" to="/signup" onClick={() => setVisible(false)}>
+                          SIGN UP
+                      </Link>
+                  </li>
+              </ul>
+          );
+
+      const navClass: string = removeShadow ? `nav nav--${removeShadow}` : 'nav';
+      const navWrapClass: string = removeShadow ? `nav__wrap nav__wrap--${removeShadow}` : 'nav__wrap';
+
+      return (
+          <nav className={navClass}>
+              <div className={navWrapClass}>
+                  <div
+                      onClick={handleClick}
+                      className={visible ? 'nav__bars nav__bars--light' : 'nav__bars nav__bars--dark'}
+                  >
+                      <FontAwesomeIcon icon={faBars} />
+                  </div>
+                  <div className="nav__logo-wrap">
+                      <Link className="nav__logo" to="/" onClick={() => setVisible(false)}>
+                          Roger Takeshita
+                      </Link>
+                  </div>
+                  <div className={`nav__menu-wrap ${visible ? 'nav__menu-wrap--visible' : ''}`}>{menu}</div>
+              </div>
+          </nav>
+      );
+  };
+
+  export default Navbar;
+```
+
 #### Popup
 
 [Go Back to Contents](#table-of-contents)
@@ -1230,7 +1248,7 @@ In `src/components/shared/Popup.tsx`
 
       return (
           <div className="popup" onClick={handleClose}>
-              <div className="popup__container" onClick={(e) => e.stopPropagation()}>
+              <div className="popup__wrap" onClick={(e) => e.stopPropagation()}>
                   <Button
                       btnType="link"
                       btnColor="danger"
@@ -1241,7 +1259,7 @@ In `src/components/shared/Popup.tsx`
                   />
                   {popup.title !== '' && (
                       <div className="popup__header">
-                          <h3>{popup.title}</h3>
+                          <h2>{popup.title}</h2>
                       </div>
                   )}
                   {popup.message !== '' && <div className="popup__body">{popup.message}</div>}
@@ -1275,9 +1293,9 @@ In `src/components/shared/Select.tsx`
       required = false,
       disabled = false,
   }) => {
-      const labelClass: string = label ? `select-container--${labelPosition} ` : '';
+      const labelClass: string = label ? `select-wrap--${labelPosition} ` : '';
       const handleClass: string = handle ? handle : '';
-      const customClass: string = `select-container ${labelClass}${handleClass}`;
+      const customClass: string = `select-wrap ${labelClass}${handleClass}`;
 
       return (
           <div className={customClass}>
@@ -1319,9 +1337,9 @@ In `src/components/shared/Textarea.tsx`
       required = false,
       disabled = false,
   }) => {
-      const labelClass: string = label ? `textarea-container--${labelPosition} ` : '';
+      const labelClass: string = label ? `textarea-wrap--${labelPosition} ` : '';
       const handleClass: string = handle ? handle : '';
-      const customClass: string = `textarea-container ${labelClass}${handleClass}`;
+      const customClass: string = `textarea-wrap ${labelClass}${handleClass}`;
 
       return (
           <div className={customClass}>
@@ -1699,14 +1717,14 @@ In `src/components/user/UserProfileForm.tsx`
                       autoComplete="username"
                       required={true}
                   />
-                  <div className="user-profile-form__telegram-container">
+                  <div className="user-profile-form__telegram-wrap">
                       <Input
                           placeholder="Telegram ID"
                           label="Telegram ID"
                           name="telegramId"
                           value={form.telegramId}
                           onChange={handleChange}
-                          handle="user-profile-form__telegram-container__telegram"
+                          handle="user-profile-form__telegram-wrap__telegram"
                       />
                       <div
                           className={
@@ -2165,7 +2183,7 @@ In `src/pages/AboutPage.tsx`
                   <div className="about-page__technologies">
                       {technologies.map((tech, idx) => {
                           return (
-                              <div key={`tech_${idx}`} className="about-page__tech-container">
+                              <div key={`tech_${idx}`} className="about-page__tech-wrap">
                                   <img className={tech.class} src={tech.src} alt="Tech" />
                                   <p className="about-page__tech-label">{tech.name}</p>
                               </div>
@@ -2223,6 +2241,7 @@ In `src/pages/ApiPage.tsx`
       const msg = useSelector((state: RootStateOrAny): Type.Msg => state.msg);
       const popup = useSelector((state: RootStateOrAny): Type.Popup => state.popup);
       const dispatch = useDispatch();
+
       const thead: Type.Thead[] = [
           { id: 'type', friendlyName: 'Type' },
           { id: 'name', friendlyName: 'Name' },
@@ -2337,9 +2356,9 @@ In `src/pages/ApiPage.tsx`
 
       return (
           <div className="api-page">
-              <div className="menu">
-                  <CTA handle="menu__sub-menu">
-                      <Button btnColor="success" onClick={handleAdd} faIcon={faPlus} />
+              <div className="sub-menu">
+                  <CTA handle="sub-menu__cta">
+                      <Button handle="sub-menu__btn" btnColor="success" onClick={handleAdd} faIcon={faPlus} />
                   </CTA>
               </div>
               <div className="container">
@@ -2697,6 +2716,16 @@ In `src/redux/user.ts`
               const response: Type.Response<Type.LoginUserRes> = await Request.postData(`${URL}/login`, data!);
 
               if (!response.ok) {
+                  if (response.data && response.data.verifyToken) {
+                      dispatch({
+                          type: SHOW_POPUP,
+                          payload: {
+                              title: 'Verify Email',
+                              custom: `${URL}/email/${response.data.verifyToken}`,
+                          },
+                      });
+                  }
+
                   return dispatch({
                       type: SET_MSG,
                       payload: {
@@ -2708,18 +2737,8 @@ In `src/redux/user.ts`
                   });
               }
 
-              if (response.data.verifyToken) {
-                  dispatch({
-                      type: SHOW_POPUP,
-                      payload: {
-                          title: 'Verify Email',
-                          custom: `${URL}/email/${response.data.verifyToken}`,
-                      },
-                  });
-              } else {
-                  Token.setToken(response.data.token);
-                  dispatch({ type: LOGIN_USER });
-              }
+              Token.setToken(response.data.token);
+              dispatch({ type: LOGIN_USER });
           } catch (error: any) {
               dispatch({
                   type: SET_MSG,
@@ -2801,10 +2820,11 @@ In `src/redux/user.ts`
     @import ./_colors
 
     $font-size: 1
-    $page-width: 110rem
+    $page-width: 130rem
     $height: 1.8rem
     $border: 0.2rem solid rgba($cbk, 0.5)
     $shadow: 0.2rem 0.2rem 0.2rem rgba($cbk, 0.2)
+    $nav-height: 5rem
 
     $size-none: 0rem
     $size-micro: 0.2rem
@@ -3019,6 +3039,8 @@ In `src/redux/user.ts`
 - In `src/sass/base/_reset.sass`
 
   ```SCSS
+    @import ./_base-theme
+
     html, body, div, span, applet, object, iframe,
     h1, h2, h3, h4, h5, h6, p, blockquote, pre,
     a, abbr, acronym, address, big, cite, code,
@@ -3067,12 +3089,25 @@ In `src/redux/user.ts`
       flex-direction: column
       align-items: center
 
+    header,
+    footer
+      display: flex
+      justify-content: center
+      width: 100%
+
+    header
+      background-color: $color-primary-dark
+      box-shadow: 0 0.3rem 0.3rem rgba($color-black, 0.3)
+
     main
       display: flex
       flex-grow: 1
       width: 100%
       justify-content: center
-      min-height: 100vh
+      min-height: calc(100vh - #{$nav-height})
+
+      @include mq-manager(tab-port)
+        min-height: 100vh
 
     ol, ul
       list-style-type: none
@@ -3113,6 +3148,10 @@ In `src/redux/user.ts`
       flex-direction: column
       align-items: center
       width: 100%
+      margin-top: $size-xlarge
+
+      @include mq-manager(tab-port)
+        margin-top: $size-medium
 
     .loading
       cursor: progress
@@ -3296,7 +3335,7 @@ In `src/redux/user.ts`
       &__icon
         font-size: 2rem
         display: inline-flex
-      &__msg-container
+      &__msg-wrap
         margin-left: 0.5rem
         font-size: 0.8rem
       &__msg
@@ -3409,33 +3448,28 @@ In `src/redux/user.ts`
   ```SCSS
     .btn
       min-width: fit-content
+      background-color: $color-info
+      color: $color-white
+      min-height: $button-height
+      min-width: $button-height
+      font-size: resize($font-size, 0.9)
+      padding: $size-xtiny $size-tiny
+      border-radius: $border-radius
+      transition: all 0.2s ease-in-out
 
-      a,
-      button
-        background-color: $color-info
-        color: $color-white
-        min-height: $button-height
-        min-width: $button-height
-        font-size: resize($font-size, 0.9)
-        padding: $size-xtiny $size-tiny
-        border-radius: $border-radius
-        transition: all 0.2s ease-in-out
-
-        &:hover
-          transform: translateZ(0.1rem) scale(1.10)
-          box-shadow: $button-shadow-hover
-          background-color: $color-info-light
-        &:active
-          transform: translateZ(0.07rem) scale(1.07)
-          box-shadow: $button-shadow-active
-          background-color: $color-info-dark
+      &:hover
+        transform: translateZ(0.1rem) scale(1.10)
+        box-shadow: $button-shadow-hover
+        background-color: $color-info-light
+      &:active
+        transform: translateZ(0.07rem) scale(1.07)
+        box-shadow: $button-shadow-active
+        background-color: $color-info-dark
       &--no-hover
-        a,
-        button
-          &:hover,
-          &:active
-            transform: translateZ(0) scale(1)
-            box-shadow: none
+        &:hover,
+        &:active
+          transform: translateZ(0) scale(1)
+          box-shadow: none
 
       &__row
         display: grid
@@ -3496,46 +3530,35 @@ In `src/redux/user.ts`
             grid-row: 1 / span 1
             margin-bottom: $size-xtiny
       &--danger
-        a,
-        button
-          background-color: $color-danger
+        background-color: $color-danger
 
-          &:hover
-            background-color: $color-danger-light
-          &:active
-            background-color: $color-danger-dark
+        &:hover
+          background-color: $color-danger-light
+        &:active
+          background-color: $color-danger-dark
       &--success
-        a,
-        button
-          background-color: $color-success
+        background-color: $color-success
 
-          &:hover
-            background-color: $color-success-light
-          &:active
-            background-color: $color-success-dark
+        &:hover
+          background-color: $color-success-light
+        &:active
+          background-color: $color-success-dark
       &--warning
-        a,
-        button
-          background-color: $color-warning
+        background-color: $color-warning
 
-          &:hover
-            background-color: $color-warning-light
-          &:active
-            background-color: $color-warning-dark
+        &:hover
+          background-color: $color-warning-light
+        &:active
+          background-color: $color-warning-dark
       &--disabled
         cursor: not-allowed
+        background-color: $color-disabled
+        pointer-events: none
 
-        a,
-        button
-          cursor: not-allowed
+        &:hover
+          transform: translateZ(0rem) scale(1)
+          box-shadow: none
           background-color: $color-disabled
-
-          &:hover
-            transform: translateZ(0rem) scale(1)
-            box-shadow: none
-            background-color: $color-disabled
-        a
-          pointer-events: none
   ```
 
 - In `src/sass/components/shared/_cta.sass`
@@ -3590,15 +3613,15 @@ In `src/redux/user.ts`
       justify-content: center
       background-color: $color-black
       min-height: 10rem
-      max-height: 10rem
       width: 100%
       padding: 1rem
 
-      &__footer-container
+      &__footer-wrap
         display: grid
-        grid-template-columns: 3fr 1fr 3fr
-        column-gap: $grid-gap-small
+        grid-template-columns: 1fr auto 1fr
+        grid-gap: $grid-gap
         color: $color-white
+        margin-top: 0
       &__left,
       &__middle,
       &__right
@@ -3624,22 +3647,20 @@ In `src/redux/user.ts`
         &:hover
           color: $color-primary
       @include mq-manager(tab-port)
-        min-height: 15rem
-        max-height: 15rem
+        padding: 2rem 0
 
-        &__footer-container
+        &__footer-wrap
           grid-template-columns: 1fr
-          grid-template-rows: repeat(3, 1fr)
-          column-gap: 0
+          grid-template-rows: repeat(2, 1fr) auto
         &__left
           grid-column: 1 / span 1
-          grid-row: 2 / 3
+          grid-row: 1 / 2
         &__right
           grid-column: 1 / span 1
-          grid-row: 3 / 4
+          grid-row: 2 / 3
         &__middle
           grid-column: 1 / span 1
-          grid-row: 1 / 2
+          grid-row: 3 / 4
   ```
 
 - In `src/sass/components/shared/_icon.sass`
@@ -3661,7 +3682,7 @@ In `src/redux/user.ts`
 - In `src/sass/components/shared/_input.sass`
 
   ```SCSS
-    .input-container
+    .input-wrap
       display: grid
 
       input
@@ -3810,29 +3831,22 @@ In `src/redux/user.ts`
 - In `src/sass/components/shared/_navbar.sass`
 
   ```SCSS
-    .navbar
-      position: fixed
-      top: 0
-      left: 0
-      min-height: 5rem
+    .nav
+      min-height: $nav-height
       width: 100%
-      display: flex
-      flex: 1
-      justify-content: center
-      box-shadow: 0 0.3rem 0.3rem rgba($color-black, 0.3)
+      max-width: $page-width
       background-color: $color-primary-dark
-      z-index: 2
       user-select: none
 
-      &--remove-style
+      &--remove-shadow
         box-shadow: none
-      &__navbar-container
+      &__wrap
         max-width: $page-width
         display: flex
         flex: 1
         justify-content: space-around
-      &__logo-container
-        height: 5rem
+        height: 100%
+      &__logo-wrap
         margin-left: 1rem
       &__logo
         height: 100%
@@ -3845,7 +3859,7 @@ In `src/redux/user.ts`
         margin: 0 1rem
         white-space: nowrap
         text-decoration: none
-      &__menu-container
+      &__menu-wrap
         display: flex
         flex: 1
         justify-content: flex-end
@@ -3877,36 +3891,24 @@ In `src/redux/user.ts`
         display: none
         visibility: hidden
 
-    .menu
-      position: fixed
-      top: 5rem
-      left: 0
-      width: 100%
-      margin-bottom: $size-big
-      display: flex
-      justify-content: center
-      box-shadow: 0 0.3rem 0.3rem rgba($color-black, 0.3)
-      background-color: $color-primary
-      z-index: 1
-
-      &__sub-menu
-        max-width: $page-width
-        padding: $size-xtiny $size-xbig
-        background-color: $color-primary
-
     @include mq-manager(tab-port)
-      .navbar
-        &__navbar-container
+      .nav
+        position: absolute
+        top: 0
+        left: 0
+        z-index: 100
+
+        &__wrap
           flex-direction: column
           align-items: center
           box-shadow: 0 0.2rem 0.3rem rgba($color-black, 0.3)
-          &--remove-style
+          &--remove-shadow
             box-shadow: none
-        &__logo-container
+        &__logo-wrap
           height: 5rem
         &__logo
           height: 100%
-        &__menu-container
+        &__menu-wrap
           width: 100%
           justify-content: center
           visibility: hidden
@@ -3962,9 +3964,9 @@ In `src/redux/user.ts`
       background-color: rgba($color-black, 0.8)
       width: 100%
       height: 100%
-      z-index: 10
+      z-index: 300
 
-      &__container
+      &__wrap
         @include abs-center
         top: 45%
         background-color: $color-white
@@ -3973,18 +3975,17 @@ In `src/redux/user.ts`
         border-radius: $border-radius
         padding: 1rem
         color: $color-black
-        z-index: 2
       &__close
         position: absolute
-        top: $form-padding
-        right: $form-padding
+        top: $size-small
+        right: $size-small
         font-size: $font-size * 1rem
-        margin: 0 !important
-        padding: 0 !important
+        margin: 0
+        padding: 0
       &__header
-        margin: 0 0 1rem 0
+        margin: 1rem 0
 
-        h3
+        h2
           text-align: center
           text-transform: uppercase
       &__body
@@ -4001,7 +4002,7 @@ In `src/redux/user.ts`
 
     @include mq-manager(tab-port)
       .popup
-        &__container
+        &__wrap
           min-width: $form-min-width
           top: 50%
   ```
@@ -4009,7 +4010,7 @@ In `src/redux/user.ts`
 - In `src/sass/components/shared/_select.sass`
 
   ```SCSS
-    .select-container
+    .select-wrap
       display: grid
 
       select
@@ -4081,7 +4082,7 @@ In `src/redux/user.ts`
 - In `src/sass/components/shared/_textarea.sass`
 
   ```SCSS
-    .textarea-container
+    .textarea-wrap
       display: grid
 
       textarea
@@ -4200,7 +4201,7 @@ In `src/redux/user.ts`
     .user-profile-form
       width: $form-width
 
-      &__telegram-container
+      &__telegram-wrap
         display: flex
         flex-grow: 1
 
@@ -4359,15 +4360,21 @@ In `src/redux/user.ts`
       @import url('https://fonts.googleapis.com/css2?family=#{$family}&display=swap')
 
     @mixin config-page
-      margin-top: 7rem
       width: 100%
       display: flex
       flex-grow: 1
       flex-direction: column
       align-items: center
+      position: relative
 
       h1
         margin-bottom: $size-big
+
+      @include mq-manager(tab-port)
+        margin-top: $nav-height
+
+        h1
+          margin-bottom: $size-xsmall
   ```
 
 - In `src/sass/helpers/_tooltip.sass`
@@ -4583,7 +4590,7 @@ In `src/redux/user.ts`
         justify-content: center
         flex-wrap: wrap
         margin: 2rem 0
-      &__tech-container
+      &__tech-wrap
         display: flex
         flex-direction: column
         margin: 1rem
@@ -4608,11 +4615,30 @@ In `src/redux/user.ts`
   ```SCSS
     .api-page
       @include config-page
-      margin-top: 10rem
 
       &__form
         padding: 0.5rem
         width: 25rem
+      .sub-menu
+        width: 100%
+        display: flex
+        justify-content: center
+        box-shadow: 0 0.3rem 0.3rem rgba($color-black, 0.3)
+        background-color: $color-primary
+        z-index: 1
+
+        &__cta
+          max-width: $page-width
+          padding: $size-xtiny $size-xbig
+          background-color: $color-primary
+        &__btn
+          margin: 0
+          padding: 0
+      @include mq-manager(tab-port)
+        .sub-menu
+          &__cta
+            padding-right: $size-big
+            background-color: $color-primary-dark
   ```
 
 - In `src/sass/pages/_home-page.sass`

@@ -1,32 +1,27 @@
 .btn
   min-width: fit-content
+  background-color: $color-info
+  color: $color-white
+  min-height: $button-height
+  min-width: $button-height
+  font-size: resize($font-size, 0.9)
+  padding: $size-xtiny $size-tiny
+  border-radius: $border-radius
+  transition: all 0.2s ease-in-out
 
-  a,
-  button
-    background-color: $color-info
-    color: $color-white
-    min-height: $button-height
-    min-width: $button-height
-    font-size: resize($font-size, 0.9)
-    padding: $size-xtiny $size-tiny
-    border-radius: $border-radius
-    transition: all 0.2s ease-in-out
-
-    &:hover
-      transform: translateZ(0.1rem) scale(1.10)
-      box-shadow: $button-shadow-hover
-      background-color: $color-info-light
-    &:active
-      transform: translateZ(0.07rem) scale(1.07)
-      box-shadow: $button-shadow-active
-      background-color: $color-info-dark
+  &:hover
+    transform: translateZ(0.1rem) scale(1.10)
+    box-shadow: $button-shadow-hover
+    background-color: $color-info-light
+  &:active
+    transform: translateZ(0.07rem) scale(1.07)
+    box-shadow: $button-shadow-active
+    background-color: $color-info-dark
   &--no-hover
-    a,
-    button
-      &:hover,
-      &:active
-        transform: translateZ(0) scale(1)
-        box-shadow: none
+    &:hover,
+    &:active
+      transform: translateZ(0) scale(1)
+      box-shadow: none
 
   &__row
     display: grid
@@ -87,43 +82,32 @@
         grid-row: 1 / span 1
         margin-bottom: $size-xtiny
   &--danger
-    a,
-    button
-      background-color: $color-danger
+    background-color: $color-danger
 
-      &:hover
-        background-color: $color-danger-light
-      &:active
-        background-color: $color-danger-dark
+    &:hover
+      background-color: $color-danger-light
+    &:active
+      background-color: $color-danger-dark
   &--success
-    a,
-    button
-      background-color: $color-success
+    background-color: $color-success
 
-      &:hover
-        background-color: $color-success-light
-      &:active
-        background-color: $color-success-dark
+    &:hover
+      background-color: $color-success-light
+    &:active
+      background-color: $color-success-dark
   &--warning
-    a,
-    button
-      background-color: $color-warning
+    background-color: $color-warning
 
-      &:hover
-        background-color: $color-warning-light
-      &:active
-        background-color: $color-warning-dark
+    &:hover
+      background-color: $color-warning-light
+    &:active
+      background-color: $color-warning-dark
   &--disabled
     cursor: not-allowed
+    background-color: $color-disabled
+    pointer-events: none
 
-    a,
-    button
-      cursor: not-allowed
+    &:hover
+      transform: translateZ(0rem) scale(1)
+      box-shadow: none
       background-color: $color-disabled
-
-      &:hover
-        transform: translateZ(0rem) scale(1)
-        box-shadow: none
-        background-color: $color-disabled
-    a
-      pointer-events: none

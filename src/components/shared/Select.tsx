@@ -12,9 +12,9 @@ const Select: FC<Type.Select> = ({
     required = false,
     disabled = false,
 }) => {
-    const labelClass: string = label ? `select-container--${labelPosition} ` : '';
+    const labelClass: string = label ? `select-wrap--${labelPosition} ` : '';
     const handleClass: string = handle ? handle : '';
-    const customClass: string = `select-container ${labelClass}${handleClass}`;
+    const customClass: string = `select-wrap ${labelClass}${handleClass}`;
 
     return (
         <div className={customClass}>

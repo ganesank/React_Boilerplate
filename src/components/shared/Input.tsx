@@ -16,9 +16,9 @@ const Input: FC<Type.Input> = ({
     autoComplete = 'off',
     minLength,
 }) => {
-    const labelClass: string = label ? `input-container--${labelPosition} ` : '';
+    const labelClass: string = label ? `input-wrap--${labelPosition} ` : '';
     const handleClass: string = handle ? handle : '';
-    const customClass: string = `input-container ${labelClass}${handleClass}`;
+    const customClass: string = `input-wrap ${labelClass}${handleClass}`;
 
     return (
         <div className={customClass}>

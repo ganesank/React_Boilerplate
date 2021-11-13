@@ -3,8 +3,8 @@ import socialMedias from '../../assets/data/socialMedias';
 
 const Footer: FC = () => {
     return (
-        <div className="footer">
-            <div className="footer__footer-container container">
+        <footer className="footer">
+            <div className="footer__footer-wrap container">
                 <div className="footer__left">
                     <ul className="footer__social-media-list">
                         {socialMedias.map((media, idx) => {
@@ -27,7 +27,7 @@ const Footer: FC = () => {
                 <div className="footer__middle"></div>
                 <div className="footer__right">&copy; Roger Takeshita - 2021. All rights reserved.</div>
             </div>
-        </div>
+        </footer>
     );
 };
 

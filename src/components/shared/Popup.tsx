@@ -18,7 +18,7 @@ const Popup: FC = ({ children }) => {
 
     return (
         <div className="popup" onClick={handleClose}>
-            <div className="popup__container" onClick={(e) => e.stopPropagation()}>
+            <div className="popup__wrap" onClick={(e) => e.stopPropagation()}>
                 <Button
                     btnType="link"
                     btnColor="danger"
@@ -29,7 +29,7 @@ const Popup: FC = ({ children }) => {
                 />
                 {popup.title !== '' && (
                     <div className="popup__header">
-                        <h3>{popup.title}</h3>
+                        <h2>{popup.title}</h2>
                     </div>
                 )}
                 {popup.message !== '' && <div className="popup__body">{popup.message}</div>}

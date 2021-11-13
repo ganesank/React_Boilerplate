@@ -1,26 +1,19 @@
-.navbar
-  position: fixed
-  top: 0
-  left: 0
-  min-height: 5rem
+.nav
+  min-height: $nav-height
   width: 100%
-  display: flex
-  flex: 1
-  justify-content: center
-  box-shadow: 0 0.3rem 0.3rem rgba($color-black, 0.3)
+  max-width: $page-width
   background-color: $color-primary-dark
-  z-index: 2
   user-select: none
 
-  &--remove-style
+  &--remove-shadow
     box-shadow: none
-  &__navbar-container
+  &__wrap
     max-width: $page-width
     display: flex
     flex: 1
     justify-content: space-around
-  &__logo-container
-    height: 5rem
+    height: 100%
+  &__logo-wrap
     margin-left: 1rem
   &__logo
     height: 100%
@@ -33,7 +26,7 @@
     margin: 0 1rem
     white-space: nowrap
     text-decoration: none
-  &__menu-container
+  &__menu-wrap
     display: flex
     flex: 1
     justify-content: flex-end
@@ -65,36 +58,24 @@
     display: none
     visibility: hidden
 
-.menu
-  position: fixed
-  top: 5rem
-  left: 0
-  width: 100%
-  margin-bottom: $size-big
-  display: flex
-  justify-content: center
-  box-shadow: 0 0.3rem 0.3rem rgba($color-black, 0.3)
-  background-color: $color-primary
-  z-index: 1
-
-  &__sub-menu
-    max-width: $page-width
-    padding: $size-xtiny $size-xbig
-    background-color: $color-primary
-
 @include mq-manager(tab-port)
-  .navbar
-    &__navbar-container
+  .nav
+    position: absolute
+    top: 0
+    left: 0
+    z-index: 100
+
+    &__wrap
       flex-direction: column
       align-items: center
       box-shadow: 0 0.2rem 0.3rem rgba($color-black, 0.3)
-      &--remove-style
+      &--remove-shadow
         box-shadow: none
-    &__logo-container
+    &__logo-wrap
       height: 5rem
     &__logo
       height: 100%
-    &__menu-container
+    &__menu-wrap
       width: 100%
       justify-content: center
       visibility: hidden

@@ -34,6 +34,7 @@ const ApiPage: FC = () => {
     const msg = useSelector((state: RootStateOrAny): Type.Msg => state.msg);
     const popup = useSelector((state: RootStateOrAny): Type.Popup => state.popup);
     const dispatch = useDispatch();
+
     const thead: Type.Thead[] = [
         { id: 'type', friendlyName: 'Type' },
         { id: 'name', friendlyName: 'Name' },
@@ -148,9 +149,9 @@ const ApiPage: FC = () => {
 
     return (
         <div className="api-page">
-            <div className="menu">
-                <CTA handle="menu__sub-menu">
-                    <Button btnColor="success" onClick={handleAdd} faIcon={faPlus} />
+            <div className="sub-menu">
+                <CTA handle="sub-menu__cta">
+                    <Button handle="sub-menu__btn" btnColor="success" onClick={handleAdd} faIcon={faPlus} />
                 </CTA>
             </div>
             <div className="container">
