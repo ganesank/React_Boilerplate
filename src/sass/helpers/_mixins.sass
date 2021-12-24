@@ -1,10 +1,10 @@
-@mixin abs-center($x: -50%, $y: -50%)
+@mixin abs($x: -50%, $y: -50%)
   position: absolute
   top: 50%
   left: 50%
   transform: translate($x, $y)
 
-@mixin mq-manager($breakpoint)
+@mixin mq($breakpoint)
   @if $breakpoint == phone
     @media (max-width: 37.5em) // ! 600px
       @content
@@ -35,7 +35,7 @@
   h1
     margin-bottom: $size-big
 
-  @include mq-manager(tab-port)
+  @include mq(tab-port)
     margin-top: $nav-height
 
     h1

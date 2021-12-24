@@ -9,18 +9,17 @@
     display: flex
     justify-content: center
     box-shadow: 0 0.3rem 0.3rem rgba($color-black, 0.3)
-    background-color: $color-primary
+    background-color: $sky-700
     z-index: 1
 
     &__cta
       max-width: $page-width
       padding: $size-xtiny $size-xbig
-      background-color: $color-primary
+      background-color: $sky-700
     &__btn
       margin: 0
       padding: 0
-  @include mq-manager(tab-port)
+  @include mq(tab-port)
     .sub-menu
       &__cta
         padding-right: $size-big
-        background-color: $color-primary-dark

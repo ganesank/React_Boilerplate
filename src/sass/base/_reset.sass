@@ -65,7 +65,7 @@ main
   justify-content: center
   min-height: calc(100vh - #{$nav-height})
 
-  @include mq-manager(tab-port)
+  @include mq(tab-port)
     min-height: 100vh
 
 ol, ul
@@ -109,7 +109,7 @@ button
   width: 100%
   margin-top: $size-xlarge
 
-  @include mq-manager(tab-port)
+  @include mq(tab-port)
     margin-top: $size-medium
 
 .loading
