@@ -96,7 +96,7 @@ Install the following dependencies
   npm i redux-logger
   npm i redux-persist
 
-  npm i node-sass
+  npm i sass
 
   npm i @fortawesome/free-solid-svg-icons
   npm i @fortawesome/react-fontawesome
@@ -2822,8 +2822,8 @@ In `src/redux/user.ts`
     $font-size: 1
     $page-width: 130rem
     $height: 1.8rem
-    $border: 0.2rem solid rgba($cbk, 0.5)
-    $shadow: 0.2rem 0.2rem 0.2rem rgba($cbk, 0.2)
+    $border: 0.2rem solid rgba($black, 0.5)
+    $shadow: 0.2rem 0.2rem 0.2rem rgba($black, 0.2)
     $nav-height: 5rem
 
     $size-none: 0rem
@@ -2842,36 +2842,36 @@ In `src/redux/user.ts`
     $size-massive: 7.2rem
 
     //= Color ======================================================================
-    $color-primary: $cbl-40
-    $color-primary-light: $cbl-60
-    $color-primary-dark: $cbl-30
+    $color-primary: $sky-500
+    $color-primary-light: $sky-400
+    $color-primary-dark: $sky-600
 
-    $color-secondary: $cgy-80
-    $color-secondary-light: $cgy-90
-    $color-secondary-dark: $cgy-70
+    $color-secondary: $emerald-500
+    $color-secondary-light: $emerald-400
+    $color-secondary-dark: $emerald-600
 
-    $color-white: $cwt
-    $color-black: $cbk
+    $color-white: $white
+    $color-black: $black
 
-    $color-disabled: $cgy-70
-    $color-disabled-light: $cgy-80
-    $color-disabled-dark: $cgy-50
+    $color-disabled: $gray-500
+    $color-disabled-light: $gray-400
+    $color-disabled-dark: $gray-600
 
-    $color-info: $cbl-45
-    $color-info-light: $cbl-50
-    $color-info-dark: $cbl-40
+    $color-info: $sky-500
+    $color-info-light: $sky-400
+    $color-info-dark: $sky-600
 
-    $color-success: $cgn-35
-    $color-success-light: $cgn-40
-    $color-success-dark: $cgn-30
+    $color-success: $green-500
+    $color-success-light: $green-400
+    $color-success-dark: $green-600
 
-    $color-warning: $cog-50
-    $color-warning-light: $cog-65
-    $color-warning-dark: $cog-45
+    $color-warning: $orange-500
+    $color-warning-light: $orange-400
+    $color-warning-dark: $orange-600
 
-    $color-danger: $crd-40
-    $color-danger-light: $crd-45
-    $color-danger-dark: $crd-35
+    $color-danger: $red-500
+    $color-danger-light: $red-400
+    $color-danger-dark: $red-600
 
     //= Grid =======================================================================
     $grid-gap: 8px
@@ -2915,9 +2915,9 @@ In `src/redux/user.ts`
     // + Button
     $button-margin: $size-xtiny
     $button-height: $height
-    $button-shadow: 0.2rem 0.2rem 0.2rem rgba($cbk, 0.2)
-    $button-shadow-hover: 0.5rem 0.5rem 1rem rgba($cbk, 0.4)
-    $button-shadow-active: 0.35rem 0.35rem 0.3rem rgba($cbk, 0.3)
+    $button-shadow: 0.2rem 0.2rem 0.2rem rgba($black, 0.2)
+    $button-shadow-hover: 0.5rem 0.5rem 1rem rgba($black, 0.4)
+    $button-shadow-active: 0.35rem 0.35rem 0.3rem rgba($black, 0.3)
 
     // + Input
     $input-padding: $size-xtiny
@@ -2938,87 +2938,218 @@ In `src/redux/user.ts`
 - In `src/sass/base/_colors.sass`
 
   ```SCSS
-    $cbl-90: hsl(204, 70%, 90%)
-    $cbl-85: hsl(204, 70%, 85%)
-    $cbl-80: hsl(204, 70%, 80%)
-    $cbl-75: hsl(204, 70%, 75%)
-    $cbl-70: hsl(204, 70%, 70%)
-    $cbl-65: hsl(204, 70%, 65%)
-    $cbl-60: hsl(204, 70%, 60%)
-    $cbl-55: hsl(204, 70%, 55%)
-    $cbl-50: hsl(204, 70%, 50%)
-    $cbl-45: hsl(204, 70%, 45%)
-    $cbl-40: hsl(204, 70%, 40%)
-    $cbl-35: hsl(204, 70%, 35%)
-    $cbl-30: hsl(204, 70%, 30%)
-    $cbl-25: hsl(204, 70%, 25%)
-    $cbl-20: hsl(204, 70%, 20%)
-    $cgn-90: hsl(121, 100%, 90%)
-    $cgn-85: hsl(121, 100%, 85%)
-    $cgn-80: hsl(121, 100%, 80%)
-    $cgn-75: hsl(121, 100%, 75%)
-    $cgn-70: hsl(121, 100%, 70%)
-    $cgn-65: hsl(121, 100%, 65%)
-    $cgn-60: hsl(121, 100%, 60%)
-    $cgn-55: hsl(121, 100%, 55%)
-    $cgn-50: hsl(121, 100%, 50%)
-    $cgn-45: hsl(121, 100%, 45%)
-    $cgn-40: hsl(121, 100%, 40%)
-    $cgn-35: hsl(121, 100%, 35%)
-    $cgn-30: hsl(121, 100%, 30%)
-    $cgn-25: hsl(121, 100%, 25%)
-    $cgn-20: hsl(121, 100%, 20%)
-    $cog-90: hsl(37, 90%, 90%)
-    $cog-85: hsl(37, 90%, 85%)
-    $cog-80: hsl(37, 90%, 80%)
-    $cog-75: hsl(37, 90%, 75%)
-    $cog-70: hsl(37, 90%, 70%)
-    $cog-65: hsl(37, 90%, 65%)
-    $cog-60: hsl(37, 90%, 60%)
-    $cog-55: hsl(37, 90%, 55%)
-    $cog-50: hsl(37, 90%, 50%)
-    $cog-45: hsl(37, 90%, 45%)
-    $cog-40: hsl(37, 90%, 40%)
-    $cog-35: hsl(37, 90%, 35%)
-    $cog-30: hsl(37, 90%, 30%)
-    $cog-25: hsl(37, 90%, 25%)
-    $cog-20: hsl(37, 90%, 20%)
-    $crd-90: hsl(0, 100%, 90%)
-    $crd-85: hsl(0, 100%, 85%)
-    $crd-80: hsl(0, 100%, 80%)
-    $crd-75: hsl(0, 100%, 75%)
-    $crd-70: hsl(0, 100%, 70%)
-    $crd-70: hsl(0, 100%, 70%)
-    $crd-65: hsl(0, 100%, 65%)
-    $crd-60: hsl(0, 100%, 60%)
-    $crd-55: hsl(0, 100%, 55%)
-    $crd-50: hsl(0, 100%, 50%)
-    $crd-45: hsl(0, 100%, 45%)
-    $crd-40: hsl(0, 100%, 40%)
-    $crd-35: hsl(0, 100%, 35%)
-    $crd-30: hsl(0, 100%, 30%)
-    $crd-25: hsl(0, 100%, 25%)
-    $crd-20: hsl(0, 100%, 20%)
-    $cgy-95: hsl(0, 0%, 95%)
-    $cgy-90: hsl(0, 0%, 90%)
-    $cgy-85: hsl(0, 0%, 85%)
-    $cgy-80: hsl(0, 0%, 80%)
-    $cgy-75: hsl(0, 0%, 75%)
-    $cgy-70: hsl(0, 0%, 70%)
-    $cgy-65: hsl(0, 0%, 65%)
-    $cgy-60: hsl(0, 0%, 60%)
-    $cgy-55: hsl(0, 0%, 55%)
-    $cgy-50: hsl(0, 0%, 50%)
-    $cgy-45: hsl(0, 0%, 45%)
-    $cgy-40: hsl(0, 0%, 40%)
-    $cgy-35: hsl(0, 0%, 35%)
-    $cgy-30: hsl(0, 0%, 30%)
-    $cgy-25: hsl(0, 0%, 25%)
-    $cgy-20: hsl(0, 0%, 20%)
-    $cgy-15: hsl(0, 0%, 15%)
-    $cgy-10: hsl(0, 0%, 10%)
-    $cbk: hsl(0, 0%, 0%)
-    $cwt: hsl(0 , 0%,100%)
+    $white: hsl(0 , 0%,100%)
+
+    $gray-50: hsl(210, 20%, 98%)
+    $gray-100: hsl(220, 14.3%, 95.9%)
+    $gray-200: hsl(220, 13%, 91%)
+    $gray-300: hsl(216, 12.2%, 83.9%)
+    $gray-400: hsl(217.9, 10.6%, 64.9%)
+    $gray-500: hsl(220, 8.9%, 46.1%)
+    $gray-600: hsl(215, 13.8%, 34.1%)
+    $gray-700: hsl(216.9, 19.1%, 26.7%)
+    $gray-800: hsl(215, 27.9%, 16.9%)
+    $gray-900: hsl(220.9, 39.3%, 11%)
+
+    $black: hsl(0, 0%, 0%)
+
+    $red-50: hsl(0, 85.7%, 97.3%)
+    $red-100: hsl(0, 93.3%, 94.1%)
+    $red-200: hsl(0, 96.3%, 89.4%)
+    $red-300: hsl(0, 93.5%, 81.8%)
+    $red-400: hsl(0, 90.6%, 70.8%)
+    $red-500: hsl(0, 84.2%, 60.2%)
+    $red-600: hsl(0, 72.2%, 50.6%)
+    $red-700: hsl(0, 73.7%, 41.8%)
+    $red-800: hsl(0, 70%, 35.3%)
+    $red-900: hsl(0, 62.8%, 30.6%)
+
+    $orange-50: hsl(33.3, 100%, 96.5%)
+    $orange-100: hsl(34.3, 100%, 91.8%)
+    $orange-200: hsl(32.1, 97.7%, 83.1%)
+    $orange-300: hsl(30.7, 97.2%, 72.4%)
+    $orange-400: hsl(27, 96%, 61%)
+    $orange-500: hsl(24.6, 95%, 53.1%)
+    $orange-600: hsl(20.5, 90.2%, 48.2%)
+    $orange-700: hsl(17.5, 88.3%, 40.4%)
+    $orange-800: hsl(15, 79.1%, 33.7%)
+    $orange-900: hsl(15.3, 74.6%, 27.8%)
+
+    $amber-50: hsl(48, 100%, 96.1%)
+    $amber-100: hsl(48, 96.5%, 88.8%)
+    $amber-200: hsl(48, 96.6%, 76.7%)
+    $amber-300: hsl(45.9, 96.7%, 64.5%)
+    $amber-400: hsl(43.3, 96.4%, 56.3%)
+    $amber-500: hsl(37.7, 92.1%, 50.2%)
+    $amber-600: hsl(32.1, 94.6%, 43.7%)
+    $amber-700: hsl(26, 90.5%, 37.1%)
+    $amber-800: hsl(22.7, 82.5%, 31.4%)
+    $amber-900: hsl(21.7, 77.8%, 26.5%)
+
+    $yellow-50: hsl(54.5, 91.7%, 95.3%)
+    $yellow-100: hsl(54.9, 96.7%, 88%)
+    $yellow-200: hsl(52.8, 98.3%, 76.9%)
+    $yellow-300: hsl(50.4, 97.8%, 63.5%)
+    $yellow-400: hsl(47.9, 95.8%, 53.1%)
+    $yellow-500: hsl(45.4, 93.4%, 47.5%)
+    $yellow-600: hsl(40.6, 96.1%, 40.4%)
+    $yellow-700: hsl(35.5, 91.7%, 32.9%)
+    $yellow-800: hsl(31.8, 81%, 28.8%)
+    $yellow-900: hsl(28.4, 72.5%, 25.7%)
+
+    $pink-50: hsl(327.3, 73.3%, 97.1%)
+    $pink-100: hsl(325.7, 77.8%, 94.7%)
+    $pink-200: hsl(325.9, 84.6%, 89.8%)
+    $pink-300: hsl(327.4, 87.1%, 81.8%)
+    $pink-400: hsl(328.6, 85.5%, 70.2%)
+    $pink-500: hsl(330.4, 81.2%, 60.4%)
+    $pink-600: hsl(333.3, 71.4%, 50.6%)
+    $pink-700: hsl(335.1, 77.6%, 42%)
+    $pink-800: hsl(335.8, 74.4%, 35.3%)
+    $pink-900: hsl(335.9, 69%, 30.4%)
+
+    $rose-50: hsl(355.7, 100%, 97.3%)
+    $rose-100: hsl(355.6, 100%, 94.7%)
+    $rose-200: hsl(352.7, 96.1%, 90%)
+    $rose-300: hsl(352.6, 95.7%, 81.8%)
+    $rose-400: hsl(351.3, 94.5%, 71.4%)
+    $rose-500: hsl(349.7, 89.2%, 60.2%)
+    $rose-600: hsl(346.8, 77.2%, 49.8%)
+    $rose-700: hsl(345.3, 82.7%, 40.8%)
+    $rose-800: hsl(343.4, 79.7%, 34.7%)
+    $rose-900: hsl(341.5, 75.5%, 30.4%)
+
+    $lime-50: hsl(78.3, 92%, 95.1%)
+    $lime-100: hsl(79.6, 89.1%, 89.2%)
+    $lime-200: hsl(80.9, 88.5%, 79.6%)
+    $lime-300: hsl(82, 84.5%, 67.1%)
+    $lime-400: hsl(82.7, 78%, 55.5%)
+    $lime-500: hsl(83.7, 80.5%, 44.3%)
+    $lime-600: hsl(84.8, 85.2%, 34.5%)
+    $lime-700: hsl(85.9, 78.4%, 27.3%)
+    $lime-800: hsl(86.3, 69%, 22.7%)
+    $lime-900: hsl(87.6, 61.2%, 20.2%)
+
+    $green-50: hsl(138.5, 76.5%, 96.7%)
+    $green-100: hsl(140.6, 84.2%, 92.5%)
+    $green-200: hsl(141, 78.9%, 85.1%)
+    $green-300: hsl(141.7, 76.6%, 73.1%)
+    $green-400: hsl(141.9, 69.2%, 58%)
+    $green-500: hsl(142.1, 70.6%, 45.3%)
+    $green-600: hsl(142.1, 76.2%, 36.3%)
+    $green-700: hsl(142.4, 71.8%, 29.2%)
+    $green-800: hsl(142.8, 64.2%, 24.1%)
+    $green-900: hsl(143.8, 61.2%, 20.2%)
+
+    $emerald-50: hsl(166.2, 76.5%, 96.7%)
+    $emerald-100: hsl(167.2, 85.5%, 89.2%)
+    $emerald-200: hsl(168.4, 83.8%, 78.2%)
+    $emerald-300: hsl(170.6, 76.9%, 64.3%)
+    $emerald-400: hsl(172.5, 66%, 50.4%)
+    $emerald-500: hsl(173.4, 80.4%, 40%)
+    $emerald-600: hsl(174.7, 83.9%, 31.6%)
+    $emerald-700: hsl(175.3, 77.4%, 26.1%)
+    $emerald-800: hsl(176.1, 69.4%, 21.8%)
+    $emerald-900: hsl(175.9, 60.8%, 19%)
+
+    $cyan-50: hsl(183.2, 100%, 96.3%)
+    $cyan-100: hsl(185.1, 95.9%, 90.4%)
+    $cyan-200: hsl(186.2, 93.5%, 81.8%)
+    $cyan-300: hsl(187, 92.4%, 69%)
+    $cyan-400: hsl(187.9, 85.7%, 53.3%)
+    $cyan-500: hsl(188.7, 94.5%, 42.7%)
+    $cyan-600: hsl(191.6, 91.4%, 36.5%)
+    $cyan-700: hsl(192.9, 82.3%, 31%)
+    $cyan-800: hsl(194.4, 69.6%, 27.1%)
+    $cyan-900: hsl(196.4, 63.6%, 23.7%)
+
+    $sky-50: hsl(204, 100%, 97.1%)
+    $sky-100: hsl(204, 93.8%, 93.7%)
+    $sky-200: hsl(200.6, 94.4%, 86.1%)
+    $sky-300: hsl(199.4, 95.5%, 73.9%)
+    $sky-400: hsl(198.4, 93.2%, 59.6%)
+    $sky-500: hsl(198.6, 88.7%, 48.4%)
+    $sky-600: hsl(200.4, 98%, 39.4%)
+    $sky-700: hsl(201.3, 96.3%, 32.2%)
+    $sky-800: hsl(201, 90%, 27.5%)
+    $sky-900: hsl(202, 80.3%, 23.9%)
+
+    $blue-50: hsl(213.8, 100%, 96.9%)
+    $blue-100: hsl(214.3, 94.6%, 92.7%)
+    $blue-200: hsl(213.3, 96.9%, 87.3%)
+    $blue-300: hsl(211.7, 96.4%, 78.4%)
+    $blue-400: hsl(213.1, 93.9%, 67.8%)
+    $blue-500: hsl(217.2, 91.2%, 59.8%)
+    $blue-600: hsl(221.2, 83.2%, 53.3%)
+    $blue-700: hsl(224.3, 76.3%, 48%)
+    $blue-800: hsl(225.9, 70.7%, 40.2%)
+    $blue-900: hsl(224.4, 64.3%, 32.9%)
+
+    $indigo-50: hsl(225.9, 100%, 96.7%)
+    $indigo-100: hsl(226.5, 100%, 93.9%)
+    $indigo-200: hsl(228, 96.5%, 88.8%)
+    $indigo-300: hsl(229.7, 93.5%, 81.8%)
+    $indigo-400: hsl(234.5, 89.5%, 73.9%)
+    $indigo-500: hsl(238.7, 83.5%, 66.7%)
+    $indigo-600: hsl(243.4, 75.4%, 58.6%)
+    $indigo-700: hsl(244.5, 57.9%, 50.6%)
+    $indigo-800: hsl(243.7, 54.5%, 41.4%)
+    $indigo-900: hsl(242.2, 47.4%, 34.3%)
+
+    $violet-50: hsl(250, 100%, 97.6%)
+    $violet-100: hsl(251.4, 91.3%, 95.5%)
+    $violet-200: hsl(250.5, 95.2%, 91.8%)
+    $violet-300: hsl(252.5, 94.7%, 85.1%)
+    $violet-400: hsl(255.1, 91.7%, 76.3%)
+    $violet-500: hsl(258.3, 89.5%, 66.3%)
+    $violet-600: hsl(262.1, 83.3%, 57.8%)
+    $violet-700: hsl(263.4, 70%, 50.4%)
+    $violet-800: hsl(263.4, 69.3%, 42.2%)
+    $violet-900: hsl(263.5, 67.4%, 34.9%)
+
+    $purple-50: hsl(270, 100%, 98%)
+    $purple-100: hsl(268.7, 100%, 95.5%)
+    $purple-200: hsl(268.6, 100%, 91.8%)
+    $purple-300: hsl(269.2, 97.4%, 85.1%)
+    $purple-400: hsl(270, 95.2%, 75.3%)
+    $purple-500: hsl(270.7, 91%, 65.1%)
+    $purple-600: hsl(271.5, 81.3%, 55.9%)
+    $purple-700: hsl(272.1, 71.7%, 47.1%)
+    $purple-800: hsl(272.9, 67.2%, 39.4%)
+    $purple-900: hsl(273.6, 65.6%, 32%)
+
+    $fuchsia-50: hsl(289.1, 100%, 97.8%)
+    $fuchsia-100: hsl(287, 100%, 95.5%)
+    $fuchsia-200: hsl(288.3, 95.8%, 90.6%)
+    $fuchsia-300: hsl(291.1, 93.1%, 82.9%)
+    $fuchsia-400: hsl(292, 91.4%, 72.5%)
+    $fuchsia-500: hsl(292.2, 84.1%, 60.6%)
+    $fuchsia-600: hsl(293.4, 69.5%, 48.8%)
+    $fuchsia-700: hsl(294.7, 72.4%, 39.8%)
+    $fuchsia-800: hsl(295.4, 70.2%, 32.9%)
+    $fuchsia-900: hsl(296.7, 63.6%, 28%)
+
+    $pink-50: hsl(327.3, 73.3%, 97.1%)
+    $pink-100: hsl(325.7, 77.8%, 94.7%)
+    $pink-200: hsl(325.9, 84.6%, 89.8%)
+    $pink-300: hsl(327.4, 87.1%, 81.8%)
+    $pink-400: hsl(328.6, 85.5%, 70.2%)
+    $pink-500: hsl(330.4, 81.2%, 60.4%)
+    $pink-600: hsl(333.3, 71.4%, 50.6%)
+    $pink-700: hsl(335.1, 77.6%, 42%)
+    $pink-800: hsl(335.8, 74.4%, 35.3%)
+    $pink-900: hsl(335.9, 69%, 30.4%)
+
+    $rose-50: hsl(355.7, 100%, 97.3%)
+    $rose-100: hsl(355.6, 100%, 94.7%)
+    $rose-200: hsl(352.7, 96.1%, 90%)
+    $rose-300: hsl(352.6, 95.7%, 81.8%)
+    $rose-400: hsl(351.3, 94.5%, 71.4%)
+    $rose-500: hsl(349.7, 89.2%, 60.2%)
+    $rose-600: hsl(346.8, 77.2%, 49.8%)
+    $rose-700: hsl(345.3, 82.7%, 40.8%)
+    $rose-800: hsl(343.4, 79.7%, 34.7%)
+    $rose-900: hsl(341.5, 75.5%, 30.4%)
   ```
 
 - In `src/sass/base/_fonts.sass`
@@ -3106,7 +3237,7 @@ In `src/redux/user.ts`
       justify-content: center
       min-height: calc(100vh - #{$nav-height})
 
-      @include mq-manager(tab-port)
+      @include mq(tab-port)
         min-height: 100vh
 
     ol, ul
@@ -3150,7 +3281,7 @@ In `src/redux/user.ts`
       width: 100%
       margin-top: $size-xlarge
 
-      @include mq-manager(tab-port)
+      @include mq(tab-port)
         margin-top: $size-medium
 
     .loading
@@ -3226,8 +3357,8 @@ In `src/redux/user.ts`
         textarea
           min-height: 4rem
 
-    @include mq-manager(tab-port)
-      width: $form-min-width
+      @include mq(tab-port)
+        width: $form-min-width
   ```
 
 - In `src/sass/components/api/_api-table.sass`
@@ -3248,16 +3379,16 @@ In `src/redux/user.ts`
               justify-content: center
               height: 2.5rem
               flex-grow: 1
-              color: $color-secondary-light
+              color: $gray-200
               background-color: $color-primary
         tbody
           tr
             th
               font-weight: normal
-              background-color: $color-secondary-light
+              background-color: $gray-200
               padding: 0 $size-xtiny
             th:not(:last-child)
-              border-right: 1px solid $cgy-75
+              border-right: 1px solid $color-disabled-light
 
         .cta
           & > :not(:last-child)
@@ -3646,7 +3777,7 @@ In `src/redux/user.ts`
 
         &:hover
           color: $color-primary
-      @include mq-manager(tab-port)
+      @include mq(tab-port)
         padding: 2rem 0
 
         &__footer-wrap
@@ -3673,7 +3804,7 @@ In `src/redux/user.ts`
       &__technology
         height: 3rem
 
-    @include mq-manager(tab-port)
+    @include mq(tab-port)
       .icon
         &__technology
           height: 1.9rem
@@ -3771,7 +3902,7 @@ In `src/redux/user.ts`
         width: 2px
         height: 6px
         border-radius: 20%
-        background: $cgy-60
+        background: $color-disabled
       div:nth-child(1)
         transform: rotate(0deg)
         animation-delay: -1.1s
@@ -3886,12 +4017,12 @@ In `src/redux/user.ts`
 
         &:hover
           color: $color-white
-          background-color: $color-primary
+          background-color: $color-primary-dark
       &__bars
         display: none
         visibility: hidden
 
-    @include mq-manager(tab-port)
+    @include mq(tab-port)
       .nav
         position: absolute
         top: 0
@@ -3934,7 +4065,7 @@ In `src/redux/user.ts`
           justify-content: center
 
           &:hover
-            background-color: $color-primary-light
+            background-color: $color-primary-dark
         &__bars
           display: flex
           visibility: visible
@@ -3949,7 +4080,7 @@ In `src/redux/user.ts`
           &:hover
             color: $color-white
           &--light
-            color: $color-disabled-light
+            color: $color-primary-light
           &--dark
             color: $color-primary
   ```
@@ -3967,7 +4098,7 @@ In `src/redux/user.ts`
       z-index: 300
 
       &__wrap
-        @include abs-center
+        @include abs
         top: 45%
         background-color: $color-white
         min-width: 30rem
@@ -4000,8 +4131,7 @@ In `src/redux/user.ts`
           a
             font-size: $font-size * 1rem
 
-    @include mq-manager(tab-port)
-      .popup
+      @include mq(tab-port)
         &__wrap
           min-width: $form-min-width
           top: 50%
@@ -4174,8 +4304,8 @@ In `src/redux/user.ts`
     .user-delete-form
       min-width: $form-width
 
-    @include mq-manager(tab-port)
-      width: $form-min-width
+      @include mq(tab-port)
+        width: $form-min-width
   ```
 
 - In `src/sass/components/user/_user-login-form.sass`
@@ -4191,8 +4321,8 @@ In `src/redux/user.ts`
         &:hover
           color: $color-danger
 
-    @include mq-manager(tab-port)
-      width: $form-min-width
+      @include mq(tab-port)
+        width: $form-min-width
   ```
 
 - In `src/sass/components/user/_user-profile-form.sass`
@@ -4225,8 +4355,8 @@ In `src/redux/user.ts`
         &:hover
           color: $color-danger
 
-    @include mq-manager(tab-port)
-      width: $form-min-width
+      @include mq(tab-port)
+        width: $form-min-width
   ```
 
 - In `src/sass/components/user/_user-reset-password-form.sass`
@@ -4238,8 +4368,8 @@ In `src/redux/user.ts`
       &__cta
         margin-top: $size-xtiny
 
-    @include mq-manager(tab-port)
-      width: $form-min-width
+      @include mq(tab-port)
+        width: $form-min-width
   ```
 
 - In `src/sass/components/user/_user-signup-form.sass`
@@ -4248,8 +4378,8 @@ In `src/redux/user.ts`
     .user-signup-form
       width: $form-width
 
-    @include mq-manager(tab-port)
-      width: $form-min-width
+      @include mq(tab-port)
+        width: $form-min-width
   ```
 
 - In `src/sass/components/user/_user-update-password-form.sass`
@@ -4258,8 +4388,8 @@ In `src/redux/user.ts`
     .user-update-password-form
       width: $form-width
 
-    @include mq-manager(tab-port)
-      width: $form-min-width
+      @include mq(tab-port)
+        width: $form-min-width
   ```
 
 - In `src/sass/components/user/index.sass`
@@ -4333,13 +4463,13 @@ In `src/redux/user.ts`
 - In `src/sass/helpers/_mixins.sass`
 
   ```SCSS
-    @mixin abs-center($x: -50%, $y: -50%)
+    @mixin abs($x: -50%, $y: -50%)
       position: absolute
       top: 50%
       left: 50%
       transform: translate($x, $y)
 
-    @mixin mq-manager($breakpoint)
+    @mixin mq($breakpoint)
       @if $breakpoint == phone
         @media (max-width: 37.5em) // ! 600px
           @content
@@ -4370,7 +4500,7 @@ In `src/redux/user.ts`
       h1
         margin-bottom: $size-big
 
-      @include mq-manager(tab-port)
+      @include mq(tab-port)
         margin-top: $nav-height
 
         h1
@@ -4463,7 +4593,7 @@ In `src/redux/user.ts`
         border-style: solid
         top: 20px
         left: 2px
-        border-color: transparent transparent $cgy-15 transparent
+        border-color: transparent transparent $gray-800 transparent
       &:after
         position: absolute
         display: none
@@ -4475,85 +4605,85 @@ In `src/redux/user.ts`
         font-size: 10px
         line-height: 36px
         text-align: center
-        background: $cgy-15
+        background: $gray-800
         border-radius: $border-radius
         top: 30px
         left: -50px
       &:hover
-        background-color: $cgy-90
+        background-color: $gray-200
 
         &:before,
         &:after
           display: block
       &:focus
         &:before
-          border-color: transparent transparent $cgy-15 transparent
+          border-color: transparent transparent $gray-800 transparent
       &:active,
       &:focus
         outline: none
 
         &:after
           content: 'Copied!'
-          background-color: $cgy-35
+          background-color: $gray-600
       &:active
         &:before
-          border-color: transparent transparent $cgy-35 transparent
+          border-color: transparent transparent $gray-600 transparent
       &--right
         &:before
           top: 2px
           left: 20px
-          border-color: transparent $cgy-15 transparent transparent
+          border-color: transparent $gray-800 transparent transparent
         &:after
           top: -10px
           left: 30px
         &:focus
           &:before
-            border-color: transparent $cgy-15 transparent transparent
+            border-color: transparent $gray-800 transparent transparent
         &:active
           &:before
-            border-color: transparent $cgy-35 transparent transparent
+            border-color: transparent $gray-600 transparent transparent
       &--left
         &:before
           top: 2px
           left: -15px
-          border-color: transparent transparent transparent $cgy-15
+          border-color: transparent transparent transparent $gray-800
         &:after
           top: -10px
           left: -130px
         &:focus
           &:before
-            border-color: transparent transparent transparent $cgy-15
+            border-color: transparent transparent transparent $gray-800
         &:active
           &:before
-            border-color: transparent transparent transparent $cgy-35
+            border-color: transparent transparent transparent $gray-600
       &--top
         &:before
           top: -15px
           left: 2px
-          border-color: $cgy-15 transparent transparent transparent
+          border-color: $gray-800 transparent transparent transparent
         &:after
           top: -51px
           left: -50px
         &:focus
           &:before
-            border-color: $cgy-15 transparent transparent transparent
+            border-color: $gray-800 transparent transparent transparent
         &:active
           &:before
-            border-color: $cgy-35 transparent transparent transparent
+            border-color: $gray-600 transparent transparent transparent
       &--bottom
         &:before
           top: 20px
           left: 2px
-          border-color: transparent transparent $cgy-15 transparent
+          border-color: transparent transparent $gray-800 transparent
         &:after
           top: 30px
           left: -50px
         &:focus
           &:before
-            border-color: transparent transparent $cgy-15 transparent
+            border-color: transparent transparent $gray-800 transparent
         &:active
           &:before
-            border-color: transparent transparent $cgy-35 transparent
+            border-color: transparent transparent $gray-600 transparent
   ```
 
 - In `src/sass/helpers/index.sass`
@@ -4579,7 +4709,7 @@ In `src/redux/user.ts`
         margin: 0.5rem 0
         white-space: nowrap
       h4
-        color: $color-primary
+        color: $color-primary-dark
         white-space: nowrap
       &__picture
         border-radius: 100%
@@ -4604,7 +4734,7 @@ In `src/redux/user.ts`
       &__tech-label
         margin-top: 0.5rem
 
-    @include mq-manager(tab-port)
+    @include mq(tab-port)
       .about-page
         &__picture
           width: 8rem
@@ -4624,21 +4754,20 @@ In `src/redux/user.ts`
         display: flex
         justify-content: center
         box-shadow: 0 0.3rem 0.3rem rgba($color-black, 0.3)
-        background-color: $color-primary
+        background-color: $sky-700
         z-index: 1
 
         &__cta
           max-width: $page-width
           padding: $size-xtiny $size-xbig
-          background-color: $color-primary
+          background-color: $sky-700
         &__btn
           margin: 0
           padding: 0
-      @include mq-manager(tab-port)
+      @include mq(tab-port)
         .sub-menu
           &__cta
             padding-right: $size-big
-            background-color: $color-primary-dark
   ```
 
 - In `src/sass/pages/_home-page.sass`
