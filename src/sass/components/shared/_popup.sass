@@ -8,7 +8,7 @@
   z-index: 300
 
   &__wrap
-    @include abs-center
+    @include abs
     top: 45%
     background-color: $color-white
     min-width: 30rem
@@ -41,7 +41,7 @@
       a
         font-size: $font-size * 1rem
 
-@include mq-manager(tab-port)
+@include mq(tab-port)
   .popup
     &__wrap
       min-width: $form-min-width
